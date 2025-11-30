@@ -25,10 +25,10 @@ export function Contact() {
   };
 
   return (
-    <main className="min-h-[calc(100vh-4rem)] bg-background pt-24 pb-24">
-      <section className="mx-auto flex max-w-5xl flex-col gap-12 px-6 md:flex-row">
-        <div className="md:w-3/5">
-          <h1 className="text-3xl font-bold tracking-tight text-text-primary sm:text-4xl">
+    <main className="min-h-[calc(100vh-4rem)] bg-background pt-20 sm:pt-24 pb-16 sm:pb-24">
+      <section className="mx-auto flex max-w-5xl flex-col gap-8 sm:gap-10 md:gap-12 px-4 sm:px-6 md:flex-row">
+        <div className="w-full md:w-3/5">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-text-primary md:text-4xl">
             Let&apos;s talk about your project.
           </h1>
           <p className="mt-4 text-sm text-text-secondary">
@@ -161,7 +161,7 @@ export function Contact() {
           </form>
         </div>
 
-        <aside className="md:w-2/5 md:border-l md:border-border md:pl-10">
+        <aside className="w-full md:w-2/5 border-t md:border-t-0 md:border-l border-border pt-8 md:pt-0 md:pl-8 lg:pl-10">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-text-secondary">
             Direct lines
           </h2>

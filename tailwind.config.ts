@@ -1,38 +1,88 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: [
+    darkMode: ["class"],
+    content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {
-      fontFamily: {
-        sans: ["var(--font-inter)", "sans-serif"],
-        mono: ["var(--font-mono)", "monospace"],
-        display: ["var(--font-space)", "sans-serif"],
-      },
-      colors: {
-        background: "var(--bg)",
-        surface: "var(--card-bg)",
-        surfaceHighlight: "var(--surface-highlight)",
-        text: {
-          primary: "var(--text)",
-          secondary: "var(--text-secondary)",
-          muted: "#52525B", // Keep as is or make variable if needed
-        },
-        accent: {
-          DEFAULT: "#3B82F6", // Blue
-          glow: "rgba(59, 130, 246, 0.5)",
-        },
-        border: "var(--border)",
-      },
-      backgroundImage: {
-        "grid-pattern": "linear-gradient(to right, var(--surface-highlight) 1px, transparent 1px), linear-gradient(to bottom, var(--surface-highlight) 1px, transparent 1px)",
-      },
-    },
+  	extend: {
+  		fontFamily: {
+  			sans: [
+  				'var(--font-inter)',
+  				'sans-serif'
+  			],
+  			mono: [
+  				'var(--font-mono)',
+  				'monospace'
+  			],
+  			display: [
+  				'var(--font-space)',
+  				'sans-serif'
+  			]
+  		},
+  		colors: {
+  			background: 'hsl(var(--background))',
+  			surface: 'var(--card-bg)',
+  			surfaceHighlight: 'var(--surface-highlight)',
+  			text: {
+  				primary: 'var(--text)',
+  				secondary: 'var(--text-secondary)',
+  				muted: '#52525B'
+  			},
+  			accent: {
+  				DEFAULT: 'hsl(var(--accent))',
+  				glow: 'rgba(59, 130, 246, 0.5)',
+  				foreground: 'hsl(var(--accent-foreground))'
+  			},
+  			border: 'hsl(var(--border))',
+  			foreground: 'hsl(var(--foreground))',
+  			card: {
+  				DEFAULT: 'hsl(var(--card))',
+  				foreground: 'hsl(var(--card-foreground))'
+  			},
+  			popover: {
+  				DEFAULT: 'hsl(var(--popover))',
+  				foreground: 'hsl(var(--popover-foreground))'
+  			},
+  			primary: {
+  				DEFAULT: 'hsl(var(--primary))',
+  				foreground: 'hsl(var(--primary-foreground))'
+  			},
+  			secondary: {
+  				DEFAULT: 'hsl(var(--secondary))',
+  				foreground: 'hsl(var(--secondary-foreground))'
+  			},
+  			muted: {
+  				DEFAULT: 'hsl(var(--muted))',
+  				foreground: 'hsl(var(--muted-foreground))'
+  			},
+  			destructive: {
+  				DEFAULT: 'hsl(var(--destructive))',
+  				foreground: 'hsl(var(--destructive-foreground))'
+  			},
+  			input: 'hsl(var(--input))',
+  			ring: 'hsl(var(--ring))',
+  			chart: {
+  				'1': 'hsl(var(--chart-1))',
+  				'2': 'hsl(var(--chart-2))',
+  				'3': 'hsl(var(--chart-3))',
+  				'4': 'hsl(var(--chart-4))',
+  				'5': 'hsl(var(--chart-5))'
+  			}
+  		},
+  		backgroundImage: {
+  			'grid-pattern': 'linear-gradient(to right, var(--surface-highlight) 1px, transparent 1px), linear-gradient(to bottom, var(--surface-highlight) 1px, transparent 1px)'
+  		},
+  		borderRadius: {
+  			lg: 'var(--radius)',
+  			md: 'calc(var(--radius) - 2px)',
+  			sm: 'calc(var(--radius) - 4px)'
+  		}
+  	}
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 };
 export default config;

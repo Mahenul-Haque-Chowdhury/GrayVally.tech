@@ -26,7 +26,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable}`}>
-      <body className="bg-background text-text-primary antialiased selection:bg-accent/20 transition-colors duration-300">
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css"
+        />
+      </head>
+      <body className="antialiased transition-colors duration-300">
         <PageTransition>{children}</PageTransition>
       </body>
     </html>

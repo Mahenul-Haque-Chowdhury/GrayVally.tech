@@ -5,10 +5,10 @@ import { allServices } from "../data/services";
 
 export function Services() {
   return (
-    <section id="services" className="bg-surface py-24 sm:py-32 transition-colors duration-300">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-16 md:flex md:items-end md:justify-between">
-          <h2 className="max-w-xl text-3xl font-bold tracking-tight text-text-primary sm:text-4xl">
+    <section id="services" className="bg-surface py-16 sm:py-24 md:py-32 transition-colors duration-300">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="mb-10 sm:mb-12 md:mb-16 md:flex md:items-end md:justify-between">
+          <h2 className="max-w-xl text-2xl sm:text-3xl font-bold tracking-tight text-text-primary md:text-4xl">
             Engineering precision for <br /> complex problems.
           </h2>
           <p className="mt-4 max-w-xs text-sm text-text-secondary md:mt-0">
@@ -16,7 +16,7 @@ export function Services() {
           </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:gap-6 md:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {allServices.map((service, index) => (
             <motion.div
               key={service.id}
@@ -24,7 +24,7 @@ export function Services() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.05 }}
-              className="group relative border border-border bg-background p-8 transition-colors hover:border-text-secondary"
+              className="group relative border border-border bg-background p-5 sm:p-6 md:p-8 transition-colors hover:border-text-secondary"
             >
               <div className="mb-4 flex items-center justify-between">
                 <span className="font-mono text-xs text-text-secondary">{service.id}</span>

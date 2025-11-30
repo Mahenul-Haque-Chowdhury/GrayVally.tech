@@ -35,13 +35,13 @@ const projects = [
 
 export function Portfolio() {
   return (
-    <section id="portfolio" className="py-24 sm:py-32 transition-colors duration-300">
-      <div className="mx-auto max-w-7xl px-6">
-        <h2 className="mb-16 text-3xl font-bold tracking-tight text-text-primary sm:text-4xl">
+    <section id="portfolio" className="py-16 sm:py-24 md:py-32 transition-colors duration-300">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <h2 className="mb-8 sm:mb-12 md:mb-16 text-2xl sm:text-3xl font-bold tracking-tight text-text-primary md:text-4xl">
           Selected Works
         </h2>
 
-        <div className="border-t border-border">
+        <div>
           {projects.map((project, index) => (
             <motion.div
               key={index}
@@ -49,13 +49,13 @@ export function Portfolio() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.05 }}
-              className="group flex flex-col items-start justify-between border-b border-border py-8 md:flex-row md:items-center"
+              className="group flex flex-col items-start justify-between py-5 sm:py-6 md:py-8 border-b border-border/30 last:border-b-0 md:flex-row md:items-center"
             >
               <div className="md:w-1/3">
-                <h3 className="text-xl font-medium text-text-primary group-hover:text-blue-400 transition-colors">
+                <h3 className="text-base sm:text-lg md:text-xl font-medium text-text-primary group-hover:text-blue-400 transition-colors">
                   {project.client}
                 </h3>
-                <p className="text-sm text-text-secondary">{project.project}</p>
+                <p className="text-xs sm:text-sm text-text-secondary mt-1">{project.project}</p>
                 {"link" in project && project.link && (
                   <a
                     href={project.link}
@@ -67,11 +67,11 @@ export function Portfolio() {
                   </a>
                 )}
               </div>
-              <div className="mt-4 md:mt-0 md:w-1/3">
-                <span className="font-mono text-sm text-text-secondary">{project.role}</span>
+              <div className="mt-3 md:mt-0 md:w-1/3">
+                <span className="font-mono text-xs sm:text-sm text-text-secondary">{project.role}</span>
               </div>
-              <div className="mt-2 md:mt-0 md:w-1/3 md:text-right">
-                <span className="font-mono text-sm text-text-secondary">{project.year}</span>
+              <div className="mt-1 md:mt-0 md:w-1/3 md:text-right">
+                <span className="font-mono text-xs sm:text-sm text-text-secondary">{project.year}</span>
               </div>
             </motion.div>
           ))}

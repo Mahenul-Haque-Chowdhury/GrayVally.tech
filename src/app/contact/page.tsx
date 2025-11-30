@@ -6,7 +6,7 @@ export default function ContactPage() {
     <main className="bg-background min-h-screen transition-colors duration-300">
       <NavBar />
       <Contact />
-      <footer className="border-t border-border py-8 text-center transition-colors duration-300">
+      <footer className="py-8 text-center transition-colors duration-300">
         <p className="font-mono text-xs text-text-secondary">
           © {new Date().getFullYear()} GrayVally. All rights reserved.
         </p>
