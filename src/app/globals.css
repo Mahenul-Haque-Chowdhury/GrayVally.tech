@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Default to Dark Mode (System Preference will be handled by JS, but CSS defaults here) */
+  --bg: #050505;
+  --text: #E5E5E5;
+  --text-secondary: #A1A1AA;
+  --card-bg: #0A0A0A;
+  --border: #27272A;
+  --surface-highlight: #121212;
+}
+
+.theme-light {
+  --bg: #FFFFFF;
+  --text: #18181B; /* Zinc 900 */
+  --text-secondary: #52525B; /* Zinc 600 */
+  --card-bg: #F4F4F5; /* Zinc 100 */
+  --border: #E4E4E7; /* Zinc 200 */
+  --surface-highlight: #FAFAFA;
+}
+
+.theme-dark {
+  --bg: #050505;
+  --text: #E5E5E5;
+  --text-secondary: #A1A1AA;
+  --card-bg: #0A0A0A;
+  --border: #27272A;
+  --surface-highlight: #121212;
+}
+
+body {
+  color: var(--text);
+  background: var(--bg);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Invert logo in light mode if it's white text */
+.theme-light img[alt="GrayVally Logo"] {
+  filter: invert(1);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272A;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3F3F46;
+}
