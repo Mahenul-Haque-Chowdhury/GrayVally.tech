@@ -3,14 +3,36 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 229, 229, 229;
-  --background-start-rgb: 5, 5, 5;
-  --background-end-rgb: 5, 5, 5;
+  /* Default variables (Dark Mode) */
+  --bg: #050505;
+  --card-bg: #0A0A0A;
+  --surface-highlight: #1A1A1A;
+  --text: #E5E5E5;
+  --text-secondary: #A1A1AA;
+  --border: #27272A;
+}
+
+.theme-light {
+  --bg: #FFFFFF;
+  --card-bg: #F4F4F5;
+  --surface-highlight: #E4E4E7;
+  --text: #18181B;
+  --text-secondary: #52525B;
+  --border: #E4E4E7;
+}
+
+.theme-dark {
+  --bg: #050505;
+  --card-bg: #0A0A0A;
+  --surface-highlight: #1A1A1A;
+  --text: #E5E5E5;
+  --text-secondary: #A1A1AA;
+  --border: #27272A;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-start-rgb));
+  color: var(--text);
+  background: var(--bg);
 }
 
 @layer utilities {
