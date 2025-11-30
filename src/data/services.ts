@@ -7,7 +7,6 @@ import {
   Database,
   Wrench,
   Smartphone,
-  Cpu,
   TrendingUp,
   Lightbulb,
   Code2,
