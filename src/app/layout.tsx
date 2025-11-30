@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import { ReactNode } from "react";
+import { PageTransition } from "@/components/PageTransition";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -20,12 +22,12 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable}`}>
       <body className="bg-background text-text-primary antialiased selection:bg-accent/20 transition-colors duration-300">
-        {children}
+        <PageTransition>{children}</PageTransition>
       </body>
     </html>
   );

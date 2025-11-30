@@ -4,28 +4,32 @@ import { motion } from "framer-motion";
 
 const projects = [
   {
-    client: "FinTech Corp",
-    project: "Core Banking Migration",
+    client: "Intovah - IT Company",
+    project: "AI-Driven VA & Agency Automation Platform",
+    year: "2025",
+    role: "Full-Stack Developer",
+    link: "https://intovah.com/",
+  },
+  {
+    client: "JMR Trucking - Logistics Company",
+    project: "Logistics & Freight Website for a US-Based Company",
+    year: "2024",
+    role: "Frontend Developer",
+    link: "https://jmrtrucking.vercel.app/",
+  },
+  {
+    client: "Trendology - E-Commerce",
+    project: "AI-Powered Trend Prediction & Digital Research Tool",
+    year: "2025",
+    role: "Full-Stack Developer",
+    link: "https://www.trendology.page/",
+  },
+  {
+    client: "WeSell - E-Commerce Store",
+    project: "Modern E-Commerce Platform with Product Showcase",
     year: "2023",
-    role: "Lead Architect",
-  },
-  {
-    client: "HealthData Inc",
-    project: "HIPAA Compliant Cloud",
-    year: "2023",
-    role: "Security Consultant",
-  },
-  {
-    client: "Global Logistics",
-    project: "Real-time Tracking System",
-    year: "2022",
-    role: "DevOps Engineering",
-  },
-  {
-    client: "E-Commerce Giant",
-    project: "Black Friday Scaling",
-    year: "2022",
-    role: "SRE",
+    role: "Frontend Developer",
+    link: "https://e-commerece-bice.vercel.app/",
   },
 ];
 
@@ -52,6 +56,16 @@ export function Portfolio() {
                   {project.client}
                 </h3>
                 <p className="text-sm text-text-secondary">{project.project}</p>
+                {"link" in project && project.link && (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="mt-2 inline-block text-xs font-mono text-blue-400 underline-offset-2 hover:underline"
+                  >
+                    Visit project ↗
+                  </a>
+                )}
               </div>
               <div className="mt-4 md:mt-0 md:w-1/3">
                 <span className="font-mono text-sm text-text-secondary">{project.role}</span>
