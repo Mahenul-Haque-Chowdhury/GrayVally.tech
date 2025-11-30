@@ -10,11 +10,11 @@ const toCssLength = (value: number | string | undefined) =>
 
 const useResizeObserver = (
   callback: () => void,
-  elements: React.RefObject<HTMLElement | null>[] ,
+  elements: React.RefObject<HTMLElement | null>[],
   dependencies: unknown[],
 ) => {
   useEffect(() => {
-    if (!(window as any).ResizeObserver) {
+    if (typeof window === "undefined" || !window.ResizeObserver) {
       const handleResize = () => callback();
       window.addEventListener("resize", handleResize);
       callback();
@@ -23,8 +23,7 @@ const useResizeObserver = (
 
     const observers = elements.map((ref) => {
       if (!ref.current) return null;
-      const Observer = (window as any).ResizeObserver as typeof ResizeObserver;
-      const observer = new Observer(callback);
+      const observer = new ResizeObserver(callback);
       observer.observe(ref.current);
       return observer;
     });
@@ -34,7 +33,8 @@ const useResizeObserver = (
     return () => {
       observers.forEach((observer) => observer?.disconnect());
     };
-  }, [callback, ...dependencies]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [callback, elements, ...dependencies]);
 };
 
 const useImageLoader = (
@@ -70,7 +70,8 @@ const useImageLoader = (
         img.removeEventListener("error", handleImageLoad);
       });
     };
-  }, [onLoad, ...dependencies]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onLoad, seqRef, ...dependencies]);
 };
 
 const useAnimationLoop = (
@@ -247,8 +248,12 @@ export const LogoLoop: React.FC<LogoLoopProps> = memo(
       }
     }, [isVertical]);
 
-    useResizeObserver(updateDimensions, [containerRef as any, seqRef as any], [logos, gap, logoHeight, isVertical]);
-    useImageLoader(seqRef, updateDimensions, [logos, gap, logoHeight, isVertical]);
+    useResizeObserver(
+      updateDimensions,
+      [containerRef as React.RefObject<HTMLElement | null>, seqRef as React.RefObject<HTMLElement | null>],
+      [logos, gap, logoHeight, isVertical]
+    );
+    useImageLoader(seqRef as React.RefObject<HTMLUListElement | null>, updateDimensions, [logos, gap, logoHeight, isVertical]);
 
     useAnimationLoop(trackRef, targetVelocity, seqWidth, seqHeight, isHovered, effectiveHoverSpeed, isVertical);
 
@@ -298,6 +303,7 @@ export const LogoLoop: React.FC<LogoLoopProps> = memo(
         } else {
           const imageItem = item as LogoImageItem;
           content = (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={imageItem.src}
               alt={imageItem.alt ?? ""}
@@ -309,10 +315,10 @@ export const LogoLoop: React.FC<LogoLoopProps> = memo(
           );
         }
 
-        const itemTitle = (item as any).title;
-        const itemAlt = (item as any).alt;
-        const itemHref = (item as any).href as string | undefined;
-        const itemAriaLabel = isNodeItem ? ((item as any).ariaLabel ?? itemTitle) : (itemAlt ?? itemTitle);
+        const itemTitle = isNodeItem ? (item as LogoNodeItem).title : (item as LogoImageItem).title;
+        const itemAlt = isNodeItem ? undefined : (item as LogoImageItem).alt;
+        const itemHref = isNodeItem ? (item as LogoNodeItem).href : (item as LogoImageItem).href;
+        const itemAriaLabel = isNodeItem ? ((item as LogoNodeItem).ariaLabel ?? itemTitle) : (itemAlt ?? itemTitle);
 
         const wrapped = itemHref ? (
           <a
