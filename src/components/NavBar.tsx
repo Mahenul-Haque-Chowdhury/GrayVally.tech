@@ -46,12 +46,12 @@ export function NavBar() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute left-1/2 top-full mt-2 w-[600px] -translate-x-1/2 rounded-xl border border-border bg-background/95 p-6 shadow-xl backdrop-blur-xl"
+                    className="absolute left-1/2 top-full mt-4 w-[500px] -translate-x-1/2 rounded-xl border border-white/10 bg-zinc-950/90 p-6 shadow-2xl backdrop-blur-xl"
                   >
                     <div className="grid grid-cols-2 gap-6">
                       {serviceCategories.map((category) => (
                         <div key={category.title}>
-                          <h3 className="mb-3 font-mono text-xs font-bold uppercase tracking-wider text-text-primary/50">
+                          <h3 className="mb-3 font-mono text-xs font-bold uppercase tracking-wider text-zinc-500">
                             {category.title}
                           </h3>
                           <ul className="space-y-3">
@@ -59,16 +59,16 @@ export function NavBar() {
                               <li key={item.id}>
                                 <Link
                                   href={`#services`}
-                                  className="group flex items-start gap-3 rounded-lg p-2 transition-colors hover:bg-surfaceHighlight"
+                                  className="group flex items-start gap-3 rounded-lg p-2 transition-colors hover:bg-white/5"
                                 >
-                                  <div className="mt-1 rounded-md bg-surface p-1 text-text-primary transition-colors group-hover:bg-background group-hover:text-blue-500">
+                                  <div className="mt-1 rounded-md bg-white/5 p-1 text-zinc-100 transition-colors group-hover:bg-blue-500/10 group-hover:text-blue-400">
                                     <item.icon className="h-4 w-4" />
                                   </div>
                                   <div>
-                                    <div className="text-sm font-medium text-text-primary group-hover:text-blue-500">
+                                    <div className="text-sm font-medium text-zinc-100 group-hover:text-blue-400">
                                       {item.title}
                                     </div>
-                                    <p className="line-clamp-1 text-xs text-text-secondary">
+                                    <p className="line-clamp-1 text-xs text-zinc-400">
                                       {item.description}
                                     </p>
                                   </div>
