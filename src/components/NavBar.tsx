@@ -5,15 +5,17 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
+import { serviceCategories } from "../data/services";
+import { ChevronDown } from "lucide-react";
 
 const navItems = [
-  { label: "Services", href: "#services" },
   { label: "Work", href: "#portfolio" },
   { label: "About", href: "#about" },
 ];
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md transition-colors duration-300">
@@ -26,6 +28,62 @@ export function NavBar() {
         <div className="flex items-center gap-6">
           {/* Desktop Nav */}
           <nav className="hidden items-center gap-8 md:flex">
+            {/* Services Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setIsServicesOpen(true)}
+              onMouseLeave={() => setIsServicesOpen(false)}
+            >
+              <button className="flex items-center gap-1 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary focus:outline-none">
+                Services
+                <ChevronDown className={`h-4 w-4 transition-transform ${isServicesOpen ? "rotate-180" : ""}`} />
+              </button>
+
+              <AnimatePresence>
+                {isServicesOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute left-1/2 top-full mt-2 w-[600px] -translate-x-1/2 rounded-xl border border-border bg-background/95 p-6 shadow-xl backdrop-blur-xl"
+                  >
+                    <div className="grid grid-cols-2 gap-6">
+                      {serviceCategories.map((category) => (
+                        <div key={category.title}>
+                          <h3 className="mb-3 font-mono text-xs font-bold uppercase tracking-wider text-text-primary/50">
+                            {category.title}
+                          </h3>
+                          <ul className="space-y-3">
+                            {category.items.map((item) => (
+                              <li key={item.id}>
+                                <Link
+                                  href={`#services`}
+                                  className="group flex items-start gap-3 rounded-lg p-2 transition-colors hover:bg-surfaceHighlight"
+                                >
+                                  <div className="mt-1 rounded-md bg-surface p-1 text-text-primary transition-colors group-hover:bg-background group-hover:text-blue-500">
+                                    <item.icon className="h-4 w-4" />
+                                  </div>
+                                  <div>
+                                    <div className="text-sm font-medium text-text-primary group-hover:text-blue-500">
+                                      {item.title}
+                                    </div>
+                                    <p className="line-clamp-1 text-xs text-text-secondary">
+                                      {item.description}
+                                    </p>
+                                  </div>
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             {navItems.map((item) => (
               <Link
                 key={item.label}
@@ -86,6 +144,13 @@ export function NavBar() {
             className="border-b border-border bg-background md:hidden"
           >
             <nav className="flex flex-col space-y-4 p-6">
+              <Link
+                href="#services"
+                onClick={() => setIsOpen(false)}
+                className="text-lg font-medium text-text-secondary transition-colors hover:text-text-primary"
+              >
+                Services
+              </Link>
               {navItems.map((item) => (
                 <Link
                   key={item.label}
