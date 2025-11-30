@@ -38,7 +38,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-10 flex justify-center gap-6"
+          className="mt-10 flex flex-wrap justify-center gap-6"
         >
           <div className="flex flex-col items-center gap-2 border-r border-border pr-6">
             <span className="font-mono text-2xl font-bold text-text-primary">99.99%</span>
