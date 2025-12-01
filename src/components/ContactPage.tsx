@@ -31,9 +31,9 @@ export function Contact() {
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-text-primary md:text-4xl">
             Let&apos;s talk about your project.
           </h1>
-          <p className="mt-4 text-sm text-text-secondary">
+          <p className="mt-4 text-sm sm:text-base text-text-secondary">
             Share a bit about what you&apos;re building and I&apos;ll follow up with
-            a focused, technical response  no spam, no fluff.
+            a focused, technical response — no spam, no fluff.
           </p>
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
@@ -170,7 +170,7 @@ export function Contact() {
               <p className="text-xs font-medium uppercase tracking-wide text-text-secondary/70">Email</p>
               <a
                 href="mailto:mahenul.haque.chowdhury@g.bracu.ac.bd"
-                className="mt-1 block text-text-primary underline-offset-2 hover:underline"
+                className="mt-1 block text-text-primary underline-offset-2 hover:underline break-all text-sm sm:text-base"
               >
                 mahenul.haque.chowdhury@g.bracu.ac.bd
               </a>

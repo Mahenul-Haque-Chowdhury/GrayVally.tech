@@ -6,10 +6,10 @@ import { ThemeToggle } from "./ThemeToggle";
 import "./PillNav.css";
 
 const navItems = [
-  { label: "Services", href: "#services" },
-  { label: "Work", href: "#portfolio" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "Services", href: "/#services" },
+  { label: "Work", href: "/#portfolio" },
+  { label: "About", href: "/#about" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function NavBar() {

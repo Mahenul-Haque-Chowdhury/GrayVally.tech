@@ -239,7 +239,8 @@ const PillNav = ({
     href.startsWith("//") ||
     href.startsWith("mailto:") ||
     href.startsWith("tel:") ||
-    href.startsWith("#");
+    href.startsWith("#") ||
+    href.startsWith("/#");
 
   const cssVars = {
     "--base": baseColor,

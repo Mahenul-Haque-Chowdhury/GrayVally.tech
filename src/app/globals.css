@@ -47,6 +47,7 @@
   --text: #18181B;
   --text-secondary: #52525B;
   --border: #E4E4E7;
+  --fuzzy-text-color: #18181B;
   --hero-overlay-from: rgba(255, 255, 255, 0.15);
   --hero-overlay-via: rgba(255, 255, 255, 0.65);
   --hero-overlay-to: #FFFFFF;
@@ -82,6 +83,7 @@
   --text: #E5E5E5;
   --text-secondary: #A1A1AA;
   --border: #27272A;
+  --fuzzy-text-color: #E5E5E5;
   --hero-overlay-from: rgba(0, 0, 0, 0);
   --hero-overlay-via: rgba(0, 0, 0, 0.75);
   --hero-overlay-to: #000000;
