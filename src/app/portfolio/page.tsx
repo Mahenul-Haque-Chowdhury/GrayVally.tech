@@ -104,7 +104,7 @@ export default function PortfolioPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-surface/20 to-transparent pointer-events-none" />
           
           <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
-            <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2">
+            <div className="grid gap-4 sm:gap-6 grid-cols-2 md:grid-cols-2">
               {projects.map((project, index) => (
                 <motion.div
                   key={project.id}
@@ -120,24 +120,34 @@ export default function PortfolioPage() {
                   </span>
 
                   {/* Project Number */}
-                  <div className="mb-4 sm:mb-5 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg sm:rounded-xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-border/30 transition-all duration-300 group-hover:from-blue-500/20 group-hover:to-cyan-500/20 group-hover:border-blue-500/30">
+                  <div className="mb-3 sm:mb-5 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg sm:rounded-xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-border/30 transition-all duration-300 group-hover:from-blue-500/20 group-hover:to-cyan-500/20 group-hover:border-blue-500/30">
                     <span className="font-mono text-lg sm:text-xl font-bold text-blue-400 transition-colors duration-300 group-hover:text-cyan-400">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                   </div>
 
                   {/* Content */}
-                  <div className="pr-12 sm:pr-16">
-                    <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-text-primary transition-colors duration-300 group-hover:text-blue-400">
+                  <div className="pr-10 sm:pr-16">
+                    <h3 className="text-base sm:text-xl md:text-2xl font-semibold text-text-primary transition-colors duration-300 group-hover:text-blue-400 line-clamp-2 sm:line-clamp-none">
                       {project.client}
                     </h3>
-                    <p className="mt-2 text-sm sm:text-base text-text-secondary/80 line-clamp-2">
+                    <p className="mt-1 text-xs sm:text-base text-text-secondary/80 line-clamp-2 sm:line-clamp-none">
                       {project.project}
                     </p>
                     {project.description && (
-                      <p className="mt-3 text-xs sm:text-sm text-text-secondary/60 line-clamp-2">
-                        {project.description}
-                      </p>
+                      <>
+                        <p className="mt-2 text-xs sm:text-sm text-text-secondary/60 hidden sm:block">
+                          {project.description}
+                        </p>
+                        <details className="mt-2 text-[11px] text-text-secondary/70 sm:hidden">
+                          <summary className="cursor-pointer select-none font-semibold text-blue-400 flex items-center gap-1">
+                            <span>Show details</span>
+                          </summary>
+                          <p className="mt-2 text-[11px] leading-relaxed text-text-secondary/80">
+                            {project.description}
+                          </p>
+                        </details>
+                      </>
                     )}
                   </div>
 

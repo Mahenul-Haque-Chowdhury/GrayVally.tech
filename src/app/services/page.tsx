@@ -95,7 +95,7 @@ export default function ServicesPage() {
             </p>
           </motion.div>
 
-          <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:gap-6 grid-cols-2 lg:grid-cols-3">
             {allServices.map((service, index) => (
               <motion.div
                 key={service.id}
@@ -119,9 +119,13 @@ export default function ServicesPage() {
                 <h3 className="text-lg sm:text-xl font-semibold text-text-primary transition-colors duration-300 group-hover:text-blue-400">
                   {service.title}
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed text-text-secondary/80">
+                <p className="mt-3 text-sm leading-relaxed text-text-secondary/80 hidden sm:block">
                   {service.description}
                 </p>
+                <details className="mt-3 text-sm leading-relaxed text-text-secondary/80 sm:hidden">
+                  <summary className="cursor-pointer select-none text-xs font-semibold text-blue-400">Show details</summary>
+                  <p className="mt-2 text-xs text-text-secondary/80">{service.description}</p>
+                </details>
                 
                 {/* Category Badge */}
                 <div className="mt-5 pt-5 border-t border-border/30">
@@ -183,7 +187,7 @@ export default function ServicesPage() {
                   </span>
                 </div>
 
-                <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2">
+                <div className="grid gap-4 sm:gap-6 grid-cols-2 md:grid-cols-2">
                   {category.items.map((item, itemIndex) => (
                     <div
                       key={itemIndex}
