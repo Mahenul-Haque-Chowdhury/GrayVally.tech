@@ -29,17 +29,13 @@ const teamMembers: TeamMember[] = [
       website: "https://arnob.life",
     },
   },
-  // Add more team members here
-  // {
-  //   id: 2,
-  //   name: "Team Member Name",
-  //   role: "Position",
-  //   bio: "Brief description about the team member.",
-  //   links: {
-  //     linkedin: "https://linkedin.com/in/username",
-  //     github: "https://github.com/username",
-  //   },
-  // },
+  {
+    id: 2,
+    name: "Project Manager",
+    role: "Project Manager",
+    bio: "Keeps projects on schedule, aligns stakeholders, and makes sure every delivery feels calm and well-organized.",
+    image: "/ProjectManager.png",
+  },
 ];
 
 interface AboutProps {
