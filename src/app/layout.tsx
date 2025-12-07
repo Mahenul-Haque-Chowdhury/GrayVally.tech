@@ -26,10 +26,10 @@ export const metadata: Metadata = {
     siteName: "GrayVally",
     images: [
       {
-        url: "/GrayVally.png",
+        url: "/grayvally-social.jpg",
         width: 1200,
         height: 630,
-        alt: "GrayVally logo and brand preview",
+        alt: "GrayVally – Simplifying Your Digital Life",
       },
     ],
     type: "website",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     title: "GrayVally | Simplifying Your Digital Life.",
     description:
       "End-to-end digital infrastructure, from idea to reliable production systems.",
-    images: ["/GrayVally.png"],
+    images: ["/grayvally-social.jpg"],
   },
   icons: {
     icon: [
