@@ -79,22 +79,29 @@ export function Footer() {
             {/* Contact Info */}
             <div className="space-y-3">
               <a 
-                href="mailto:hello@grayvally.tech" 
+                href="mailto:contact@grayvally.tech" 
                 className="flex items-center gap-2 text-sm text-text-secondary hover:text-blue-400 transition-colors"
               >
                 <Mail className="h-4 w-4" />
-                hello@grayvally.tech
+                contact@grayvally.tech
               </a>
               <a 
-                href="tel:+1234567890" 
+                href="mailto:support@grayvally.tech" 
+                className="flex items-center gap-2 text-sm text-text-secondary hover:text-blue-400 transition-colors"
+              >
+                <Mail className="h-4 w-4" />
+                support@grayvally.tech
+              </a>
+              <a 
+                href="tel:+8801798651950" 
                 className="flex items-center gap-2 text-sm text-text-secondary hover:text-blue-400 transition-colors"
               >
                 <Phone className="h-4 w-4" />
-                +1 (234) 567-890
+                +880 1798-651950
               </a>
               <div className="flex items-start gap-2 text-sm text-text-secondary">
                 <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                <span>123 Tech Street, Silicon Valley, CA 94025</span>
+                <span>Gulshan 1, Dhaka, Bangladesh</span>
               </div>
             </div>
 

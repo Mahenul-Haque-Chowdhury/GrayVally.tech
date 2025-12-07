@@ -169,10 +169,10 @@ export function Contact() {
             <div>
               <p className="text-xs font-medium uppercase tracking-wide text-text-secondary/70">Email</p>
               <a
-                href="mailto:mahenul.haque.chowdhury@g.bracu.ac.bd"
+                href="mailto:contact@grayvally.tech"
                 className="mt-1 block text-text-primary underline-offset-2 hover:underline break-all text-sm sm:text-base"
               >
-                mahenul.haque.chowdhury@g.bracu.ac.bd
+                contact@grayvally.tech
               </a>
             </div>
             <div>
@@ -181,7 +181,7 @@ export function Contact() {
                 href="tel:+8801798651950"
                 className="mt-1 block text-text-primary underline-offset-2 hover:underline"
               >
-                +880 1798651950
+                +880 1798-651950
               </a>
             </div>
           </div>

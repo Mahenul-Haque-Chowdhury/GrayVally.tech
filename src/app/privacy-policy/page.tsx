@@ -173,9 +173,9 @@ export default function PrivacyPolicyPage() {
                 </p>
                 <div className="mt-4 p-4 rounded-lg bg-surface/50 border border-border">
                   <p><strong className="text-text-primary">GrayVally</strong></p>
-                  <p>Email: privacy@grayvally.tech</p>
-                  <p>Phone: +880 1XXX-XXXXXX</p>
-                  <p>Address: Dhaka, Bangladesh</p>
+                  <p>Email: support@grayvally.tech</p>
+                  <p>Phone: +880 1798-651950</p>
+                  <p>Address: Gulshan 1, Dhaka, Bangladesh</p>
                 </div>
               </section>
 

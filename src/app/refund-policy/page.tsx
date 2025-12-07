@@ -236,9 +236,9 @@ export default function RefundPolicyPage() {
                 </p>
                 <div className="mt-4 p-4 rounded-lg bg-surface/50 border border-border">
                   <p><strong className="text-text-primary">GrayVally - Refunds Department</strong></p>
-                  <p>Email: refunds@grayvally.tech</p>
-                  <p>Phone: +880 1XXX-XXXXXX</p>
-                  <p>Address: Dhaka, Bangladesh</p>
+                  <p>Email: support@grayvally.tech</p>
+                  <p>Phone: +880 1798-651950</p>
+                  <p>Address: Gulshan 1, Dhaka, Bangladesh</p>
                   <p className="mt-2 text-sm">Business Hours: Sunday - Thursday, 10:00 AM - 6:00 PM (BST)</p>
                 </div>
               </section>
