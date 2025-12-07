@@ -31,7 +31,7 @@ const teamMembers: TeamMember[] = [
   },
   {
     id: 2,
-    name: "Project Manager",
+    name: "Mahin Mize",
     role: "Project Manager",
     bio: "Keeps projects on schedule, aligns stakeholders, and makes sure every delivery feels calm and well-organized.",
     image: "/ProjectManager.png",
