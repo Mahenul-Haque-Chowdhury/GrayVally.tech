@@ -1,10 +1,17 @@
 "use client";
 
+import type { Metadata } from "next";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
+
+export const metadata: Metadata = {
+  title: "Cookie Policy | GrayVally",
+  description:
+    "Read GrayVally's cookie policy to learn how we use cookies and similar technologies on our website.",
+};
 
 export default function CookiePolicyPage() {
   return (

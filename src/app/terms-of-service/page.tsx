@@ -1,10 +1,17 @@
 "use client";
 
+import type { Metadata } from "next";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
+
+export const metadata: Metadata = {
+  title: "Terms of Service | GrayVally",
+  description:
+    "Review GrayVally's terms of service covering the use of our website, web development services, and digital products.",
+};
 
 export default function TermsOfServicePage() {
   return (

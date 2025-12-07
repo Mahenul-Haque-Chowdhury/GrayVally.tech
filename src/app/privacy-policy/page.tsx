@@ -1,10 +1,17 @@
 "use client";
 
+import type { Metadata } from "next";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy | GrayVally",
+  description:
+    "Read GrayVally's privacy policy to understand how we collect, use, and protect your data when you use our web development and digital services.",
+};
 
 export default function PrivacyPolicyPage() {
   return (

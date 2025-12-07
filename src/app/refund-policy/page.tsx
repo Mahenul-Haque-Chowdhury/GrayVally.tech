@@ -1,10 +1,17 @@
 "use client";
 
+import type { Metadata } from "next";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
+
+export const metadata: Metadata = {
+  title: "Refund Policy | GrayVally",
+  description:
+    "Understand GrayVally's refund policy, including eligibility, timelines, and how we handle cancellations for web development and design projects.",
+};
 
 export default function RefundPolicyPage() {
   return (

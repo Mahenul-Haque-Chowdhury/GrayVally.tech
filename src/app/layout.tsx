@@ -15,13 +15,14 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "GrayVally | Simplifying Your Digital Life.",
-  description: "We design and build resilient, cloud-native infrastructure for forward-thinking companies.",
+  title: "GrayVally | Web Development & UI/UX Agency in Bangladesh",
+  description:
+    "GrayVally builds fast, scalable websites and web apps with modern web development, UI/UX design, and cloud-native infrastructure for startups and businesses.",
   metadataBase: new URL("https://grayvally.tech"),
   openGraph: {
-    title: "GrayVally | Simplifying Your Digital Life.",
+    title: "GrayVally | Web Development & UI/UX Agency in Bangladesh",
     description:
-      "GrayVally builds reliable, scalable digital infrastructure so your business can move faster with less chaos.",
+      "GrayVally builds reliable, scalable digital infrastructure, websites, and web apps so your business can move faster with less chaos.",
     url: "https://grayvally.tech",
     siteName: "GrayVally",
     images: [
@@ -36,9 +37,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "GrayVally | Simplifying Your Digital Life.",
+    title: "GrayVally | Web Development & UI/UX Agency in Bangladesh",
     description:
-      "End-to-end digital infrastructure, from idea to reliable production systems.",
+      "End-to-end web development, UI/UX design, and cloud-native infrastructure from Bangladesh to global clients.",
     images: ["/grayvally-social.jpg"],
   },
   icons: {
@@ -61,6 +62,32 @@ export default function RootLayout({
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "GrayVally",
+              url: "https://grayvally.tech",
+              logo: "https://grayvally.tech/GrayVally.png",
+              address: {
+                "@type": "PostalAddress",
+                addressCountry: "BD",
+                addressLocality: "Dhaka",
+                addressRegion: "Dhaka",
+              },
+              contactPoint: [
+                {
+                  "@type": "ContactPoint",
+                  contactType: "customer support",
+                  email: "support@grayvally.tech",
+                  telephone: "+8801798651950",
+                },
+              ],
+            }),
+          }}
         />
       </head>
       <body className="antialiased transition-colors duration-300">
