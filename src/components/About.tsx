@@ -24,6 +24,7 @@ const teamMembers: TeamMember[] = [
     name: "Mahenul Haque Chowdhury",
     role: "Founder & CEO",
     bio: "Visionary leader with a passion for building scalable digital infrastructure and empowering businesses through technology.",
+    image: "/CEO.jpg",
     links: {
       website: "https://arnob.life",
     },
@@ -41,11 +42,15 @@ const teamMembers: TeamMember[] = [
   // },
 ];
 
-export function About() {
+interface AboutProps {
+  showOnlyPreview?: boolean; // when true, show limited team + CTA
+}
+
+export function About({ showOnlyPreview = false }: AboutProps) {
   const [hoveredMember, setHoveredMember] = useState<number | null>(null);
 
   return (
-    <section id="about" className="bg-surface py-16 sm:py-24 md:py-32 transition-colors duration-300">
+    <section id="about" className="py-16 sm:py-24 md:py-32 transition-colors duration-300">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         {/* About Section */}
         <div className="grid gap-8 sm:gap-10 md:gap-12 md:grid-cols-2">
@@ -60,7 +65,7 @@ export function About() {
                   href="https://arnob.life"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-accent hover:text-accent/80 transition-colors underline underline-offset-4"
+                  className="font-semibold text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors underline underline-offset-4"
                 >
                   Mahenul Haque Chowdhury
                 </a>
@@ -72,14 +77,25 @@ export function About() {
                 have to think about—they just work, scale, and remain secure. We bring
                 enterprise-grade engineering to agile teams.
               </p>
+              <div className="pt-3">
+                <a
+                  href="/about"
+                  className="inline-flex items-center gap-2 rounded-full border border-blue-500/70 bg-blue-500/5 px-4 py-2 text-xs sm:text-sm font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-500/10 transition-colors"
+                >
+                  <span>Learn more about us</span>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
           <div className="relative order-first md:order-last">
-            <div className="aspect-square w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto overflow-hidden bg-surfaceHighlight">
+            <div className="aspect-square w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto overflow-hidden rounded-lg border border-border/50 bg-surface/50">
               {/* Abstract graphic */}
-              <div className="h-full w-full bg-gradient-to-br from-surfaceHighlight to-background p-8">
-                <div className="h-full w-full border border-border flex items-center justify-center">
-                  <span className="font-mono text-text-secondary">EST. 2024</span>
+              <div className="h-full w-full bg-gradient-to-br from-blue-50/50 to-background dark:from-surfaceHighlight dark:to-background p-8">
+                <div className="h-full w-full border-2 border-border/60 rounded-lg flex items-center justify-center">
+                  <span className="font-mono text-sm sm:text-base text-text-secondary/70 tracking-wider">EST. 2024</span>
                 </div>
               </div>
             </div>
@@ -87,27 +103,40 @@ export function About() {
         </div>
 
         {/* Team Section */}
-        <div className="mt-20 sm:mt-28 md:mt-36">
+        <div id="team" className="mt-20 sm:mt-28 md:mt-36">
           <div className="text-center mb-12 sm:mb-16">
             <h3 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-text-primary">
               Meet Our Team
             </h3>
-            <p className="mt-3 sm:mt-4 text-sm sm:text-base text-text-secondary max-w-2xl mx-auto">
+            <p className="mt-3 sm:mt-4 text-sm sm:text-base text-text-secondary/80 max-w-2xl mx-auto">
               The talented people behind GrayVally who make the magic happen.
             </p>
+            {showOnlyPreview && (
+              <div className="mt-5 flex justify-center">
+                <a
+                  href="/about#team"
+                  className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-surface/40 px-4 py-2 text-xs sm:text-sm font-medium text-text-secondary hover:border-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors"
+                >
+                  <span>Meet our full team</span>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
+            )}
           </div>
 
           <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {teamMembers.map((member) => (
+            {(showOnlyPreview ? teamMembers.slice(0, 4) : teamMembers).map((member) => (
               <div
                 key={member.id}
-                className="group relative bg-background border border-border rounded-lg p-6 transition-all duration-300 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/5"
+                className="group relative bg-white dark:bg-background border border-gray-200 dark:border-border rounded-xl p-6 sm:p-7 transition-all duration-300 hover:border-blue-200 dark:hover:border-blue-500/30 hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-blue-500/10"
                 onMouseEnter={() => setHoveredMember(member.id)}
                 onMouseLeave={() => setHoveredMember(null)}
               >
                 {/* Avatar */}
-                <div className="relative mx-auto w-24 h-24 sm:w-28 sm:h-28 mb-4">
-                  <div className="w-full h-full rounded-full bg-gradient-to-br from-accent/20 to-accent/5 border-2 border-border group-hover:border-accent/50 transition-colors duration-300 flex items-center justify-center overflow-hidden">
+                <div className="relative mx-auto w-24 h-24 sm:w-28 sm:h-28 mb-5">
+                  <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-100 dark:from-blue-500/20 to-blue-50 dark:to-blue-500/5 border-2 border-blue-200 dark:border-blue-500/30 group-hover:border-blue-400 dark:group-hover:border-blue-400 transition-colors duration-300 flex items-center justify-center overflow-hidden">
                     {member.image ? (
                       <img
                         src={member.image}
@@ -115,14 +144,14 @@ export function About() {
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <span className="text-2xl sm:text-3xl font-bold text-accent/60">
+                      <span className="text-2xl sm:text-3xl font-bold text-blue-400 dark:text-blue-300">
                         {member.name.split(" ").map((n) => n[0]).join("")}
                       </span>
                     )}
                   </div>
                   {/* Hover ring effect */}
                   <div
-                    className={`absolute inset-0 rounded-full border-2 border-accent transition-all duration-300 ${
+                    className={`absolute inset-0 rounded-full border-2 border-blue-400 dark:border-blue-400 transition-all duration-300 ${
                       hoveredMember === member.id ? "scale-110 opacity-100" : "scale-100 opacity-0"
                     }`}
                   />
@@ -130,22 +159,22 @@ export function About() {
 
                 {/* Info */}
                 <div className="text-center">
-                  <h4 className="text-lg font-semibold text-text-primary group-hover:text-accent transition-colors">
+                  <h4 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-text-primary group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                     {member.name}
                   </h4>
-                  <p className="text-sm text-accent/80 font-medium mt-1">{member.role}</p>
-                  <p className="text-sm text-text-secondary mt-3 line-clamp-3">{member.bio}</p>
+                  <p className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 font-medium mt-1">{member.role}</p>
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-text-secondary mt-3 line-clamp-3">{member.bio}</p>
                 </div>
 
                 {/* Social Links */}
                 {member.links && (
-                  <div className="flex justify-center gap-3 mt-4 pt-4 border-t border-border">
+                  <div className="flex justify-center gap-3 mt-5 pt-4 border-t border-gray-200 dark:border-border">
                     {member.links.website && (
                       <a
                         href={member.links.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-text-secondary hover:text-accent transition-colors"
+                        className="text-gray-400 dark:text-text-secondary hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                         aria-label={`${member.name}'s website`}
                       >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -158,7 +187,7 @@ export function About() {
                         href={member.links.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-text-secondary hover:text-accent transition-colors"
+                        className="text-gray-400 dark:text-text-secondary hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                         aria-label={`${member.name}'s LinkedIn`}
                       >
                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -171,7 +200,7 @@ export function About() {
                         href={member.links.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-text-secondary hover:text-accent transition-colors"
+                        className="text-gray-400 dark:text-text-secondary hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                         aria-label={`${member.name}'s GitHub`}
                       >
                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -184,7 +213,7 @@ export function About() {
                         href={member.links.twitter}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-text-secondary hover:text-accent transition-colors"
+                        className="text-gray-400 dark:text-text-secondary hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                         aria-label={`${member.name}'s Twitter`}
                       >
                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
