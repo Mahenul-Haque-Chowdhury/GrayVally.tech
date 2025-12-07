@@ -1,4 +1,4 @@
-import type { Metadata, ResolvingMetadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
@@ -24,7 +24,6 @@ type PageProps = {
 
 export async function generateMetadata(
   { params }: PageProps,
-  _parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const article = articles[params.slug];
 

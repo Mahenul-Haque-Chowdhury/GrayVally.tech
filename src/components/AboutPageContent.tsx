@@ -59,8 +59,8 @@ export function AboutPageContent() {
               boring details that make everything else feel fast and effortless.
             </p>
             <p className="mt-4 text-sm sm:text-base text-text-secondary leading-relaxed">
-              We sit in the space between "agency" and "in‑house"—close enough to care about your roadmap, independent
-              enough to tell you when the foundations need rethinking.
+              We sit in the space between &quot;agency&quot; and &quot;in‑house&quot;—close enough to care about your roadmap,
+              independent enough to tell you when the foundations need rethinking.
             </p>
           </div>
 
@@ -157,7 +157,8 @@ export function AboutPageContent() {
                   Build &amp; iterate
                 </h3>
                 <p className="mt-2 text-xs sm:text-sm text-text-secondary">
-                  We ship in small, observable slices with room for feedback, rather than one huge "big bang" release.
+                  We ship in small, observable slices with room for feedback, rather than one huge &quot;big bang&quot;
+                  release.
                 </p>
               </div>
 
