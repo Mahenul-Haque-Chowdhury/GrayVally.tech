@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 // Team member type
 interface TeamMember {
@@ -134,10 +135,12 @@ export function About({ showOnlyPreview = false }: AboutProps) {
                 <div className="relative mx-auto w-24 h-24 sm:w-28 sm:h-28 mb-5">
                   <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-100 dark:from-blue-500/20 to-blue-50 dark:to-blue-500/5 border-2 border-blue-200 dark:border-blue-500/30 group-hover:border-blue-400 dark:group-hover:border-blue-400 transition-colors duration-300 flex items-center justify-center overflow-hidden">
                     {member.image ? (
-                      <img
+                      <Image
                         src={member.image}
                         alt={member.name}
-                        className="w-full h-full object-cover"
+                        fill
+                        sizes="96px"
+                        className="object-cover"
                       />
                     ) : (
                       <span className="text-2xl sm:text-3xl font-bold text-blue-400 dark:text-blue-300">

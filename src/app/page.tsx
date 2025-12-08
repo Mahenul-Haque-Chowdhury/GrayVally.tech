@@ -1,10 +1,23 @@
+import dynamic from "next/dynamic";
 import { NavBar } from "@/components/NavBar";
 import { Hero } from "@/components/Hero";
-import { Services } from "@/components/Services";
-import { Portfolio } from "@/components/Portfolio";
-import { About } from "@/components/About";
-import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
+
+const Services = dynamic(() => import("@/components/Services").then((m) => m.Services), {
+  loading: () => null,
+});
+
+const Portfolio = dynamic(() => import("@/components/Portfolio").then((m) => m.Portfolio), {
+  loading: () => null,
+});
+
+const About = dynamic(() => import("@/components/About").then((m) => m.About), {
+  loading: () => null,
+});
+
+const Contact = dynamic(() => import("@/components/Contact").then((m) => m.Contact), {
+  loading: () => null,
+});
 
 export default function Home() {
   return (
