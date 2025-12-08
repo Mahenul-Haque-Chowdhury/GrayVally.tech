@@ -242,9 +242,16 @@ export function Contact() {
         setStatus("success");
         form.reset();
       } else {
+        try {
+          const data = await response.json();
+          console.error("Formspree error response:", data);
+        } catch (err) {
+          console.error("Formspree error (non-JSON response)");
+        }
         setStatus("error");
       }
     } catch (error) {
+      console.error("Network error submitting form:", error);
       setStatus("error");
     } finally {
       setSubmitting(false);
@@ -399,22 +406,37 @@ export function Contact() {
             </div>
 
             {status === "success" && (
-              <p className="text-xs text-emerald-500">
-                Thanks for reaching out. I&apos;ll get back to you shortly.
-              </p>
+              <div className="mt-3 inline-flex items-start gap-3 rounded-xl border border-emerald-500/40 bg-emerald-500/5 px-3 py-2.5 text-xs sm:text-sm text-emerald-100 shadow-sm">
+                <div className="mt-0.5 h-5 w-5 flex items-center justify-center rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-semibold">
+                  ✓
+                </div>
+                <div className="space-y-0.5">
+                  <p className="font-medium text-emerald-200">Message sent successfully</p>
+                  <p className="text-[11px] sm:text-xs text-emerald-200/80">
+                    Thanks for reaching out. I&apos;ll get back to you shortly.
+                  </p>
+                </div>
+              </div>
             )}
             {status === "error" && (
-              <p className="text-xs text-red-500">
-                Something went wrong sending your message. Please try again in a moment or email
-                {" "}
-                <a
-                  href="mailto:contact@grayvally.tech"
-                  className="underline underline-offset-2"
-                >
-                  contact@grayvally.tech
-                </a>
-                .
-              </p>
+              <div className="mt-3 inline-flex items-start gap-3 rounded-xl border border-red-500/40 bg-red-500/5 px-3 py-2.5 text-xs sm:text-sm text-red-100 shadow-sm">
+                <div className="mt-0.5 h-5 w-5 flex items-center justify-center rounded-full bg-red-500/20 text-red-300 text-[10px] font-semibold">
+                  !
+                </div>
+                <div className="space-y-0.5">
+                  <p className="font-medium text-red-200">Something went wrong</p>
+                  <p className="text-[11px] sm:text-xs text-red-200/80">
+                    Please try again in a moment or email{" "}
+                    <a
+                      href="mailto:contact@grayvally.tech"
+                      className="underline underline-offset-2"
+                    >
+                      contact@grayvally.tech
+                    </a>
+                    .
+                  </p>
+                </div>
+              </div>
             )}
           </form>
         </div>
