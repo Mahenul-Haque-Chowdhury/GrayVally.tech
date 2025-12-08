@@ -219,15 +219,36 @@ const dialingCodes = [
 
 export function Contact() {
   const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
-    // Placeholder submit – integrate with backend or form tool later.
-    setTimeout(() => {
+    setStatus("idle");
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch("https://formspree.io/f/xovgnknl", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
+        body: formData,
+      });
+
+      if (response.ok) {
+        setStatus("success");
+        form.reset();
+      } else {
+        setStatus("error");
+      }
+    } catch (error) {
+      setStatus("error");
+    } finally {
       setSubmitting(false);
-      alert("Thanks for reaching out. I will get back to you shortly.");
-    }, 600);
+    }
   };
 
   return (
@@ -376,6 +397,25 @@ export function Contact() {
                 Live chat (coming soon)
               </button>
             </div>
+
+            {status === "success" && (
+              <p className="text-xs text-emerald-500">
+                Thanks for reaching out. I&apos;ll get back to you shortly.
+              </p>
+            )}
+            {status === "error" && (
+              <p className="text-xs text-red-500">
+                Something went wrong sending your message. Please try again in a moment or email
+                {" "}
+                <a
+                  href="mailto:contact@grayvally.tech"
+                  className="underline underline-offset-2"
+                >
+                  contact@grayvally.tech
+                </a>
+                .
+              </p>
+            )}
           </form>
         </div>
 
