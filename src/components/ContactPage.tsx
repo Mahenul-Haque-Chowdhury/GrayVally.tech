@@ -2,8 +2,9 @@
 
 import { FormEvent, useState } from "react";
 import Image from "next/image";
-import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { allServices } from "@/data/services";
+import { socialProfiles } from "@/data/socials";
 
 const dialingCodes = [
   "+1",
@@ -220,6 +221,11 @@ const dialingCodes = [
 export function Contact() {
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const directSocialLinks = [
+    { label: socialProfiles.linkedin.label, href: socialProfiles.linkedin.url, icon: Linkedin },
+    { label: socialProfiles.facebook.label, href: socialProfiles.facebook.url, icon: Facebook },
+    { label: socialProfiles.instagram.label, href: socialProfiles.instagram.url, icon: Instagram },
+  ];
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -396,13 +402,15 @@ export function Contact() {
               >
                 {submitting ? "Sending..." : "Submit inquiry"}
               </button>
-              <button
-                type="button"
-                className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-surface/40 px-4 py-2 text-xs sm:text-sm font-medium text-text-secondary hover:border-blue-500/60 hover:text-blue-400 hover:bg-surface/70 transition-colors"
+              <a
+                href={socialProfiles.whatsapp.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-surface/40 px-4 py-2 text-xs sm:text-sm font-medium text-text-secondary hover:border-green-500/60 hover:text-green-400 hover:bg-surface/70 transition-colors"
               >
                 <MessageCircle className="h-4 w-4" />
-                Live chat (coming soon)
-              </button>
+                WhatsApp live chat
+              </a>
             </div>
 
             {status === "success" && (
@@ -516,6 +524,26 @@ export function Contact() {
                   We&apos;re based in <span className="font-medium text-text-primary">Bangladesh</span> and work with clients
                   globally across time zones.
                 </p>
+              </div>
+
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wide text-text-secondary/70">
+                  Connect with us
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {directSocialLinks.map((social) => (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 rounded-full border border-border/50 bg-surface/30 px-3 py-1.5 text-xs font-medium text-text-secondary hover:border-blue-500/50 hover:text-blue-400 transition-colors"
+                    >
+                      <social.icon className="h-3.5 w-3.5" />
+                      {social.label}
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

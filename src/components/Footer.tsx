@@ -2,16 +2,17 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { 
-  Mail, 
-  Phone, 
-  MapPin, 
+import {
+  Mail,
+  Phone,
+  MapPin,
   ArrowUpRight,
   Linkedin,
-  Github,
-  Twitter,
-  Facebook
+  Facebook,
+  Instagram,
+  MessageCircle
 } from "lucide-react";
+import { socialProfiles } from "@/data/socials";
 
 const footerLinks = {
   services: [
@@ -46,10 +47,10 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { name: "LinkedIn", href: "https://linkedin.com", icon: Linkedin },
-  { name: "GitHub", href: "https://github.com", icon: Github },
-  { name: "Twitter", href: "https://twitter.com", icon: Twitter },
-  { name: "Facebook", href: "https://facebook.com", icon: Facebook },
+  { name: socialProfiles.linkedin.label, href: socialProfiles.linkedin.url, icon: Linkedin },
+  { name: socialProfiles.facebook.label, href: socialProfiles.facebook.url, icon: Facebook },
+  { name: socialProfiles.instagram.label, href: socialProfiles.instagram.url, icon: Instagram },
+  { name: socialProfiles.whatsapp.label, href: socialProfiles.whatsapp.url, icon: MessageCircle },
 ];
 
 export function Footer() {
