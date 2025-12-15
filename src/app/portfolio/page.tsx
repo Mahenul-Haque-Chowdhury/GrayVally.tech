@@ -7,6 +7,20 @@ export const metadata: Metadata = {
   title: "Web Design & Development Portfolio | GrayVally",
   description:
     "Explore GrayVally's portfolio of web design, web development, and UI/UX projects for startups and businesses.",
+  openGraph: {
+    title: "Web Design & Development Portfolio | GrayVally",
+    description:
+      "Explore GrayVally's portfolio of web design, web development, and UI/UX projects for startups and businesses.",
+    url: "https://grayvally.tech/portfolio",
+    siteName: "GrayVally",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Web Design & Development Portfolio | GrayVally",
+    description:
+      "Explore GrayVally's portfolio of web design, web development, and UI/UX projects for startups and businesses.",
+  },
 };
 
 export default function PortfolioPage() {

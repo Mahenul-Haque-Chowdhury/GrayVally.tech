@@ -7,6 +7,20 @@ export const metadata: Metadata = {
   title: "About GrayVally | Web Development & Digital Infrastructure Studio",
   description:
     "Learn about GrayVally, the team behind our web development, UI/UX design, and cloud-native infrastructure projects based in Bangladesh.",
+  openGraph: {
+    title: "About GrayVally | Web Development & Digital Infrastructure Studio",
+    description:
+      "Learn about GrayVally, the team behind our web development, UI/UX design, and cloud-native infrastructure projects based in Bangladesh.",
+    url: "https://grayvally.tech/about",
+    siteName: "GrayVally",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "About GrayVally | Web Development & Digital Infrastructure Studio",
+    description:
+      "Learn about GrayVally, the team behind our web development, UI/UX design, and cloud-native infrastructure projects based in Bangladesh.",
+  },
 };
 
 export default function AboutPage() {

@@ -2,9 +2,10 @@ import dynamic from "next/dynamic";
 import { NavBar } from "@/components/NavBar";
 import { Hero } from "@/components/Hero";
 import { Footer } from "@/components/Footer";
+import { ServicesSkeleton } from "@/components/ServicesSkeleton";
 
 const Services = dynamic(() => import("@/components/Services").then((m) => m.Services), {
-  loading: () => null,
+  loading: () => <ServicesSkeleton />,
 });
 
 const Portfolio = dynamic(() => import("@/components/Portfolio").then((m) => m.Portfolio), {
@@ -21,7 +22,7 @@ const Contact = dynamic(() => import("@/components/Contact").then((m) => m.Conta
 
 export default function Home() {
   return (
-    <main className="bg-background min-h-screen transition-colors duration-300">
+    <main id="main-content" className="bg-background min-h-screen transition-colors duration-300">
       <NavBar />
       <Hero />
       <Services />

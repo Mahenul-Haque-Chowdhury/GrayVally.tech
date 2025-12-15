@@ -23,9 +23,9 @@ const teamMembers: TeamMember[] = [
   {
     id: 1,
     name: "Mahenul Haque Chowdhury",
-    role: "Founder & CEO",
-    bio: "Visionary leader with a passion for building scalable digital infrastructure and empowering businesses through technology.",
-    image: "/CEO.jpg",
+    role: "CEO & Full Stack Developer",
+    bio: "Leads strategy and ships end-to-end web products with a focus on performance, security, and reliability.",
+    image: "/CEO.jpeg",
     links: {
       website: "https://arnob.life",
     },
@@ -33,9 +33,22 @@ const teamMembers: TeamMember[] = [
   {
     id: 2,
     name: "Mahin Mize",
-    role: "Project Manager",
-    bio: "Keeps projects on schedule, aligns stakeholders, and makes sure every delivery feels calm and well-organized.",
-    image: "/ProjectManager.png",
+    role: "Client Manager",
+    bio: "Your day-to-day point of contact—keeps communication clear, requirements aligned, and delivery moving smoothly.",
+    image: "/ClientManager.jpeg",
+  },
+  {
+    id: 3,
+    name: "Shafin Al Rahi",
+    role: "Head of Marketing",
+    bio: "Owns growth and brand—plans campaigns, messaging, and positioning to reach the right customers.",
+    image: "/HeadofMarketting.jpeg",
+  },
+  {
+    id: 4,
+    name: "Sumaiya Tanzin",
+    role: "Front-End Developer",
+    bio: "Builds clean, responsive UI with attention to accessibility, motion, and polished user experience.",
   },
 ];
 
@@ -127,20 +140,21 @@ export function About({ showOnlyPreview = false }: AboutProps) {
             {(showOnlyPreview ? teamMembers.slice(0, 4) : teamMembers).map((member) => (
               <div
                 key={member.id}
-                className="group relative bg-white dark:bg-background border border-gray-200 dark:border-border rounded-xl p-6 sm:p-7 transition-all duration-300 hover:border-blue-200 dark:hover:border-blue-500/30 hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-blue-500/10"
+                className="group relative rounded-xl border border-border/40 bg-surface/20 backdrop-blur-sm p-6 sm:p-7 transition-all duration-300 hover:border-border/80 hover:bg-surface/40 hover:shadow-lg hover:shadow-blue-500/5"
                 onMouseEnter={() => setHoveredMember(member.id)}
                 onMouseLeave={() => setHoveredMember(null)}
               >
                 {/* Avatar */}
                 <div className="relative mx-auto w-24 h-24 sm:w-28 sm:h-28 mb-5">
-                  <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-100 dark:from-blue-500/20 to-blue-50 dark:to-blue-500/5 border-2 border-blue-200 dark:border-blue-500/30 group-hover:border-blue-400 dark:group-hover:border-blue-400 transition-colors duration-300 flex items-center justify-center overflow-hidden">
+                  <div className="relative w-full h-full rounded-full bg-gradient-to-br from-blue-100 dark:from-blue-500/20 to-blue-50 dark:to-blue-500/5 border-2 border-blue-200 dark:border-blue-500/30 group-hover:border-blue-400 dark:group-hover:border-blue-400 transition-colors duration-300 flex items-center justify-center overflow-hidden">
                     {member.image ? (
                       <Image
                         src={member.image}
                         alt={member.name}
                         fill
-                        sizes="96px"
-                        className="object-cover"
+                        sizes="(min-width: 640px) 112px, 96px"
+                        quality={95}
+                        className="object-cover object-center"
                       />
                     ) : (
                       <span className="text-2xl sm:text-3xl font-bold text-blue-400 dark:text-blue-300">
@@ -158,22 +172,22 @@ export function About({ showOnlyPreview = false }: AboutProps) {
 
                 {/* Info */}
                 <div className="text-center">
-                  <h4 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-text-primary group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  <h4 className="text-base sm:text-lg font-semibold text-text-primary group-hover:text-blue-400 transition-colors">
                     {member.name}
                   </h4>
                   <p className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 font-medium mt-1">{member.role}</p>
-                  <p className="text-xs sm:text-sm text-gray-600 dark:text-text-secondary mt-3 line-clamp-3">{member.bio}</p>
+                  <p className="text-xs sm:text-sm text-text-secondary/80 mt-3 line-clamp-3">{member.bio}</p>
                 </div>
 
                 {/* Social Links */}
                 {member.links && (
-                  <div className="flex justify-center gap-3 mt-5 pt-4 border-t border-gray-200 dark:border-border">
+                  <div className="flex justify-center gap-3 mt-5 pt-4 border-t border-border/30">
                     {member.links.website && (
                       <a
                         href={member.links.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-400 dark:text-text-secondary hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                        className="text-text-secondary/70 hover:text-blue-400 transition-colors"
                         aria-label={`${member.name}'s website`}
                       >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -186,7 +200,7 @@ export function About({ showOnlyPreview = false }: AboutProps) {
                         href={member.links.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-400 dark:text-text-secondary hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                        className="text-text-secondary/70 hover:text-blue-400 transition-colors"
                         aria-label={`${member.name}'s LinkedIn`}
                       >
                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -199,7 +213,7 @@ export function About({ showOnlyPreview = false }: AboutProps) {
                         href={member.links.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-400 dark:text-text-secondary hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                        className="text-text-secondary/70 hover:text-blue-400 transition-colors"
                         aria-label={`${member.name}'s GitHub`}
                       >
                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -212,7 +226,7 @@ export function About({ showOnlyPreview = false }: AboutProps) {
                         href={member.links.twitter}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-400 dark:text-text-secondary hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                        className="text-text-secondary/70 hover:text-blue-400 transition-colors"
                         aria-label={`${member.name}'s Twitter`}
                       >
                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

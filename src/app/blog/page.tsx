@@ -7,6 +7,20 @@ export const metadata: Metadata = {
   title: "Blog | GrayVally Web Development & UI/UX Insights",
   description:
     "Articles from GrayVally on web development, UI/UX design, performance optimization, and cloud-native infrastructure.",
+  openGraph: {
+    title: "Blog | GrayVally Web Development & UI/UX Insights",
+    description:
+      "Articles from GrayVally on web development, UI/UX design, performance optimization, and cloud-native infrastructure.",
+    url: "https://grayvally.tech/blog",
+    siteName: "GrayVally",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Blog | GrayVally Web Development & UI/UX Insights",
+    description:
+      "Articles from GrayVally on web development, UI/UX design, performance optimization, and cloud-native infrastructure.",
+  },
 };
 
 const posts = [

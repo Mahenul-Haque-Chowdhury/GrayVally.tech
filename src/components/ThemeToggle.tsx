@@ -4,33 +4,25 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    if (typeof window === "undefined") return "dark";
+
+    const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
+    if (savedTheme) return savedTheme;
+
+    const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return systemPrefersDark ? "dark" : "light";
+  });
 
   useEffect(() => {
-    // Check localStorage or system preference
-    const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
-    const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-    if (savedTheme) {
-      setTheme(savedTheme);
-      document.documentElement.classList.add(`theme-${savedTheme}`);
-    } else if (systemPrefersDark) {
-      setTheme("dark");
-      document.documentElement.classList.add("theme-dark");
-    } else {
-      setTheme("light");
-      document.documentElement.classList.add("theme-light");
-    }
-  }, []);
+    document.documentElement.classList.remove("theme-dark", "theme-light");
+    document.documentElement.classList.add(`theme-${theme}`);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   const toggleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
-    
-    document.documentElement.classList.remove("theme-dark", "theme-light");
-    document.documentElement.classList.add(`theme-${newTheme}`);
-    
-    localStorage.setItem("theme", newTheme);
   };
 
   return (

@@ -19,13 +19,14 @@ const articles = {
 type ArticleKey = keyof typeof articles;
 
 type PageProps = {
-  params: { slug: ArticleKey };
+  params: Promise<{ slug: ArticleKey }>;
 };
 
 export async function generateMetadata(
   { params }: PageProps,
 ): Promise<Metadata> {
-  const article = articles[params.slug];
+  const { slug } = await params;
+  const article = articles[slug];
 
   if (!article) {
     return {
@@ -39,8 +40,9 @@ export async function generateMetadata(
   };
 }
 
-export default function BlogArticlePage({ params }: PageProps) {
-  const article = articles[params.slug];
+export default async function BlogArticlePage({ params }: PageProps) {
+  const { slug } = await params;
+  const article = articles[slug];
 
   if (!article) {
     return null;
@@ -71,7 +73,7 @@ export default function BlogArticlePage({ params }: PageProps) {
           </header>
 
           <div className="prose prose-invert prose-sm sm:prose-base max-w-none text-text-secondary">
-            {params.slug === "choose-web-development-company-bangladesh" && (
+            {slug === "choose-web-development-company-bangladesh" && (
               <>
                 <p>
                   Choosing the right <strong>web development company in Bangladesh</strong> can feel risky. There are

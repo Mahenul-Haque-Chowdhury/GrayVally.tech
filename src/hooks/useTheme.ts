@@ -1,21 +1,14 @@
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 export function useTheme() {
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
-
-  useEffect(() => {
-    // Initial check
-    const isDark = document.documentElement.classList.contains("theme-dark");
-    setTheme(isDark ? "dark" : "light");
-
-    // Observer for class changes on html element
+  const subscribe = (onStoreChange: () => void) => {
     const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
+      for (const mutation of mutations) {
         if (mutation.attributeName === "class") {
-          const isDark = document.documentElement.classList.contains("theme-dark");
-          setTheme(isDark ? "dark" : "light");
+          onStoreChange();
+          break;
         }
-      });
+      }
     });
 
     observer.observe(document.documentElement, {
@@ -24,7 +17,12 @@ export function useTheme() {
     });
 
     return () => observer.disconnect();
-  }, []);
+  };
 
-  return theme;
+  const getSnapshot = (): "light" | "dark" =>
+    document.documentElement.classList.contains("theme-dark") ? "dark" : "light";
+
+  const getServerSnapshot = (): "light" | "dark" => "dark";
+
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
