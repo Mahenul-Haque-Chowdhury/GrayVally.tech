@@ -1,9 +1,11 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import dynamic from "next/dynamic";
 import PillNav from "./PillNav";
-import { ThemeToggle } from "./ThemeToggle";
 import "./PillNav.css";
+
+const ThemeToggle = dynamic(() => import("./ThemeToggle").then((mod) => mod.ThemeToggle), { ssr: false });
 
 const navItems = [
   { label: "Services", href: "/services" },

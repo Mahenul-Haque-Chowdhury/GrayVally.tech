@@ -1,0 +1,206 @@
+"use client";
+
+import { motion } from "framer-motion";
+import {
+  ShieldCheck,
+  Gauge,
+  Search,
+  Layers,
+  MousePointerClick,
+  CheckCircle2,
+  FileText,
+  ListChecks,
+  MessageSquare,
+} from "lucide-react";
+import { AuditRequestForm } from "@/components/AuditRequestForm";
+
+const auditAreas = [
+  {
+    title: "Performance & Core Web Vitals",
+    description: "Load times, rendering stability, and real-world responsiveness.",
+    icon: Gauge,
+  },
+  {
+    title: "UI/UX & Conversion Flow",
+    description: "Clarity, friction points, and the path to action.",
+    icon: MousePointerClick,
+  },
+  {
+    title: "Code Quality & SEO Basics",
+    description: "Maintainability signals and essential on-page foundations.",
+    icon: Search,
+  },
+  {
+    title: "Security & Best Practices",
+    description: "Common risks, hardening opportunities, and safe defaults.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Scalability & Tech Stack Review",
+    description: "Architecture fit, growth constraints, and pragmatic next steps.",
+    icon: Layers,
+  },
+];
+
+const deliverables = [
+  {
+    label: "Written audit summary (email or PDF)",
+    icon: FileText,
+  },
+  {
+    label: "Prioritized improvement list",
+    icon: ListChecks,
+  },
+  {
+    label: "Honest feasibility feedback (even if we don’t work together)",
+    icon: MessageSquare,
+  },
+];
+
+export function AuditPageContent() {
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Hero */}
+      <section className="relative pt-24 sm:pt-32 pb-8 sm:pb-10 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-surface/50 via-background to-background pointer-events-none" />
+
+        <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text-primary"
+          >
+            Complimentary Website Audit
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-5 text-sm sm:text-base md:text-lg text-text-secondary/90 leading-relaxed max-w-2xl mx-auto"
+          >
+            We review your website’s performance, UX, security, and scalability — and send you a clear, actionable
+            improvement roadmap.
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-4 text-xs sm:text-sm text-text-secondary/80"
+          >
+            Free Service • No obligation • Limited weekly audits
+          </motion.p>
+        </div>
+      </section>
+
+      {/* What We Audit */}
+      <section className="pt-8 pb-12 sm:pt-10 sm:pb-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="grid gap-8 lg:grid-cols-2 lg:items-start"
+          >
+            <div>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary">What we audit</h2>
+              <p className="mt-4 text-sm sm:text-base text-text-secondary/90 leading-relaxed max-w-xl">
+                A fast, focused review designed to highlight high-impact improvements — without noise.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-border/40 bg-background/50 backdrop-blur-sm p-6 sm:p-8">
+              <ul className="space-y-3">
+                {auditAreas.map((item) => (
+                  <li key={item.title} className="flex items-start gap-3">
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 text-green-400 flex-shrink-0" aria-hidden />
+                    <span className="mt-0.5 flex h-9 w-9 items-center justify-center rounded-xl bg-surface/40 border border-border/30 flex-shrink-0">
+                      <item.icon className="h-5 w-5 text-blue-400" aria-hidden />
+                    </span>
+                    <div>
+                      <p className="text-sm sm:text-base font-semibold text-text-primary">{item.title}</p>
+                      <p className="mt-1 text-sm text-text-secondary/85 leading-relaxed">{item.description}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* What You Receive */}
+      <section className="py-12 sm:py-16 bg-surface/30">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="grid gap-8 lg:grid-cols-2 lg:items-start"
+          >
+            <div>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary">What you receive</h2>
+              <p className="mt-4 text-sm sm:text-base text-text-secondary/90 leading-relaxed max-w-xl">
+                You’ll get a concise, decision-ready view of what to fix first — and what’s not worth your time.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-border/40 bg-background/50 backdrop-blur-sm p-6 sm:p-8">
+              <ul className="space-y-3">
+                {deliverables.map((item) => (
+                  <li key={item.label} className="flex items-start gap-3">
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 text-green-400 flex-shrink-0" aria-hidden />
+                    <span className="mt-0.5 flex h-9 w-9 items-center justify-center rounded-xl bg-surface/40 border border-border/30 flex-shrink-0">
+                      <item.icon className="h-5 w-5 text-blue-400" aria-hidden />
+                    </span>
+                    <span className="text-sm sm:text-base text-text-secondary/90">{item.label}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Request Form */}
+      <section className="py-12 sm:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="grid gap-8 lg:grid-cols-2 lg:items-start"
+          >
+            <div>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary">Request an audit</h2>
+              <p className="mt-4 text-sm sm:text-base text-text-secondary/90 leading-relaxed max-w-xl">
+                Share your website and what you’re aiming to improve. We’ll reply with next steps and a timeline.
+              </p>
+
+              <div className="mt-8 rounded-2xl border border-border/40 bg-surface/10 backdrop-blur-sm p-6">
+                <div className="flex items-start gap-4">
+                  <div className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-xl bg-surface/40 border border-border/30">
+                    <CheckCircle2 className="h-5 w-5 text-blue-400" aria-hidden />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-text-primary">What happens next</p>
+                    <p className="mt-2 text-sm text-text-secondary/85 leading-relaxed">
+                      We’ll confirm your request, review the site, and send a clear, actionable roadmap.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <AuditRequestForm />
+          </motion.div>
+        </div>
+      </section>
+    </div>
+  );
+}

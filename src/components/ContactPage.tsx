@@ -1,10 +1,12 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { Facebook, Instagram, Linkedin, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { allServices } from "@/data/services";
 import { socialProfiles } from "@/data/socials";
+import { FORMSPREE_ENDPOINT } from "@/lib/formspree";
 
 const dialingCodes = [
   "+1",
@@ -236,7 +238,7 @@ export function Contact() {
     const formData = new FormData(form);
 
     try {
-      const response = await fetch("https://formspree.io/f/xovgnknl", {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -388,9 +390,16 @@ export function Contact() {
                 name="agreement"
                 className="mt-1 h-4 w-4 rounded border-border bg-surface text-accent focus:ring-accent"
               />
-              <label htmlFor="agreement" className="text-xs text-text-secondary">
-                I agree that my information may be used to contact me about this
-                inquiry. Your details will never be shared or sold.
+              <label htmlFor="agreement" className="text-xs text-text-secondary leading-relaxed">
+                By submitting this form, you agree to our{" "}
+                <Link href="/terms-of-service" className="text-text-primary hover:text-blue-400 transition-colors">
+                  Terms
+                </Link>{" "}
+                &amp; acknowledge our{" "}
+                <Link href="/privacy-policy" className="text-text-primary hover:text-blue-400 transition-colors">
+                  Privacy Policy
+                </Link>
+                . You agree that your information may be used to contact me about this inquiry.
               </label>
             </div>
 

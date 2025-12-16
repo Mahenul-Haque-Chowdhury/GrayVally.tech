@@ -92,18 +92,18 @@ export function Hero() {
               <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-blue-500 to-cyan-500 transition-transform duration-300 group-hover:translate-x-0" />
             </Link>
             <Link
-              href="#services"
-              className="group inline-flex items-center justify-center gap-2 rounded-full border border-border/60 bg-surface/20 backdrop-blur-sm px-6 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base font-semibold text-text-primary transition-all duration-300 hover:border-text-secondary/50 hover:bg-surface/40"
+              href="/audit"
+              className="group inline-flex items-center justify-center gap-2 rounded-full border border-border/60 bg-transparent backdrop-blur-sm px-6 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base font-semibold text-text-primary transition-all duration-300 hover:border-text-secondary/50 hover:bg-surface/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
-              <span>Explore Services</span>
+              <span>Complimentary Website Audit</span>
               <svg
-                className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5"
+                className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
                 strokeWidth={2}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </Link>
           </motion.div>
