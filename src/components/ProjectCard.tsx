@@ -44,7 +44,7 @@ export function ProjectCard({ project, index, onPreview }: ProjectCardProps) {
            {/* Live Website Preview - Scaled for Desktop View */}
            <div className="relative h-full w-full bg-white overflow-hidden">
              {project.link && project.useScreenshot !== false ? (
-               <div className="h-[200%] w-[200%] origin-top-left scale-50">
+               <div className="h-[400%] w-[400%] origin-top-left scale-[0.25]">
                  <iframe
                    src={project.link}
                    title={project.project}
