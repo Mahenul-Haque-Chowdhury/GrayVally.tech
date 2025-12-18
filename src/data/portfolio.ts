@@ -39,7 +39,6 @@ export const projects: Project[] = [
     featured: true,
     image: "https://image.thum.io/get/width/1200/crop/750/noanimate/https://www.grayvally.tech/",
     color: "from-indigo-600 to-violet-600",
-    useScreenshot: false
   },
   {
     id: 3,
