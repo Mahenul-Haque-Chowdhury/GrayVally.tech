@@ -3,10 +3,14 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { getAllProjects } from "@/data/portfolio";
-import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import ProjectPreviewModal from "./ProjectPreviewModal";
+import { ProjectCard } from "./ProjectCard";
 
 export function PortfolioPageContent() {
   const projects = getAllProjects();
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   return (
     <>
@@ -106,83 +110,14 @@ export function PortfolioPageContent() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-surface/20 to-transparent pointer-events-none" />
 
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="grid gap-4 sm:gap-6 grid-cols-2 md:grid-cols-2">
+          <div className="grid gap-12 sm:gap-16 md:gap-20 grid-cols-1 md:grid-cols-2">
             {projects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-                className="group relative rounded-xl sm:rounded-2xl border border-border/40 bg-surface/20 backdrop-blur-sm p-5 sm:p-6 md:p-8 transition-all duration-300 hover:border-border/80 hover:bg-surface/40 hover:shadow-lg hover:shadow-blue-500/5"
-              >
-                <span className="absolute top-4 right-4 sm:top-6 sm:right-6 font-mono text-xs sm:text-sm text-text-secondary/60 bg-background/50 px-2 py-1 rounded-md border border-border/30">
-                  {project.year}
-                </span>
-
-                <div className="mb-3 sm:mb-5 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg sm:rounded-xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-border/30 transition-all duration-300 group-hover:from-blue-500/20 group-hover:to-cyan-500/20 group-hover:border-blue-500/30">
-                  <span className="font-mono text-lg sm:text-xl font-bold text-blue-400 transition-colors duration-300 group-hover:text-cyan-400">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                </div>
-
-                <div className="pr-10 sm:pr-16">
-                  <h3 className="text-base sm:text-xl md:text-2xl font-semibold text-text-primary transition-colors duration-300 group-hover:text-blue-400 line-clamp-2 sm:line-clamp-none">
-                    {project.client}
-                  </h3>
-                  <p className="mt-1 text-xs sm:text-base text-text-secondary/80 line-clamp-2 sm:line-clamp-none">
-                    {project.project}
-                  </p>
-                  {project.description && (
-                    <>
-                      <p className="mt-2 text-xs sm:text-sm text-text-secondary/60 hidden sm:block">
-                        {project.description}
-                      </p>
-                      <details className="mt-2 text-[11px] text-text-secondary/70 sm:hidden">
-                        <summary className="cursor-pointer select-none font-semibold text-blue-400 flex items-center gap-1">
-                          <span>Show details</span>
-                        </summary>
-                        <p className="mt-2 text-[11px] leading-relaxed text-text-secondary/80">
-                          {project.description}
-                        </p>
-                      </details>
-                    </>
-                  )}
-                </div>
-
-                {project.technologies && project.technologies.length > 0 && (
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {project.technologies.map((tech, techIndex) => (
-                      <span
-                        key={techIndex}
-                        className="text-[10px] sm:text-xs text-text-secondary/70 bg-background/50 px-2 py-0.5 sm:py-1 rounded border border-border/30"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                )}
-
-                <div className="mt-4 sm:mt-5 pt-4 sm:pt-5 border-t border-border/30 flex flex-wrap items-center justify-between gap-3">
-                  <span className="inline-flex items-center rounded-full bg-gradient-to-r from-blue-500/10 to-cyan-500/10 px-3 sm:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs font-medium text-blue-400 border border-blue-500/20">
-                    {project.role}
-                  </span>
-
-                  {project.link && (
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-text-secondary hover:text-blue-400 transition-colors duration-300"
-                    >
-                      <span>Visit project</span>
-                      <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4" />
-                    </a>
-                  )}
-                </div>
-
-                <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-500/5 via-transparent to-cyan-500/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none" />
-              </motion.div>
+              <ProjectCard 
+                key={project.id} 
+                project={project} 
+                index={index} 
+                onPreview={(url) => setPreviewUrl(url)}
+              />
             ))}
           </div>
         </div>
@@ -212,6 +147,11 @@ export function PortfolioPageContent() {
           </motion.div>
         </div>
       </section>
+
+      <ProjectPreviewModal 
+        url={previewUrl} 
+        onClose={() => setPreviewUrl(null)} 
+      />
     </>
   );
 }
