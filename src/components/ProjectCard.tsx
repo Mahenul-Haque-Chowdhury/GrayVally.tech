@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Project } from "@/data/portfolio";
 import { ExternalLink, Globe, Eye } from "lucide-react";
+import { useState } from "react";
 
 interface ProjectCardProps {
   project: Project;
@@ -12,6 +13,8 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project, index, onPreview }: ProjectCardProps) {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -19,6 +22,8 @@ export function ProjectCard({ project, index, onPreview }: ProjectCardProps) {
       viewport={{ once: true, margin: "-100px" }}
       transition={{ delay: index * 0.1, duration: 0.7, ease: "easeOut" }}
       className="group flex flex-col gap-6"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Browser Frame / Image Container */}
       <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border/40 bg-surface/30 backdrop-blur-sm shadow-2xl transition-all duration-500 group-hover:border-blue-500/30 group-hover:shadow-blue-500/10">
@@ -43,7 +48,7 @@ export function ProjectCard({ project, index, onPreview }: ProjectCardProps) {
         <div className="relative h-full w-full overflow-hidden bg-surface/50 pt-10">
            {/* Live Website Preview - Scaled for Desktop View */}
            <div className="relative h-full w-full bg-white overflow-hidden">
-             {project.link && project.useScreenshot !== false ? (
+             {project.link && project.useScreenshot !== false && isHovered ? (
                <div className="h-[400%] w-[400%] origin-top-left scale-[0.25]">
                  <iframe
                    src={project.link}

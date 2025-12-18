@@ -18,7 +18,7 @@ export default function ProjectPreviewModal({ url, onClose }: ProjectPreviewModa
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[150] flex items-center justify-center p-4 md:p-8 bg-black/90 backdrop-blur-xl"
+          className="fixed inset-0 z-[150] flex items-center justify-center p-4 md:p-8 bg-black/90 backdrop-blur-sm"
         >
           <motion.div
             initial={{ scale: 0.9, y: 20 }}
@@ -88,6 +88,8 @@ export default function ProjectPreviewModal({ url, onClose }: ProjectPreviewModa
                   src={url} 
                   className="w-full h-full border-none"
                   title="Project Preview"
+                  sandbox="allow-scripts allow-same-origin allow-forms"
+                  loading="lazy"
                 />
               </div>
               {/* Loading State */}
