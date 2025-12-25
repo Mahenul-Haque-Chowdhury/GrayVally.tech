@@ -17,6 +17,7 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: "GrayVally | Web Development & UI/UX Agency in Bangladesh",
+  applicationName: "GrayVally",
   description:
     "GrayVally builds fast, scalable websites and web apps with modern web development, UI/UX design, and cloud-native infrastructure for startups and businesses.",
   metadataBase: new URL("https://grayvally.tech"),
@@ -45,10 +46,15 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      { url: "/favicon.ico" },
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
     ],
-    apple: "/apple-touch-icon.png",
+    apple: [
+      { url: "/apple-touch-icon.png" },
+    ],
   },
 };
 
@@ -71,12 +77,16 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebSite",
               name: "GrayVally",
+              alternateName: ["GrayVally Tech", "GrayVally Agency"],
               url: "https://grayvally.tech",
               description: "GrayVally builds fast, scalable websites and web apps with modern web development, UI/UX design, and cloud-native infrastructure for startups and businesses.",
               publisher: {
                 "@type": "Organization",
                 name: "GrayVally",
-                logo: "https://grayvally.tech/GrayVally.png",
+                logo: {
+                  "@type": "ImageObject",
+                  "url": "https://grayvally.tech/GrayVally.png"
+                }
               },
             }),
           }}
