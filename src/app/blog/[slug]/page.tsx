@@ -141,7 +141,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                   </li>
                 </ul>
                 <p>
-                  At GrayVally, our background is in <Link href="/services">web development and digital
+                  At GrayVally, our background is in <Link href="/web-solutions">web development and digital
                   infrastructure</Link>, so we design from day one for speed, resilience, and observability—not just
                   visuals.
                 </p>
@@ -235,7 +235,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                 </ul>
                 <p>
                   If that sounds like what you&apos;re looking for, you can learn more about how we work on our
-                  <Link href="/services">Services</Link> page and see real results on our
+                  <Link href="/web-solutions">Web Solutions</Link> page and see real results on our
                   <Link href="/portfolio">Portfolio</Link>. When you&apos;re ready to start a conversation, reach out
                   through our <Link href="/contact">contact page</Link>—we&apos;d be happy to discuss your project.
                 </p>

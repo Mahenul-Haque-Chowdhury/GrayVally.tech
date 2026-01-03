@@ -1,5 +1,6 @@
  .logoloop {
   position: relative;
+  overflow: hidden;
 
   --logoloop-gap: 40px;
   --logoloop-logoHeight: 32px;

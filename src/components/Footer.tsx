@@ -16,12 +16,12 @@ import { socialProfiles } from "@/data/socials";
 
 const footerLinks = {
   services: [
-    { name: "Website Development", href: "/services" },
-    { name: "UI/UX Design", href: "/services" },
-    { name: "Mobile App Development", href: "/services" },
-    { name: "E-Commerce Solutions", href: "/services" },
-    { name: "Custom Software", href: "/services" },
-    { name: "SEO & Marketing", href: "/services" },
+    { name: "Website Development", href: "/web-solutions" },
+    { name: "UI/UX Design", href: "/web-solutions" },
+    { name: "Mobile App Development", href: "/web-solutions" },
+    { name: "E-Commerce Solutions", href: "/web-solutions" },
+    { name: "Custom Software", href: "/software-solutions" },
+    { name: "SEO & Marketing", href: "/web-solutions" },
   ],
   company: [
     { name: "About Us", href: "/#about" },

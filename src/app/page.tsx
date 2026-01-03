@@ -3,6 +3,9 @@ import { NavBar } from "@/components/NavBar";
 import { Hero } from "@/components/Hero";
 import { Footer } from "@/components/Footer";
 import { ServicesSkeleton } from "@/components/ServicesSkeleton";
+import { ProductTicker } from "@/components/ProductTicker";
+import { FeaturedProducts } from "@/components/FeaturedProducts";
+import { TechStack } from "@/components/TechStack";
 
 const Services = dynamic(() => import("@/components/Services").then((m) => m.Services), {
   loading: () => <ServicesSkeleton />,
@@ -25,6 +28,9 @@ export default function Home() {
     <main id="main-content" className="bg-background min-h-screen transition-colors duration-300">
       <NavBar />
       <Hero />
+      <ProductTicker />
+      <FeaturedProducts />
+      <TechStack />
       <Services />
       <Portfolio />
       <About showOnlyPreview />

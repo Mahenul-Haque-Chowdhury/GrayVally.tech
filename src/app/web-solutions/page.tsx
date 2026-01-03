@@ -4,20 +4,20 @@ import { Footer } from "@/components/Footer";
 import { ServicesPageContent } from "@/components/ServicesPageContent";
 
 export const metadata: Metadata = {
-  title: "Web Development, UI/UX & Cloud Services | GrayVally",
+  title: "Web Solutions | GrayVally",
   description:
     "Explore GrayVally's web development, UI/UX design, cloud infrastructure, and performance optimization services for startups and growing businesses.",
   openGraph: {
-    title: "Web Development, UI/UX & Cloud Services | GrayVally",
+    title: "Web Solutions | GrayVally",
     description:
       "Explore GrayVally's web development, UI/UX design, cloud infrastructure, and performance optimization services for startups and growing businesses.",
-    url: "https://grayvally.tech/services",
+    url: "https://grayvally.tech/web-solutions",
     siteName: "GrayVally",
     type: "website",
   },
   twitter: {
     card: "summary",
-    title: "Web Development, UI/UX & Cloud Services | GrayVally",
+    title: "Web Solutions | GrayVally",
     description:
       "Explore GrayVally's web development, UI/UX design, cloud infrastructure, and performance optimization services for startups and growing businesses.",
   },

@@ -21,9 +21,9 @@ export function Hero() {
         aria-hidden
       />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 w-full">
+      <div className="relative z-10 mx-auto max-w-screen-2xl px-4 sm:px-6 w-full">
         {/* Main Hero Content */}
-        <div className="flex flex-col items-center text-center pt-24 sm:pt-28 md:pt-32">
+        <div className="flex flex-col items-center text-center pt-16 sm:pt-20 md:pt-16 lg:pt-12">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -156,7 +156,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-12 sm:mt-16 mb-8 flex justify-center px-2"
+          className="mt-8 sm:mt-10 mb-8 flex justify-center px-2"
         >
           <div className="hero-tech-capsule w-full max-w-4xl overflow-hidden rounded-full px-4 sm:px-6 md:px-8 py-3 sm:py-4">
             <LogoLoop

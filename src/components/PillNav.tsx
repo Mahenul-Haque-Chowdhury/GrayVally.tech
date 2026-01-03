@@ -10,6 +10,7 @@ interface NavItem {
   label: string;
   href: string;
   ariaLabel?: string;
+  children?: NavItem[];
 }
 
 interface PillNavProps {
@@ -28,6 +29,75 @@ interface PillNavProps {
   initialLoadAnimation?: boolean;
   rightContent?: React.ReactNode;
 }
+
+const DropdownItem = ({ href, label, isExternal }: { href: string, label: string, isExternal: boolean }) => {
+  const containerRef = useRef<HTMLAnchorElement>(null);
+  const circleRef = useRef<HTMLSpanElement>(null);
+  const labelRef = useRef<HTMLSpanElement>(null);
+  const hoverLabelRef = useRef<HTMLSpanElement>(null);
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const circle = circleRef.current;
+    const labelEl = labelRef.current;
+    const hoverLabel = hoverLabelRef.current;
+
+    if (!container || !circle || !labelEl || !hoverLabel) return;
+
+    const tl = gsap.timeline({ paused: true });
+    
+    // Initial states
+    gsap.set(circle, { scale: 0, transformOrigin: "50% 50%" });
+    gsap.set(hoverLabel, { yPercent: 100, opacity: 0 });
+    
+    tl.to(circle, { scale: 1, duration: 0.4, ease: "power3.out" }, 0)
+      .to(labelEl, { yPercent: -100, opacity: 0, duration: 0.4, ease: "power3.out" }, 0)
+      .to(hoverLabel, { yPercent: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 0);
+
+    tlRef.current = tl;
+
+    const onEnter = () => tl.play();
+    const onLeave = () => tl.reverse();
+
+    container.addEventListener("mouseenter", onEnter);
+    container.addEventListener("mouseleave", onLeave);
+
+    return () => {
+      container.removeEventListener("mouseenter", onEnter);
+      container.removeEventListener("mouseleave", onLeave);
+      tl.kill();
+    };
+  }, []);
+
+  const Component = isExternal ? 'a' : Link;
+  const props = isExternal ? { href, target: "_blank", rel: "noopener noreferrer" } : { href };
+
+  return (
+    <Component
+      {...props}
+      ref={containerRef}
+      className="relative block w-full overflow-hidden rounded-full px-4 py-2 text-center text-sm font-medium text-text-secondary transition-colors whitespace-nowrap"
+    >
+      {/* Hover Circle */}
+      <span
+        ref={circleRef}
+        className="absolute left-1/2 top-full -translate-x-1/2 -translate-y-1/2 h-[1000px] w-[1000px] rounded-full bg-[var(--base)] pointer-events-none z-0"
+      />
+      
+      {/* Label Stack */}
+      <span className="relative z-10 block overflow-hidden">
+        <span ref={labelRef} className="block relative px-2">{label}</span>
+        <span 
+          ref={hoverLabelRef} 
+          className="absolute inset-0 flex items-center justify-center text-[var(--hover-text)]"
+        >
+          {label}
+        </span>
+      </span>
+    </Component>
+  );
+};
 
 const PillNav = ({
   logo,
@@ -56,6 +126,7 @@ const PillNav = ({
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const navItemsRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLAnchorElement>(null);
+  const dropdownRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     const layout = () => {
@@ -140,6 +211,9 @@ const PillNav = ({
           width: "auto",
           duration: 0.6,
           ease,
+          onComplete: () => {
+            gsap.set(navItems, { overflow: "visible" });
+          },
         });
       }
     }
@@ -179,6 +253,34 @@ const PillNav = ({
       duration: 0.2,
       ease,
       overwrite: "auto",
+    });
+  };
+
+  const handleDropdownEnter = (i: number) => {
+    const dropdown = dropdownRefs.current[i];
+    if (!dropdown) return;
+    
+    gsap.to(dropdown, {
+      autoAlpha: 1,
+      y: 0,
+      scale: 1,
+      duration: 0.4,
+      ease,
+      overwrite: "auto"
+    });
+  };
+
+  const handleDropdownLeave = (i: number) => {
+    const dropdown = dropdownRefs.current[i];
+    if (!dropdown) return;
+
+    gsap.to(dropdown, {
+      autoAlpha: 0,
+      y: 10,
+      scale: 0.95,
+      duration: 0.3,
+      ease,
+      overwrite: "auto"
     });
   };
 
@@ -305,15 +407,19 @@ const PillNav = ({
           <div className="pill-nav-items" ref={navItemsRef}>
             <ul className="pill-list" role="menubar">
               {items.map((item, i) => (
-                <li key={item.href || `item-${i}`} role="none">
+                <li 
+                  key={item.href || `item-${i}`} 
+                  role="none" 
+                  className="relative"
+                  onMouseEnter={() => { handleEnter(i); handleDropdownEnter(i); }}
+                  onMouseLeave={() => { handleLeave(i); handleDropdownLeave(i); }}
+                >
                   {isExternalLink(item.href) ? (
                     <a
                       role="menuitem"
                       href={item.href}
                       className={`pill${activeHref === item.href ? " is-active" : ""}`}
                       aria-label={item.ariaLabel || item.label}
-                      onMouseEnter={() => handleEnter(i)}
-                      onMouseLeave={() => handleLeave(i)}
                     >
                       <span
                         className="hover-circle"
@@ -335,8 +441,6 @@ const PillNav = ({
                       href={item.href}
                       className={`pill${activeHref === item.href ? " is-active" : ""}`}
                       aria-label={item.ariaLabel || item.label}
-                      onMouseEnter={() => handleEnter(i)}
-                      onMouseLeave={() => handleLeave(i)}
                     >
                       <span
                         className="hover-circle"
@@ -352,6 +456,25 @@ const PillNav = ({
                         </span>
                       </span>
                     </Link>
+                  )}
+                  
+                  {item.children && (
+                    <div 
+                      className="absolute left-1/2 -translate-x-1/2 top-full pt-4 invisible opacity-0 z-50"
+                      ref={(el) => { dropdownRefs.current[i] = el; }}
+                    >
+                      <div className="bg-surface border border-border/50 rounded-2xl shadow-xl overflow-hidden min-w-[260px] w-max max-w-[90vw] max-h-[60vh] overflow-y-auto p-2 flex flex-col gap-1">
+                        {item.children.map((child, childIndex) => (
+                          <div key={childIndex}>
+                            <DropdownItem 
+                              href={child.href} 
+                              label={child.label} 
+                              isExternal={isExternalLink(child.href)} 
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   )}
                 </li>
               ))}

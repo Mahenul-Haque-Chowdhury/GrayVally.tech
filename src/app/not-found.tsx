@@ -115,10 +115,10 @@ export default function NotFound() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
             <Link
-              href="/services"
+              href="/web-solutions"
               className="text-sm text-text-secondary hover:text-blue-400 transition-colors"
             >
-              Services
+              Web Solutions
             </Link>
             <Link
               href="/#portfolio"
