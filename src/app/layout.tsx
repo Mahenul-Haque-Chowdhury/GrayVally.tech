@@ -96,6 +96,52 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
+              "@type": "ItemList",
+              "itemListElement": [
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 1,
+                  "name": "Web Solutions",
+                  "description": "Custom websites and web applications tailored to your business needs.",
+                  "url": "https://grayvally.tech/web-solutions"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 2,
+                  "name": "Software Solutions",
+                  "description": "Scalable software systems to empower your organization.",
+                  "url": "https://grayvally.tech/software-solutions"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 3,
+                  "name": "Apps",
+                  "description": "Explore useful apps and tools built by GrayVally.",
+                  "url": "https://grayvally.tech/apps"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 4,
+                  "name": "About",
+                  "description": "Learn more about GrayVally and our mission.",
+                  "url": "https://grayvally.tech/about"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 5,
+                  "name": "Contact",
+                  "description": "Get in touch with us for your next project.",
+                  "url": "https://grayvally.tech/contact"
+                }
+              ]
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
               "@type": "Organization",
               name: "GrayVally",
               url: "https://grayvally.tech",
