@@ -82,7 +82,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                 </p>
                 <p>
                   This guide is for founders, marketing leads, and business owners who don&apos;t want to become
-                  developers—they just want a clear way to evaluate partners and make a confident decision.
+                  developers. They just want a clear way to evaluate partners and make a confident decision.
                 </p>
 
                 <h2>1. Get clear on what you really need</h2>
@@ -137,12 +137,12 @@ export default async function BlogArticlePage({ params }: PageProps) {
                   </li>
                   <li>
                     <strong>Infrastructure:</strong> For apps and dashboards, do they design for scaling, monitoring,
-                    and safety—or just “it works on my laptop”?
+                    and safety, or is it just &quot;it works on my laptop&quot;?
                   </li>
                 </ul>
                 <p>
                   At GrayVally, our background is in <Link href="/web-solutions">web development and digital
-                  infrastructure</Link>, so we design from day one for speed, resilience, and observability—not just
+                  infrastructure</Link>, so we design from day one for speed, resilience, and observability, not just
                   visuals.
                 </p>
 
@@ -154,7 +154,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                 <ul>
                   <li>How do you run discovery? Who will talk to us about goals and constraints?</li>
                   <li>What does your design and development workflow look like week to week?</li>
-                  <li>How often do we see progress—weekly demos, staging URLs, or nothing until the end?</li>
+                  <li>How often do we see progress? Weekly demos, staging URLs, or nothing until the end?</li>
                   <li>What tools do you use for communication and project tracking?</li>
                 </ul>
                 <p>
@@ -185,7 +185,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                 </p>
                 <ul>
                   <li>
-                    <strong>Scope:</strong> What&apos;s actually included—strategy, design, content, infrastructure,
+                    <strong>Scope:</strong> What&apos;s actually included: strategy, design, content, infrastructure,
                     analytics, SEO, training?
                   </li>
                   <li>
@@ -237,7 +237,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                   If that sounds like what you&apos;re looking for, you can learn more about how we work on our
                   <Link href="/web-solutions">Web Solutions</Link> page and see real results on our
                   <Link href="/portfolio">Portfolio</Link>. When you&apos;re ready to start a conversation, reach out
-                  through our <Link href="/contact">contact page</Link>—we&apos;d be happy to discuss your project.
+                  through our <Link href="/contact">contact page</Link>. We&apos;d be happy to discuss your project.
                 </p>
               </>
             )}

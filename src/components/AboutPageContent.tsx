@@ -59,7 +59,7 @@ export function AboutPageContent() {
               boring details that make everything else feel fast and effortless.
             </p>
             <p className="mt-4 text-sm sm:text-base text-text-secondary leading-relaxed">
-              We sit in the space between &quot;agency&quot; and &quot;in‑house&quot;—close enough to care about your roadmap,
+              We sit in the space between &quot;agency&quot; and &quot;in‑house&quot;. Close enough to care about your roadmap,
               independent enough to tell you when the foundations need rethinking.
             </p>
           </div>

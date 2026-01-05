@@ -34,14 +34,14 @@ const teamMembers: TeamMember[] = [
     id: 2,
     name: "Mahin Mize",
     role: "Client Manager",
-    bio: "Your day-to-day point of contact—keeps communication clear, requirements aligned, and delivery moving smoothly.",
+    bio: "Your day-to-day point of contact. Keeps communication clear, requirements aligned, and delivery moving smoothly.",
     image: "/ClientManager.jpeg",
   },
   {
     id: 3,
     name: "Shafin Al Rahi",
     role: "Head of Marketing",
-    bio: "Owns growth and brand—plans campaigns, messaging, and positioning to reach the right customers.",
+    bio: "Owns growth and brand. Plans campaigns, messaging, and positioning to reach the right customers.",
     image: "/HeadofMarketting.jpeg",
   },
   {
@@ -84,7 +84,7 @@ export function About({ showOnlyPreview = false }: AboutProps) {
               </p>
               <p>
                 We believe in &quot;boring&quot; infrastructure. The best systems are the ones you don&apos;t
-                have to think about—they just work, scale, and remain secure. We bring
+                have to think about. They just work, scale, and remain secure. We bring
                 enterprise-grade engineering to agile teams.
               </p>
               <div className="pt-3">

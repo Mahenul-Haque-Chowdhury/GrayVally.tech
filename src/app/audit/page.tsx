@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Complimentary Website Audit | GrayVally",
     description:
-      "We review your website’s performance, UX, security, and scalability — and send you a clear, actionable improvement roadmap.",
+      "We review your website's performance, UX, security, and scalability, then send you a clear, actionable improvement roadmap.",
     url: "https://grayvally.tech/audit",
     siteName: "GrayVally",
     type: "website",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     card: "summary",
     title: "Complimentary Website Audit | GrayVally",
     description:
-      "We review your website’s performance, UX, security, and scalability — and send you a clear, actionable improvement roadmap.",
+      "We review your website's performance, UX, security, and scalability, then send you a clear, actionable improvement roadmap.",
   },
 };
 

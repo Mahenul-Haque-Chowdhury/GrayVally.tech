@@ -80,7 +80,7 @@ export function AuditPageContent() {
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="mt-5 text-sm sm:text-base md:text-lg text-text-secondary/90 leading-relaxed max-w-2xl mx-auto"
           >
-            We review your website’s performance, UX, security, and scalability — and send you a clear, actionable
+            We review your website&apos;s performance, UX, security, and scalability, then send you a clear, actionable
             improvement roadmap.
           </motion.p>
 
@@ -108,7 +108,7 @@ export function AuditPageContent() {
             <div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary">What we audit</h2>
               <p className="mt-4 text-sm sm:text-base text-text-secondary/90 leading-relaxed max-w-xl">
-                A fast, focused review designed to highlight high-impact improvements — without noise.
+                A fast, focused review designed to highlight high-impact improvements without the noise.
               </p>
             </div>
 
@@ -145,7 +145,7 @@ export function AuditPageContent() {
             <div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary">What you receive</h2>
               <p className="mt-4 text-sm sm:text-base text-text-secondary/90 leading-relaxed max-w-xl">
-                You’ll get a concise, decision-ready view of what to fix first — and what’s not worth your time.
+                You&apos;ll get a concise, decision-ready view of what to fix first and what&apos;s not worth your time.
               </p>
             </div>
 

@@ -64,7 +64,7 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
             className="mt-4 sm:mt-6 max-w-2xl text-sm sm:text-base md:text-lg text-text-secondary/90 leading-relaxed px-4"
           >
-            From scalable backends to pixel-perfect frontends — we architect
+            From scalable backends to pixel-perfect frontends, we architect
             resilient systems that power ambitious businesses worldwide.
           </motion.p>
 
