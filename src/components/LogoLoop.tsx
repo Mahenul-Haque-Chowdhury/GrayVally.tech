@@ -169,6 +169,7 @@ type LogoLoopProps = {
   fadeOut?: boolean;
   fadeOutColor?: string;
   scaleOnHover?: boolean;
+  colorMode?: "auto" | "brand";
   ariaLabel?: string;
   className?: string;
   style?: React.CSSProperties;
@@ -187,6 +188,7 @@ export const LogoLoop: React.FC<LogoLoopProps> = memo(
     fadeOut = false,
     fadeOutColor,
     scaleOnHover = false,
+    colorMode = "auto",
     ariaLabel = "Partner logos",
     className,
     style,
@@ -273,11 +275,12 @@ export const LogoLoop: React.FC<LogoLoopProps> = memo(
           isVertical ? "logoloop--vertical" : "logoloop--horizontal",
           fadeOut && "logoloop--fade",
           scaleOnHover && "logoloop--scale-hover",
+          colorMode === "brand" && "logoloop--brand",
           className,
         ]
           .filter(Boolean)
           .join(" "),
-      [isVertical, fadeOut, scaleOnHover, className],
+      [isVertical, fadeOut, scaleOnHover, colorMode, className],
     );
 
     const effectiveHover = useCallback(() => {

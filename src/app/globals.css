@@ -118,7 +118,7 @@ body {
 }
 
 .hero-tech-icon {
-  color: #18181b;
+  color: inherit;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -138,19 +138,7 @@ body {
   }
 }
 
-.theme-dark .hero-tech-icon,
-.theme-dark .hero-tech-icon::before {
-  color: #ffffff !important;
-  fill: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-}
 
-.theme-light .hero-tech-icon,
-.theme-light .hero-tech-icon::before {
-  color: #18181b !important;
-  fill: #18181b !important;
-  -webkit-text-fill-color: #18181b !important;
-}
 
 /* Hero tech capsule theming */
 .hero-tech-capsule {

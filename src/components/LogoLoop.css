@@ -77,20 +77,24 @@
   color: currentColor !important;
 }
 
-.theme-light .logoloop__node {
+.theme-light .logoloop:not(.logoloop--brand) .logoloop__node {
   color: #18181b;
 }
 
-.theme-light .logoloop__node i::before {
+.theme-light .logoloop:not(.logoloop--brand) .logoloop__node i::before {
   color: #18181b !important;
 }
 
-.theme-dark .logoloop__node {
+.theme-dark .logoloop:not(.logoloop--brand) .logoloop__node {
   color: #fff;
 }
 
-.theme-dark .logoloop__node i::before {
+.theme-dark .logoloop:not(.logoloop--brand) .logoloop__node i::before {
   color: #fff !important;
+}
+
+.logoloop--brand .logoloop__node i::before {
+  color: inherit !important;
 }
 
  .logoloop__item img {
@@ -103,6 +107,10 @@
   pointer-events: none;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   filter: grayscale(1) brightness(1.4);
+}
+
+.logoloop--brand .logoloop__item img {
+  filter: none;
 }
 
 .logoloop--scale-hover .logoloop__item {
