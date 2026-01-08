@@ -7,6 +7,7 @@ import { Facebook, Instagram, Linkedin, Mail, MapPin, MessageCircle, Phone } fro
 import { allServices } from "@/data/services";
 import { socialProfiles } from "@/data/socials";
 import { FORMSPREE_ENDPOINT } from "@/lib/formspree";
+import { StoreLocator } from "@/components/StoreLocator";
 
 const dialingCodes = [
   "+1",
@@ -557,6 +558,31 @@ export function Contact() {
             </div>
           </div>
         </aside>
+      </section>
+
+      <section className="mx-auto mt-10 max-w-5xl px-4 sm:px-6">
+        <div className="rounded-xl border border-border/50 bg-surface/30 p-4 sm:p-5">
+          <h2 className="text-sm font-medium text-text-primary">Our location</h2>
+          <p className="mt-1 text-xs text-text-secondary">
+            Use the search box to find our office.
+          </p>
+
+          <div className="mt-4 h-[420px] overflow-hidden rounded-lg border border-border/50">
+            <StoreLocator
+              mapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
+              locations={[
+                {
+                  title: "Majeda Garden",
+                  address1: "CHHA: 59",
+                  address2: "Dhaka 1212, Bangladesh",
+                  coords: { lat: 23.78545244379042, lng: 90.42377593809815 },
+                  placeId: "ChIJQbUOLQDHVTcRu1b_aD277nY",
+                },
+              ]}
+              className="h-full w-full"
+            />
+          </div>
+        </div>
       </section>
     </main>
   );

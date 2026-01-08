@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Shield, FileText } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -24,6 +24,23 @@ export default function DiscordBotPage() {
           <p className="text-lg text-text-secondary mb-10 max-w-lg mx-auto">
             We are building the ultimate high-quality music experience for your Discord server. Stay tuned for updates.
           </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 mb-10 justify-center">
+            <Link
+              href="/apps/discord-bot/terms-of-service"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-blue-500/10 border border-blue-500/30 hover:bg-blue-500/20 hover:border-blue-500/50 text-blue-400 font-medium transition-all"
+            >
+              <FileText className="h-4 w-4" />
+              Pr3sence Terms of Service
+            </Link>
+            <Link
+              href="/apps/discord-bot/privacy-policy"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-blue-500/10 border border-blue-500/30 hover:bg-blue-500/20 hover:border-blue-500/50 text-blue-400 font-medium transition-all"
+            >
+              <Shield className="h-4 w-4" />
+              Pr3sence Privacy Policy
+            </Link>
+          </div>
           
           <Link
             href="/"
