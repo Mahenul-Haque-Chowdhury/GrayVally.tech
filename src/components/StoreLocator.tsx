@@ -108,8 +108,10 @@ export function StoreLocator({
     <div className={className}>
       <Script type="module" src={EXTENDED_COMPONENT_LIB_SRC} strategy="afterInteractive" />
 
+      {/* @ts-expect-error - gmpx-api-loader is a custom web component */}
       <gmpx-api-loader ref={loaderRef} solution-channel={solutionChannel} />
 
+      {/* @ts-expect-error - gmpx-store-locator is a custom web component */}
       <gmpx-store-locator
         ref={locatorRef}
         map-id={mapId ?? ""}
