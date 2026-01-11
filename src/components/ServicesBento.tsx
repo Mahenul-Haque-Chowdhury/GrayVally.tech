@@ -1,17 +1,27 @@
 "use client";
 
 import { useState, useCallback, useEffect, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import Link from "next/link";
-import { allServices } from "../data/services";
-import { ArrowLeft, ArrowRight, X, LucideIcon, CheckCircle2 } from "lucide-react";
+import { ArrowRight, LucideIcon, X, CheckCircle2 } from "lucide-react";
+import {
+  Globe,
+  Palette,
+  Layout,
+  Server,
+  ShoppingCart,
+  Code2,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 
 // ============================================================================
-// Premium Web Solutions Page with Softvence-style Overlay Modal
-// - Full-screen blur overlay on service click
-// - Detailed service information
-// - Smooth animations
+// DESIGN NOTES:
+// - Bento Grid: Uses CSS Grid with varying spans for visual interest
+// - Glassmorphism: backdrop-blur, semi-transparent backgrounds, subtle borders
+// - Hover Effects: Scale + glow using box-shadow, GPU-accelerated
+// - Layout: First two cards are "featured" (larger), rest are standard
+// - Modal: Full-screen overlay with circular clip-path reveal animation
 // ============================================================================
 
 // Extended service details for the modal
@@ -87,133 +97,130 @@ const serviceDetails: Record<string, {
     process: ["Store Planning", "Design", "Development", "Payment Setup", "Launch"],
   },
   "06": {
-    tagline: "Robust data infrastructure for reliable operations",
+    tagline: "Tailored solutions that automate and scale your operations",
     features: [
-      "Database design & architecture",
-      "MySQL, MongoDB, PostgreSQL",
-      "Query optimization & indexing",
-      "Backup & disaster recovery",
-      "Server setup & maintenance",
-      "Performance monitoring",
+      "CRM & ERP systems",
+      "Workflow automation tools",
+      "Custom dashboards & analytics",
+      "Integration with existing systems",
+      "Business process optimization",
+      "Scalable architecture",
     ],
-    technologies: ["MySQL", "PostgreSQL", "MongoDB", "Redis", "AWS RDS", "Docker"],
-    process: ["Assessment", "Design", "Migration", "Optimization", "Monitoring"],
-  },
-  "07": {
-    tagline: "Keep your applications running smoothly",
-    features: [
-      "Front-end & back-end bug fixing",
-      "Performance issue resolution",
-      "Cross-browser compatibility fixes",
-      "Security patching & updates",
-      "Regular maintenance plans",
-      "24/7 emergency support",
-    ],
-    technologies: ["All modern frameworks", "Debugging tools", "Monitoring systems"],
-    process: ["Diagnosis", "Analysis", "Fix Implementation", "Testing", "Monitoring"],
-  },
-  "08": {
-    tagline: "Native experiences on every device",
-    features: [
-      "iOS & Android development",
-      "Cross-platform with Flutter & React Native",
-      "API integration & backend connectivity",
-      "Push notifications & real-time features",
-      "App Store & Play Store deployment",
-      "Ongoing maintenance & updates",
-    ],
-    technologies: ["Flutter", "React Native", "Swift", "Kotlin", "Firebase"],
-    process: ["Planning", "Design", "Development", "Testing", "Store Submission"],
-  },
-  "09": {
-    tagline: "Tailored solutions for unique business needs",
-    features: [
-      "Custom business applications",
-      "CRM & ERP development",
-      "Workflow automation",
-      "AI & ML integrations",
-      "Third-party API integrations",
-      "Legacy system modernization",
-    ],
-    technologies: ["Python", "Node.js", "TensorFlow", "OpenAI", "Zapier", "n8n"],
-    process: ["Discovery", "Design", "Development", "Integration", "Training"],
-  },
-  "11": {
-    tagline: "Get found by your ideal customers",
-    features: [
-      "On-page SEO optimization",
-      "Technical SEO audits",
-      "Content strategy & optimization",
-      "Google Ads setup & management",
-      "Meta Ads campaigns",
-      "Analytics & reporting",
-    ],
-    technologies: ["Google Analytics", "Search Console", "Ahrefs", "SEMrush", "Meta Ads"],
-    process: ["Audit", "Strategy", "Implementation", "Monitoring", "Optimization"],
-  },
-  "12": {
-    tagline: "Strategic guidance for your digital journey",
-    features: [
-      "Project planning & roadmapping",
-      "System architecture design",
-      "Technology stack selection",
-      "Business process automation",
-      "Digital transformation strategy",
-      "Ongoing advisory & mentorship",
-    ],
-    technologies: ["Miro", "Notion", "Various tech stacks"],
-    process: ["Assessment", "Strategy", "Roadmap", "Implementation Support", "Review"],
+    technologies: ["Node.js", "Python", "React", "PostgreSQL", "AWS", "Docker"],
+    process: ["Discovery", "Design", "Development", "Integration", "Deployment"],
   },
 };
 
-// Stagger animation variants for content
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.4,
-    },
-  },
-};
-
-const staggerItem = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] }
-  },
-};
-
-const contentVariants = {
-  hidden: { opacity: 0 },
-  visible: { 
-    opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.3 }
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } 
-  },
-};
-
-interface Service {
+interface BentoService {
   id: string;
   title: string;
   description: string;
   icon: LucideIcon;
   category: string;
+  featured?: boolean;
+  gradient?: string;
 }
 
+// Curated services for the bento layout with specific sizing
+const bentoServices: BentoService[] = [
+  {
+    id: "01",
+    title: "Website Development",
+    description:
+      "Custom business websites, landing pages, and portfolios crafted with modern frameworks and pixel-perfect attention to detail.",
+    icon: Globe,
+    category: "Development",
+    featured: true,
+    gradient: "from-blue-500/20 via-cyan-500/10 to-transparent",
+  },
+  {
+    id: "02",
+    title: "UI/UX Design",
+    description:
+      "Beautiful, intuitive interfaces designed for conversion. From wireframes to high-fidelity prototypes.",
+    icon: Palette,
+    category: "Design",
+    featured: true,
+    gradient: "from-violet-500/20 via-purple-500/10 to-transparent",
+  },
+  {
+    id: "03",
+    title: "Front-End Development",
+    description: "React, Next.js, Vue — pixel-perfect implementations with smooth animations.",
+    icon: Layout,
+    category: "Development",
+    gradient: "from-emerald-500/20 via-teal-500/10 to-transparent",
+  },
+  {
+    id: "04",
+    title: "Back-End Development",
+    description: "Scalable APIs, authentication, payment systems, and cloud infrastructure.",
+    icon: Server,
+    category: "Development",
+    gradient: "from-orange-500/20 via-amber-500/10 to-transparent",
+  },
+  {
+    id: "05",
+    title: "E-Commerce",
+    description: "Custom stores with seamless checkout and payment integration.",
+    icon: ShoppingCart,
+    category: "Solutions",
+    gradient: "from-pink-500/20 via-rose-500/10 to-transparent",
+  },
+  {
+    id: "06",
+    title: "Custom Software",
+    description: "CRM, ERP, and automated workflows tailored to your business.",
+    icon: Code2,
+    category: "Solutions",
+    gradient: "from-indigo-500/20 via-blue-500/10 to-transparent",
+  },
+];
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
+
+// Modal animation variants
+const contentVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { 
+    opacity: 1, 
+    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } 
+  },
+};
+
+const staggerContainer: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.05, delayChildren: 0.3 },
+  },
+};
+
+const staggerItem: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } 
+  },
+};
+
+// ============================================================================
+// Service Modal Component - Full screen overlay with circular reveal
+// ============================================================================
+
 interface ServiceModalProps {
-  service: Service;
+  service: BentoService;
   onClose: () => void;
   clickPosition: { x: number; y: number };
 }
@@ -293,13 +300,13 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
       {/* Glassmorphism gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-surface/5 via-transparent to-surface/5 pointer-events-none" />
       
-      {/* Scrollable container - this handles the scroll */}
+      {/* Scrollable container */}
       <div 
         className="absolute inset-0 overflow-y-auto overflow-x-hidden overscroll-contain"
         style={{ WebkitOverflowScrolling: 'touch' }}
         onWheel={handleWheel}
       >
-        {/* Close Button - Fixed position */}
+        {/* Close Button */}
         <motion.button
           initial={{ opacity: 0, scale: 0.5, rotate: -180 }}
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -445,7 +452,9 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
 
               {/* CTA */}
               <motion.div
-                variants={itemVariants}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7 }}
                 className="pt-8 sm:pt-10 text-center"
               >
                 <Link
@@ -467,38 +476,55 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
   );
 }
 
-interface ServiceCardProps {
-  service: Service;
+// ============================================================================
+// Bento Card Component
+// ============================================================================
+
+interface BentoCardProps {
+  service: BentoService;
   index: number;
+  className?: string;
   onClick: (event: React.MouseEvent) => void;
 }
 
-function ServiceCard({ service, index, onClick }: ServiceCardProps) {
+function BentoCard({ service, index, className, onClick }: BentoCardProps) {
   const Icon = service.icon;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      variants={cardVariants}
+      initial="hidden"
+      whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ delay: index * 0.05, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ scale: 1.02, y: -4 }}
+      transition={{ delay: index * 0.1 }}
+      whileHover={{ scale: 1.02 }}
       onClick={onClick}
       className={cn(
+        // Base glassmorphism styling - theme aware
         "group relative overflow-hidden rounded-2xl sm:rounded-3xl cursor-pointer",
         "bg-surface/20 backdrop-blur-xl",
         "border border-border/40",
+        // Padding
         "p-6 sm:p-8",
+        // Hover glow transition
         "transition-all duration-500 ease-out",
-        "hover:border-border/80 hover:bg-surface/40",
-        "hover:shadow-xl hover:shadow-blue-500/10"
+        "hover:border-border/80",
+        "hover:bg-surface/40",
+        "hover:shadow-lg hover:shadow-blue-500/10",
+        className
       )}
     >
-      {/* Gradient overlay on hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-cyan-500/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      {/* Gradient background on hover */}
+      <div
+        className={cn(
+          "absolute inset-0 bg-gradient-to-br opacity-0 transition-opacity duration-500 group-hover:opacity-100",
+          service.gradient
+        )}
+      />
 
+      {/* Content */}
       <div className="relative z-10 flex h-full flex-col">
-        {/* Header */}
+        {/* Header: Icon + Category */}
         <div className="flex items-start justify-between">
           <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-border/30 transition-all duration-300 group-hover:from-blue-500/20 group-hover:to-cyan-500/20 group-hover:border-blue-500/30">
             <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-blue-400 transition-colors duration-300 group-hover:text-cyan-400" />
@@ -508,33 +534,34 @@ function ServiceCard({ service, index, onClick }: ServiceCardProps) {
           </span>
         </div>
 
-        {/* Content */}
-        <h3 className="mt-5 sm:mt-6 text-lg sm:text-xl font-semibold text-text-primary transition-colors duration-300 group-hover:text-blue-400">
+        {/* Title */}
+        <h3 className="mt-5 sm:mt-6 text-xl sm:text-2xl font-semibold text-text-primary transition-colors duration-300 group-hover:text-blue-400">
           {service.title}
         </h3>
 
-        <p className="mt-3 text-sm text-text-secondary/80 leading-relaxed flex-grow">
+        {/* Description */}
+        <p className="mt-3 text-sm sm:text-base text-text-secondary/80 leading-relaxed transition-colors duration-300 group-hover:text-text-secondary flex-grow">
           {service.description}
         </p>
 
-        {/* Click indicator - no horizontal line */}
+        {/* Learn more link */}
         <div className="mt-6 flex items-center gap-2 text-sm font-medium text-text-secondary/50 transition-all duration-300 group-hover:text-cyan-400">
-          <span>View Details</span>
+          <span>Explore</span>
           <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
         </div>
       </div>
 
-      {/* Corner glow */}
-      <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-gradient-to-br from-blue-500/10 via-transparent to-transparent opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
+      {/* Corner accent */}
+      <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-gradient-to-br from-blue-500/5 via-transparent to-cyan-500/5 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
     </motion.div>
   );
 }
 
-export function ServicesPageContent() {
-  const [selectedService, setSelectedService] = useState<Service | null>(null);
+export function ServicesBento() {
+  const [selectedService, setSelectedService] = useState<BentoService | null>(null);
   const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 });
 
-  const handleServiceClick = useCallback((service: Service, event: React.MouseEvent) => {
+  const handleServiceClick = useCallback((service: BentoService, event: React.MouseEvent) => {
     // Get click position for the circular reveal
     setClickPosition({ x: event.clientX, y: event.clientY });
     setSelectedService(service);
@@ -548,160 +575,80 @@ export function ServicesPageContent() {
 
   return (
     <>
-      <main className="min-h-screen bg-background transition-colors duration-300">
-        {/* Hero Section */}
-        <section className="relative pt-24 sm:pt-32 pb-16 sm:pb-24 overflow-hidden">
-          {/* Background effects */}
-          <div className="absolute inset-0 bg-gradient-to-b from-surface/50 via-background to-background pointer-events-none" />
-          <div className="absolute top-20 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-[128px] pointer-events-none" />
-          <div className="absolute top-40 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-[128px] pointer-events-none" />
+      <section
+        id="services"
+        className="relative bg-background py-20 sm:py-28 md:py-36 overflow-hidden transition-colors duration-300"
+      >
+        {/* Subtle gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-surface/30 to-transparent pointer-events-none" />
 
-          <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
-            {/* Back Link */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Link
-                href="/"
-                className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary transition-colors mb-8 group"
-              >
-                <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                Back to Home
-              </Link>
-            </motion.div>
+        {/* Ambient glow */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-[128px] pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-[128px] pointer-events-none" />
 
-            {/* Header */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center max-w-4xl mx-auto"
-            >
-              <span className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-surface/30 backdrop-blur-sm px-4 py-1.5 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-text-secondary mb-6">
-                Our Services
-              </span>
-              <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text-primary">
-                Complete{" "}
-                <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-                  Digital Solutions
-                </span>
-              </h1>
-              <p className="mt-6 text-base sm:text-lg md:text-xl text-text-secondary/90 leading-relaxed max-w-2xl mx-auto">
-                From concept to deployment, we provide end-to-end services to build, scale, and maintain your digital infrastructure.
-              </p>
-            </motion.div>
+        <div className="relative z-10 mx-auto max-w-screen-xl px-4 sm:px-6">
+          {/* Section Header */}
+          <SectionHeading
+            badge="What We Do"
+            title="Engineering Excellence"
+            subtitle="Our core competencies lie in building the invisible backbone of modern digital products."
+            align="center"
+            animation="word-by-word"
+            gradientWords={[1]}
+            className="mb-14 sm:mb-20"
+          />
 
-            {/* Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="mt-12 sm:mt-16 grid grid-cols-3 gap-4 sm:gap-8 max-w-2xl mx-auto"
-            >
-              {[
-                { value: `${allServices.length}+`, label: "Services" },
-                { value: "4", label: "Categories" },
-                { value: "24/7", label: "Support" },
-              ].map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 + index * 0.1 }}
-                  className="text-center p-4 rounded-2xl bg-surface/20 border border-border/30 backdrop-blur-sm"
-                >
-                  <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary">{stat.value}</p>
-                  <p className="text-[10px] sm:text-xs text-text-secondary uppercase tracking-wider mt-1">{stat.label}</p>
-                </motion.div>
-              ))}
-            </motion.div>
+          {/* Bento Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {/* Featured cards - span 2 columns on large screens */}
+            {bentoServices.slice(0, 2).map((service, index) => (
+              <BentoCard
+                key={service.id}
+                service={service}
+                index={index}
+                onClick={(e) => handleServiceClick(service, e)}
+                className={cn(
+                  "md:col-span-1 lg:col-span-1",
+                  index === 0 && "lg:row-span-2 lg:min-h-[400px]"
+                )}
+              />
+            ))}
+
+            {/* Standard cards */}
+            {bentoServices.slice(2).map((service, index) => (
+              <BentoCard
+                key={service.id}
+                service={service}
+                index={index + 2}
+                onClick={(e) => handleServiceClick(service, e)}
+              />
+            ))}
           </div>
-        </section>
 
-        {/* All Services Grid */}
-        <section className="pt-0 pb-8 sm:pb-12">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="mb-6 sm:mb-8 text-center"
+          {/* CTA Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.6, duration: 0.6 }}
+            className="mt-14 sm:mt-20 flex justify-center"
+          >
+            <Link
+              href="/web-solutions"
+              className="group inline-flex items-center justify-center gap-2 rounded-full border border-border/60 bg-surface/30 backdrop-blur-sm px-8 py-4 text-sm sm:text-base font-semibold text-text-primary transition-all duration-300 hover:border-blue-500/50 hover:bg-surface/50 hover:shadow-lg hover:shadow-blue-500/10"
             >
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary">
-                All{" "}
-                <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-                  Services
-                </span>
-              </h2>
-              <p className="mt-4 text-text-secondary max-w-2xl mx-auto">
-                Click on any service to learn more about what we offer.
-              </p>
-            </motion.div>
-
-            <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-              {allServices.map((service, index) => (
-                <ServiceCard
-                  key={service.id}
-                  service={service}
-                  index={index}
-                  onClick={(e) => handleServiceClick(service, e)}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="py-16 sm:py-24 relative overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[128px] pointer-events-none" />
-          
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 text-center relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="p-8 sm:p-12 rounded-3xl bg-surface/20 border border-border/40 backdrop-blur-xl"
-            >
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary">
-                Ready to Build Something{" "}
-                <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-                  Amazing?
-                </span>
-              </h2>
-              <p className="mt-4 sm:mt-6 text-base sm:text-lg text-text-secondary max-w-2xl mx-auto">
-                Let&apos;s discuss how we can help bring your vision to life.
-              </p>
-              <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link
-                  href="/contact"
-                  className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-text-primary px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-background transition-all duration-300 hover:scale-105 active:scale-95"
-                >
-                  <span className="relative z-10">Start a Project</span>
-                  <ArrowRight className="relative z-10 h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-300 group-hover:translate-x-1" />
-                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-blue-500 to-cyan-500 transition-transform duration-300 group-hover:translate-x-0" />
-                </Link>
-                <Link
-                  href="/"
-                  className="group inline-flex items-center justify-center gap-2 rounded-full border border-border/60 bg-surface/30 backdrop-blur-sm px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-text-primary transition-all duration-300 hover:border-blue-500/50 hover:bg-surface/50"
-                >
-                  <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
-                  <span>Back to Home</span>
-                </Link>
-              </div>
-            </motion.div>
-          </div>
-        </section>
-      </main>
+              <span>View All Services</span>
+              <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Service Modal */}
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {selectedService && (
-          <ServiceModal 
-            service={selectedService} 
+          <ServiceModal
+            service={selectedService}
             onClose={handleCloseModal}
             clickPosition={clickPosition}
           />
@@ -710,3 +657,5 @@ export function ServicesPageContent() {
     </>
   );
 }
+
+export default ServicesBento;

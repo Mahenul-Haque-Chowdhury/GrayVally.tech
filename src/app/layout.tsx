@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import { ReactNode } from "react";
 import { PageTransition } from "@/components/PageTransition";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -171,9 +172,11 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <ErrorBoundary>
-          <PageTransition>{children}</PageTransition>
-        </ErrorBoundary>
+        <SmoothScrollProvider>
+          <ErrorBoundary>
+            <PageTransition>{children}</PageTransition>
+          </ErrorBoundary>
+        </SmoothScrollProvider>
       </body>
     </html>
   );

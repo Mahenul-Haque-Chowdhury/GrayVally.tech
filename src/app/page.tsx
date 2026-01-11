@@ -7,7 +7,7 @@ import { ProductTicker } from "@/components/ProductTicker";
 import { FeaturedProducts } from "@/components/FeaturedProducts";
 import { TechStack } from "@/components/TechStack";
 
-const Services = dynamic(() => import("@/components/Services").then((m) => m.Services), {
+const ServicesBento = dynamic(() => import("@/components/ServicesBento").then((m) => m.ServicesBento), {
   loading: () => <ServicesSkeleton />,
 });
 
@@ -31,7 +31,7 @@ export default function Home() {
       <ProductTicker />
       <FeaturedProducts />
       <TechStack />
-      <Services />
+      <ServicesBento />
       <Portfolio />
       <About showOnlyPreview />
       <Contact />
