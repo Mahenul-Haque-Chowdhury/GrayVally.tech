@@ -302,7 +302,10 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
       
       {/* Scrollable container */}
       <div 
-        className="absolute inset-0 overflow-y-auto overflow-x-hidden overscroll-contain"
+        className="absolute inset-0 overflow-y-auto overflow-x-hidden overscroll-contain touch-pan-y"
+        data-lenis-prevent
+        data-lenis-prevent-wheel
+        data-lenis-prevent-touch
         style={{ WebkitOverflowScrolling: 'touch' }}
         onWheel={handleWheel}
       >
