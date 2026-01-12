@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
 import { InvoiceMaker } from "@/components/InvoiceMaker";
+import { InvoiceGate } from "@/components/InvoiceGate";
 
 export const metadata: Metadata = {
   title: "Invoice Maker | GrayVally (Private)",
@@ -25,7 +26,9 @@ export default function InvoicePage() {
   return (
     <main className="bg-background min-h-screen transition-colors duration-300">
       <NavBar />
-      <InvoiceMaker />
+      <InvoiceGate pin="3348">
+        <InvoiceMaker />
+      </InvoiceGate>
       <Footer />
     </main>
   );
