@@ -47,6 +47,7 @@ export function NavBar() {
       logo="/GrayVally.png"
       logoAlt="GrayVally Logo"
       brandName="GrayVally"
+      brandSubtitle="Software Solutions"
       items={navItems}
       activeHref={pathname}
       ease="power3.easeOut"

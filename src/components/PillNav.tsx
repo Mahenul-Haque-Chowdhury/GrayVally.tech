@@ -17,6 +17,7 @@ interface PillNavProps {
   logo: string;
   logoAlt?: string;
   brandName?: string;
+  brandSubtitle?: string;
   items: NavItem[];
   activeHref?: string;
   className?: string;
@@ -103,6 +104,7 @@ const PillNav = ({
   logo,
   logoAlt = "Logo",
   brandName,
+  brandSubtitle,
   items,
   activeHref,
   className = "",
@@ -400,7 +402,12 @@ const PillNav = ({
               className="pill-logo-img"
             />
           </div>
-          {brandName && <span className="pill-brand-name">{brandName}</span>}
+          {(brandName || brandSubtitle) && (
+            <span className="pill-brand-title">
+              {brandName && <span className="pill-brand-name">{brandName}</span>}
+              {brandSubtitle && <span className="pill-brand-subtitle">{brandSubtitle}</span>}
+            </span>
+          )}
         </Link>
 
         <div className="pill-nav-center desktop-only">
