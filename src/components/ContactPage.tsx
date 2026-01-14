@@ -7,7 +7,7 @@ import { Facebook, Instagram, Linkedin, Mail, MapPin, MessageCircle, Phone } fro
 import { allServices } from "@/data/services";
 import { socialProfiles } from "@/data/socials";
 import { FORMSPREE_ENDPOINT } from "@/lib/formspree";
-import { StoreLocator } from "@/components/StoreLocator";
+import { FreeMap } from "@/components/FreeMap";
 
 const dialingCodes = [
   "+1",
@@ -568,15 +568,13 @@ export function Contact() {
           </p>
 
           <div className="mt-4 h-[420px] overflow-hidden rounded-lg border border-border/50">
-            <StoreLocator
-              mapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
+            <FreeMap
               locations={[
                 {
-                  title: "Majeda Garden",
-                  address1: "CHHA: 59",
+                  title: "GrayVally IT Solutions",
+                  address1: "Majeda Garden, CHHA: 59",
                   address2: "Dhaka 1212, Bangladesh",
                   coords: { lat: 23.78545244379042, lng: 90.42377593809815 },
-                  placeId: "ChIJQbUOLQDHVTcRu1b_aD277nY",
                 },
               ]}
               className="h-full w-full"
