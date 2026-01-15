@@ -441,18 +441,17 @@ function CategoryCard({
   return (
     <motion.div
       variants={cardVariants}
-      onClick={onExpand}
-      className="group relative rounded-2xl sm:rounded-3xl border border-border/40 bg-surface/30 backdrop-blur-xl overflow-hidden transition-all duration-500 hover:border-border/60 hover:shadow-xl hover:shadow-violet-500/5 cursor-pointer"
+      className="group relative rounded-2xl sm:rounded-3xl border border-border/40 bg-surface/30 backdrop-blur-xl overflow-hidden transition-all duration-500 hover:border-border/60 hover:shadow-xl hover:shadow-violet-500/5"
     >
       {/* Gradient accent line */}
       <div className={cn(
-        "absolute top-0 left-0 right-0 h-1 bg-gradient-to-r opacity-60 group-hover:opacity-100 transition-opacity",
+        "absolute top-0 left-0 right-0 h-1 bg-gradient-to-r opacity-90 group-hover:opacity-100 transition-opacity",
         category.gradient
       )} />
 
       {/* Hover overlay */}
       <div className={cn(
-        "absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-5 transition-opacity duration-500",
+        "absolute inset-0 bg-gradient-to-br opacity-10 group-hover:opacity-20 transition-opacity duration-500",
         category.gradient
       )} />
 
@@ -467,18 +466,15 @@ function CategoryCard({
               <category.icon className="h-6 w-6 sm:h-7 sm:w-7 text-white" />
             </div>
             <div>
-              <h3 className="text-lg sm:text-xl font-bold text-text-primary group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-violet-400 group-hover:to-blue-400 transition-all duration-300">
+              <h3 className={cn(
+                "text-lg sm:text-xl font-bold bg-gradient-to-r bg-clip-text text-transparent",
+                category.gradient
+              )}>
                 {category.title}
               </h3>
               <p className="text-xs sm:text-sm text-text-secondary mt-0.5">{category.tagline}</p>
             </div>
           </div>
-          <span className={cn(
-            "inline-flex items-center rounded-full px-3 py-1 text-xs font-medium text-white bg-gradient-to-r",
-            category.gradient
-          )}>
-            {category.expandedItems.length}
-          </span>
         </div>
 
         {/* Highlights */}
@@ -496,11 +492,15 @@ function CategoryCard({
           ))}
         </div>
 
-        {/* Click indicator */}
-        <div className="flex items-center justify-center gap-2 py-3 rounded-xl border border-border/40 bg-background/30 text-text-secondary group-hover:text-text-primary group-hover:border-border/60 group-hover:bg-background/50 transition-all duration-300">
-          <span className="text-sm font-medium">View All {category.expandedItems.length} Solutions</span>
+        {/* CTA */}
+        <button
+          type="button"
+          onClick={onExpand}
+          className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-border/40 bg-background/30 text-text-secondary hover:text-text-primary hover:border-border/60 hover:bg-background/50 transition-all duration-300"
+        >
+          <span className="text-sm font-medium">Learn more</span>
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-        </div>
+        </button>
       </div>
     </motion.div>
   );

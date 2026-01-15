@@ -87,7 +87,7 @@ export const metadata: Metadata = {
         url: "/grayvally-social.jpg",
         width: 1200,
         height: 630,
-        alt: "GrayVally Software Solutions – Web Development & Software Company Bangladesh",
+        alt: "GrayVally Software Solutions - Web Development & Software Company Bangladesh",
       },
     ],
     type: "website",
@@ -126,9 +126,6 @@ export const metadata: Metadata = {
     apple: [
       { url: "/apple-touch-icon.png" },
     ],
-  },
-  other: {
-    "google-site-verification": "your-google-verification-code", // Replace this with your actual code
   },
 };
 
