@@ -225,6 +225,13 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
     features: service.description.split(", "),
   };
 
+  const scrollRef = useCallback((node: HTMLDivElement | null) => {
+    if (node) {
+      // Scroll to top on mobile when modal opens
+      node.scrollTop = 0;
+    }
+  }, []);
+
   const [isOpen, setIsOpen] = useState(false);
   const [windowSize, setWindowSize] = useState({ 
     width: typeof window !== 'undefined' ? window.innerWidth : 1920, 
@@ -295,6 +302,7 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
       
       {/* Scrollable container - this handles the scroll */}
       <div 
+        ref={scrollRef}
         className="absolute inset-0 overflow-y-auto overflow-x-hidden overscroll-contain touch-pan-y"
         data-lenis-prevent
         data-lenis-prevent-wheel
@@ -302,15 +310,15 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
         style={{ WebkitOverflowScrolling: 'touch' }}
         onWheel={handleWheel}
       >
-        {/* Close Button - Fixed position */}
+        {/* Close Button - Fixed position with safe area for mobile */}
         <motion.button
           initial={{ opacity: 0, scale: 0.5, rotate: -180 }}
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
           transition={{ delay: 0.3, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           onClick={handleClose}
-          className="fixed top-6 right-6 sm:top-8 sm:right-8 z-[110] flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-surface/50 backdrop-blur-xl border border-border/50 text-text-primary shadow-2xl transition-all duration-300 hover:bg-surface/80 hover:scale-110"
+          className="fixed top-[max(1rem,env(safe-area-inset-top))] right-4 sm:top-8 sm:right-8 z-[110] flex h-10 w-10 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-surface/80 sm:bg-surface/50 backdrop-blur-xl border border-border/50 text-text-primary shadow-2xl transition-all duration-300 hover:bg-surface/80 hover:scale-110"
         >
-          <X className="h-6 w-6 sm:h-7 sm:w-7" />
+          <X className="h-5 w-5 sm:h-7 sm:w-7" />
         </motion.button>
 
         {/* Full Screen Content Container */}
@@ -321,7 +329,7 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
           className="min-h-full flex flex-col"
         >
           {/* Header - Modern centered layout */}
-          <div className="pt-16 sm:pt-20 pb-8 sm:pb-12 px-6 sm:px-8 md:px-16 lg:px-24">
+          <div className="pt-14 sm:pt-20 pb-6 sm:pb-12 px-4 sm:px-8 md:px-16 lg:px-24">
             <div className="max-w-4xl mx-auto text-center">
               {/* Icon with category badge inline */}
               <motion.div
