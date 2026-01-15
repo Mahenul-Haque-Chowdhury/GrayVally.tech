@@ -16,7 +16,7 @@ export function ProductTicker() {
 
   // Flatten all items to get a long list of keywords
   const keywords = softwareSolutionCategories.flatMap((cat) => 
-    cat.items.map((item) => item.title)
+    cat.expandedItems.map((item) => item.title)
   );
 
   const logoItems = keywords.map((keyword) => ({

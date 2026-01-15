@@ -69,10 +69,10 @@ export function FeaturedProducts() {
                 </p>
 
                 <ul className="space-y-3 mb-8">
-                  {category.items.slice(0, 3).map((item, i) => (
+                  {category.highlights.slice(0, 3).map((highlight, i) => (
                     <li key={i} className="flex items-start gap-3 text-sm text-text-secondary">
                       <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-blue-500/50" />
-                      {item.title}
+                      {highlight}
                     </li>
                   ))}
                 </ul>
