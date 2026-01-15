@@ -497,7 +497,7 @@ const PillNav = ({
               onClick={closeMobileMenu}
             />
             
-            {/* Menu Popup */}
+            {/* Menu Popup - Right aligned */}
             <motion.div
               initial={false}
               animate={{
@@ -510,15 +510,15 @@ const PillNav = ({
                 stiffness: isAnimatingOpen ? 80 : 300,
                 damping: isAnimatingOpen ? 15 : 30,
               }}
-              className="fixed top-[4rem] left-3 right-3 z-[200] rounded-2xl bg-surface/95 backdrop-blur-xl border border-border/50 shadow-2xl mobile-only overflow-hidden"
+              className="fixed top-[4rem] right-3 left-auto w-[200px] z-[200] rounded-2xl bg-surface/95 backdrop-blur-xl border border-border/50 shadow-2xl mobile-only overflow-hidden"
               style={cssVars}
             >
               {/* Menu List */}
-              <ul className="p-2 flex flex-col gap-1">
+              <ul className="p-2 flex flex-col gap-1.5">
                 {items.map((item, i) => (
                   <motion.li
                     key={item.href || `mobile-item-${i}`}
-                    initial={{ opacity: 0, x: -10 }}
+                    initial={{ opacity: 0, x: 10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.1 + i * 0.03, duration: 0.3 }}
                   >
@@ -527,10 +527,10 @@ const PillNav = ({
                         href={item.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`block py-3.5 px-4 rounded-xl text-sm font-semibold uppercase tracking-wide transition-all duration-200 ${
+                        className={`block py-3 px-4 rounded-full text-xs font-semibold uppercase tracking-wider text-center transition-all duration-200 border ${
                           activeHref === item.href
-                            ? "bg-gradient-to-r from-violet-500 to-blue-500 text-white"
-                            : "bg-background/50 text-text-primary hover:bg-background/80"
+                            ? "bg-gradient-to-r from-violet-500 to-blue-500 text-white border-transparent shadow-lg"
+                            : "bg-background/80 text-text-primary border-border/50 hover:bg-background hover:border-border"
                         }`}
                         onClick={closeMobileMenu}
                       >
@@ -539,10 +539,10 @@ const PillNav = ({
                     ) : (
                       <Link
                         href={item.href}
-                        className={`block py-3.5 px-4 rounded-xl text-sm font-semibold uppercase tracking-wide transition-all duration-200 ${
+                        className={`block py-3 px-4 rounded-full text-xs font-semibold uppercase tracking-wider text-center transition-all duration-200 border ${
                           activeHref === item.href
-                            ? "bg-gradient-to-r from-violet-500 to-blue-500 text-white"
-                            : "bg-background/50 text-text-primary hover:bg-background/80"
+                            ? "bg-gradient-to-r from-violet-500 to-blue-500 text-white border-transparent shadow-lg"
+                            : "bg-background/80 text-text-primary border-border/50 hover:bg-background hover:border-border"
                         }`}
                         onClick={closeMobileMenu}
                       >
@@ -559,7 +559,7 @@ const PillNav = ({
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3, duration: 0.3 }}
-                  className="px-4 pb-3 pt-1 flex justify-center border-t border-border/30"
+                  className="px-3 pb-3 pt-2 flex justify-center border-t border-border/30"
                 >
                   {rightContent}
                 </motion.div>
