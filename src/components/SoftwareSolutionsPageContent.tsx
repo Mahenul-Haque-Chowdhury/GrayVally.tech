@@ -1,28 +1,111 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import Link from "next/link";
-import { softwareSolutionCategories, totalSolutions, type SoftwareSolutionCategory } from "../data/softwareSolutions";
-import { ArrowLeft, ArrowRight, Check, ChevronDown, X, Sparkles } from "lucide-react";
+import { 
+  ArrowLeft, 
+  ArrowRight, 
+  Check, 
+  Sparkles, 
+  X,
+  CheckCircle2
+} from "lucide-react";
 import { cn } from "@/lib/utils";
+import { 
+  softwareSolutionCategories, 
+  totalSolutions,
+  SoftwareSolutionCategory 
+} from "@/data/softwareSolutions";
 
-// ============================================================================
-// Professional Software Solutions Page - Redesigned
-// - 6 consolidated categories with clean UX
-// - Modal/expandable detail sections
-// - Modern glassmorphic design
-// ============================================================================
+// Extended details for each category modal
+const categoryDetails: Record<string, { 
+  useCases: string[]; 
+  technologies: string[]; 
+  benefits: string[];
+}> = {
+  "core-business": {
+    useCases: [
+      "Multi-location inventory management",
+      "Automated payroll and tax filing",
+      "Real-time financial reporting",
+      "Vendor and supplier management",
+      "Customer relationship tracking",
+      "Project budget monitoring"
+    ],
+    technologies: ["SAP", "Oracle", "Microsoft Dynamics", "QuickBooks", "Zoho", "Node.js", "PostgreSQL"],
+    benefits: ["Reduce operational costs by 40%", "Automated compliance reporting", "Real-time business insights", "Streamlined workflows"]
+  },
+  "sales-operations": {
+    useCases: [
+      "Lead scoring and qualification",
+      "Sales pipeline automation",
+      "Quote and proposal generation",
+      "Territory management",
+      "Commission tracking",
+      "Customer lifecycle management"
+    ],
+    technologies: ["Salesforce", "HubSpot", "Pipedrive", "React", "GraphQL", "MongoDB"],
+    benefits: ["Increase sales by 30%", "Reduce sales cycle time", "Better lead conversion", "Accurate forecasting"]
+  },
+  "productivity-tools": {
+    useCases: [
+      "Cross-team project collaboration",
+      "Document versioning and sharing",
+      "Meeting scheduling optimization",
+      "Task delegation and tracking",
+      "Internal knowledge sharing",
+      "Remote team coordination"
+    ],
+    technologies: ["Slack", "Microsoft Teams", "Notion", "Asana", "Monday.com", "WebSocket", "Redis"],
+    benefits: ["50% faster project delivery", "Improved team collaboration", "Centralized documentation", "Reduced meeting time"]
+  },
+  "data-intelligence": {
+    useCases: [
+      "Customer behavior analysis",
+      "Predictive sales forecasting",
+      "Market trend identification",
+      "Operational efficiency metrics",
+      "Risk assessment modeling",
+      "Competitive analysis"
+    ],
+    technologies: ["Python", "TensorFlow", "Power BI", "Tableau", "Apache Spark", "Snowflake", "AWS ML"],
+    benefits: ["Data-driven decisions", "Predictive insights", "Competitive advantage", "Automated reporting"]
+  },
+  "security-compliance": {
+    useCases: [
+      "Employee access management",
+      "GDPR/HIPAA compliance tracking",
+      "Threat detection and response",
+      "Data encryption and backup",
+      "Audit trail management",
+      "Security policy enforcement"
+    ],
+    technologies: ["Okta", "Auth0", "AWS IAM", "Cloudflare", "HashiCorp Vault", "SIEM Tools"],
+    benefits: ["Zero-trust security", "Regulatory compliance", "Reduced breach risk", "Automated auditing"]
+  },
+  "industry-specific": {
+    useCases: [
+      "Patient record management (Healthcare)",
+      "Student enrollment systems (Education)",
+      "Reservation and booking (Hospitality)",
+      "Supply chain optimization (Logistics)",
+      "Donor management (Non-profit)",
+      "Case management (Legal)"
+    ],
+    technologies: ["Domain-specific APIs", "HIPAA-compliant stacks", "Custom frameworks", "Industry standards"],
+    benefits: ["Industry best practices", "Regulatory compliance", "Specialized workflows", "Sector expertise"]
+  }
+};
 
+// Animation variants
 const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.16, 1, 0.3, 1],
-    },
+  hidden: { opacity: 0, y: 20, scale: 0.95 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1,
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] }
   },
 };
 
@@ -36,136 +119,322 @@ const staggerContainer: Variants = {
   },
 };
 
-// Expanded Details Modal Component
-function DetailsModal({ 
+const staggerItem: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] }
+  },
+};
+
+const contentVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { 
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.3 }
+  },
+};
+
+// Full-screen Modal Component with circular reveal animation
+function CategoryModal({ 
   category, 
-  isOpen, 
-  onClose 
+  onClose,
+  clickPosition 
 }: { 
-  category: SoftwareSolutionCategory | null; 
-  isOpen: boolean; 
+  category: SoftwareSolutionCategory;
   onClose: () => void;
+  clickPosition: { x: number; y: number };
 }) {
-  if (!category) return null;
+  const details = categoryDetails[category.id] || {
+    useCases: category.highlights,
+    technologies: ["Custom Stack"],
+    benefits: ["Tailored to your needs"],
+  };
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [windowSize, setWindowSize] = useState({ 
+    width: typeof window !== 'undefined' ? window.innerWidth : 1920, 
+    height: typeof window !== 'undefined' ? window.innerHeight : 1080 
+  });
+
+  const maxRadius = useMemo(() => {
+    return Math.hypot(
+      Math.max(clickPosition.x, windowSize.width - clickPosition.x),
+      Math.max(clickPosition.y, windowSize.height - clickPosition.y)
+    ) * 1.5;
+  }, [clickPosition.x, clickPosition.y, windowSize.width, windowSize.height]);
+
+  useEffect(() => {
+    const timer = requestAnimationFrame(() => setIsOpen(true));
+    
+    const lenis = (window as Window & { lenis?: { stop: () => void; start: () => void } }).lenis;
+    if (lenis) lenis.stop();
+
+    const handleResize = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+    
+    window.addEventListener("resize", handleResize);
+    return () => {
+      cancelAnimationFrame(timer);
+      window.removeEventListener("resize", handleResize);
+      if (lenis) lenis.start();
+    };
+  }, []);
+
+  const handleClose = () => {
+    setIsOpen(false);
+    setTimeout(onClose, 500);
+  };
+
+  const handleWheel = (e: React.WheelEvent) => {
+    e.stopPropagation();
+  };
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50"
-          />
-          
-          {/* Modal */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-4 sm:inset-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-full sm:max-w-2xl sm:max-h-[85vh] bg-surface/95 backdrop-blur-xl border border-border/50 rounded-2xl sm:rounded-3xl shadow-2xl z-50 overflow-hidden flex flex-col"
-          >
-            {/* Modal Header */}
-            <div className={cn(
-              "relative p-6 sm:p-8 border-b border-border/30",
-              "bg-gradient-to-r",
-              category.gradient,
-              "bg-opacity-10"
-            )}>
-              <div className={cn(
-                "absolute inset-0 bg-gradient-to-r opacity-10",
-                category.gradient
-              )} />
-              <button
-                onClick={onClose}
-                className="absolute top-4 right-4 p-2 rounded-full bg-background/50 hover:bg-background/80 transition-colors"
+    <motion.div
+      initial={false}
+      animate={{
+        clipPath: isOpen
+          ? `circle(${maxRadius}px at ${clickPosition.x}px ${clickPosition.y}px)`
+          : `circle(0px at ${clickPosition.x}px ${clickPosition.y}px)`,
+      }}
+      transition={{
+        type: "spring",
+        stiffness: isOpen ? 20 : 300,
+        damping: isOpen ? 10 : 40,
+      }}
+      className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-lg"
+      onWheel={handleWheel}
+    >
+      {/* Gradient overlay */}
+      <div className={cn(
+        "absolute inset-0 bg-gradient-to-b opacity-5 pointer-events-none",
+        category.gradient
+      )} />
+      
+      {/* Scrollable container */}
+      <div 
+        className="absolute inset-0 overflow-y-auto overflow-x-hidden overscroll-contain touch-pan-y"
+        data-lenis-prevent
+        data-lenis-prevent-wheel
+        data-lenis-prevent-touch
+        style={{ WebkitOverflowScrolling: 'touch' }}
+        onWheel={handleWheel}
+      >
+        {/* Close Button */}
+        <motion.button
+          initial={{ opacity: 0, scale: 0.5, rotate: -180 }}
+          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+          transition={{ delay: 0.3, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          onClick={handleClose}
+          className="fixed top-6 right-6 sm:top-8 sm:right-8 z-[110] flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-surface/50 backdrop-blur-xl border border-border/50 text-text-primary shadow-2xl transition-all duration-300 hover:bg-surface/80 hover:scale-110"
+        >
+          <X className="h-6 w-6 sm:h-7 sm:w-7" />
+        </motion.button>
+
+        {/* Content */}
+        <motion.div 
+          variants={contentVariants}
+          initial="hidden"
+          animate={isOpen ? "visible" : "hidden"}
+          className="min-h-full flex flex-col"
+        >
+          {/* Header */}
+          <div className="pt-16 sm:pt-20 pb-8 sm:pb-12 px-6 sm:px-8 md:px-16 lg:px-24">
+            <div className="max-w-4xl mx-auto text-center">
+              {/* Icon with badge */}
+              <motion.div
+                initial={{ opacity: 0, y: -30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="inline-flex items-center gap-4 mb-8 sm:mb-10"
               >
-                <X className="h-5 w-5 text-text-secondary" />
-              </button>
-              <div className="relative flex items-center gap-4">
                 <div className={cn(
-                  "flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br",
+                  "flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-2xl bg-gradient-to-br",
                   category.gradient
                 )}>
-                  <category.icon className="h-7 w-7 text-white" />
+                  <category.icon className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
                 </div>
-                <div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-text-primary">
-                    {category.title}
-                  </h3>
-                  <p className="text-sm text-text-secondary mt-1">{category.tagline}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Modal Content */}
-            <div className="flex-1 overflow-y-auto p-6 sm:p-8">
-              <p className="text-text-secondary mb-6">{category.description}</p>
-              
-              <h4 className="text-sm font-semibold text-text-primary uppercase tracking-wider mb-4">
-                All Solutions in this Category
-              </h4>
-              
-              <div className="grid gap-3">
-                {category.expandedItems.map((item, index) => (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className="flex items-center gap-3 p-4 rounded-xl bg-background/50 border border-border/30 hover:border-border/50 transition-colors"
-                  >
-                    <div className={cn(
-                      "flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br",
-                      category.gradient
-                    )}>
-                      <Check className="h-4 w-4 text-white" />
-                    </div>
-                    <span className="font-medium text-text-primary">{item.title}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
-            {/* Modal Footer */}
-            <div className="p-6 sm:p-8 border-t border-border/30 bg-background/50">
-              <Link
-                href="/contact"
-                className={cn(
-                  "w-full inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 font-semibold text-white transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]",
-                  "bg-gradient-to-r",
+                <span className={cn(
+                  "rounded-full px-5 py-2 text-xs sm:text-sm font-medium uppercase tracking-widest text-white bg-gradient-to-r",
                   category.gradient
-                )}
+                )}>
+                  {category.expandedItems.length} Solutions
+                </span>
+              </motion.div>
+              
+              <motion.h2
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary leading-[1.1]"
               >
-                Get Started with {category.title.split(" ")[0]}
-                <ArrowRight className="h-5 w-5" />
-              </Link>
+                {category.title}
+              </motion.h2>
+              
+              <motion.p
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35, duration: 0.6 }}
+                className="mt-6 sm:mt-8 text-lg sm:text-xl md:text-2xl text-text-secondary/80 leading-relaxed max-w-2xl mx-auto font-light"
+              >
+                {category.description}
+              </motion.p>
             </div>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+          </div>
+
+          {/* Content Sections */}
+          <div className="flex-1 px-6 sm:px-8 md:px-16 lg:px-24 pb-12 sm:pb-16">
+            <div className="max-w-5xl mx-auto space-y-10 sm:space-y-12">
+              
+              {/* All Solutions */}
+              <motion.div
+                variants={staggerContainer}
+                initial="hidden"
+                animate="visible"
+              >
+                <h3 className="text-lg sm:text-xl font-medium text-text-secondary mb-5 sm:mb-6 text-center uppercase tracking-widest">
+                  Solutions Included
+                </h3>
+                <div className="grid gap-3 sm:gap-4 grid-cols-1 md:grid-cols-2">
+                  {category.expandedItems.map((item) => (
+                    <motion.div
+                      key={item.id}
+                      variants={staggerItem}
+                      className="flex items-center gap-3 p-4 sm:p-5 rounded-xl bg-surface/30 backdrop-blur-sm border border-border/30 hover:bg-surface/50 hover:border-border/50 transition-all duration-300"
+                    >
+                      <div className={cn(
+                        "flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br flex-shrink-0",
+                        category.gradient
+                      )}>
+                        <Check className="h-4 w-4 text-white" />
+                      </div>
+                      <span className="text-sm sm:text-base text-text-primary font-medium">{item.title}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Use Cases */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                <h3 className="text-lg sm:text-xl font-medium text-text-secondary mb-5 sm:mb-6 text-center uppercase tracking-widest">
+                  Use Cases
+                </h3>
+                <div className="grid gap-3 sm:gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                  {details.useCases.map((useCase, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.5 + index * 0.05 }}
+                      className="flex items-start gap-3 p-4 rounded-xl bg-surface/20 border border-border/20"
+                    >
+                      <CheckCircle2 className="h-5 w-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                      <span className="text-sm text-text-primary">{useCase}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Technologies */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="text-center"
+              >
+                <h3 className="text-lg sm:text-xl font-medium text-text-secondary mb-5 sm:mb-6 uppercase tracking-widest">
+                  Technologies We Use
+                </h3>
+                <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+                  {details.technologies.map((tech, index) => (
+                    <motion.span
+                      key={index}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.6 + index * 0.05 }}
+                      className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-surface/30 backdrop-blur-sm border border-border/30 text-sm font-medium text-text-primary hover:bg-surface/50 hover:border-border/50 transition-all duration-300"
+                    >
+                      {tech}
+                    </motion.span>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Benefits */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                className="text-center"
+              >
+                <h3 className="text-lg sm:text-xl font-medium text-text-secondary mb-5 sm:mb-6 uppercase tracking-widest">
+                  Key Benefits
+                </h3>
+                <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+                  {details.benefits.map((benefit, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.7 + index * 0.1 }}
+                      className="flex items-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full bg-surface/30 border border-border/30 text-sm font-medium text-text-primary"
+                    >
+                      <Sparkles className="h-4 w-4 text-amber-400" />
+                      {benefit}
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* CTA */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+                className="pt-8 sm:pt-10 text-center"
+              >
+                <Link
+                  href="/contact"
+                  className={cn(
+                    "group inline-flex items-center justify-center gap-3 rounded-full px-8 sm:px-10 py-3.5 sm:py-4 text-base sm:text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg bg-gradient-to-r",
+                    category.gradient
+                  )}
+                >
+                  <span>Get Started</span>
+                  <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </Link>
+                <p className="mt-3 text-sm text-text-secondary/60">
+                  Free consultation • Custom pricing
+                </p>
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </motion.div>
   );
 }
 
-// Category Card Component
+// Category Card Component - Fully clickable
 function CategoryCard({ 
   category, 
-  index,
   onExpand 
 }: { 
   category: SoftwareSolutionCategory; 
-  index: number;
-  onExpand: () => void;
+  onExpand: (e: React.MouseEvent) => void;
 }) {
   return (
     <motion.div
       variants={cardVariants}
-      className="group relative rounded-2xl sm:rounded-3xl border border-border/40 bg-surface/30 backdrop-blur-xl overflow-hidden transition-all duration-500 hover:border-border/60 hover:shadow-xl hover:shadow-violet-500/5"
+      onClick={onExpand}
+      className="group relative rounded-2xl sm:rounded-3xl border border-border/40 bg-surface/30 backdrop-blur-xl overflow-hidden transition-all duration-500 hover:border-border/60 hover:shadow-xl hover:shadow-violet-500/5 cursor-pointer"
     >
       {/* Gradient accent line */}
       <div className={cn(
@@ -173,7 +442,13 @@ function CategoryCard({
         category.gradient
       )} />
 
-      <div className="p-6 sm:p-8">
+      {/* Hover overlay */}
+      <div className={cn(
+        "absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-5 transition-opacity duration-500",
+        category.gradient
+      )} />
+
+      <div className="p-6 sm:p-8 relative z-10">
         {/* Header */}
         <div className="flex items-start justify-between gap-4 mb-6">
           <div className="flex items-center gap-4">
@@ -213,14 +488,11 @@ function CategoryCard({
           ))}
         </div>
 
-        {/* Expand Button */}
-        <button
-          onClick={onExpand}
-          className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-border/40 bg-background/30 text-text-secondary hover:text-text-primary hover:border-border/60 hover:bg-background/50 transition-all duration-300"
-        >
+        {/* Click indicator */}
+        <div className="flex items-center justify-center gap-2 py-3 rounded-xl border border-border/40 bg-background/30 text-text-secondary group-hover:text-text-primary group-hover:border-border/60 group-hover:bg-background/50 transition-all duration-300">
           <span className="text-sm font-medium">View All {category.expandedItems.length} Solutions</span>
-          <ChevronDown className="h-4 w-4" />
-        </button>
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+        </div>
       </div>
     </motion.div>
   );
@@ -228,6 +500,12 @@ function CategoryCard({
 
 export function SoftwareSolutionsPageContent() {
   const [selectedCategory, setSelectedCategory] = useState<SoftwareSolutionCategory | null>(null);
+  const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 });
+
+  const handleCardClick = (category: SoftwareSolutionCategory, e: React.MouseEvent) => {
+    setClickPosition({ x: e.clientX, y: e.clientY });
+    setSelectedCategory(category);
+  };
 
   return (
     <>
@@ -344,12 +622,11 @@ export function SoftwareSolutionsPageContent() {
               viewport={{ once: true }}
               className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3"
             >
-              {softwareSolutionCategories.map((category, index) => (
+              {softwareSolutionCategories.map((category) => (
                 <CategoryCard
                   key={category.id}
                   category={category}
-                  index={index}
-                  onExpand={() => setSelectedCategory(category)}
+                  onExpand={(e) => handleCardClick(category, e)}
                 />
               ))}
             </motion.div>
@@ -406,12 +683,16 @@ export function SoftwareSolutionsPageContent() {
         </section>
       </main>
 
-      {/* Details Modal */}
-      <DetailsModal
-        category={selectedCategory}
-        isOpen={!!selectedCategory}
-        onClose={() => setSelectedCategory(null)}
-      />
+      {/* Full-screen Modal */}
+      <AnimatePresence>
+        {selectedCategory && (
+          <CategoryModal
+            category={selectedCategory}
+            onClose={() => setSelectedCategory(null)}
+            clickPosition={clickPosition}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }
