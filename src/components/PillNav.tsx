@@ -1,11 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState, useMemo, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { gsap } from "gsap";
-import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
 import "./PillNav.css";
 
 interface NavItem {
@@ -121,8 +119,6 @@ const PillNav = ({
 }: PillNavProps) => {
   const resolvedPillTextColor = pillTextColor ?? baseColor;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 });
-  const [isAnimatingOpen, setIsAnimatingOpen] = useState(false);
   const circleRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const tlRefs = useRef<gsap.core.Timeline[]>([]);
   const activeTweenRefs = useRef<gsap.core.Tween[]>([]);
@@ -133,28 +129,6 @@ const PillNav = ({
   const navItemsRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLAnchorElement>(null);
   const dropdownRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  // Calculate window size for circular reveal
-  const [windowSize, setWindowSize] = useState({ 
-    width: typeof window !== 'undefined' ? window.innerWidth : 1920, 
-    height: typeof window !== 'undefined' ? window.innerHeight : 1080 
-  });
-
-  const maxRadius = useMemo(() => {
-    return Math.hypot(
-      Math.max(clickPosition.x, windowSize.width - clickPosition.x),
-      Math.max(clickPosition.y, windowSize.height - clickPosition.y)
-    ) * 1.5;
-  }, [clickPosition.x, clickPosition.y, windowSize.width, windowSize.height]);
-
-  // Handle window resize
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   useEffect(() => {
     const layout = () => {
@@ -312,38 +286,82 @@ const PillNav = ({
     });
   };
 
-  const closeMobileMenu = useCallback(() => {
+  const closeMobileMenu = () => {
     if (!isMobileMenuOpen) return;
     
-    setIsAnimatingOpen(false);
-    
-    // Stop Lenis smooth scroll
-    const lenis = (window as Window & { lenis?: { stop: () => void; start: () => void } }).lenis;
-    if (lenis) lenis.start();
-    
-    setTimeout(() => {
-      setIsMobileMenuOpen(false);
-    }, 500);
-  }, [isMobileMenuOpen]);
+    setIsMobileMenuOpen(false);
 
-  const toggleMobileMenu = (e: React.MouseEvent) => {
-    if (isMobileMenuOpen) {
-      closeMobileMenu();
-      return;
+    const hamburger = hamburgerRef.current;
+    const menu = mobileMenuRef.current;
+
+    if (hamburger) {
+      const lines = hamburger.querySelectorAll(".hamburger-line");
+      gsap.to(lines[0], { rotation: 0, y: 0, duration: 0.3, ease });
+      gsap.to(lines[1], { rotation: 0, y: 0, duration: 0.3, ease });
     }
-    
-    // Capture click position for circular reveal
-    setClickPosition({ x: e.clientX, y: e.clientY });
-    setIsMobileMenuOpen(true);
-    
-    // Trigger animation after state update
-    requestAnimationFrame(() => {
-      setIsAnimatingOpen(true);
-    });
-    
-    // Stop Lenis smooth scroll
-    const lenis = (window as Window & { lenis?: { stop: () => void; start: () => void } }).lenis;
-    if (lenis) lenis.stop();
+
+    if (menu) {
+      gsap.to(menu, {
+        opacity: 0,
+        y: 10,
+        scaleY: 1,
+        duration: 0.2,
+        ease,
+        transformOrigin: "top center",
+        onComplete: () => {
+          gsap.set(menu, { visibility: "hidden" });
+        },
+      });
+    }
+  };
+
+  const toggleMobileMenu = () => {
+    const newState = !isMobileMenuOpen;
+    setIsMobileMenuOpen(newState);
+
+    const hamburger = hamburgerRef.current;
+    const menu = mobileMenuRef.current;
+
+    if (hamburger) {
+      const lines = hamburger.querySelectorAll(".hamburger-line");
+      if (newState) {
+        gsap.to(lines[0], { rotation: 45, y: 3, duration: 0.3, ease });
+        gsap.to(lines[1], { rotation: -45, y: -3, duration: 0.3, ease });
+      } else {
+        gsap.to(lines[0], { rotation: 0, y: 0, duration: 0.3, ease });
+        gsap.to(lines[1], { rotation: 0, y: 0, duration: 0.3, ease });
+      }
+    }
+
+    if (menu) {
+      if (newState) {
+        gsap.set(menu, { visibility: "visible" });
+        gsap.fromTo(
+          menu,
+          { opacity: 0, y: 10, scaleY: 1 },
+          {
+            opacity: 1,
+            y: 0,
+            scaleY: 1,
+            duration: 0.3,
+            ease,
+            transformOrigin: "top center",
+          }
+        );
+      } else {
+        gsap.to(menu, {
+          opacity: 0,
+          y: 10,
+          scaleY: 1,
+          duration: 0.2,
+          ease,
+          transformOrigin: "top center",
+          onComplete: () => {
+            gsap.set(menu, { visibility: "hidden" });
+          },
+        });
+      }
+    }
 
     onMobileMenuClick?.();
   };
@@ -484,115 +502,32 @@ const PillNav = ({
         </button>
       </nav>
 
-      {/* Full-screen Mobile Menu with Circular Reveal */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={false}
-            animate={{
-              clipPath: isAnimatingOpen
-                ? `circle(${maxRadius}px at ${clickPosition.x}px ${clickPosition.y}px)`
-                : `circle(0px at ${clickPosition.x}px ${clickPosition.y}px)`,
-            }}
-            transition={{
-              type: "spring",
-              stiffness: isAnimatingOpen ? 20 : 300,
-              damping: isAnimatingOpen ? 10 : 40,
-            }}
-            className="fixed inset-0 z-[200] bg-background/98 backdrop-blur-xl mobile-only"
-          >
-            {/* Gradient background */}
-            <div className="absolute inset-0 bg-gradient-to-b from-violet-500/5 via-transparent to-blue-500/5 pointer-events-none" />
-            
-            {/* Close Button */}
-            <motion.button
-              initial={{ opacity: 0, scale: 0.5, rotate: -180 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ delay: 0.3, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              onClick={closeMobileMenu}
-              className="fixed top-[max(1rem,env(safe-area-inset-top))] right-4 z-[210] flex h-12 w-12 items-center justify-center rounded-full bg-surface/80 backdrop-blur-xl border border-border/50 text-text-primary shadow-2xl transition-all duration-300 hover:bg-surface hover:scale-110"
-            >
-              <X className="h-6 w-6" />
-            </motion.button>
-            
-            {/* Menu Content */}
-            <div className="h-full flex flex-col items-center justify-center px-6">
-              {/* Brand */}
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-                className="mb-10"
-              >
-                <Link href="/" onClick={closeMobileMenu} className="flex flex-col items-center gap-2">
-                  <div className="w-16 h-16 rounded-2xl overflow-hidden bg-surface/50 border border-border/30 p-2">
-                    <Image src={logo} alt={logoAlt} width={64} height={64} className="w-full h-full object-contain" />
-                  </div>
-                  {brandName && (
-                    <span className="text-2xl font-bold text-text-primary">{brandName}</span>
-                  )}
-                  {brandSubtitle && (
-                    <span className="text-sm text-text-secondary">{brandSubtitle}</span>
-                  )}
-                </Link>
-              </motion.div>
-              
-              {/* Navigation Links */}
-              <nav className="flex flex-col items-center gap-2 w-full max-w-xs">
-                {items.map((item, i) => (
-                  <motion.div
-                    key={item.href || `mobile-item-${i}`}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 + i * 0.05, duration: 0.4 }}
-                    className="w-full"
-                  >
-                    {isExternalLink(item.href) ? (
-                      <a
-                        href={item.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`block w-full text-center py-4 px-6 rounded-2xl text-lg font-semibold transition-all duration-300 ${
-                          activeHref === item.href
-                            ? "bg-gradient-to-r from-violet-500 to-blue-500 text-white"
-                            : "bg-surface/50 text-text-primary border border-border/30 hover:bg-surface hover:border-border/50"
-                        }`}
-                        onClick={closeMobileMenu}
-                      >
-                        {item.label}
-                      </a>
-                    ) : (
-                      <Link
-                        href={item.href}
-                        className={`block w-full text-center py-4 px-6 rounded-2xl text-lg font-semibold transition-all duration-300 ${
-                          activeHref === item.href
-                            ? "bg-gradient-to-r from-violet-500 to-blue-500 text-white"
-                            : "bg-surface/50 text-text-primary border border-border/30 hover:bg-surface hover:border-border/50"
-                        }`}
-                        onClick={closeMobileMenu}
-                      >
-                        {item.label}
-                      </Link>
-                    )}
-                  </motion.div>
-                ))}
-              </nav>
-              
-              {/* Theme Toggle */}
-              {rightContent && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 0.4 }}
-                  className="mt-8 p-4 rounded-2xl bg-surface/30 border border-border/30"
+      <div className="mobile-menu-popover mobile-only" ref={mobileMenuRef} style={cssVars}>
+        <ul className="mobile-menu-list">
+          {items.map((item, i) => (
+            <li key={item.href || `mobile-item-${i}`}>
+              {isExternalLink(item.href) ? (
+                <a
+                  href={item.href}
+                  className={`mobile-menu-link${activeHref === item.href ? " is-active" : ""}`}
+                  onClick={closeMobileMenu}
                 >
-                  {rightContent}
-                </motion.div>
+                  {item.label}
+                </a>
+              ) : (
+                <Link
+                  href={item.href}
+                  className={`mobile-menu-link${activeHref === item.href ? " is-active" : ""}`}
+                  onClick={closeMobileMenu}
+                >
+                  {item.label}
+                </Link>
               )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </li>
+          ))}
+        </ul>
+        {rightContent && <div className="mobile-menu-extras">{rightContent}</div>}
+      </div>
     </div>
   );
 };
