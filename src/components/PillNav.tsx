@@ -4,7 +4,6 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { gsap } from "gsap";
-import { motion, AnimatePresence } from "framer-motion";
 import "./PillNav.css";
 
 interface NavItem {
@@ -428,31 +427,18 @@ const PillNav = ({
         </button>
       </nav>
 
-      {/* Mobile Menu Popup */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-              className="fixed inset-0 z-[150] bg-black/20 mobile-only"
-              onClick={closeMobileMenu}
-            />
-            
-            {/* Menu Popup - Right aligned */}
-            <motion.div
-              initial={{ opacity: 0, y: -10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="fixed top-[4rem] right-3 left-auto w-[200px] z-[200] rounded-2xl bg-surface/95 backdrop-blur-xl border border-border/50 shadow-2xl mobile-only overflow-hidden"
-              style={cssVars}
-            >
-              {/* Menu List */}
-              <ul className="p-2 flex flex-col gap-1.5">
+      {/* Mobile Menu Popup - Pure CSS for performance */}
+      <div
+        className={`fixed inset-0 z-[150] bg-black/20 mobile-only transition-opacity duration-150 ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        onClick={closeMobileMenu}
+      />
+      
+      <div
+        className={`fixed top-[4rem] right-3 left-auto w-[200px] z-[200] rounded-2xl bg-surface/95 backdrop-blur-xl border border-border/50 shadow-2xl mobile-only overflow-hidden transition-all duration-150 ease-out ${isMobileMenuOpen ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' : 'opacity-0 -translate-y-2 scale-95 pointer-events-none'}`}
+        style={cssVars}
+      >
+        {/* Menu List */}
+        <ul className="p-2 flex flex-col gap-1.5">
                 {items.map((item, i) => (
                   <li key={item.href || `mobile-item-${i}`}>
                     {isExternalLink(item.href) ? (
@@ -486,16 +472,13 @@ const PillNav = ({
                 ))}
               </ul>
               
-              {/* Theme Toggle */}
-              {rightContent && (
-                <div className="px-3 pb-3 pt-2 flex justify-center border-t border-border/30">
-                  {rightContent}
-                </div>
-              )}
-            </motion.div>
-          </>
+        {/* Theme Toggle */}
+        {rightContent && (
+          <div className="px-3 pb-3 pt-2 flex justify-center border-t border-border/30">
+            {rightContent}
+          </div>
         )}
-      </AnimatePresence>
+      </div>
     </div>
   );
 };

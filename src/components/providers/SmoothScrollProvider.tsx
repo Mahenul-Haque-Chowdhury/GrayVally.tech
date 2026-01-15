@@ -35,7 +35,15 @@ export function SmoothScrollProvider({
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
-    // Initialize Lenis with configuration
+    // Disable Lenis on mobile/touch devices for better performance
+    const isMobile = typeof window !== 'undefined' && 
+      (window.innerWidth < 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0);
+    
+    if (isMobile) {
+      return; // Skip Lenis on mobile - native scroll is better
+    }
+
+    // Initialize Lenis with configuration (desktop only)
     const lenis = new Lenis({
       duration: options.duration ?? 1.2,
       easing: options.easing ?? defaultEasing,
