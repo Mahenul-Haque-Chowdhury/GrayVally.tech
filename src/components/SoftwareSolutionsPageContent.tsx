@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { motion, AnimatePresence, Variants } from "framer-motion";
+import { motion, AnimatePresence, Variants, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { 
   ArrowLeft, 
@@ -235,7 +235,7 @@ function CategoryModal({
   return (
     <motion.div
       {...animationProps}
-      className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-lg"
+      className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-sm sm:backdrop-blur-lg"
       onWheel={handleWheel}
     >
       {/* Gradient overlay */}
@@ -260,7 +260,7 @@ function CategoryModal({
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
           transition={{ delay: 0.3, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           onClick={handleClose}
-          className="fixed top-[max(1rem,env(safe-area-inset-top))] right-4 sm:top-8 sm:right-8 z-[110] flex h-10 w-10 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-surface/80 sm:bg-surface/50 backdrop-blur-xl border border-border/50 text-text-primary shadow-2xl transition-all duration-300 hover:bg-surface/80 hover:scale-110"
+          className="fixed top-[max(1rem,env(safe-area-inset-top))] right-4 sm:top-8 sm:right-8 z-[110] flex h-10 w-10 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-surface/80 sm:bg-surface/50 backdrop-blur-sm sm:backdrop-blur-xl border border-border/50 text-text-primary shadow-2xl transition-all duration-300 hover:bg-surface/80 hover:scale-110"
         >
           <X className="h-5 w-5 sm:h-7 sm:w-7" />
         </motion.button>
@@ -456,16 +456,18 @@ function CategoryModal({
 // Category Card Component - Fully clickable
 function CategoryCard({ 
   category, 
-  onExpand 
+  onExpand,
+  reduceMotion,
 }: { 
   category: SoftwareSolutionCategory; 
   onExpand: (e: React.MouseEvent) => void;
+  reduceMotion: boolean;
 }) {
   return (
     <motion.div
-      variants={cardVariants}
+      variants={reduceMotion ? undefined : cardVariants}
       onClick={onExpand}
-      className="group relative rounded-2xl sm:rounded-3xl border border-border/40 bg-surface/30 backdrop-blur-xl overflow-hidden transition-all duration-500 hover:border-border/60 hover:shadow-xl hover:shadow-violet-500/5 cursor-pointer"
+      className="group relative rounded-2xl sm:rounded-3xl border border-border/40 bg-surface/30 backdrop-blur-sm sm:backdrop-blur-xl overflow-hidden transition-all duration-500 hover:border-border/60 hover:shadow-xl hover:shadow-violet-500/5 cursor-pointer"
     >
       {/* Gradient accent line */}
       <div className={cn(
@@ -532,11 +534,31 @@ function CategoryCard({
 export function SoftwareSolutionsPageContent() {
   const [selectedCategory, setSelectedCategory] = useState<SoftwareSolutionCategory | null>(null);
   const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState(false);
+  const reduceMotion = useReducedMotion();
+  const isMotionReduced = reduceMotion || isMobile;
 
-  const handleCardClick = (category: SoftwareSolutionCategory, e: React.MouseEvent) => {
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 767px)");
+    const handleChange = () => setIsMobile(media.matches);
+    handleChange();
+    media.addEventListener("change", handleChange);
+    return () => media.removeEventListener("change", handleChange);
+  }, []);
+
+  const handleCardClick = useCallback((category: SoftwareSolutionCategory, e: React.MouseEvent) => {
     setClickPosition({ x: e.clientX, y: e.clientY });
     setSelectedCategory(category);
-  };
+  }, []);
+
+  const stats = useMemo(
+    () => [
+      { value: `${totalSolutions}+`, label: "Total Solutions", gradient: "from-violet-500 to-purple-500" },
+      { value: `${softwareSolutionCategories.length}`, label: "Categories", gradient: "from-blue-500 to-cyan-500" },
+      { value: "100%", label: "Customizable", gradient: "from-emerald-500 to-teal-500" },
+    ],
+    []
+  );
 
   return (
     <>
@@ -545,9 +567,9 @@ export function SoftwareSolutionsPageContent() {
         <section className="relative pt-24 sm:pt-32 pb-16 sm:pb-24 overflow-hidden">
           {/* Background effects */}
           <div className="absolute inset-0 bg-gradient-to-b from-surface/50 via-background to-background pointer-events-none" />
-          <div className="absolute top-20 left-1/4 w-96 h-96 bg-violet-500/5 rounded-full blur-[128px] pointer-events-none" />
-          <div className="absolute top-40 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-[128px] pointer-events-none" />
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-t from-violet-500/5 to-transparent rounded-full blur-[100px] pointer-events-none" />
+          <div className="absolute top-20 left-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-violet-500/5 rounded-full blur-[96px] sm:blur-[128px] pointer-events-none" />
+          <div className="absolute top-40 right-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-blue-500/5 rounded-full blur-[96px] sm:blur-[128px] pointer-events-none" />
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[360px] h-[200px] sm:w-[600px] sm:h-[300px] bg-gradient-to-t from-violet-500/5 to-transparent rounded-full blur-[80px] sm:blur-[100px] pointer-events-none" />
 
           <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
             {/* Back Link */}
@@ -595,11 +617,7 @@ export function SoftwareSolutionsPageContent() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mt-12 sm:mt-16 grid grid-cols-3 gap-4 sm:gap-8 max-w-3xl mx-auto"
             >
-              {[
-                { value: `${totalSolutions}+`, label: "Total Solutions", gradient: "from-violet-500 to-purple-500" },
-                { value: `${softwareSolutionCategories.length}`, label: "Categories", gradient: "from-blue-500 to-cyan-500" },
-                { value: "100%", label: "Customizable", gradient: "from-emerald-500 to-teal-500" },
-              ].map((stat, index) => (
+              {stats.map((stat, index) => (
                 <motion.div
                   key={stat.label}
                   initial={{ opacity: 0, y: 20 }}
@@ -648,8 +666,8 @@ export function SoftwareSolutionsPageContent() {
 
             <motion.div
               variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
+              initial={isMotionReduced ? false : "hidden"}
+              whileInView={isMotionReduced ? undefined : "visible"}
               viewport={{ once: true }}
               className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3"
             >
@@ -658,6 +676,7 @@ export function SoftwareSolutionsPageContent() {
                   key={category.id}
                   category={category}
                   onExpand={(e) => handleCardClick(category, e)}
+                  reduceMotion={isMotionReduced}
                 />
               ))}
             </motion.div>
@@ -667,7 +686,7 @@ export function SoftwareSolutionsPageContent() {
         {/* CTA Section */}
         <section className="py-16 sm:py-24 relative overflow-hidden">
           {/* Background glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-violet-500/5 rounded-full blur-[150px] pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] h-[420px] sm:w-[800px] sm:h-[800px] bg-violet-500/5 rounded-full blur-[110px] sm:blur-[150px] pointer-events-none" />
           
           <div className="mx-auto max-w-4xl px-4 sm:px-6 text-center relative z-10">
             <motion.div
@@ -675,7 +694,7 @@ export function SoftwareSolutionsPageContent() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="p-8 sm:p-12 rounded-3xl bg-gradient-to-b from-surface/40 to-surface/20 border border-border/40 backdrop-blur-xl"
+              className="p-8 sm:p-12 rounded-3xl bg-gradient-to-b from-surface/40 to-surface/20 border border-border/40 backdrop-blur-sm sm:backdrop-blur-xl"
             >
               <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-4 py-1.5 text-xs font-medium text-emerald-400 mb-6">
                 <span className="relative flex h-2 w-2">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { allServices } from "../data/services";
 import { ArrowLeft, ArrowRight, X, LucideIcon, CheckCircle2 } from "lucide-react";
@@ -317,7 +317,7 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
   return (
     <motion.div
       {...animationProps}
-      className="fixed inset-0 z-[100] bg-background/10 backdrop-blur-lg"
+      className="fixed inset-0 z-[100] bg-background/10 backdrop-blur-sm sm:backdrop-blur-lg"
       onWheel={handleWheel}
     >
       {/* Glassmorphism gradient overlay */}
@@ -339,7 +339,7 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
           transition={{ delay: 0.3, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           onClick={handleClose}
-          className="fixed top-[max(1rem,env(safe-area-inset-top))] right-4 sm:top-8 sm:right-8 z-[110] flex h-10 w-10 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-surface/80 sm:bg-surface/50 backdrop-blur-xl border border-border/50 text-text-primary shadow-2xl transition-all duration-300 hover:bg-surface/80 hover:scale-110"
+          className="fixed top-[max(1rem,env(safe-area-inset-top))] right-4 sm:top-8 sm:right-8 z-[110] flex h-10 w-10 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-surface/80 sm:bg-surface/50 backdrop-blur-sm sm:backdrop-blur-xl border border-border/50 text-text-primary shadow-2xl transition-all duration-300 hover:bg-surface/80 hover:scale-110"
         >
           <X className="h-5 w-5 sm:h-7 sm:w-7" />
         </motion.button>
@@ -361,7 +361,7 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
                 transition={{ delay: 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="inline-flex items-center gap-4 mb-8 sm:mb-10"
               >
-                <div className="flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-2xl bg-surface/40 backdrop-blur-xl border border-border/40">
+                <div className="flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-2xl bg-surface/40 backdrop-blur-sm sm:backdrop-blur-xl border border-border/40">
                   <Icon className="h-8 w-8 sm:h-10 sm:w-10 text-blue-400" />
                 </div>
                 <span className="rounded-full bg-blue-500/10 backdrop-blur-sm border border-blue-500/20 px-5 py-2 text-xs sm:text-sm font-medium uppercase tracking-widest text-blue-400">
@@ -504,10 +504,11 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
 interface ServiceCardProps {
   service: Service;
   index: number;
+  reduceMotion: boolean;
   onClick: (event: React.MouseEvent) => void;
 }
 
-function ServiceCard({ service, index, onClick }: ServiceCardProps) {
+function ServiceCard({ service, index, reduceMotion, onClick }: ServiceCardProps) {
   const Icon = service.icon;
 
   return (
@@ -515,12 +516,12 @@ function ServiceCard({ service, index, onClick }: ServiceCardProps) {
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ delay: index * 0.05, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ scale: 1.02, y: -4 }}
+      transition={{ delay: index * 0.05, duration: reduceMotion ? 0.25 : 0.5, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={reduceMotion ? undefined : { scale: 1.02, y: -4 }}
       onClick={onClick}
       className={cn(
         "group relative overflow-hidden rounded-2xl sm:rounded-3xl cursor-pointer",
-        "bg-surface/20 backdrop-blur-xl",
+        "bg-surface/20 backdrop-blur-sm sm:backdrop-blur-xl",
         "border border-border/40",
         "p-6 sm:p-8",
         "transition-all duration-500 ease-out",
@@ -567,6 +568,17 @@ function ServiceCard({ service, index, onClick }: ServiceCardProps) {
 export function ServicesPageContent() {
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState(false);
+  const reduceMotion = useReducedMotion();
+  const isMotionReduced = reduceMotion || isMobile;
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 767px)");
+    const handleChange = () => setIsMobile(media.matches);
+    handleChange();
+    media.addEventListener("change", handleChange);
+    return () => media.removeEventListener("change", handleChange);
+  }, []);
 
   const handleServiceClick = useCallback((service: Service, event: React.MouseEvent) => {
     // Get click position for the circular reveal
@@ -580,6 +592,15 @@ export function ServicesPageContent() {
     document.body.style.overflow = "";
   }, []);
 
+  const stats = useMemo(
+    () => [
+      { value: `${allServices.length}+`, label: "Services" },
+      { value: "4", label: "Categories" },
+      { value: "24/7", label: "Support" },
+    ],
+    []
+  );
+
   return (
     <>
       <main className="min-h-screen bg-background transition-colors duration-300">
@@ -587,8 +608,8 @@ export function ServicesPageContent() {
         <section className="relative pt-24 sm:pt-32 pb-16 sm:pb-24 overflow-hidden">
           {/* Background effects */}
           <div className="absolute inset-0 bg-gradient-to-b from-surface/50 via-background to-background pointer-events-none" />
-          <div className="absolute top-20 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-[128px] pointer-events-none" />
-          <div className="absolute top-40 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-[128px] pointer-events-none" />
+          <div className="absolute top-20 left-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-blue-500/5 rounded-full blur-[96px] sm:blur-[128px] pointer-events-none" />
+          <div className="absolute top-40 right-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-cyan-500/5 rounded-full blur-[96px] sm:blur-[128px] pointer-events-none" />
 
           <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
             {/* Back Link */}
@@ -634,11 +655,7 @@ export function ServicesPageContent() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mt-12 sm:mt-16 grid grid-cols-3 gap-4 sm:gap-8 max-w-2xl mx-auto"
             >
-              {[
-                { value: `${allServices.length}+`, label: "Services" },
-                { value: "4", label: "Categories" },
-                { value: "24/7", label: "Support" },
-              ].map((stat, index) => (
+              {stats.map((stat, index) => (
                 <motion.div
                   key={stat.label}
                   initial={{ opacity: 0, y: 20 }}
@@ -681,6 +698,7 @@ export function ServicesPageContent() {
                   key={service.id}
                   service={service}
                   index={index}
+                  reduceMotion={isMotionReduced}
                   onClick={(e) => handleServiceClick(service, e)}
                 />
               ))}
@@ -690,7 +708,7 @@ export function ServicesPageContent() {
 
         {/* CTA Section */}
         <section className="py-16 sm:py-24 relative overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[128px] pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] sm:w-[600px] sm:h-[600px] bg-blue-500/5 rounded-full blur-[96px] sm:blur-[128px] pointer-events-none" />
           
           <div className="mx-auto max-w-4xl px-4 sm:px-6 text-center relative z-10">
             <motion.div
@@ -698,7 +716,7 @@ export function ServicesPageContent() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="p-8 sm:p-12 rounded-3xl bg-surface/20 border border-border/40 backdrop-blur-xl"
+              className="p-8 sm:p-12 rounded-3xl bg-surface/20 border border-border/40 backdrop-blur-sm sm:backdrop-blur-xl"
             >
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary">
                 Ready to Build Something{" "}
