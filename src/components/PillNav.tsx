@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { motion, AnimatePresence } from "framer-motion";
+import { X } from "lucide-react";
 import "./PillNav.css";
 
 interface NavItem {
@@ -483,54 +484,78 @@ const PillNav = ({
         </button>
       </nav>
 
-      {/* Mobile Menu Popup with Circular Reveal */}
+      {/* Full-screen Mobile Menu with Circular Reveal */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-[150] mobile-only"
-              onClick={closeMobileMenu}
-            />
+          <motion.div
+            initial={false}
+            animate={{
+              clipPath: isAnimatingOpen
+                ? `circle(${maxRadius}px at ${clickPosition.x}px ${clickPosition.y}px)`
+                : `circle(0px at ${clickPosition.x}px ${clickPosition.y}px)`,
+            }}
+            transition={{
+              type: "spring",
+              stiffness: isAnimatingOpen ? 20 : 300,
+              damping: isAnimatingOpen ? 10 : 40,
+            }}
+            className="fixed inset-0 z-[200] bg-background/98 backdrop-blur-xl mobile-only"
+          >
+            {/* Gradient background */}
+            <div className="absolute inset-0 bg-gradient-to-b from-violet-500/5 via-transparent to-blue-500/5 pointer-events-none" />
             
-            {/* Menu Popup - Right aligned */}
-            <motion.div
-              initial={false}
-              animate={{
-                clipPath: isAnimatingOpen
-                  ? `circle(150% at calc(100% - 2rem) 2rem)`
-                  : `circle(0% at calc(100% - 2rem) 2rem)`,
-              }}
-              transition={{
-                type: "spring",
-                stiffness: isAnimatingOpen ? 80 : 300,
-                damping: isAnimatingOpen ? 15 : 30,
-              }}
-              className="fixed top-[4rem] right-3 left-auto w-[200px] z-[200] rounded-2xl bg-surface/95 backdrop-blur-xl border border-border/50 shadow-2xl mobile-only overflow-hidden"
-              style={cssVars}
+            {/* Close Button */}
+            <motion.button
+              initial={{ opacity: 0, scale: 0.5, rotate: -180 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              transition={{ delay: 0.3, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              onClick={closeMobileMenu}
+              className="fixed top-[max(1rem,env(safe-area-inset-top))] right-4 z-[210] flex h-12 w-12 items-center justify-center rounded-full bg-surface/80 backdrop-blur-xl border border-border/50 text-text-primary shadow-2xl transition-all duration-300 hover:bg-surface hover:scale-110"
             >
-              {/* Menu List */}
-              <ul className="p-2 flex flex-col gap-1.5">
+              <X className="h-6 w-6" />
+            </motion.button>
+            
+            {/* Menu Content */}
+            <div className="h-full flex flex-col items-center justify-center px-6">
+              {/* Brand */}
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                className="mb-10"
+              >
+                <Link href="/" onClick={closeMobileMenu} className="flex flex-col items-center gap-2">
+                  <div className="w-16 h-16 rounded-2xl overflow-hidden bg-surface/50 border border-border/30 p-2">
+                    <Image src={logo} alt={logoAlt} width={64} height={64} className="w-full h-full object-contain" />
+                  </div>
+                  {brandName && (
+                    <span className="text-2xl font-bold text-text-primary">{brandName}</span>
+                  )}
+                  {brandSubtitle && (
+                    <span className="text-sm text-text-secondary">{brandSubtitle}</span>
+                  )}
+                </Link>
+              </motion.div>
+              
+              {/* Navigation Links */}
+              <nav className="flex flex-col items-center gap-2 w-full max-w-xs">
                 {items.map((item, i) => (
-                  <motion.li
+                  <motion.div
                     key={item.href || `mobile-item-${i}`}
-                    initial={{ opacity: 0, x: 10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 + i * 0.03, duration: 0.3 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 + i * 0.05, duration: 0.4 }}
+                    className="w-full"
                   >
                     {isExternalLink(item.href) ? (
                       <a
                         href={item.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`block py-3 px-4 rounded-full text-xs font-semibold uppercase tracking-wider text-center transition-all duration-200 border ${
+                        className={`block w-full text-center py-4 px-6 rounded-2xl text-lg font-semibold transition-all duration-300 ${
                           activeHref === item.href
-                            ? "bg-gradient-to-r from-violet-500 to-blue-500 text-white border-transparent shadow-lg"
-                            : "bg-background/80 text-text-primary border-border/50 hover:bg-background hover:border-border"
+                            ? "bg-gradient-to-r from-violet-500 to-blue-500 text-white"
+                            : "bg-surface/50 text-text-primary border border-border/30 hover:bg-surface hover:border-border/50"
                         }`}
                         onClick={closeMobileMenu}
                       >
@@ -539,33 +564,33 @@ const PillNav = ({
                     ) : (
                       <Link
                         href={item.href}
-                        className={`block py-3 px-4 rounded-full text-xs font-semibold uppercase tracking-wider text-center transition-all duration-200 border ${
+                        className={`block w-full text-center py-4 px-6 rounded-2xl text-lg font-semibold transition-all duration-300 ${
                           activeHref === item.href
-                            ? "bg-gradient-to-r from-violet-500 to-blue-500 text-white border-transparent shadow-lg"
-                            : "bg-background/80 text-text-primary border-border/50 hover:bg-background hover:border-border"
+                            ? "bg-gradient-to-r from-violet-500 to-blue-500 text-white"
+                            : "bg-surface/50 text-text-primary border border-border/30 hover:bg-surface hover:border-border/50"
                         }`}
                         onClick={closeMobileMenu}
                       >
                         {item.label}
                       </Link>
                     )}
-                  </motion.li>
+                  </motion.div>
                 ))}
-              </ul>
+              </nav>
               
               {/* Theme Toggle */}
               {rightContent && (
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3, duration: 0.3 }}
-                  className="px-3 pb-3 pt-2 flex justify-center border-t border-border/30"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5, duration: 0.4 }}
+                  className="mt-8 p-4 rounded-2xl bg-surface/30 border border-border/30"
                 >
                   {rightContent}
                 </motion.div>
               )}
-            </motion.div>
-          </>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>
