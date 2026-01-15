@@ -1,4 +1,25 @@
-User-agent: *
-Disallow:
+# robots.txt for GrayVally Software Solutions
+# https://grayvally.tech
 
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+Disallow: /private/
+
+# Google-specific directives
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Bing-specific directives
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Sitemap location
 Sitemap: https://grayvally.tech/sitemap.xml
+
+# Host directive for search engines
+Host: https://grayvally.tech

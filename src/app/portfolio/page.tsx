@@ -4,22 +4,30 @@ import { Footer } from "@/components/Footer";
 import { PortfolioPageContent } from "@/components/PortfolioPageContent";
 
 export const metadata: Metadata = {
-  title: "Web Design & Development Portfolio | GrayVally",
+  title: "Web Development Portfolio | Our Work & Case Studies",
   description:
-    "Explore GrayVally's portfolio of web design, web development, and UI/UX projects for startups and businesses.",
+    "Explore GrayVally's web development portfolio. See our best website designs, web applications, e-commerce projects, and mobile apps built for clients in Bangladesh and worldwide.",
+  keywords: [
+    "web development portfolio",
+    "website design examples",
+    "web design portfolio Bangladesh",
+    "case studies",
+    "client projects",
+    "GrayVally work"
+  ],
   openGraph: {
-    title: "Web Design & Development Portfolio | GrayVally",
+    title: "Web Development Portfolio | Our Work & Case Studies",
     description:
-      "Explore GrayVally's portfolio of web design, web development, and UI/UX projects for startups and businesses.",
+      "Explore GrayVally's web development portfolio. See our best website designs, web applications, e-commerce projects, and mobile apps.",
     url: "https://grayvally.tech/portfolio",
-    siteName: "GrayVally",
+    siteName: "GrayVally Software Solutions",
     type: "website",
   },
   twitter: {
-    card: "summary",
-    title: "Web Design & Development Portfolio | GrayVally",
+    card: "summary_large_image",
+    title: "Web Development Portfolio | Our Work & Case Studies",
     description:
-      "Explore GrayVally's portfolio of web design, web development, and UI/UX projects for startups and businesses.",
+      "Explore GrayVally's web development portfolio. See our best website designs, web applications, and client projects.",
   },
 };
 

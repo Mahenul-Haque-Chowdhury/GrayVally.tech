@@ -4,22 +4,30 @@ import { Footer } from "@/components/Footer";
 import { AboutPageContent } from "@/components/AboutPageContent";
 
 export const metadata: Metadata = {
-  title: "About GrayVally | Web Development & Digital Infrastructure Studio",
+  title: "About GrayVally Software Solutions | Web Development Company Bangladesh",
   description:
-    "Learn about GrayVally, the team behind our web development, UI/UX design, and cloud-native infrastructure projects based in Bangladesh.",
+    "Learn about GrayVally Software Solutions - a leading web development and software company in Bangladesh. Founded by Mahenul Haque Chowdhury. Expert team in React, Next.js, mobile apps, and enterprise solutions.",
+  keywords: [
+    "about GrayVally",
+    "GrayVally Software Solutions",
+    "web development company Bangladesh",
+    "Mahenul Haque Chowdhury",
+    "software company Dhaka",
+    "tech startup Bangladesh"
+  ],
   openGraph: {
-    title: "About GrayVally | Web Development & Digital Infrastructure Studio",
+    title: "About GrayVally Software Solutions | Web Development Company Bangladesh",
     description:
-      "Learn about GrayVally, the team behind our web development, UI/UX design, and cloud-native infrastructure projects based in Bangladesh.",
+      "Learn about GrayVally Software Solutions - a leading web development and software company in Bangladesh. Expert team in React, Next.js, mobile apps, and enterprise solutions.",
     url: "https://grayvally.tech/about",
-    siteName: "GrayVally",
+    siteName: "GrayVally Software Solutions",
     type: "website",
   },
   twitter: {
-    card: "summary",
-    title: "About GrayVally | Web Development & Digital Infrastructure Studio",
+    card: "summary_large_image",
+    title: "About GrayVally Software Solutions | Web Development Company Bangladesh",
     description:
-      "Learn about GrayVally, the team behind our web development, UI/UX design, and cloud-native infrastructure projects based in Bangladesh.",
+      "Learn about GrayVally Software Solutions - a leading web development and software company in Bangladesh.",
   },
 };
 

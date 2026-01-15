@@ -4,22 +4,31 @@ import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Blog | GrayVally Web Development & UI/UX Insights",
+  title: "Tech Blog | Web Development Tips & Software Insights",
   description:
-    "Articles from GrayVally on web development, UI/UX design, performance optimization, and cloud-native infrastructure.",
+    "Read GrayVally's tech blog for web development tutorials, React & Next.js tips, software development best practices, UI/UX design insights, and digital transformation guides.",
+  keywords: [
+    "web development blog",
+    "React tutorials",
+    "Next.js tips",
+    "software development insights",
+    "UI/UX design blog",
+    "tech blog Bangladesh",
+    "programming tutorials"
+  ],
   openGraph: {
-    title: "Blog | GrayVally Web Development & UI/UX Insights",
+    title: "Tech Blog | Web Development Tips & Software Insights",
     description:
-      "Articles from GrayVally on web development, UI/UX design, performance optimization, and cloud-native infrastructure.",
+      "Read GrayVally's tech blog for web development tutorials, React & Next.js tips, software development best practices, and UI/UX design insights.",
     url: "https://grayvally.tech/blog",
-    siteName: "GrayVally",
+    siteName: "GrayVally Software Solutions",
     type: "website",
   },
   twitter: {
-    card: "summary",
-    title: "Blog | GrayVally Web Development & UI/UX Insights",
+    card: "summary_large_image",
+    title: "Tech Blog | Web Development Tips & Software Insights",
     description:
-      "Articles from GrayVally on web development, UI/UX design, performance optimization, and cloud-native infrastructure.",
+      "Web development tutorials, React & Next.js tips, software development best practices from GrayVally.",
   },
 };
 

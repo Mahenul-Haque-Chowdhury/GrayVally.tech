@@ -18,25 +18,57 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "GrayVally | Web Development & UI/UX Agency in Bangladesh",
-  applicationName: "GrayVally IT Solutions",
+  title: {
+    default: "GrayVally Software Solutions | Web Development & Software Company in Bangladesh",
+    template: "%s | GrayVally Software Solutions"
+  },
+  applicationName: "GrayVally Software Solutions",
   description:
-    "GrayVally builds fast, scalable websites and web apps with modern web development, UI/UX design, and cloud-native infrastructure for startups and businesses.",
+    "GrayVally Software Solutions is a leading web development and software company in Bangladesh. We specialize in custom websites, web applications, mobile apps, UI/UX design, ERP, CRM, and cloud-native solutions for startups and enterprises. Get a free consultation today!",
   metadataBase: new URL("https://grayvally.tech"),
   keywords: [
-    "web development",
-    "UI/UX design",
-    "software development",
-    "web agency Bangladesh",
+    // Primary services
+    "web development company Bangladesh",
+    "software development company Bangladesh",
+    "UI/UX design agency Bangladesh",
+    "web design Bangladesh",
+    "mobile app development Bangladesh",
+    "custom software development",
+    // Service-specific
+    "ecommerce website development",
+    "React development services",
+    "Next.js development company",
+    "Node.js development",
+    "full stack development",
+    "frontend development services",
+    "backend development services",
+    // Business solutions
+    "ERP software development",
+    "CRM development company",
+    "HRMS software Bangladesh",
+    "inventory management system",
+    "POS software development",
+    // Location-based
+    "web developer Dhaka",
+    "software company Dhaka",
+    "IT company Bangladesh",
+    "tech startup Bangladesh",
+    // Brand
     "GrayVally",
-    "custom websites",
-    "web applications",
-    "cloud infrastructure",
-    "startup development"
+    "GrayVally Software Solutions",
+    // Intent-based
+    "hire web developers Bangladesh",
+    "affordable web development",
+    "professional website design",
+    "business website development",
+    "startup web development",
+    "cloud infrastructure services",
+    "website maintenance services",
+    "SEO services Bangladesh"
   ],
-  authors: [{ name: "GrayVally IT Solutions", url: "https://grayvally.tech" }],
-  creator: "GrayVally IT Solutions",
-  publisher: "GrayVally IT Solutions",
+  authors: [{ name: "GrayVally Software Solutions", url: "https://grayvally.tech" }],
+  creator: "GrayVally Software Solutions",
+  publisher: "GrayVally Software Solutions",
   formatDetection: {
     telephone: true,
     email: true,
@@ -44,27 +76,27 @@ export const metadata: Metadata = {
   },
   category: "technology",
   openGraph: {
-    title: "GrayVally | Web Development & UI/UX Agency in Bangladesh",
+    title: "GrayVally Software Solutions | Web Development & Software Company in Bangladesh",
     description:
-      "GrayVally builds reliable, scalable digital infrastructure, websites, and web apps so your business can move faster with less chaos.",
+      "Leading web development & software company in Bangladesh. Custom websites, mobile apps, UI/UX design, ERP, CRM solutions. Trusted by startups & enterprises. Get free consultation!",
     url: "https://grayvally.tech",
-    siteName: "GrayVally IT Solutions",
+    siteName: "GrayVally Software Solutions",
     locale: "en_US",
     images: [
       {
         url: "/grayvally-social.jpg",
         width: 1200,
         height: 630,
-        alt: "GrayVally – We Build Digital Infrastructure",
+        alt: "GrayVally Software Solutions – Web Development & Software Company Bangladesh",
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "GrayVally | Web Development & UI/UX Agency in Bangladesh",
+    title: "GrayVally Software Solutions | Web Development & Software Company Bangladesh",
     description:
-      "End-to-end web development, UI/UX design, and cloud-native infrastructure from Bangladesh to global clients.",
+      "Leading web development & software company in Bangladesh. Custom websites, mobile apps, UI/UX design, ERP, CRM solutions. Get free consultation!",
     images: ["/grayvally-social.jpg"],
     creator: "@grayvally",
     site: "@grayvally",
@@ -133,8 +165,8 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               "@id": "https://grayvally.tech/#organization",
-              name: "GrayVally IT Solutions",
-              legalName: "GrayVally IT Solutions",
+              name: "GrayVally Software Solutions",
+              legalName: "GrayVally Software Solutions",
               alternateName: ["GrayVally", "GrayVally Tech", "GrayVally Agency"],
               url: "https://grayvally.tech",
               logo: {
@@ -144,7 +176,7 @@ export default function RootLayout({
                 contentUrl: "https://grayvally.tech/GrayVally.png",
                 width: 512,
                 height: 512,
-                caption: "GrayVally IT Solutions Logo"
+                caption: "GrayVally Software Solutions Logo"
               },
               image: {
                 "@type": "ImageObject",
@@ -152,7 +184,7 @@ export default function RootLayout({
                 width: 1200,
                 height: 630
               },
-              description: "GrayVally builds fast, scalable websites and web apps with modern web development, UI/UX design, and cloud-native infrastructure for startups and businesses.",
+              description: "GrayVally Software Solutions is a leading web development and software company in Bangladesh, specializing in custom websites, mobile apps, UI/UX design, ERP, CRM, and cloud-native solutions for startups and enterprises worldwide.",
               foundingDate: "2024",
               address: {
                 "@type": "PostalAddress",
@@ -200,18 +232,37 @@ export default function RootLayout({
               slogan: "We Build Digital Infrastructure",
               knowsAbout: [
                 "Web Development",
+                "Website Design",
                 "UI/UX Design",
                 "Software Development",
+                "Mobile App Development",
+                "E-Commerce Solutions",
+                "ERP Development",
+                "CRM Development",
+                "HRMS Solutions",
                 "Cloud Infrastructure",
-                "Mobile App Development"
+                "React Development",
+                "Next.js Development",
+                "Node.js Development",
+                "Full Stack Development",
+                "SEO Services",
+                "Digital Marketing"
               ],
               makesOffer: [
                 {
                   "@type": "Offer",
                   itemOffered: {
                     "@type": "Service",
-                    name: "Web Development",
-                    description: "Custom websites and web applications"
+                    name: "Custom Web Development",
+                    description: "Professional website development using React, Next.js, and modern technologies"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  itemOffered: {
+                    "@type": "Service",
+                    name: "Mobile App Development",
+                    description: "Native and cross-platform mobile applications for iOS and Android"
                   }
                 },
                 {
@@ -219,15 +270,39 @@ export default function RootLayout({
                   itemOffered: {
                     "@type": "Service",
                     name: "UI/UX Design",
-                    description: "User interface and experience design"
+                    description: "User interface and user experience design for web and mobile applications"
                   }
                 },
                 {
                   "@type": "Offer",
                   itemOffered: {
                     "@type": "Service",
-                    name: "Software Solutions",
-                    description: "Custom software development"
+                    name: "E-Commerce Development",
+                    description: "Custom e-commerce solutions and online store development"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  itemOffered: {
+                    "@type": "Service",
+                    name: "ERP Software Development",
+                    description: "Enterprise Resource Planning systems tailored to your business needs"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  itemOffered: {
+                    "@type": "Service",
+                    name: "CRM Development",
+                    description: "Customer Relationship Management software solutions"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  itemOffered: {
+                    "@type": "Service",
+                    name: "SEO & Digital Marketing",
+                    description: "Search engine optimization and digital marketing services"
                   }
                 }
               ]
@@ -242,7 +317,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "ProfessionalService",
               "@id": "https://grayvally.tech/#localbusiness",
-              name: "GrayVally IT Solutions",
+              name: "GrayVally Software Solutions",
               image: [
                 "https://grayvally.tech/GrayVally.png",
                 "https://grayvally.tech/grayvally-social.jpg"
@@ -304,7 +379,7 @@ export default function RootLayout({
               "@type": "WebSite",
               "@id": "https://grayvally.tech/#website",
               name: "GrayVally",
-              alternateName: ["GrayVally IT Solutions", "GrayVally Tech"],
+              alternateName: ["GrayVally Software Solutions", "GrayVally Tech"],
               url: "https://grayvally.tech",
               description: "GrayVally builds fast, scalable websites and web apps with modern web development, UI/UX design, and cloud-native infrastructure for startups and businesses.",
               publisher: {

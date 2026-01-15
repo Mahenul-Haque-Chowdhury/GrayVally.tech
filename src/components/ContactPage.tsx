@@ -571,7 +571,7 @@ export function Contact() {
             <FreeMap
               locations={[
                 {
-                  title: "GrayVally IT Solutions",
+                  title: "GrayVally Software Solutions",
                   address1: "Majeda Garden, CHHA: 59",
                   address2: "Dhaka 1212, Bangladesh",
                   coords: { lat: 23.78545244379042, lng: 90.42377593809815 },

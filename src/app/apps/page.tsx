@@ -5,8 +5,31 @@ import { ArrowRight, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Apps & Tools | GrayVally",
-  description: "Explore useful apps and tools built by GrayVally.",
+  title: "Free Online Tools & Apps | Business Card Maker & More",
+  description:
+    "Explore free online tools and apps by GrayVally. Create digital business cards, use our Discord bot, and discover productivity tools designed for modern businesses.",
+  keywords: [
+    "free online tools",
+    "digital business card maker",
+    "Discord music bot",
+    "free apps",
+    "productivity tools",
+    "GrayVally apps"
+  ],
+  openGraph: {
+    title: "Free Online Tools & Apps | Business Card Maker & More",
+    description:
+      "Explore free online tools and apps by GrayVally. Create digital business cards, use our Discord bot, and discover productivity tools.",
+    url: "https://grayvally.tech/apps",
+    siteName: "GrayVally Software Solutions",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Free Online Tools & Apps | Business Card Maker & More",
+    description:
+      "Explore free online tools and apps by GrayVally. Create digital business cards and discover productivity tools.",
+  },
 };
 
 const apps = [

@@ -4,22 +4,34 @@ import { Footer } from "@/components/Footer";
 import { SoftwareSolutionsPageContent } from "@/components/SoftwareSolutionsPageContent";
 
 export const metadata: Metadata = {
-  title: "Software Solutions | GrayVally",
+  title: "Software Development Services Bangladesh | ERP, CRM, HRMS Solutions",
   description:
-    "Explore GrayVally's comprehensive software solutions, including ERP, CRM, HRMS, and industry-specific management systems.",
+    "Custom software development company in Bangladesh. ERP software, CRM systems, HRMS solutions, inventory management, POS systems, and enterprise applications. Affordable pricing, expert team!",
+  keywords: [
+    "software development company Bangladesh",
+    "ERP software Bangladesh",
+    "CRM development Dhaka",
+    "HRMS software Bangladesh",
+    "inventory management system",
+    "POS software development",
+    "custom software development",
+    "enterprise software solutions",
+    "business management software",
+    "school management system"
+  ],
   openGraph: {
-    title: "Software Solutions | GrayVally",
+    title: "Software Development Services Bangladesh | ERP, CRM, HRMS Solutions",
     description:
-      "Explore GrayVally's comprehensive software solutions, including ERP, CRM, HRMS, and industry-specific management systems.",
+      "Custom software development company in Bangladesh. ERP, CRM, HRMS, inventory management, and enterprise applications. Affordable pricing!",
     url: "https://grayvally.tech/software-solutions",
-    siteName: "GrayVally",
+    siteName: "GrayVally Software Solutions",
     type: "website",
   },
   twitter: {
-    card: "summary",
-    title: "Software Solutions | GrayVally",
+    card: "summary_large_image",
+    title: "Software Development Services Bangladesh | ERP, CRM, HRMS Solutions",
     description:
-      "Explore GrayVally's comprehensive software solutions, including ERP, CRM, HRMS, and industry-specific management systems.",
+      "Custom software development company in Bangladesh. ERP, CRM, HRMS, inventory management, and enterprise applications.",
   },
 };
 

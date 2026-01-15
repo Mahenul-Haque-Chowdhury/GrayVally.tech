@@ -4,22 +4,34 @@ import { Footer } from "@/components/Footer";
 import { ServicesPageContent } from "@/components/ServicesPageContent";
 
 export const metadata: Metadata = {
-  title: "Web Solutions | GrayVally",
+  title: "Web Development Services Bangladesh | Website Design & Development",
   description:
-    "Explore GrayVally's web development, UI/UX design, cloud infrastructure, and performance optimization services for startups and growing businesses.",
+    "Professional web development services in Bangladesh. Custom website design, React & Next.js development, e-commerce solutions, UI/UX design, and responsive web applications. Get a free quote!",
+  keywords: [
+    "web development services Bangladesh",
+    "website design Bangladesh",
+    "custom website development",
+    "React development company",
+    "Next.js development",
+    "e-commerce website Bangladesh",
+    "UI/UX design services",
+    "responsive web design",
+    "frontend development",
+    "web application development"
+  ],
   openGraph: {
-    title: "Web Solutions | GrayVally",
+    title: "Web Development Services Bangladesh | Website Design & Development",
     description:
-      "Explore GrayVally's web development, UI/UX design, cloud infrastructure, and performance optimization services for startups and growing businesses.",
+      "Professional web development services in Bangladesh. Custom website design, React & Next.js development, e-commerce solutions. Get a free quote!",
     url: "https://grayvally.tech/web-solutions",
-    siteName: "GrayVally",
+    siteName: "GrayVally Software Solutions",
     type: "website",
   },
   twitter: {
-    card: "summary",
-    title: "Web Solutions | GrayVally",
+    card: "summary_large_image",
+    title: "Web Development Services Bangladesh | Website Design & Development",
     description:
-      "Explore GrayVally's web development, UI/UX design, cloud infrastructure, and performance optimization services for startups and growing businesses.",
+      "Professional web development services in Bangladesh. Custom website design, React & Next.js development, e-commerce solutions.",
   },
 };
 
