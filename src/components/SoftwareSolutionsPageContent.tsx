@@ -542,8 +542,14 @@ export function SoftwareSolutionsPageContent() {
     const media = window.matchMedia("(max-width: 767px)");
     const handleChange = () => setIsMobile(media.matches);
     handleChange();
-    media.addEventListener("change", handleChange);
-    return () => media.removeEventListener("change", handleChange);
+
+    if (typeof media.addEventListener === "function") {
+      media.addEventListener("change", handleChange);
+      return () => media.removeEventListener("change", handleChange);
+    }
+
+    media.addListener(handleChange);
+    return () => media.removeListener(handleChange);
   }, []);
 
   const handleCardClick = useCallback((category: SoftwareSolutionCategory, e: React.MouseEvent) => {
