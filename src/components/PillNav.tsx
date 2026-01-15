@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { gsap } from "gsap";
@@ -120,15 +120,40 @@ const PillNav = ({
 }: PillNavProps) => {
   const resolvedPillTextColor = pillTextColor ?? baseColor;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 });
+  const [isAnimatingOpen, setIsAnimatingOpen] = useState(false);
   const circleRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const tlRefs = useRef<gsap.core.Timeline[]>([]);
   const activeTweenRefs = useRef<gsap.core.Tween[]>([]);
   const logoImgRef = useRef<HTMLImageElement>(null);
   const logoTweenRef = useRef<gsap.core.Tween | null>(null);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
   const navItemsRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLAnchorElement>(null);
   const dropdownRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Calculate window size for circular reveal
+  const [windowSize, setWindowSize] = useState({ 
+    width: typeof window !== 'undefined' ? window.innerWidth : 1920, 
+    height: typeof window !== 'undefined' ? window.innerHeight : 1080 
+  });
+
+  const maxRadius = useMemo(() => {
+    return Math.hypot(
+      Math.max(clickPosition.x, windowSize.width - clickPosition.x),
+      Math.max(clickPosition.y, windowSize.height - clickPosition.y)
+    ) * 1.5;
+  }, [clickPosition.x, clickPosition.y, windowSize.width, windowSize.height]);
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const layout = () => {
@@ -187,6 +212,11 @@ const PillNav = ({
 
     if (document.fonts?.ready) {
       document.fonts.ready.then(layout).catch(() => {});
+    }
+
+    const menu = mobileMenuRef.current;
+    if (menu) {
+      gsap.set(menu, { visibility: "hidden", opacity: 0, scaleY: 1 });
     }
 
     if (initialLoadAnimation) {
@@ -283,11 +313,37 @@ const PillNav = ({
 
   const closeMobileMenu = useCallback(() => {
     if (!isMobileMenuOpen) return;
-    setIsMobileMenuOpen(false);
+    
+    setIsAnimatingOpen(false);
+    
+    // Stop Lenis smooth scroll
+    const lenis = (window as Window & { lenis?: { stop: () => void; start: () => void } }).lenis;
+    if (lenis) lenis.start();
+    
+    setTimeout(() => {
+      setIsMobileMenuOpen(false);
+    }, 500);
   }, [isMobileMenuOpen]);
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+  const toggleMobileMenu = (e: React.MouseEvent) => {
+    if (isMobileMenuOpen) {
+      closeMobileMenu();
+      return;
+    }
+    
+    // Capture click position for circular reveal
+    setClickPosition({ x: e.clientX, y: e.clientY });
+    setIsMobileMenuOpen(true);
+    
+    // Trigger animation after state update
+    requestAnimationFrame(() => {
+      setIsAnimatingOpen(true);
+    });
+    
+    // Stop Lenis smooth scroll
+    const lenis = (window as Window & { lenis?: { stop: () => void; start: () => void } }).lenis;
+    if (lenis) lenis.stop();
+
     onMobileMenuClick?.();
   };
 
@@ -417,10 +473,9 @@ const PillNav = ({
         </div>
 
         <button
-          className={`mobile-menu-button mobile-only ${isMobileMenuOpen ? 'is-open' : ''}`}
+          className="mobile-menu-button mobile-only"
           onClick={toggleMobileMenu}
           aria-label="Toggle menu"
-          aria-expanded={isMobileMenuOpen}
           ref={hamburgerRef}
         >
           <span className="hamburger-line" />
@@ -428,31 +483,45 @@ const PillNav = ({
         </button>
       </nav>
 
-      {/* Mobile Menu Popup with Framer Motion */}
+      {/* Mobile Menu Popup with Circular Reveal */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
+            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-              className="fixed inset-0 z-[150] bg-black/20 mobile-only"
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-[150] mobile-only"
               onClick={closeMobileMenu}
             />
             
+            {/* Menu Popup - Right aligned */}
             <motion.div
-              initial={{ opacity: 0, y: -10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
+              initial={false}
+              animate={{
+                clipPath: isAnimatingOpen
+                  ? `circle(150% at calc(100% - 2rem) 2rem)`
+                  : `circle(0% at calc(100% - 2rem) 2rem)`,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: isAnimatingOpen ? 80 : 300,
+                damping: isAnimatingOpen ? 15 : 30,
+              }}
               className="fixed top-[4rem] right-3 left-auto w-[200px] z-[200] rounded-2xl bg-surface/95 backdrop-blur-xl border border-border/50 shadow-2xl mobile-only overflow-hidden"
               style={cssVars}
             >
               {/* Menu List */}
               <ul className="p-2 flex flex-col gap-1.5">
                 {items.map((item, i) => (
-                  <li key={item.href || `mobile-item-${i}`}>
+                  <motion.li
+                    key={item.href || `mobile-item-${i}`}
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 + i * 0.03, duration: 0.3 }}
+                  >
                     {isExternalLink(item.href) ? (
                       <a
                         href={item.href}
@@ -480,14 +549,20 @@ const PillNav = ({
                         {item.label}
                       </Link>
                     )}
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
+              
               {/* Theme Toggle */}
               {rightContent && (
-                <div className="px-3 pb-3 pt-2 flex justify-center border-t border-border/30">
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3, duration: 0.3 }}
+                  className="px-3 pb-3 pt-2 flex justify-center border-t border-border/30"
+                >
                   {rightContent}
-                </div>
+                </motion.div>
               )}
             </motion.div>
           </>
