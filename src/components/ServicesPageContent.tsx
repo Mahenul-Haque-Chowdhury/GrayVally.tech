@@ -233,20 +233,26 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
   }, []);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [windowSize, setWindowSize] = useState({ 
     width: typeof window !== 'undefined' ? window.innerWidth : 1920, 
     height: typeof window !== 'undefined' ? window.innerHeight : 1080 
   });
 
-  // Calculate max radius from click position to cover entire screen
+  // Calculate max radius from click position to cover entire screen (desktop only)
   const maxRadius = useMemo(() => {
+    if (isMobile) return 0; // Skip calculation on mobile
     return Math.hypot(
       Math.max(clickPosition.x, windowSize.width - clickPosition.x),
       Math.max(clickPosition.y, windowSize.height - clickPosition.y)
     ) * 1.5;
-  }, [clickPosition.x, clickPosition.y, windowSize.width, windowSize.height]);
+  }, [clickPosition.x, clickPosition.y, windowSize.width, windowSize.height, isMobile]);
 
   useEffect(() => {
+    // Check if mobile
+    const mobile = window.innerWidth < 768;
+    setIsMobile(mobile);
+    
     // Trigger open animation
     const timer = requestAnimationFrame(() => setIsOpen(true));
 
@@ -257,7 +263,11 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
     }
 
     const handleResize = () => {
-      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+      const nowMobile = window.innerWidth < 768;
+      setIsMobile(nowMobile);
+      if (!nowMobile) {
+        setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+      }
     };
     
     window.addEventListener("resize", handleResize);
@@ -273,7 +283,7 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
 
   const handleClose = () => {
     setIsOpen(false);
-    setTimeout(onClose, 500); // Wait for animation to complete
+    setTimeout(onClose, isMobile ? 200 : 500); // Faster close on mobile
   };
 
   // Prevent wheel events from propagating to background
@@ -281,19 +291,32 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
     e.stopPropagation();
   };
 
+  // Simpler animation for mobile
+  const mobileAnimation = {
+    initial: { opacity: 0 },
+    animate: { opacity: isOpen ? 1 : 0 },
+    transition: { duration: 0.2, ease: "easeOut" }
+  };
+
+  const desktopAnimation = {
+    initial: false,
+    animate: {
+      clipPath: isOpen
+        ? `circle(${maxRadius}px at ${clickPosition.x}px ${clickPosition.y}px)`
+        : `circle(0px at ${clickPosition.x}px ${clickPosition.y}px)`,
+    },
+    transition: {
+      type: "spring",
+      stiffness: isOpen ? 20 : 300,
+      damping: isOpen ? 10 : 40,
+    }
+  };
+
+  const animationProps = isMobile ? mobileAnimation : desktopAnimation;
+
   return (
     <motion.div
-      initial={false}
-      animate={{
-        clipPath: isOpen
-          ? `circle(${maxRadius}px at ${clickPosition.x}px ${clickPosition.y}px)`
-          : `circle(0px at ${clickPosition.x}px ${clickPosition.y}px)`,
-      }}
-      transition={{
-        type: "spring",
-        stiffness: isOpen ? 20 : 300,
-        damping: isOpen ? 10 : 40,
-      }}
+      {...animationProps}
       className="fixed inset-0 z-[100] bg-background/10 backdrop-blur-lg"
       onWheel={handleWheel}
     >
