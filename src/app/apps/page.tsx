@@ -48,9 +48,18 @@ const apps = [
     description: "High-quality music playback for your Discord server with advanced controls.",
     href: "/apps/discord-bot",
     external: false,
-    status: "Coming Soon",
+    status: "Live",
     category: "Community",
     gradient: "from-blue-500 to-cyan-500",
+  },
+  {
+    title: "GrayVally QR Studio",
+    description: "Generate sharp QR codes in seconds with custom styling and download options.",
+    href: "https://qrcode.grayvally.tech",
+    external: true,
+    status: "Live",
+    category: "Utilities",
+    gradient: "from-fuchsia-500 to-rose-500",
   },
 ];
 
