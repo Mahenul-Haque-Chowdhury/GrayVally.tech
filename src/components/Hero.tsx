@@ -73,27 +73,32 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
+            className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-start justify-center gap-3 sm:gap-4"
           >
-            <Link
-              href="/contact"
-              className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-text-primary px-6 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base font-semibold text-background transition-all duration-300 hover:scale-105 active:scale-95"
-            >
-              <span className="relative z-10">Book a Consultation</span>
-              <svg
-                className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
+            <div className="flex flex-col items-center gap-2">
+              <a
+                href="https://calendly.com/grayvally-tech/30min"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative inline-flex h-12 items-center justify-center gap-2 overflow-hidden rounded-full bg-[#006bff] px-6 sm:px-8 text-sm sm:text-base font-semibold text-white transition-all duration-300 hover:scale-105 active:scale-95"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-              <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-blue-500 to-cyan-500 transition-transform duration-300 group-hover:translate-x-0" />
-            </Link>
+                <span className="relative z-10">Book a Consultation</span>
+                <svg
+                  className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+                <div className="absolute inset-0 bg-white/15 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              </a>
+              <span className="text-xs text-text-secondary">Powered by Calendly</span>
+            </div>
             <Link
               href="/audit"
-              className="group inline-flex items-center justify-center gap-2 rounded-full border border-border/60 bg-transparent backdrop-blur-sm px-6 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base font-semibold text-text-primary transition-all duration-300 hover:border-text-secondary/50 hover:bg-surface/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="group relative inline-flex h-12 items-center justify-center gap-2 overflow-hidden rounded-full border border-border/60 bg-transparent backdrop-blur-sm px-6 sm:px-8 text-sm sm:text-base font-semibold text-text-primary transition-all duration-300 hover:border-text-secondary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               <span>Complimentary Website Audit</span>
               <svg
@@ -105,6 +110,7 @@ export function Hero() {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
+              <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-blue-500/30 to-cyan-500/30 transition-transform duration-300 group-hover:translate-x-0" />
             </Link>
           </motion.div>
 

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Project } from "@/data/portfolio";
 import { ExternalLink, Globe, Eye } from "lucide-react";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface ProjectCardProps {
   project: Project;
@@ -67,8 +68,19 @@ export function ProjectCard({ project, index, onPreview }: ProjectCardProps) {
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
              ) : (
-               <div className="flex h-full items-center justify-center text-text-secondary/30 font-mono text-sm">
-                 No Preview Available
+               <div className="relative flex h-full items-center justify-center overflow-hidden">
+                 <div
+                   className={cn(
+                     "absolute inset-0 bg-gradient-to-br opacity-80",
+                     project.color ?? "from-slate-500 to-slate-700"
+                   )}
+                 />
+                 <div className="absolute inset-0 opacity-25 bg-grid-pattern [background-size:48px_48px]" />
+                 <div className="relative z-10 px-6 text-center text-white">
+                   <p className="text-xs uppercase tracking-[0.3em] text-white/60">{project.year}</p>
+                   <h4 className="mt-3 text-2xl font-semibold">{project.client}</h4>
+                   <p className="mt-2 text-sm text-white/80">{project.project}</p>
+                 </div>
                </div>
              )}
              
@@ -78,7 +90,7 @@ export function ProjectCard({ project, index, onPreview }: ProjectCardProps) {
                   <>
                     <button
                       onClick={() => onPreview(project.link!)}
-                      className="transform translate-y-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 inline-flex items-center gap-2 rounded-full bg-white text-black px-6 py-3 font-medium hover:bg-gray-100 shadow-lg"
+                      className="inline-flex items-center gap-2 rounded-full bg-white text-black px-6 py-3 font-medium shadow-lg transition-all duration-300 translate-y-0 opacity-100 sm:translate-y-4 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100 hover:bg-gray-100"
                     >
                       <Eye className="h-4 w-4" />
                       Preview
@@ -87,7 +99,7 @@ export function ProjectCard({ project, index, onPreview }: ProjectCardProps) {
                       href={project.link}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="transform translate-y-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-3 font-medium hover:shadow-lg hover:shadow-blue-500/25 border border-white/10"
+                      className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-3 font-medium border border-white/10 transition-all duration-300 translate-y-0 opacity-100 sm:translate-y-4 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100 hover:shadow-lg hover:shadow-blue-500/25"
                     >
                       <Globe className="h-4 w-4" />
                       Visit

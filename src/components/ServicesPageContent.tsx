@@ -204,6 +204,17 @@ const itemVariants = {
   },
 };
 
+const serviceGradients: Record<string, string> = {
+  Development: "from-blue-500 to-cyan-500",
+  Design: "from-rose-500 to-orange-500",
+  Solutions: "from-emerald-500 to-teal-500",
+  Support: "from-amber-500 to-orange-500",
+  Growth: "from-sky-500 to-blue-500",
+};
+
+const getServiceGradient = (category: string) =>
+  serviceGradients[category] ?? "from-slate-500 to-slate-600";
+
 interface Service {
   id: string;
   title: string;
@@ -224,6 +235,7 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
     tagline: "Professional solutions for your business",
     features: service.description.split(", "),
   };
+  const gradient = getServiceGradient(service.category);
 
   const scrollRef = useCallback((node: HTMLDivElement | null) => {
     if (node) {
@@ -338,10 +350,16 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
                 transition={{ delay: 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="inline-flex items-center gap-4 mb-8 sm:mb-10"
               >
-                <div className="flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-2xl bg-surface/40 backdrop-blur-xl border border-border/40">
-                  <Icon className="h-8 w-8 sm:h-10 sm:w-10 text-blue-400" />
+                <div className={cn(
+                  "flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-2xl bg-gradient-to-br",
+                  gradient
+                )}>
+                  <Icon className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
                 </div>
-                <span className="rounded-full bg-blue-500/10 backdrop-blur-sm border border-blue-500/20 px-5 py-2 text-xs sm:text-sm font-medium uppercase tracking-widest text-blue-400">
+                <span className={cn(
+                  "rounded-full px-5 py-2 text-xs sm:text-sm font-medium uppercase tracking-widest text-white bg-gradient-to-r",
+                  gradient
+                )}>
                   {service.category}
                 </span>
               </motion.div>
@@ -440,7 +458,10 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
                         className="flex items-center gap-3 sm:gap-4"
                       >
                         <div className="flex items-center gap-3 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full bg-surface/30 backdrop-blur-sm border border-border/30 hover:bg-surface/50 transition-all duration-300">
-                          <span className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-blue-500/20 text-xs sm:text-sm font-bold text-blue-400">
+                          <span className={cn(
+                            "flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full text-xs sm:text-sm font-bold text-white bg-gradient-to-r",
+                            gradient
+                          )}>
                             {index + 1}
                           </span>
                           <span className="text-sm sm:text-base font-medium text-text-primary">{step}</span>
@@ -461,7 +482,10 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
               >
                 <Link
                   href="/contact"
-                  className="group inline-flex items-center justify-center gap-3 rounded-full bg-text-primary px-8 sm:px-10 py-3.5 sm:py-4 text-base sm:text-lg font-semibold text-background transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                  className={cn(
+                    "group inline-flex items-center justify-center gap-3 rounded-full px-8 sm:px-10 py-3.5 sm:py-4 text-base sm:text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg bg-gradient-to-r",
+                    gradient
+                  )}
                 >
                   <span>Start Your Project</span>
                   <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
@@ -486,6 +510,7 @@ interface ServiceCardProps {
 
 function ServiceCard({ service, index, onClick }: ServiceCardProps) {
   const Icon = service.icon;
+  const gradient = getServiceGradient(service.category);
 
   return (
     <motion.div
@@ -494,33 +519,42 @@ function ServiceCard({ service, index, onClick }: ServiceCardProps) {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ delay: index * 0.05, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ scale: 1.02, y: -4 }}
-      onClick={onClick}
-      className={cn(
-        "group relative overflow-hidden rounded-2xl sm:rounded-3xl cursor-pointer",
-        "bg-surface/20 backdrop-blur-xl",
-        "border border-border/40",
-        "p-6 sm:p-8",
-        "transition-all duration-500 ease-out",
-        "hover:border-border/80 hover:bg-surface/40",
-        "hover:shadow-xl hover:shadow-blue-500/10"
-      )}
+      className="group relative overflow-hidden rounded-2xl sm:rounded-3xl cursor-pointer bg-surface/20 backdrop-blur-xl border border-border/40 p-6 sm:p-8 transition-all duration-500 ease-out hover:border-border/80 hover:bg-surface/40 hover:shadow-xl hover:shadow-black/10"
     >
+      {/* Gradient accent line */}
+      <div className={cn(
+        "absolute top-0 left-0 right-0 h-1 bg-gradient-to-r opacity-90 group-hover:opacity-100 transition-opacity",
+        gradient
+      )} />
+
       {/* Gradient overlay on hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-cyan-500/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      <div className={cn(
+        "absolute inset-0 bg-gradient-to-br opacity-0 transition-opacity duration-500 group-hover:opacity-15",
+        gradient
+      )} />
 
       <div className="relative z-10 flex h-full flex-col">
         {/* Header */}
         <div className="flex items-start justify-between">
-          <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-border/30 transition-all duration-300 group-hover:from-blue-500/20 group-hover:to-cyan-500/20 group-hover:border-blue-500/30">
-            <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-blue-400 transition-colors duration-300 group-hover:text-cyan-400" />
+          <div className={cn(
+            "flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl sm:rounded-2xl bg-gradient-to-br transition-transform duration-300 group-hover:scale-110",
+            gradient
+          )}>
+            <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-white" />
           </div>
-          <span className="rounded-full bg-surface/60 px-3 py-1 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-text-secondary/70">
+          <span className={cn(
+            "rounded-full px-3 py-1 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-white bg-gradient-to-r",
+            gradient
+          )}>
             {service.category}
           </span>
         </div>
 
         {/* Content */}
-        <h3 className="mt-5 sm:mt-6 text-lg sm:text-xl font-semibold text-text-primary transition-colors duration-300 group-hover:text-blue-400">
+        <h3 className={cn(
+          "mt-5 sm:mt-6 text-lg sm:text-xl font-semibold bg-gradient-to-r bg-clip-text text-transparent",
+          gradient
+        )}>
           {service.title}
         </h3>
 
@@ -528,15 +562,27 @@ function ServiceCard({ service, index, onClick }: ServiceCardProps) {
           {service.description}
         </p>
 
-        {/* Click indicator - no horizontal line */}
-        <div className="mt-6 flex items-center gap-2 text-sm font-medium text-text-secondary/50 transition-all duration-300 group-hover:text-cyan-400">
-          <span>View Details</span>
-          <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+        <div className="mt-6">
+          <button
+            type="button"
+            onClick={onClick}
+            className={cn(
+              "inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border/40 bg-background/30 px-4 py-2.5 text-sm font-medium text-text-secondary transition-all duration-300 hover:text-text-primary hover:border-border/60 hover:bg-background/50",
+              "group-hover:shadow-sm"
+            )}
+            aria-label={`Learn more about ${service.title}`}
+          >
+            <span>Learn more</span>
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </button>
         </div>
       </div>
 
       {/* Corner glow */}
-      <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-gradient-to-br from-blue-500/10 via-transparent to-transparent opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
+      <div className={cn(
+        "absolute -right-12 -top-12 h-32 w-32 rounded-full bg-gradient-to-br opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100",
+        gradient
+      )} />
     </motion.div>
   );
 }
@@ -611,19 +657,28 @@ export function ServicesPageContent() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mt-12 sm:mt-16 grid grid-cols-3 gap-4 sm:gap-8 max-w-2xl mx-auto"
             >
-              {[
-                { value: `${allServices.length}+`, label: "Services" },
-                { value: "4", label: "Categories" },
-                { value: "24/7", label: "Support" },
+              {[ 
+                { value: `${allServices.length}+`, label: "Services", gradient: "from-blue-500 to-cyan-500" },
+                { value: "4", label: "Categories", gradient: "from-emerald-500 to-teal-500" },
+                { value: "24/7", label: "Support", gradient: "from-amber-500 to-orange-500" },
               ].map((stat, index) => (
                 <motion.div
                   key={stat.label}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 + index * 0.1 }}
-                  className="text-center p-4 rounded-2xl bg-surface/20 border border-border/30 backdrop-blur-sm"
+                  className="relative text-center p-4 rounded-2xl bg-surface/20 border border-border/30 backdrop-blur-sm overflow-hidden"
                 >
-                  <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary">{stat.value}</p>
+                  <div className={cn(
+                    "absolute inset-0 opacity-0 transition-opacity bg-gradient-to-br",
+                    stat.gradient
+                  )} />
+                  <p className={cn(
+                    "relative text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r bg-clip-text text-transparent",
+                    stat.gradient
+                  )}>
+                    {stat.value}
+                  </p>
                   <p className="text-[10px] sm:text-xs text-text-secondary uppercase tracking-wider mt-1">{stat.label}</p>
                 </motion.div>
               ))}

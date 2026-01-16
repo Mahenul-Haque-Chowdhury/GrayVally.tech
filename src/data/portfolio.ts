@@ -13,8 +13,6 @@ export interface Project {
   useScreenshot?: boolean;
 }
 
-const getThumbnail = (url: string) => `https://image.thum.io/get/width/1280/noanimate/${url}`;
-
 export const projects: Project[] = [
   {
     id: 1,
@@ -26,7 +24,6 @@ export const projects: Project[] = [
     link: "https://restaurant-gulshan.vercel.app/",
     technologies: ["Next.js", "Tailwind CSS", "Framer Motion"],
     featured: true,
-    image: getThumbnail("https://restaurant-gulshan.vercel.app/"),
     color: "from-orange-500 to-red-500",
   },
   {
@@ -39,7 +36,6 @@ export const projects: Project[] = [
     link: "https://www.grayvally.tech/",
     technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
     featured: true,
-    image: getThumbnail("https://www.grayvally.tech/"),
     color: "from-indigo-600 to-violet-600",
   },
   {
@@ -52,7 +48,6 @@ export const projects: Project[] = [
     link: "https://grays-com-bd.vercel.app/",
     technologies: ["Next.js", "Node.js", "Tailwind CSS", "TypeScript"],
     featured: true,
-    image: getThumbnail("https://grays-com-bd.vercel.app/"),
     color: "from-indigo-500 to-blue-500",
   },
   {
@@ -65,7 +60,6 @@ export const projects: Project[] = [
     link: "https://e-commerece-bice.vercel.app/",
     technologies: ["React", "Node.js", "MongoDB", "Tailwind CSS"],
     featured: true,
-    image: getThumbnail("https://e-commerece-bice.vercel.app/"),
     color: "from-blue-600 to-indigo-600",
   },
   {
@@ -78,7 +72,6 @@ export const projects: Project[] = [
     link: "https://exclusive-e-commerce-five.vercel.app/",
     technologies: ["Next.js", "Tailwind CSS", "Redux", "TypeScript"],
     featured: false,
-    image: getThumbnail("https://exclusive-e-commerce-five.vercel.app/"),
     color: "from-rose-500 to-pink-600",
   },
   {
@@ -91,7 +84,6 @@ export const projects: Project[] = [
     link: "https://crystalvalley.autos/",
     technologies: ["React", "Tailwind CSS", "Framer Motion"],
     featured: false,
-    image: getThumbnail("https://crystalvalley.autos/"),
     color: "from-cyan-500 to-blue-500",
   },
   {
@@ -104,7 +96,6 @@ export const projects: Project[] = [
     link: "https://jmrtrucking.vercel.app/",
     technologies: ["Next.js", "Node.js", "Tailwind CSS", "TypeScript"],
     featured: false,
-    image: getThumbnail("https://jmrtrucking.vercel.app/"),
     color: "from-blue-500 to-cyan-500",
   },
   {
@@ -117,7 +108,6 @@ export const projects: Project[] = [
     link: "https://intovah.com",
     technologies: ["Next.js", "Node.js", "Tailwind CSS", "TypeScript"],
     featured: false,
-    image: getThumbnail("https://intovah.com"),
     color: "from-purple-500 to-pink-500",
   },
   {
@@ -130,7 +120,6 @@ export const projects: Project[] = [
     link: "https://trendology.page/",
     technologies: ["Next.js", "Node.js", "Tailwind CSS", "TypeScript"],
     featured: false,
-    image: getThumbnail("https://trendology.page/"),
     color: "from-emerald-500 to-teal-500",
   },
   {
@@ -143,7 +132,6 @@ export const projects: Project[] = [
     link: "https://courselogistics.net",
     technologies: ["HTML", "CSS", "JavaScript"],
     featured: false,
-    image: getThumbnail("https://courselogistics.net"),
     color: "from-orange-500 to-red-500",
   }
 ];

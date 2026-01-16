@@ -80,14 +80,17 @@ export function AuditRequestForm() {
         <p className="mt-3 text-sm sm:text-base text-text-secondary/90 leading-relaxed">
           Thanks! We’ll review your website and get back to you within 24–48 hours.
         </p>
-        <div className="mt-6">
-          <Link
-            href="/contact"
-            className="group inline-flex items-center gap-2 text-sm sm:text-base font-semibold text-text-primary hover:text-blue-400 transition-colors"
+        <div className="mt-6 flex flex-col items-start gap-2">
+          <a
+            href="https://calendly.com/grayvally-tech/30min"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-[#006bff] px-5 py-2 text-sm sm:text-base font-semibold text-white transition-transform duration-300 hover:scale-[1.02]"
           >
-            <span>Want to talk sooner? Book a consultation</span>
+            Book a meeting
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-          </Link>
+          </a>
+          <span className="text-xs text-text-secondary">Powered by Calendly</span>
         </div>
       </div>
     );
