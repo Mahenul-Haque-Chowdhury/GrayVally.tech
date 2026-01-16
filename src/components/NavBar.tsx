@@ -31,7 +31,8 @@ const navItems = [
     href: "/apps",
     children: [
       { label: "Discord Music Bot", href: "/apps/discord-bot" },
-      { label: "Business Card Maker", href: "https://businesscardmaker.grayvally.tech/" }
+      { label: "Business Card Maker", href: "https://businesscardmaker.grayvally.tech/" },
+      { label: "GrayVally QR Studio", href: "https://qrcode.grayvally.tech" }
     ]
   },
   { label: "Work", href: "/portfolio" },
