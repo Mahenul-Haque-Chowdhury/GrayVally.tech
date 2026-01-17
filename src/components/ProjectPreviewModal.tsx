@@ -80,10 +80,15 @@ export default function ProjectPreviewModal({ url, onClose }: ProjectPreviewModa
 
             {/* Iframe Container */}
             <div className="flex-1 bg-white overflow-hidden relative flex justify-center">
-              <div className={`h-full transition-all duration-500 ease-in-out shadow-2xl ${
-                viewMode === "desktop" ? "w-full" : 
-                viewMode === "tablet" ? "w-[768px]" : "w-[375px]"
-              }`}>
+              <div
+                className={`h-full transition-all duration-500 ease-in-out shadow-2xl ${
+                  viewMode === "desktop"
+                    ? "w-full"
+                    : viewMode === "tablet"
+                      ? "w-full max-w-[768px]"
+                      : "w-full max-w-[390px]"
+                }`}
+              >
                 <iframe 
                   src={url} 
                   className="w-full h-full border-none"

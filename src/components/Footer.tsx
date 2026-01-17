@@ -207,11 +207,11 @@ export function Footer() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 lg:w-64 rounded-full border border-border/50 bg-background/50 px-4 py-2.5 text-sm text-text-primary placeholder:text-text-secondary/60 focus:border-blue-500/50 focus:outline-none focus:ring-1 focus:ring-blue-500/50 transition-colors"
+                className="w-full flex-1 lg:w-64 rounded-full border border-border/50 bg-background/50 px-4 py-2.5 text-sm text-text-primary placeholder:text-text-secondary/60 focus:border-blue-500/50 focus:outline-none focus:ring-1 focus:ring-blue-500/50 transition-colors"
               />
               <button
                 type="submit"
-                className="group inline-flex items-center justify-center gap-2 rounded-full bg-text-primary px-6 py-2.5 text-sm font-semibold text-background transition-all duration-300 hover:bg-blue-500"
+                className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-text-primary px-6 py-2.5 text-sm font-semibold text-background transition-all duration-300 hover:bg-blue-500"
               >
                 Subscribe
                 <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

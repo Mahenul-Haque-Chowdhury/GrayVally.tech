@@ -421,10 +421,10 @@ export function Contact() {
                     <a
                       key={item.label}
                       href={item.href}
-                      className="flex items-center justify-between gap-3 rounded-2xl border border-border/40 bg-background/40 px-4 py-3 hover:border-border/70 transition-colors"
+                      className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3 rounded-2xl border border-border/40 bg-background/40 px-4 py-3 hover:border-border/70 transition-colors"
                     >
                       <span className="text-xs uppercase tracking-[0.2em] text-text-secondary/70">{item.label}</span>
-                      <span className="flex items-center gap-2 text-sm font-medium text-text-primary">
+                      <span className="flex items-center gap-2 text-sm font-medium text-text-primary break-all sm:break-normal">
                         <item.icon className="h-4 w-4" />
                         {item.value}
                       </span>
@@ -432,10 +432,10 @@ export function Contact() {
                   ))}
                   <a
                     href="tel:+8801608613747"
-                    className="flex items-center justify-between gap-3 rounded-2xl border border-border/40 bg-background/40 px-4 py-3 hover:border-border/70 transition-colors"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3 rounded-2xl border border-border/40 bg-background/40 px-4 py-3 hover:border-border/70 transition-colors"
                   >
                     <span className="text-xs uppercase tracking-[0.2em] text-text-secondary/70">Phone</span>
-                    <span className="flex items-center gap-2 text-sm font-medium text-text-primary">
+                    <span className="flex items-center gap-2 text-sm font-medium text-text-primary break-all sm:break-normal">
                       <Phone className="h-4 w-4" />
                       +880 1608-613747
                     </span>

@@ -212,7 +212,7 @@ export function About({ showOnlyPreview = false }: AboutProps) {
 
                   {/* Info */}
                   <div className="text-center space-y-3 flex-1 flex flex-col">
-                    <h4 className="text-sm sm:text-base lg:text-[15px] font-bold text-text-primary group-hover:text-blue-400 transition-colors duration-300 whitespace-nowrap">
+                    <h4 className="text-sm sm:text-base lg:text-[15px] font-bold text-text-primary group-hover:text-blue-400 transition-colors duration-300 text-balance">
                       {member.name}
                     </h4>
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 mx-auto">

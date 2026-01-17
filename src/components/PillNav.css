@@ -368,6 +368,8 @@
   opacity: 0;
   transform-origin: top center;
   visibility: hidden;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
 }
 
 .theme-light .mobile-menu-popover {

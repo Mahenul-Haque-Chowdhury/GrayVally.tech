@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { gsap } from "gsap";
@@ -129,6 +129,8 @@ const PillNav = ({
   const navItemsRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLAnchorElement>(null);
   const dropdownRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const lastFocusedElementRef = useRef<HTMLElement | null>(null);
+  const mobileMenuId = "primary-mobile-menu";
 
   useEffect(() => {
     const layout = () => {
@@ -286,7 +288,7 @@ const PillNav = ({
     });
   };
 
-  const closeMobileMenu = () => {
+  const closeMobileMenu = useCallback(() => {
     if (!isMobileMenuOpen) return;
     
     setIsMobileMenuOpen(false);
@@ -313,9 +315,13 @@ const PillNav = ({
         },
       });
     }
-  };
 
-  const toggleMobileMenu = () => {
+    requestAnimationFrame(() => {
+      hamburgerRef.current?.focus();
+    });
+  }, [ease, isMobileMenuOpen]);
+
+  const toggleMobileMenu = useCallback(() => {
     const newState = !isMobileMenuOpen;
     setIsMobileMenuOpen(newState);
 
@@ -364,7 +370,35 @@ const PillNav = ({
     }
 
     onMobileMenuClick?.();
-  };
+  }, [ease, isMobileMenuOpen, onMobileMenuClick]);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    lastFocusedElementRef.current = document.activeElement as HTMLElement | null;
+
+    const focusFirstItem = () => {
+      const firstLink = mobileMenuRef.current?.querySelector<HTMLElement>(
+        "a, button, [tabindex]:not([tabindex='-1'])"
+      );
+      firstLink?.focus();
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeMobileMenu();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    requestAnimationFrame(focusFirstItem);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      lastFocusedElementRef.current?.focus();
+    };
+  }, [closeMobileMenu, isMobileMenuOpen]);
 
   const isExternalLink = (href: string) =>
     href.startsWith("http://") ||
@@ -492,9 +526,13 @@ const PillNav = ({
         </div>
 
         <button
+          type="button"
           className="mobile-menu-button mobile-only"
           onClick={toggleMobileMenu}
           aria-label="Toggle menu"
+          aria-expanded={isMobileMenuOpen}
+          aria-controls={mobileMenuId}
+          aria-haspopup="menu"
           ref={hamburgerRef}
         >
           <span className="hamburger-line" />
@@ -502,8 +540,15 @@ const PillNav = ({
         </button>
       </nav>
 
-      <div className="mobile-menu-popover mobile-only" ref={mobileMenuRef} style={cssVars}>
-        <ul className="mobile-menu-list">
+      <div
+        id={mobileMenuId}
+        className="mobile-menu-popover mobile-only"
+        ref={mobileMenuRef}
+        style={cssVars}
+        aria-hidden={!isMobileMenuOpen}
+        tabIndex={-1}
+      >
+        <ul className="mobile-menu-list" role="menu">
           {items.map((item, i) => (
             <li key={item.href || `mobile-item-${i}`}>
               {isExternalLink(item.href) ? (
@@ -511,6 +556,7 @@ const PillNav = ({
                   href={item.href}
                   className={`mobile-menu-link${activeHref === item.href ? " is-active" : ""}`}
                   onClick={closeMobileMenu}
+                  role="menuitem"
                 >
                   {item.label}
                 </a>
@@ -519,6 +565,7 @@ const PillNav = ({
                   href={item.href}
                   className={`mobile-menu-link${activeHref === item.href ? " is-active" : ""}`}
                   onClick={closeMobileMenu}
+                  role="menuitem"
                 >
                   {item.label}
                 </Link>
