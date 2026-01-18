@@ -20,8 +20,10 @@ export function useTheme() {
   };
 
   const getSnapshot = (): "light" | "dark" =>
-    document.documentElement.classList.contains("theme-dark") ? "dark" : "light";
+    document.documentElement.classList.contains("theme-light") ? "light" : "dark";
 
+  // Server snapshot should match what the blocking script will set
+  // Default to dark since that's the CSS default
   const getServerSnapshot = (): "light" | "dark" => "dark";
 
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);

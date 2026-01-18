@@ -2,16 +2,12 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
-import { getFeaturedProjects, Project } from "@/data/portfolio";
-import { ArrowRight, ExternalLink, Globe, Eye } from "lucide-react";
-import { useState } from "react";
-import ProjectPreviewModal from "./ProjectPreviewModal";
+import { getFeaturedProjects } from "@/data/portfolio";
+import { ArrowRight } from "lucide-react";
 import { ProjectCard } from "./ProjectCard";
 
 export function Portfolio() {
   const projects = getFeaturedProjects(4);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   return (
     <section id="portfolio" className="relative bg-background py-16 sm:py-24 md:py-32 transition-colors duration-300 overflow-hidden">
@@ -48,7 +44,6 @@ export function Portfolio() {
               key={project.id} 
               project={project} 
               index={index} 
-              onPreview={(url) => setPreviewUrl(url)}
             />
           ))}
         </div>
@@ -72,10 +67,6 @@ export function Portfolio() {
         </motion.div>
       </div>
 
-      <ProjectPreviewModal 
-        url={previewUrl} 
-        onClose={() => setPreviewUrl(null)} 
-      />
     </section>
   );
 }

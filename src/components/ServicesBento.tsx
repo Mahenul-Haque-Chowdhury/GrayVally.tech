@@ -2,15 +2,13 @@
 
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, LucideIcon, X, CheckCircle2 } from "lucide-react";
 import {
   Globe,
-  Palette,
-  Layout,
-  Server,
   ShoppingCart,
-  Code2,
+  BarChart3,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -32,82 +30,43 @@ const serviceDetails: Record<string, {
   process?: string[];
 }> = {
   "01": {
-    tagline: "Crafting digital experiences that convert visitors into customers",
+    tagline: "Custom websites built to convert, scale, and ship fast",
     features: [
-      "Custom business websites tailored to your brand",
-      "High-converting landing pages",
-      "Personal portfolios that stand out",
-      "Corporate and agency sites",
-      "Complete end-to-end development",
-      "SEO-optimized structure",
+      "Discovery and requirements alignment",
+      "Information architecture and UX flows",
+      "Responsive front-end development",
+      "Secure back-end integrations",
+      "Performance optimization and SEO",
+      "Launch, monitoring, and support",
     ],
-    technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"],
-    process: ["Discovery & Planning", "Design & Prototyping", "Development", "Testing & QA", "Launch & Support"],
+    technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Vercel"],
+    process: ["Discovery", "Design", "Build", "QA", "Launch"],
   },
   "02": {
-    tagline: "Beautiful interfaces that users love to interact with",
+    tagline: "Revenue-ready online stores optimized for conversion",
     features: [
-      "Modern, responsive designs",
-      "Wireframing & interactive prototyping",
-      "Complete branding and design systems",
-      "Mobile-first approach",
-      "User research & testing",
-      "Accessibility compliance",
+      "Storefront UX and merchandising",
+      "Checkout flow optimization",
+      "Payment gateway setup",
+      "Inventory and order management",
+      "Performance and SEO tuning",
+      "Analytics and conversion tracking",
     ],
-    technologies: ["Figma", "Adobe XD", "Framer", "Principle", "Zeplin"],
-    process: ["Research", "Wireframes", "Visual Design", "Prototyping", "Handoff"],
+    technologies: ["Shopify", "WooCommerce", "Stripe", "Next.js Commerce", "Algolia"],
+    process: ["Strategy", "Design", "Build", "QA", "Launch"],
   },
   "03": {
-    tagline: "Pixel-perfect implementations with buttery-smooth animations",
+    tagline: "Search visibility and growth strategy that compounds",
     features: [
-      "React, Next.js, Vue expertise",
-      "Complex animation & interaction design",
-      "Performance optimization",
-      "Responsive across all devices",
-      "Component library development",
-      "State management solutions",
+      "Technical SEO audits",
+      "On-page optimization",
+      "Structured data and schema",
+      "Core Web Vitals improvements",
+      "Campaign setup and tracking",
+      "Analytics dashboards",
     ],
-    technologies: ["React", "Next.js", "Vue", "GSAP", "Three.js", "Framer Motion"],
-    process: ["Architecture", "Component Design", "Implementation", "Optimization", "Testing"],
-  },
-  "04": {
-    tagline: "Scalable server infrastructure that powers your business",
-    features: [
-      "RESTful & GraphQL API development",
-      "Server-side logic & business rules",
-      "Authentication & authorization",
-      "Payment gateway integration",
-      "Cloud deployment & DevOps",
-      "Database design & optimization",
-    ],
-    technologies: ["Node.js", "Python", "PostgreSQL", "MongoDB", "AWS", "Docker"],
-    process: ["Requirements", "Architecture", "Development", "Testing", "Deployment"],
-  },
-  "05": {
-    tagline: "Complete e-commerce solutions that drive sales",
-    features: [
-      "Custom online store development",
-      "Shopify & WooCommerce expertise",
-      "Next.js Commerce implementations",
-      "Cart & checkout optimization",
-      "Secure payment integrations",
-      "Inventory management systems",
-    ],
-    technologies: ["Shopify", "WooCommerce", "Stripe", "Next.js Commerce", "Saleor"],
-    process: ["Store Planning", "Design", "Development", "Payment Setup", "Launch"],
-  },
-  "06": {
-    tagline: "Tailored solutions that automate and scale your operations",
-    features: [
-      "CRM & ERP systems",
-      "Workflow automation tools",
-      "Custom dashboards & analytics",
-      "Integration with existing systems",
-      "Business process optimization",
-      "Scalable architecture",
-    ],
-    technologies: ["Node.js", "Python", "React", "PostgreSQL", "AWS", "Docker"],
-    process: ["Discovery", "Design", "Development", "Integration", "Deployment"],
+    technologies: ["Google Analytics", "Search Console", "Ahrefs", "SEMrush", "Tag Manager"],
+    process: ["Audit", "Roadmap", "Implementation", "Campaigns", "Optimization"],
   },
 };
 
@@ -119,6 +78,8 @@ interface BentoService {
   category: string;
   featured?: boolean;
   gradient?: string;
+  image: string;
+  imageAlt: string;
 }
 
 // Curated services for the bento layout with specific sizing
@@ -126,54 +87,32 @@ const bentoServices: BentoService[] = [
   {
     id: "01",
     title: "Website Development",
-    description:
-      "Custom business websites, landing pages, and portfolios crafted with modern frameworks and pixel-perfect attention to detail.",
+    description: "Custom business websites and landing pages built for speed, scale, and conversion.",
     icon: Globe,
     category: "Development",
-    featured: true,
     gradient: "from-blue-500/20 via-cyan-500/10 to-transparent",
+    image: "/web-development-services.png",
+    imageAlt: "Website development service preview",
   },
   {
     id: "02",
-    title: "UI/UX Design",
-    description:
-      "Beautiful, intuitive interfaces designed for conversion. From wireframes to high-fidelity prototypes.",
-    icon: Palette,
-    category: "Design",
-    featured: true,
-    gradient: "from-violet-500/20 via-purple-500/10 to-transparent",
-  },
-  {
-    id: "03",
-    title: "Front-End Development",
-    description: "React, Next.js, Vue — pixel-perfect implementations with smooth animations.",
-    icon: Layout,
-    category: "Development",
-    gradient: "from-emerald-500/20 via-teal-500/10 to-transparent",
-  },
-  {
-    id: "04",
-    title: "Back-End Development",
-    description: "Scalable APIs, authentication, payment systems, and cloud infrastructure.",
-    icon: Server,
-    category: "Development",
-    gradient: "from-orange-500/20 via-amber-500/10 to-transparent",
-  },
-  {
-    id: "05",
-    title: "E-Commerce",
-    description: "Custom stores with seamless checkout and payment integration.",
+    title: "E-Commerce Solutions",
+    description: "Conversion-first storefronts with secure payments and scalable architecture.",
     icon: ShoppingCart,
     category: "Solutions",
     gradient: "from-pink-500/20 via-rose-500/10 to-transparent",
+    image: "/ecommerce-solutions.png",
+    imageAlt: "E-commerce solutions service preview",
   },
   {
-    id: "06",
-    title: "Custom Software",
-    description: "CRM, ERP, and automated workflows tailored to your business.",
-    icon: Code2,
-    category: "Solutions",
-    gradient: "from-indigo-500/20 via-blue-500/10 to-transparent",
+    id: "03",
+    title: "SEO & Digital Marketing",
+    description: "Technical SEO and growth campaigns that improve visibility and ROI.",
+    icon: BarChart3,
+    category: "Growth",
+    gradient: "from-cyan-500/20 via-sky-500/10 to-transparent",
+    image: "/seo-digital-marketing.png",
+    imageAlt: "SEO and digital marketing service preview",
   },
 ];
 
@@ -500,18 +439,19 @@ function BentoCard({ service, index, className, onClick }: BentoCardProps) {
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
       transition={{ delay: index * 0.1 }}
-      whileHover={{ scale: 1.02 }}
+      whileHover={{ scale: 1.01 }}
       onClick={onClick}
       className={cn(
         // Base glassmorphism styling - theme aware
         "group relative overflow-hidden rounded-2xl sm:rounded-3xl cursor-pointer",
         "bg-surface/20 backdrop-blur-xl",
-        "border border-border/40",
+        "border border-transparent",
         // Padding
-        "p-6 sm:p-8",
+        "p-5 sm:p-6",
+        "min-h-[420px] sm:min-h-[460px]",
         // Hover glow transition
         "transition-all duration-500 ease-out",
-        "hover:border-border/80",
+        "hover:border-transparent",
         "hover:bg-surface/40",
         "hover:shadow-lg hover:shadow-blue-500/10",
         className
@@ -527,8 +467,22 @@ function BentoCard({ service, index, className, onClick }: BentoCardProps) {
 
       {/* Content */}
       <div className="relative z-10 flex h-full flex-col">
+        {/* Image */}
+        <div className="relative overflow-hidden rounded-2xl border border-border/40 bg-surface/30">
+          <Image
+            src={service.image}
+            alt={service.imageAlt}
+            width={1200}
+            height={800}
+            className="h-44 sm:h-52 w-full object-cover"
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            priority={index === 0}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/40" />
+        </div>
+
         {/* Header: Icon + Category */}
-        <div className="flex items-start justify-between">
+        <div className="flex items-start justify-between mt-5">
           <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-border/30 transition-all duration-300 group-hover:from-blue-500/20 group-hover:to-cyan-500/20 group-hover:border-blue-500/30">
             <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-blue-400 transition-colors duration-300 group-hover:text-cyan-400" />
           </div>
@@ -538,7 +492,7 @@ function BentoCard({ service, index, className, onClick }: BentoCardProps) {
         </div>
 
         {/* Title */}
-        <h3 className="mt-5 sm:mt-6 text-xl sm:text-2xl font-semibold text-text-primary transition-colors duration-300 group-hover:text-blue-400">
+        <h3 className="mt-5 text-xl sm:text-2xl font-semibold text-text-primary transition-colors duration-300 group-hover:text-blue-400">
           {service.title}
         </h3>
 
@@ -603,26 +557,11 @@ export function ServicesBento() {
 
           {/* Bento Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {/* Featured cards - span 2 columns on large screens */}
-            {bentoServices.slice(0, 2).map((service, index) => (
+            {bentoServices.map((service, index) => (
               <BentoCard
                 key={service.id}
                 service={service}
                 index={index}
-                onClick={(e) => handleServiceClick(service, e)}
-                className={cn(
-                  "md:col-span-1 lg:col-span-1",
-                  index === 0 && "lg:row-span-2 lg:min-h-[400px]"
-                )}
-              />
-            ))}
-
-            {/* Standard cards */}
-            {bentoServices.slice(2).map((service, index) => (
-              <BentoCard
-                key={service.id}
-                service={service}
-                index={index + 2}
                 onClick={(e) => handleServiceClick(service, e)}
               />
             ))}
@@ -638,9 +577,9 @@ export function ServicesBento() {
           >
             <Link
               href="/web-solutions"
-              className="group inline-flex items-center justify-center gap-2 rounded-full border border-border/60 bg-surface/30 backdrop-blur-sm px-8 py-4 text-sm sm:text-base font-semibold text-text-primary transition-all duration-300 hover:border-blue-500/50 hover:bg-surface/50 hover:shadow-lg hover:shadow-blue-500/10"
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-400 px-8 py-4 text-sm sm:text-base font-semibold text-white shadow-lg shadow-blue-500/30 ring-1 ring-white/30 backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/30 hover:brightness-110"
             >
-              <span>View All Services</span>
+              <span>Explore Web Services</span>
               <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </motion.div>

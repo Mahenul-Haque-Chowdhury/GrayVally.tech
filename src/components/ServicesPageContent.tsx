@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { allServices } from "../data/services";
 import { ArrowLeft, ArrowRight, X, LucideIcon, CheckCircle2 } from "lucide-react";
@@ -22,147 +23,177 @@ const serviceDetails: Record<string, {
   process?: string[];
 }> = {
   "01": {
-    tagline: "Crafting digital experiences that convert visitors into customers",
+    tagline: "Complete web builds that launch fast, scale securely, and convert globally",
     features: [
-      "Custom business websites tailored to your brand",
-      "High-converting landing pages",
-      "Personal portfolios that stand out",
-      "Corporate and agency sites",
-      "Complete end-to-end development",
-      "SEO-optimized structure",
+      "Discovery, requirements, and stakeholder alignment",
+      "Information architecture & user journey mapping",
+      "UI/UX design, wireframes, and high‑fidelity prototypes",
+      "Responsive front-end engineering (mobile, tablet, desktop)",
+      "Back-end services, APIs, and database integration",
+      "CMS or admin dashboard setup (content & workflows)",
+      "Authentication, roles, and security hardening",
+      "Performance optimization, caching, and image strategy",
+      "Technical SEO, metadata, and accessibility compliance",
+      "Analytics, event tracking, and conversion reporting",
+      "Automated testing, QA, and cross‑browser validation",
+      "Deployment, CI/CD, monitoring, and documentation",
     ],
-    technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"],
-    process: ["Discovery & Planning", "Design & Prototyping", "Development", "Testing & QA", "Launch & Support"],
+    technologies: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Node.js",
+      "PostgreSQL",
+      "Vercel",
+      "AWS",
+      "Cloudflare",
+      "Framer Motion",
+    ],
+    process: [
+      "Discovery & Scope",
+      "UX/UI Design",
+      "Architecture & Planning",
+      "Front-End & Back-End Development",
+      "QA & Performance",
+      "Launch & Monitoring",
+      "Ongoing Optimization",
+    ],
   },
   "02": {
-    tagline: "Beautiful interfaces that users love to interact with",
+    tagline: "Design systems and experiences that build trust and drive conversion",
     features: [
-      "Modern, responsive designs",
-      "Wireframing & interactive prototyping",
-      "Complete branding and design systems",
-      "Mobile-first approach",
-      "User research & testing",
-      "Accessibility compliance",
+      "User research and stakeholder workshops",
+      "Persona definition and journey mapping",
+      "Wireframes, flows, and clickable prototypes",
+      "Design system with components & tokens",
+      "Mobile-first and accessibility‑first layouts",
+      "Conversion-focused UI patterns",
+      "Usability testing and iteration cycles",
+      "Developer-ready handoff specs",
     ],
-    technologies: ["Figma", "Adobe XD", "Framer", "Principle", "Zeplin"],
-    process: ["Research", "Wireframes", "Visual Design", "Prototyping", "Handoff"],
+    technologies: ["Figma", "FigJam", "Adobe XD", "Framer", "Notion"],
+    process: ["Research", "Wireframes", "Design System", "Prototyping", "Validation", "Handoff"],
   },
   "03": {
-    tagline: "Pixel-perfect implementations with buttery-smooth animations",
+    tagline: "Fast, accessible front-end delivery engineered for scale",
     features: [
-      "React, Next.js, Vue expertise",
-      "Complex animation & interaction design",
-      "Performance optimization",
-      "Responsive across all devices",
-      "Component library development",
-      "State management solutions",
+      "Component-driven architecture",
+      "Pixel-perfect UI implementation",
+      "Advanced animations and micro‑interactions",
+      "Performance budgets & Core Web Vitals",
+      "State management & data fetching patterns",
+      "Accessibility and keyboard navigation",
+      "Reusable UI library for long-term maintainability",
     ],
-    technologies: ["React", "Next.js", "Vue", "GSAP", "Three.js", "Framer Motion"],
-    process: ["Architecture", "Component Design", "Implementation", "Optimization", "Testing"],
+    technologies: ["React", "Next.js", "TypeScript", "GSAP", "Framer Motion", "Storybook"],
+    process: ["Architecture", "Component Build", "Integration", "Optimization", "Testing"],
   },
   "04": {
-    tagline: "Scalable server infrastructure that powers your business",
+    tagline: "Secure, resilient back-end systems built for enterprise traffic",
     features: [
-      "RESTful & GraphQL API development",
-      "Server-side logic & business rules",
-      "Authentication & authorization",
-      "Payment gateway integration",
-      "Cloud deployment & DevOps",
-      "Database design & optimization",
+      "API design (REST/GraphQL) with documentation",
+      "Business logic & workflow orchestration",
+      "Authentication, authorization, and RBAC",
+      "Payments, billing, and third‑party integrations",
+      "Scalable deployment and infrastructure automation",
+      "Database schema design and optimization",
+      "Monitoring, logging, and alerting",
     ],
-    technologies: ["Node.js", "Python", "PostgreSQL", "MongoDB", "AWS", "Docker"],
-    process: ["Requirements", "Architecture", "Development", "Testing", "Deployment"],
+    technologies: ["Node.js", "Python", "PostgreSQL", "MongoDB", "Redis", "Docker", "AWS"],
+    process: ["Requirements", "System Design", "Development", "Security Review", "Testing", "Deployment"],
   },
   "05": {
-    tagline: "Complete e-commerce solutions that drive sales",
+    tagline: "Revenue-ready commerce ecosystems optimized for conversion",
     features: [
-      "Custom online store development",
-      "Shopify & WooCommerce expertise",
-      "Next.js Commerce implementations",
-      "Cart & checkout optimization",
-      "Secure payment integrations",
-      "Inventory management systems",
+      "Product catalog architecture and merchandising",
+      "Checkout flow optimization and payment gateways",
+      "Shipping, taxes, and multi‑currency setup",
+      "Inventory, promotions, and discount logic",
+      "Customer accounts and order management",
+      "Performance, SEO, and analytics instrumentation",
+      "Fraud protection and security checks",
     ],
-    technologies: ["Shopify", "WooCommerce", "Stripe", "Next.js Commerce", "Saleor"],
-    process: ["Store Planning", "Design", "Development", "Payment Setup", "Launch"],
+    technologies: ["Shopify", "WooCommerce", "Stripe", "Next.js Commerce", "Saleor", "Algolia"],
+    process: ["Commerce Strategy", "UX Design", "Build & Integrations", "QA", "Launch & Growth"],
   },
   "06": {
-    tagline: "Robust data infrastructure for reliable operations",
+    tagline: "Stable, secure data platforms that keep business systems healthy",
     features: [
-      "Database design & architecture",
-      "MySQL, MongoDB, PostgreSQL",
-      "Query optimization & indexing",
-      "Backup & disaster recovery",
-      "Server setup & maintenance",
-      "Performance monitoring",
+      "Database architecture and schema design",
+      "Performance tuning and indexing strategy",
+      "Backup policies and disaster recovery",
+      "Server provisioning, scaling, and patching",
+      "Replication and high availability setup",
+      "Monitoring, alerts, and capacity planning",
     ],
-    technologies: ["MySQL", "PostgreSQL", "MongoDB", "Redis", "AWS RDS", "Docker"],
-    process: ["Assessment", "Design", "Migration", "Optimization", "Monitoring"],
+    technologies: ["PostgreSQL", "MySQL", "MongoDB", "Redis", "AWS RDS", "Docker", "Grafana"],
+    process: ["Assessment", "Design", "Implementation", "Optimization", "Monitoring"],
   },
   "07": {
-    tagline: "Keep your applications running smoothly",
+    tagline: "Proactive maintenance that protects uptime and user trust",
     features: [
-      "Front-end & back-end bug fixing",
-      "Performance issue resolution",
-      "Cross-browser compatibility fixes",
-      "Security patching & updates",
-      "Regular maintenance plans",
-      "24/7 emergency support",
+      "Critical bug triage and rapid fixes",
+      "Performance diagnostics and remediation",
+      "Cross-browser and device compatibility",
+      "Security patching and dependency updates",
+      "Monitoring, alerts, and uptime reporting",
+      "SLA-based support and routine health checks",
     ],
-    technologies: ["All modern frameworks", "Debugging tools", "Monitoring systems"],
-    process: ["Diagnosis", "Analysis", "Fix Implementation", "Testing", "Monitoring"],
+    technologies: ["Sentry", "Datadog", "Lighthouse", "Jest", "Playwright", "Dependabot"],
+    process: ["Audit", "Prioritization", "Fix & Validate", "Release", "Ongoing Monitoring"],
   },
   "08": {
-    tagline: "Native experiences on every device",
+    tagline: "Mobile applications engineered for performance and adoption",
     features: [
-      "iOS & Android development",
-      "Cross-platform with Flutter & React Native",
-      "API integration & backend connectivity",
-      "Push notifications & real-time features",
-      "App Store & Play Store deployment",
-      "Ongoing maintenance & updates",
+      "Native iOS and Android delivery",
+      "Cross‑platform builds with shared code",
+      "API integration and real-time sync",
+      "Push notifications and app analytics",
+      "App Store and Play Store compliance",
+      "Ongoing updates and performance tuning",
     ],
-    technologies: ["Flutter", "React Native", "Swift", "Kotlin", "Firebase"],
-    process: ["Planning", "Design", "Development", "Testing", "Store Submission"],
+    technologies: ["Flutter", "React Native", "Swift", "Kotlin", "Firebase", "App Store Connect"],
+    process: ["Discovery", "UX/UI", "Development", "QA", "Store Submission", "Iteration"],
   },
   "09": {
-    tagline: "Tailored solutions for unique business needs",
+    tagline: "Automation and custom systems built around your operations",
     features: [
-      "Custom business applications",
-      "CRM & ERP development",
-      "Workflow automation",
-      "AI & ML integrations",
-      "Third-party API integrations",
-      "Legacy system modernization",
+      "Business process mapping and automation",
+      "Custom software and internal tooling",
+      "CRM/ERP workflow alignment",
+      "AI and ML integrations where valuable",
+      "Secure API integrations and data pipelines",
+      "Legacy modernization and system consolidation",
     ],
-    technologies: ["Python", "Node.js", "TensorFlow", "OpenAI", "Zapier", "n8n"],
-    process: ["Discovery", "Design", "Development", "Integration", "Training"],
+    technologies: ["Python", "Node.js", "OpenAI", "Zapier", "n8n", "PostgreSQL"],
+    process: ["Discovery", "Solution Design", "Build", "Integration", "Enablement"],
   },
   "11": {
-    tagline: "Get found by your ideal customers",
+    tagline: "Search visibility and growth strategy that compounds",
     features: [
-      "On-page SEO optimization",
-      "Technical SEO audits",
-      "Content strategy & optimization",
-      "Google Ads setup & management",
-      "Meta Ads campaigns",
-      "Analytics & reporting",
+      "Technical SEO audits and fixes",
+      "On‑page optimization and content planning",
+      "Structured data and schema markup",
+      "Performance and Core Web Vitals improvements",
+      "Paid search and social campaign setup",
+      "Analytics dashboards and KPI tracking",
     ],
-    technologies: ["Google Analytics", "Search Console", "Ahrefs", "SEMrush", "Meta Ads"],
-    process: ["Audit", "Strategy", "Implementation", "Monitoring", "Optimization"],
+    technologies: ["Google Analytics", "Search Console", "Ahrefs", "SEMrush", "Meta Ads", "Tag Manager"],
+    process: ["Audit", "Roadmap", "Implementation", "Campaigns", "Optimization"],
   },
   "12": {
-    tagline: "Strategic guidance for your digital journey",
+    tagline: "Senior guidance that aligns technology with business outcomes",
     features: [
-      "Project planning & roadmapping",
-      "System architecture design",
-      "Technology stack selection",
-      "Business process automation",
-      "Digital transformation strategy",
-      "Ongoing advisory & mentorship",
+      "Technical discovery and risk assessment",
+      "Architecture planning and scalability review",
+      "Stack selection and vendor evaluation",
+      "Delivery roadmap and milestone planning",
+      "Cost optimization and operational readiness",
+      "Ongoing advisory and governance support",
     ],
-    technologies: ["Miro", "Notion", "Various tech stacks"],
-    process: ["Assessment", "Strategy", "Roadmap", "Implementation Support", "Review"],
+    technologies: ["Miro", "Notion", "Jira", "AWS", "Azure", "GCP"],
+    process: ["Assessment", "Strategy", "Roadmap", "Execution Support", "Review"],
   },
 };
 
@@ -222,6 +253,83 @@ interface Service {
   icon: LucideIcon;
   category: string;
 }
+
+interface WebSolutionItem {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+  includes?: string;
+}
+
+const webSolutionsServices: WebSolutionItem[] = [
+  {
+    id: "01",
+    title: "Web Development",
+    description:
+      "End-to-end web delivery for modern businesses from strategy to launch with secure, scalable, and high-performing builds.",
+    includes: "Includes UI/UX Design, Front-End Development, Back-End Development.",
+    image: "/web-development-services.png",
+    imageAlt: "Enterprise web development service visual",
+  },
+  {
+    id: "05",
+    title: "E-Commerce Solutions",
+    description:
+      "Conversion-optimized storefronts with secure payments, inventory workflows, and scalable architecture for global sales.",
+    image: "/ecommerce-solutions.png",
+    imageAlt: "Professional e-commerce solutions dashboard visual",
+  },
+  {
+    id: "06",
+    title: "Database & Server Management",
+    description:
+      "Reliable infrastructure with optimized databases, backups, monitoring, and performance tuning to keep systems fast and secure.",
+    image: "/database-server-management.png",
+    imageAlt: "Database and server management infrastructure visual",
+  },
+  {
+    id: "07",
+    title: "Bug Fixing & Maintenance",
+    description:
+      "Rapid issue resolution, stability improvements, and ongoing maintenance that protects uptime and customer trust.",
+    image: "/bug-fixing-maintenance.png",
+    imageAlt: "Bug fixing and maintenance workflow visual",
+  },
+  {
+    id: "08",
+    title: "Mobile App Development",
+    description:
+      "Cross-platform and native mobile apps with seamless API integrations, push notifications, and app-store readiness.",
+    image: "/mobile-app-development.png",
+    imageAlt: "Mobile app development service visual",
+  },
+  {
+    id: "09",
+    title: "Custom Software & Automation",
+    description:
+      "Tailor-made business software and workflow automation that reduces manual work and unlocks operational efficiency.",
+    image: "/custom-software-automation.png",
+    imageAlt: "Custom software and automation systems visual",
+  },
+  {
+    id: "11",
+    title: "SEO & Digital Marketing",
+    description:
+      "Technical SEO and growth campaigns that improve visibility, traffic quality, and measurable ROI.",
+    image: "/seo-digital-marketing.png",
+    imageAlt: "SEO and digital marketing analytics visual",
+  },
+  {
+    id: "12",
+    title: "Tech Consultancy",
+    description:
+      "Senior advisory for architecture, tooling, and delivery strategy to de-risk launches and scale with confidence.",
+    image: "/tech-consultancy.png",
+    imageAlt: "Technology consultancy and strategy session visual",
+  },
+];
 
 interface ServiceModalProps {
   service: Service;
@@ -315,11 +423,10 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
       {/* Scrollable container - this handles the scroll */}
       <div 
         ref={scrollRef}
-        className="absolute inset-0 overflow-y-auto overflow-x-hidden overscroll-contain touch-pan-y"
+        className="absolute inset-0 overflow-y-auto overflow-x-hidden overscroll-contain touch-pan-y [-webkit-overflow-scrolling:touch]"
         data-lenis-prevent
         data-lenis-prevent-wheel
         data-lenis-prevent-touch
-        style={{ WebkitOverflowScrolling: 'touch' }}
         onWheel={handleWheel}
       >
         {/* Close Button - Fixed position with safe area for mobile */}
@@ -502,88 +609,91 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
   );
 }
 
-interface ServiceCardProps {
-  service: Service;
+interface ServiceRowProps {
+  item: WebSolutionItem;
   index: number;
-  onClick: (event: React.MouseEvent) => void;
+  service?: Service;
+  onLearnMore: (event: React.MouseEvent) => void;
 }
 
-function ServiceCard({ service, index, onClick }: ServiceCardProps) {
-  const Icon = service.icon;
-  const gradient = getServiceGradient(service.category);
+function ServiceRow({ item, index, service, onLearnMore }: ServiceRowProps) {
+  const isOdd = index % 2 === 0;
+  const buttonLabel = service?.title ?? item.title;
+  const Icon = service?.icon;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
+    <motion.article
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ delay: index * 0.05, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ scale: 1.02, y: -4 }}
-      className="group relative overflow-hidden rounded-2xl sm:rounded-3xl cursor-pointer bg-surface/20 backdrop-blur-xl border border-border/40 p-6 sm:p-8 transition-all duration-500 ease-out hover:border-border/80 hover:bg-surface/40 hover:shadow-xl hover:shadow-black/10"
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      className="rounded-3xl bg-surface/20 shadow-sm backdrop-blur-sm"
     >
-      {/* Gradient accent line */}
-      <div className={cn(
-        "absolute top-0 left-0 right-0 h-1 bg-gradient-to-r opacity-90 group-hover:opacity-100 transition-opacity",
-        gradient
-      )} />
-
-      {/* Gradient overlay on hover */}
-      <div className={cn(
-        "absolute inset-0 bg-gradient-to-br opacity-0 transition-opacity duration-500 group-hover:opacity-15",
-        gradient
-      )} />
-
-      <div className="relative z-10 flex h-full flex-col">
-        {/* Header */}
-        <div className="flex items-start justify-between">
-          <div className={cn(
-            "flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl sm:rounded-2xl bg-gradient-to-br transition-transform duration-300 group-hover:scale-110",
-            gradient
-          )}>
-            <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-white" />
+      <div className="grid gap-8 md:grid-cols-2 items-center p-6 sm:p-8 lg:p-10">
+        <div
+          className={cn(
+            "order-1",
+            isOdd ? "md:order-2" : "md:order-1"
+          )}
+        >
+          <div className="group relative overflow-hidden rounded-2xl border border-border/40 bg-surface/30 shadow-sm">
+            <Image
+              src={item.image}
+              alt={item.imageAlt}
+              width={1200}
+              height={800}
+              className="h-72 w-full object-cover sm:h-96 md:h-[420px]"
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              priority={index < 2}
+            />
+            <div className="absolute inset-0 bg-surface/10" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Link
+                href="/contact"
+                className="group inline-flex items-center justify-center rounded-full bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-400 px-6 py-2.5 text-sm sm:text-base font-semibold text-white shadow-lg shadow-blue-500/30 ring-1 ring-white/30 backdrop-blur-sm transition-all duration-200 hover:shadow-xl hover:shadow-cyan-500/30 hover:brightness-110"
+              >
+                Get free consultation
+              </Link>
+            </div>
           </div>
-          <span className={cn(
-            "rounded-full px-3 py-1 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-white bg-gradient-to-r",
-            gradient
-          )}>
-            {service.category}
-          </span>
         </div>
 
-        {/* Content */}
-        <h3 className={cn(
-          "mt-5 sm:mt-6 text-lg sm:text-xl font-semibold bg-gradient-to-r bg-clip-text text-transparent",
-          gradient
-        )}>
-          {service.title}
-        </h3>
-
-        <p className="mt-3 text-sm text-text-secondary/80 leading-relaxed flex-grow">
-          {service.description}
-        </p>
-
-        <div className="mt-6">
-          <button
-            type="button"
-            onClick={onClick}
-            className={cn(
-              "inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border/40 bg-background/30 px-4 py-2.5 text-sm font-medium text-text-secondary transition-all duration-300 hover:text-text-primary hover:border-border/60 hover:bg-background/50",
-              "group-hover:shadow-sm"
+        <div
+          className={cn(
+            "order-2",
+            isOdd ? "md:order-1" : "md:order-2"
+          )}
+        >
+          <h3 className="flex items-center gap-3 text-3xl sm:text-4xl font-semibold text-text-primary">
+            {Icon && (
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-border/40 bg-surface/40">
+                <Icon className="h-5 w-5 text-blue-400" />
+              </span>
             )}
-            aria-label={`Learn more about ${service.title}`}
-          >
-            <span>Learn more</span>
-            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-          </button>
+            <span>{item.title}</span>
+          </h3>
+          <p className="mt-4 text-sm sm:text-base text-text-secondary leading-relaxed">
+            {item.description}
+          </p>
+          {item.includes && (
+            <p className="mt-3 text-sm text-text-secondary/80">
+              <span className="font-semibold text-text-primary">Includes:</span> {item.includes}
+            </p>
+          )}
+          <div className="mt-6">
+            <button
+              type="button"
+              onClick={onLearnMore}
+              className="group inline-flex items-center justify-center gap-2 rounded-full border border-border/60 bg-background/40 px-5 py-2.5 text-sm font-semibold text-text-primary transition-colors duration-200 hover:border-blue-500/60 hover:bg-surface/50"
+              aria-label={`Learn more about ${buttonLabel}`}
+            >
+              <span>Learn more</span>
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </button>
+          </div>
         </div>
       </div>
-
-      {/* Corner glow */}
-      <div className={cn(
-        "absolute -right-12 -top-12 h-32 w-32 rounded-full bg-gradient-to-br opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100",
-        gradient
-      )} />
-    </motion.div>
+    </motion.article>
   );
 }
 
@@ -606,17 +716,13 @@ export function ServicesPageContent() {
   return (
     <>
       <main className="min-h-screen bg-background transition-colors duration-300">
-        {/* Hero Section */}
-        <section className="relative pt-24 sm:pt-32 pb-16 sm:pb-24 overflow-hidden">
-          {/* Background effects */}
-          <div className="absolute inset-0 bg-gradient-to-b from-surface/50 via-background to-background pointer-events-none" />
-          <div className="absolute top-20 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-[128px] pointer-events-none" />
-          <div className="absolute top-40 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-[128px] pointer-events-none" />
+        {/* Page Introduction */}
+        <section className="relative pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-surface/40 via-background to-background pointer-events-none" />
 
-          <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
-            {/* Back Link */}
+          <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: -16 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
             >
@@ -629,136 +735,43 @@ export function ServicesPageContent() {
               </Link>
             </motion.div>
 
-            {/* Header */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
+            <motion.header
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-center max-w-4xl mx-auto"
+              className="text-center"
             >
-              <span className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-surface/30 backdrop-blur-sm px-4 py-1.5 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-text-secondary mb-6">
-                Our Services
-              </span>
-              <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text-primary">
-                Complete{" "}
-                <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-                  Digital Solutions
+              <h1 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary">
+                <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-300 bg-clip-text text-transparent">
+                  Our Web Solutions
                 </span>
               </h1>
-              <p className="mt-6 text-base sm:text-lg md:text-xl text-text-secondary/90 leading-relaxed max-w-2xl mx-auto">
-                From concept to deployment, we provide end-to-end services to build, scale, and maintain your digital infrastructure.
+              <p className="mt-5 text-base sm:text-lg text-text-secondary leading-relaxed max-w-2xl mx-auto">
+                A well-structured, scalable web solution cuts costs, avoids growth bottlenecks, and struggling measurable business results.
               </p>
-            </motion.div>
-
-            {/* Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="mt-12 sm:mt-16 grid grid-cols-3 gap-4 sm:gap-8 max-w-2xl mx-auto"
-            >
-              {[ 
-                { value: `${allServices.length}+`, label: "Services", gradient: "from-blue-500 to-cyan-500" },
-                { value: "4", label: "Categories", gradient: "from-emerald-500 to-teal-500" },
-                { value: "24/7", label: "Support", gradient: "from-amber-500 to-orange-500" },
-              ].map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 + index * 0.1 }}
-                  className="relative text-center p-4 rounded-2xl bg-surface/20 border border-border/30 backdrop-blur-sm overflow-hidden"
-                >
-                  <div className={cn(
-                    "absolute inset-0 opacity-0 transition-opacity bg-gradient-to-br",
-                    stat.gradient
-                  )} />
-                  <p className={cn(
-                    "relative text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r bg-clip-text text-transparent",
-                    stat.gradient
-                  )}>
-                    {stat.value}
-                  </p>
-                  <p className="text-[10px] sm:text-xs text-text-secondary uppercase tracking-wider mt-1">{stat.label}</p>
-                </motion.div>
-              ))}
-            </motion.div>
+            </motion.header>
           </div>
         </section>
 
-        {/* All Services Grid */}
-        <section className="pt-0 pb-8 sm:pb-12">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="mb-6 sm:mb-8 text-center"
-            >
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary">
-                All{" "}
-                <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-                  Services
-                </span>
-              </h2>
-              <p className="mt-4 text-text-secondary max-w-2xl mx-auto">
-                Click on any service to learn more about what we offer.
-              </p>
-            </motion.div>
+        {/* Services */}
+        <section className="pb-16 sm:pb-24">
+          <div className="mx-auto max-w-screen-2xl px-4 sm:px-6">
+            <div className="space-y-8 sm:space-y-12">
+              {webSolutionsServices.map((item, index) => {
+                const service = allServices.find((entry) => entry.id === item.id);
+                if (!service) return null;
 
-            <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-              {allServices.map((service, index) => (
-                <ServiceCard
-                  key={service.id}
-                  service={service}
-                  index={index}
-                  onClick={(e) => handleServiceClick(service, e)}
-                />
-              ))}
+                return (
+                  <ServiceRow
+                    key={item.id}
+                    item={item}
+                    index={index}
+                    service={service}
+                    onLearnMore={(event) => handleServiceClick(service, event)}
+                  />
+                );
+              })}
             </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="py-16 sm:py-24 relative overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[128px] pointer-events-none" />
-          
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 text-center relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="p-8 sm:p-12 rounded-3xl bg-surface/20 border border-border/40 backdrop-blur-xl"
-            >
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary">
-                Ready to Build Something{" "}
-                <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-                  Amazing?
-                </span>
-              </h2>
-              <p className="mt-4 sm:mt-6 text-base sm:text-lg text-text-secondary max-w-2xl mx-auto">
-                Let&apos;s discuss how we can help bring your vision to life.
-              </p>
-              <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link
-                  href="/contact"
-                  className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-text-primary px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-background transition-all duration-300 hover:scale-105 active:scale-95"
-                >
-                  <span className="relative z-10">Start a Project</span>
-                  <ArrowRight className="relative z-10 h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-300 group-hover:translate-x-1" />
-                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-blue-500 to-cyan-500 transition-transform duration-300 group-hover:translate-x-0" />
-                </Link>
-                <Link
-                  href="/"
-                  className="group inline-flex items-center justify-center gap-2 rounded-full border border-border/60 bg-surface/30 backdrop-blur-sm px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-text-primary transition-all duration-300 hover:border-blue-500/50 hover:bg-surface/50"
-                >
-                  <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
-                  <span>Back to Home</span>
-                </Link>
-              </div>
-            </motion.div>
           </div>
         </section>
       </main>

@@ -25,7 +25,7 @@ const teamMembers: TeamMember[] = [
     name: "Mahenul Haque Chowdhury",
     role: "CEO & Lead Engineer",
     bio: "Leads strategy and ships end-to-end web products with a focus on performance, security, and reliability.",
-    image: "/CEO.jpeg",
+    image: "/mahenul-haque-chowdhury-grayvally-ceo.png",
     links: {
       website: "https://arnob.life",
     },
@@ -121,11 +121,16 @@ export function About({ showOnlyPreview = false }: AboutProps) {
           </div>
           <div className="relative order-first md:order-last">
             <div className="aspect-square w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto overflow-hidden rounded-lg border border-border/50 bg-surface/50">
-              {/* Abstract graphic */}
-              <div className="h-full w-full bg-gradient-to-br from-blue-50/50 to-background dark:from-surfaceHighlight dark:to-background p-8">
-                <div className="h-full w-full border-2 border-border/60 rounded-lg flex items-center justify-center">
-                  <span className="font-mono text-sm sm:text-base text-text-secondary/70 tracking-wider">EST. 2024</span>
-                </div>
+              <div className="relative h-full w-full">
+                <Image
+                  src="/company.png"
+                  alt="GrayVally company"
+                  fill
+                  sizes="(min-width: 768px) 28rem, (min-width: 640px) 24rem, 20rem"
+                  className="object-cover"
+                  priority={false}
+                />
+                <div className="absolute inset-0 bg-gradient-to-tr from-background/10 via-transparent to-background/5" />
               </div>
             </div>
           </div>

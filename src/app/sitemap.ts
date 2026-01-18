@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { getProjectSlugs } from "@/data/portfolio";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://grayvally.tech";
@@ -9,6 +10,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { slug: "choose-web-development-company-bangladesh", lastModified: new Date("2024-01-15") },
     { slug: "nextjs-performance-optimization-lessons", lastModified: new Date("2024-02-01") },
   ];
+
+  const workPages = getProjectSlugs().map((slug) => ({
+    url: `${base}/work/${slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
 
   return [
     // High priority pages
@@ -33,5 +41,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.6,
     })),
+    ...workPages,
   ];
 }

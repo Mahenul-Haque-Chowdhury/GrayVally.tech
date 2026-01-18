@@ -9,14 +9,22 @@ import { allServices } from "../data/services";
 
 const ThemeToggle = dynamic(() => import("./ThemeToggle").then((mod) => mod.ThemeToggle), { ssr: false });
 
+const excludedNavServices = new Set([
+  "UI/UX & Web Design",
+  "Front-End Development",
+  "Back-End Development",
+]);
+
 const navItems = [
   { 
     label: "Web Solutions", 
     href: "/web-solutions",
-    children: allServices.map(service => ({
-      label: service.title,
-      href: "/web-solutions"
-    }))
+    children: allServices
+      .filter(service => !excludedNavServices.has(service.title))
+      .map(service => ({
+        label: service.title,
+        href: "/web-solutions"
+      }))
   },
   { 
     label: "Software Solutions", 
@@ -35,7 +43,7 @@ const navItems = [
       { label: "GrayVally QR Studio", href: "https://qrcode.grayvally.tech" }
     ]
   },
-  { label: "Work", href: "/portfolio" },
+  { label: "Experience", href: "/portfolio" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];

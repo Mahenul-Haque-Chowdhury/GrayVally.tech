@@ -1,14 +1,22 @@
 "use client";
 
-import { useEffect, useRef, ReactNode } from "react";
+import { useEffect, useRef, ReactNode, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// Register GSAP plugins
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // ============================================================================
 // DESIGN NOTES:
 // - Lenis provides buttery-smooth scrolling without jank
-// - Compatible with GSAP ScrollTrigger if needed
+// - Integrated with GSAP ScrollTrigger for scroll-linked animations
 // - Uses requestAnimationFrame for smooth updates
-// - Configurable duration and easing
+// - Route change cleanup to prevent memory leaks
 // ============================================================================
 
 interface SmoothScrollProviderProps {
@@ -23,18 +31,41 @@ interface SmoothScrollProviderProps {
   };
 }
 
-// Default easing function (ease-out-expo style)
+// Premium easing function (ease-out-expo style)
 const defaultEasing = (t: number): number => {
   return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
 };
+
+// Check reduced motion preference
+function prefersReducedMotion(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 
 export function SmoothScrollProvider({
   children,
   options = {},
 }: SmoothScrollProviderProps) {
   const lenisRef = useRef<Lenis | null>(null);
+  const pathname = usePathname();
+
+  // Cleanup function for route changes
+  const cleanup = useCallback(() => {
+    ScrollTrigger.getAll().forEach((st) => st.kill());
+    ScrollTrigger.refresh();
+  }, []);
+
+  // Cleanup on route change
+  useEffect(() => {
+    cleanup();
+  }, [pathname, cleanup]);
 
   useEffect(() => {
+    // Skip Lenis if reduced motion is preferred
+    if (prefersReducedMotion()) {
+      return;
+    }
+
     // Disable Lenis on mobile/touch devices for better performance
     const isMobile = typeof window !== 'undefined' && 
       (window.innerWidth < 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0);
@@ -55,21 +86,71 @@ export function SmoothScrollProvider({
 
     lenisRef.current = lenis;
 
-    // Animation loop
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
+    // Connect Lenis to GSAP ScrollTrigger
+    lenis.on("scroll", ScrollTrigger.update);
 
-    requestAnimationFrame(raf);
+    // Set up GSAP ticker to update Lenis
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
 
-    // Expose lenis instance globally for GSAP ScrollTrigger integration
-    // Usage: window.lenis?.scrollTo(target, { offset, duration })
+    // Disable GSAP's default lag smoothing for smoother animations
+    gsap.ticker.lagSmoothing(0);
+
+    // Expose lenis instance globally for other components
     if (typeof window !== "undefined") {
       (window as Window & { lenis?: Lenis }).lenis = lenis;
     }
 
+    // Handle anchor links
+    const handleAnchorClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const anchor = target.closest("a");
+      const href = anchor?.getAttribute("href");
+
+      if (href?.startsWith("#")) {
+        e.preventDefault();
+        const element = document.querySelector(href);
+        if (element) {
+          lenis.scrollTo(element as HTMLElement, {
+            offset: -80,
+            duration: 1.2,
+          });
+        }
+      }
+    };
+
+    document.addEventListener("click", handleAnchorClick);
+
+    // Refresh ScrollTrigger when images load
+    const images = document.querySelectorAll("img");
+    let loadedCount = 0;
+    const totalImages = images.length;
+
+    const handleImageLoad = () => {
+      loadedCount++;
+      if (loadedCount === totalImages) {
+        ScrollTrigger.refresh();
+      }
+    };
+
+    images.forEach((img) => {
+      if (img.complete) {
+        loadedCount++;
+      } else {
+        img.addEventListener("load", handleImageLoad);
+      }
+    });
+
+    if (loadedCount === totalImages) {
+      ScrollTrigger.refresh();
+    }
+
     return () => {
+      document.removeEventListener("click", handleAnchorClick);
+      images.forEach((img) => {
+        img.removeEventListener("load", handleImageLoad);
+      });
       lenis.destroy();
       if (typeof window !== "undefined") {
         delete (window as Window & { lenis?: Lenis }).lenis;

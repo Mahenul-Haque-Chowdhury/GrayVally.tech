@@ -141,6 +141,18 @@ body {
   background: var(--bg);
 }
 
+/* Prevent transitions during initial theme resolution */
+html:not(.theme-resolved) *,
+html:not(.theme-resolved) *::before,
+html:not(.theme-resolved) *::after {
+  transition: none !important;
+}
+
+/* Enable smooth transitions only after theme is resolved */
+html.theme-resolved body {
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
 .hero-tech-icon {
   color: inherit;
   display: inline-flex;
@@ -219,5 +231,81 @@ body {
 .focus-visible:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
+}
+
+/* ============================================================================
+   PREMIUM MOTION UTILITIES
+   ============================================================================ */
+
+/* Scroll progress bar */
+.scroll-progress-container {
+  pointer-events: none;
+}
+
+/* Premium card tilt effect */
+.premium-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Button sheen effect */
+.btn-sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transform: translateX(-100%);
+  transition: transform 0.7s ease;
+}
+
+.btn-sheen:hover::after {
+  transform: translateX(100%);
+}
+
+/* Animated underline */
+.animated-underline {
+  position: relative;
+}
+
+.animated-underline::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+
+.animated-underline:hover::after {
+  width: 100%;
+}
+
+/* Reduced motion overrides for motion utilities */
+@media (prefers-reduced-motion: reduce) {
+  .premium-card {
+    transform: none !important;
+  }
+  
+  .btn-sheen::after {
+    display: none;
+  }
+  
+  .animated-underline::after {
+    width: 100%;
+    transition: none;
+  }
 }
 

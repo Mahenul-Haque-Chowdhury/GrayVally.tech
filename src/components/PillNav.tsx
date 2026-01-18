@@ -1,10 +1,32 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { gsap } from "gsap";
 import "./PillNav.css";
+
+const DropdownChevron = () => (
+  <span className="pill-caret" aria-hidden="true">
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M6 9l6 6 6-6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  </span>
+);
+
+const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 interface NavItem {
   label: string;
@@ -119,11 +141,10 @@ const PillNav = ({
 }: PillNavProps) => {
   const resolvedPillTextColor = pillTextColor ?? baseColor;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isReady, setIsReady] = useState(false);
   const circleRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const tlRefs = useRef<gsap.core.Timeline[]>([]);
   const activeTweenRefs = useRef<gsap.core.Tween[]>([]);
-  const logoImgRef = useRef<HTMLImageElement>(null);
-  const logoTweenRef = useRef<gsap.core.Tween | null>(null);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const navItemsRef = useRef<HTMLDivElement>(null);
@@ -131,8 +152,22 @@ const PillNav = ({
   const dropdownRefs = useRef<(HTMLDivElement | null)[]>([]);
   const lastFocusedElementRef = useRef<HTMLElement | null>(null);
   const mobileMenuId = "primary-mobile-menu";
-
+  const prefersReducedMotionRef = useRef(false);
   useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => {
+      prefersReducedMotionRef.current = media.matches;
+    };
+
+    update();
+    media.addEventListener?.("change", update);
+
+    return () => {
+      media.removeEventListener?.("change", update);
+    };
+  }, []);
+
+  useIsomorphicLayoutEffect(() => {
     const layout = () => {
       circleRefs.current.forEach((circle) => {
         if (!circle?.parentElement) return;
@@ -187,9 +222,10 @@ const PillNav = ({
     const onResize = () => layout();
     window.addEventListener("resize", onResize);
 
-    if (document.fonts?.ready) {
-      document.fonts.ready.then(layout).catch(() => {});
-    }
+    const fontReady = document.fonts?.ready?.then(layout).catch(() => {});
+    const readyTimeout = new Promise<void>((resolve) => {
+      window.setTimeout(resolve, 600);
+    });
 
     const menu = mobileMenuRef.current;
     if (menu) {
@@ -201,26 +237,27 @@ const PillNav = ({
       const navItems = navItemsRef.current;
 
       if (logoEl) {
-        gsap.set(logoEl, { scale: 0 });
-        gsap.to(logoEl, {
-          scale: 1,
-          duration: 0.6,
-          ease,
-        });
+        gsap.set(logoEl, { scale: 1, opacity: 1 });
       }
 
       if (navItems) {
-        gsap.set(navItems, { width: 0, overflow: "hidden" });
-        gsap.to(navItems, {
-          width: "auto",
-          duration: 0.6,
-          ease,
-          onComplete: () => {
-            gsap.set(navItems, { overflow: "visible" });
-          },
-        });
+        gsap.set(navItems, { width: "auto", overflow: "visible" });
       }
     }
+
+    const reveal = async () => {
+      if (prefersReducedMotionRef.current) {
+        setIsReady(true);
+        return;
+      }
+
+      await Promise.race([fontReady, readyTimeout]);
+      requestAnimationFrame(() => {
+        setIsReady(true);
+      });
+    };
+
+    reveal();
 
     return () => window.removeEventListener("resize", onResize);
   }, [items, ease, initialLoadAnimation]);
@@ -241,19 +278,6 @@ const PillNav = ({
     if (!tl) return;
     activeTweenRefs.current[i]?.kill();
     activeTweenRefs.current[i] = tl.tweenTo(0, {
-      duration: 0.2,
-      ease,
-      overwrite: "auto",
-    });
-  };
-
-  const handleLogoEnter = () => {
-    const img = logoImgRef.current;
-    if (!img) return;
-    logoTweenRef.current?.kill();
-    gsap.set(img, { rotate: 0 });
-    logoTweenRef.current = gsap.to(img, {
-      rotate: 360,
       duration: 0.2,
       ease,
       overwrite: "auto",
@@ -417,13 +441,12 @@ const PillNav = ({
   } as React.CSSProperties;
 
   return (
-    <div className="pill-nav-container">
+    <div className="pill-nav-container" data-ready={isReady ? "true" : "false"}>
       <nav className={`pill-nav ${className}`} aria-label="Primary" style={cssVars}>
-        <Link
+        <a
           className="pill-brand"
           href="/"
           aria-label="Home"
-          onMouseEnter={handleLogoEnter}
           ref={logoRef}
         >
           <div className="pill-logo">
@@ -432,7 +455,6 @@ const PillNav = ({
               alt={logoAlt}
               width={36}
               height={36}
-              ref={logoImgRef}
               className="pill-logo-img"
             />
           </div>
@@ -442,7 +464,7 @@ const PillNav = ({
               {brandSubtitle && <span className="pill-brand-subtitle">{brandSubtitle}</span>}
             </span>
           )}
-        </Link>
+        </a>
 
         <div className="pill-nav-center desktop-only">
           <div className="pill-nav-items" ref={navItemsRef}>
@@ -470,9 +492,17 @@ const PillNav = ({
                         }}
                       />
                       <span className="label-stack">
-                        <span className="pill-label">{item.label}</span>
+                        <span className="pill-label">
+                          <span className="pill-label-content">
+                            {item.label}
+                            {item.children?.length ? <DropdownChevron /> : null}
+                          </span>
+                        </span>
                         <span className="pill-label-hover" aria-hidden="true">
-                          {item.label}
+                          <span className="pill-label-content">
+                            {item.label}
+                            {item.children?.length ? <DropdownChevron /> : null}
+                          </span>
                         </span>
                       </span>
                     </a>
@@ -491,9 +521,17 @@ const PillNav = ({
                         }}
                       />
                       <span className="label-stack">
-                        <span className="pill-label">{item.label}</span>
+                        <span className="pill-label">
+                          <span className="pill-label-content">
+                            {item.label}
+                            {item.children?.length ? <DropdownChevron /> : null}
+                          </span>
+                        </span>
                         <span className="pill-label-hover" aria-hidden="true">
-                          {item.label}
+                          <span className="pill-label-content">
+                            {item.label}
+                            {item.children?.length ? <DropdownChevron /> : null}
+                          </span>
                         </span>
                       </span>
                     </Link>

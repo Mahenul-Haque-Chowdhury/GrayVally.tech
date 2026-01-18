@@ -3,22 +3,39 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
+function getInitialTheme(): "light" | "dark" {
+  if (typeof window === "undefined") return "dark";
+
+  // Check if theme class is already set by the blocking script
+  if (document.documentElement.classList.contains("theme-light")) return "light";
+  if (document.documentElement.classList.contains("theme-dark")) return "dark";
+
+  // Fallback to localStorage or system preference
+  const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
+  if (savedTheme) return savedTheme;
+
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">(() => {
-    if (typeof window === "undefined") return "dark";
+  const [theme, setTheme] = useState<"light" | "dark">(getInitialTheme);
+  const [mounted, setMounted] = useState(false);
 
-    const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
-    if (savedTheme) return savedTheme;
-
-    const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    return systemPrefersDark ? "dark" : "light";
-  });
+  // Only render after mount to avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+    // Sync state with DOM in case blocking script already set the theme
+    setTheme(getInitialTheme());
+  }, []);
 
   useEffect(() => {
+    if (!mounted) return;
+    
     document.documentElement.classList.remove("theme-dark", "theme-light");
     document.documentElement.classList.add(`theme-${theme}`);
+    document.documentElement.style.colorScheme = theme;
     localStorage.setItem("theme", theme);
-  }, [theme]);
+  }, [theme, mounted]);
 
   const toggleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
@@ -33,6 +50,7 @@ export function ThemeToggle() {
     >
       <motion.div
         className="flex h-6 w-6 items-center justify-center rounded-full bg-white shadow-sm"
+        initial={false}
         animate={{ x: theme === "dark" ? 24 : 0 }}
         transition={{ type: "spring", stiffness: 500, damping: 30 }}
       >

@@ -71,7 +71,9 @@ export function AuditPageContent() {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text-primary"
           >
-            Complimentary Website Audit
+            <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-300 bg-clip-text text-transparent">
+              Complimentary Website Audit
+            </span>
           </motion.h1>
 
           <motion.p

@@ -11,10 +11,6 @@ const ServicesBento = dynamic(() => import("@/components/ServicesBento").then((m
   loading: () => <ServicesSkeleton />,
 });
 
-const Portfolio = dynamic(() => import("@/components/Portfolio").then((m) => m.Portfolio), {
-  loading: () => null,
-});
-
 const About = dynamic(() => import("@/components/About").then((m) => m.About), {
   loading: () => null,
 });
@@ -29,10 +25,9 @@ export default function Home() {
       <NavBar />
       <Hero />
       <ProductTicker />
-      <FeaturedProducts />
-      <TechStack />
       <ServicesBento />
-      <Portfolio />
+      <TechStack />
+      <FeaturedProducts />
       <About showOnlyPreview />
       <Contact />
       <Footer />

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { softwareSolutionCategories } from "@/data/softwareSolutions";
 import LogoLoop from "./LogoLoop";
 
 export function ProductTicker() {
@@ -14,10 +13,22 @@ export function ProductTicker() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Flatten all items to get a long list of keywords
-  const keywords = softwareSolutionCategories.flatMap((cat) => 
-    cat.expandedItems.map((item) => item.title)
-  );
+  const keywords = [
+    "Website Development",
+    "E-Commerce Solutions",
+    "Database & Server Management",
+    "Bug Fixing & Maintenance",
+    "Mobile App Development",
+    "Custom Software & Automation",
+    "SEO & Digital Marketing",
+    "Tech Consultancy",
+    "Enterprise Core & Operations Platform",
+    "People, Identity & Access",
+    "Revenue, Sales & Customer Platforms",
+    "Finance & Monetization Systems",
+    "Data, Analytics & Intelligence",
+    "Industry & SaaS Platforms",
+  ];
 
   const logoItems = keywords.map((keyword) => ({
     node: (

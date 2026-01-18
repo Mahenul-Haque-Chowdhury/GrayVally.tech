@@ -6,8 +6,21 @@
   z-index: 99;
   width: 95%;
   max-width: 90rem;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 
+.pill-nav-container[data-ready="false"] .pill-nav-items {
+  opacity: 0;
+  transform: translateX(440px);
+  pointer-events: none;
+}
+
+.pill-nav-container[data-ready="true"] .pill-nav-items {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
 @media (max-width: 1024px) {
   .pill-nav-container {
     width: 92%;
@@ -48,6 +61,20 @@
   backdrop-filter: blur(12px);
 }
 
+.pill-nav-items {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1), opacity 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill-nav-items {
+    transition: none;
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+}
 .theme-light .pill-nav {
   --pill-nav-bg: rgba(255, 255, 255, 0.85);
   --pill-nav-border: #e4e4e7;
@@ -155,9 +182,12 @@
 .pill-brand-name {
   font-size: 1.4rem;
   font-weight: 700;
-  color: var(--text);
+  background: linear-gradient(90deg, #38bdf8 0%, #22d3ee 50%, #34d399 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   white-space: nowrap;
-  line-height: 1.05;
+  line-height: 1.15;
 }
 
 .pill-brand-title {
@@ -225,7 +255,7 @@
   box-sizing: border-box;
   font-weight: 600;
   font-size: 12px;
-  line-height: 0;
+  line-height: 1;
   text-transform: uppercase;
   letter-spacing: 0.2px;
   white-space: nowrap;
@@ -265,6 +295,23 @@
   display: inline-block;
   line-height: 1;
   z-index: 2;
+}
+
+.pill .pill-label-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pill .pill-caret {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.9;
+}
+
+.pill .pill-caret svg {
+  display: block;
 }
 
 .pill .pill-label {
