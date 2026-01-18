@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { prefersReducedMotion } from "@/lib/motion/constants";
 
 const OVERLAY_EASE: [number, number, number, number] = [0.76, 0, 0.24, 1];
@@ -28,7 +28,6 @@ const shouldHandleLink = (anchor: HTMLAnchorElement) => {
 
 export function PageTransitionOverlay({ children }: PageTransitionOverlayProps) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const router = useRouter();
   const reducedMotion = prefersReducedMotion();
   const [phase, setPhase] = useState<TransitionPhase>("idle");
@@ -37,15 +36,10 @@ export function PageTransitionOverlay({ children }: PageTransitionOverlayProps) 
   const timeoutRef = useRef<number | null>(null);
   const fallbackRef = useRef<number | null>(null);
 
-  const locationKey = useMemo(() => {
-    const query = searchParams?.toString();
-    return query ? `${pathname}?${query}` : pathname;
-  }, [pathname, searchParams]);
-
   useEffect(() => {
-    if (phase === "entering" && lastPathRef.current !== locationKey) {
+    if (phase === "entering" && lastPathRef.current !== pathname) {
       window.setTimeout(() => setPhase("exiting"), 0);
-      lastPathRef.current = locationKey;
+      lastPathRef.current = pathname;
       if (fallbackRef.current) {
         window.clearTimeout(fallbackRef.current);
         fallbackRef.current = null;
@@ -54,9 +48,9 @@ export function PageTransitionOverlay({ children }: PageTransitionOverlayProps) 
     }
 
     if (phase === "idle") {
-      lastPathRef.current = locationKey;
+      lastPathRef.current = pathname;
     }
-  }, [locationKey, phase]);
+  }, [pathname, phase]);
 
   useEffect(() => {
     return () => {

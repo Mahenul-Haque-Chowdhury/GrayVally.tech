@@ -1,11 +1,14 @@
 "use client";
 
 import { motion, Variants } from 'framer-motion';
+import type { ComponentType } from 'react';
+
+type AnimatedTextTag = 'h1' | 'h2' | 'h3' | 'p' | 'span' | 'div';
 
 interface AnimatedTextProps {
   text: string;
   className?: string;
-  tag?: keyof JSX.IntrinsicElements;
+  tag?: AnimatedTextTag;
 }
 
 const containerVariant: Variants = {
@@ -39,7 +42,7 @@ const characterVariant: Variants = {
 
 export function AnimatedText({ text, className, tag = 'h1' }: AnimatedTextProps) {
   const words = text.split(' ').map((word) => [...word, '\u00A0']); // Add a non-breaking space after each word
-  const MotionComponent = motion[tag];
+  const MotionComponent = (motion as unknown as Record<string, ComponentType<any>>)[tag];
 
   return (
     <MotionComponent

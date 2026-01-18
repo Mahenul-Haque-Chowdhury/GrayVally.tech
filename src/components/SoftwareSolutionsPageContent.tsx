@@ -369,7 +369,7 @@ export function SoftwareSolutionsPageContent() {
         </section>
 
         {/* Solutions */}
-        <section className="pb-16 sm:pb-24" style={{ transformPerspective: '1000px' }}>
+        <section className="pb-16 sm:pb-24" style={{ perspective: "1000px" }}>
           <div className="mx-auto max-w-screen-2xl px-4 sm:px-6">
             <div className="space-y-8 sm:space-y-12">
               {softwareSolutionRows.map((row, index) => {

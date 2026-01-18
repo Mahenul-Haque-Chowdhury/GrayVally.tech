@@ -4,12 +4,15 @@
 
 "use client";
 
-import { ReactNode, ButtonHTMLAttributes } from "react";
+import { ReactNode } from "react";
 import { motion, Variants } from "framer-motion";
+import type { MotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { prefersReducedMotion } from "@/lib/motion/constants";
 
-interface PremiumButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+type ButtonBaseProps = Omit<React.ComponentPropsWithoutRef<"button">, keyof MotionProps>;
+
+interface PremiumButtonProps extends ButtonBaseProps {
   children: ReactNode;
   variant?: "primary" | "secondary" | "ghost";
   size?: "sm" | "md" | "lg";

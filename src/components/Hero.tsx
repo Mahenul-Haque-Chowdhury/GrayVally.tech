@@ -119,7 +119,7 @@ export function Hero() {
           {/* Headline */}
           <ScrollFloat as="div">
             <motion.h1
-              style={{ transformPerspective: '1000px' }}
+              style={{ perspective: "1000px" }}
               variants={itemVariant}
               className="mt-6 sm:mt-8 max-w-5xl font-display font-bold tracking-tight text-text-primary"
               aria-label="We Build Digital Infrastructure"

@@ -61,6 +61,7 @@ const itemVariants = {
 };
 
 // ... (serviceGradients, getServiceGradient, interfaces also remain the same)
+const serviceDetails: Record<string, { tagline: string; features: string[] }> = {};
 const serviceGradients: Record<string, string> = {
   Development: "from-blue-500 to-cyan-500",
   Design: "from-rose-500 to-orange-500",
@@ -94,6 +95,12 @@ interface ServiceRowProps {
   service: Service;
   index: number;
   onLearnMore: (event: React.MouseEvent) => void;
+}
+
+interface ServiceModalProps {
+  service: Service;
+  onClose: () => void;
+  clickPosition: { x: number; y: number };
 }
 
 const webSolutionsServices: WebSolutionItem[] = [
@@ -498,7 +505,7 @@ export function ServicesPageContent() {
         </section>
 
         {/* Services */}
-        <section className="pb-16 sm:pb-24" style={{ transformPerspective: '1000px' }}>
+        <section className="pb-16 sm:pb-24" style={{ perspective: "1000px" }}>
           <div className="mx-auto max-w-screen-2xl px-4 sm:px-6">
             <div className="space-y-8 sm:space-y-12">
               {webSolutionsServices.map((item, index) => {
