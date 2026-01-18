@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
+import { FloatHeading } from "@/components/ui/ScrollFloat";
 
 const articles = {
   "choose-web-development-company-bangladesh": {
@@ -67,9 +68,9 @@ export default async function BlogArticlePage({ params }: PageProps) {
             <p className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.15em] text-text-secondary mb-3">
               GrayVally Blog
             </p>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-text-primary">
+            <FloatHeading as="h1" className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-text-primary">
               {article.title}
-            </h1>
+            </FloatHeading>
           </header>
 
           <div className="prose prose-invert prose-sm sm:prose-base max-w-none text-text-secondary">
@@ -85,7 +86,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                   developers. They just want a clear way to evaluate partners and make a confident decision.
                 </p>
 
-                <h2>1. Get clear on what you really need</h2>
+                <FloatHeading as="h2">1. Get clear on what you really need</FloatHeading>
                 <p>
                   Before you talk to any agency, spend a little time clarifying your own requirements. It doesn&apos;t
                   need to be a 20-page brief, but you should be able to explain:
@@ -101,7 +102,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                   and what trade-offs you&apos;re dealing with. It also helps you compare proposals fairly.
                 </p>
 
-                <h2>2. Look for a real portfolio, not just pretty homepages</h2>
+                <FloatHeading as="h2">2. Look for a real portfolio, not just pretty homepages</FloatHeading>
                 <p>
                   Beautiful homepages are easy to fake. What matters is whether a company can show <strong>real
                   projects</strong> with context:
@@ -120,7 +121,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                   <li>Do they show both <strong>design</strong> and <strong>engineering</strong> strength?</li>
                 </ul>
 
-                <h2>3. Check technical stack and infrastructure thinking</h2>
+                <FloatHeading as="h2">3. Check technical stack and infrastructure thinking</FloatHeading>
                 <p>
                   For simple brochure sites, almost anyone can put something together that looks fine. The difference
                   shows up when you need your site to be <strong>fast, secure, and reliable</strong>. Ask each company
@@ -146,7 +147,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                   visuals.
                 </p>
 
-                <h2>4. Evaluate their process, not just their proposal</h2>
+                <FloatHeading as="h2">4. Evaluate their process, not just their proposal</FloatHeading>
                 <p>
                   Proposals tell you what you&apos;ll get; <strong>process</strong> tells you how painful it will be to
                   get there. During your calls, ask questions like:
@@ -162,7 +163,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                   testing → launch and support. If everything sounds improvised or vague, expect surprises later.
                 </p>
 
-                <h2>5. Talk to the actual team you&apos;ll work with</h2>
+                <FloatHeading as="h2">5. Talk to the actual team you&apos;ll work with</FloatHeading>
                 <p>
                   In some agencies, the person who sells you the project is not the person who delivers it. When
                   possible, ask to meet at least:
@@ -178,7 +179,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                   your business goals.
                 </p>
 
-                <h2>6. Compare more than just price</h2>
+                <FloatHeading as="h2">6. Compare more than just price</FloatHeading>
                 <p>
                   When you receive proposals from multiple companies, it&apos;s tempting to line them up by price and
                   pick the lowest. Instead, compare:
@@ -203,7 +204,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                   than a low bid that leaves you with bugs and no one to fix them.
                 </p>
 
-                <h2>7. Red flags to watch out for</h2>
+                <FloatHeading as="h2">7. Red flags to watch out for</FloatHeading>
                 <p>Some warning signs when choosing a web development company in Bangladesh (or anywhere):</p>
                 <ul>
                   <li>No real portfolio or only generic template sites.</li>
@@ -213,7 +214,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                   <li>Reluctance to sign even a simple written agreement.</li>
                 </ul>
 
-                <h2>8. Questions you can copy-paste into your next call</h2>
+                <FloatHeading as="h2">8. Questions you can copy-paste into your next call</FloatHeading>
                 <p>Use these questions directly when talking to agencies:</p>
                 <ul>
                   <li>Can you walk us through a recent project that&apos;s similar to ours?</li>
@@ -223,7 +224,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                   <li>What does ongoing maintenance and support look like?</li>
                 </ul>
 
-                <h2>9. When GrayVally might be a good fit</h2>
+                <FloatHeading as="h2">9. When GrayVally might be a good fit</FloatHeading>
                 <p>
                   GrayVally is a focused <strong>web development and UI/UX agency based in Bangladesh</strong>. We&apos;re
                   usually a good fit when you:
@@ -248,3 +249,4 @@ export default async function BlogArticlePage({ params }: PageProps) {
     </div>
   );
 }
+

@@ -33,7 +33,7 @@ export function AnimatedLink({
     <span className="relative inline-block">
       {children}
       <span
-        className="absolute bottom-0 left-1/2 w-0 -translate-x-1/2 transition-all duration-300 group-hover:w-full"
+        className="absolute bottom-0 left-1/2 w-0 -translate-x-1/2 transition-[width] duration-300 group-hover:w-full"
         style={{
           height: underlineHeight,
           backgroundColor: underlineColor,

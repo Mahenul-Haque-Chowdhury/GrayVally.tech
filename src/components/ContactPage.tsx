@@ -18,6 +18,33 @@ import { allServices } from "@/data/services";
 import { socialProfiles } from "@/data/socials";
 import { FORMSPREE_ENDPOINT } from "@/lib/formspree";
 import { FreeMap } from "@/components/FreeMap";
+import { motion } from "framer-motion";
+import { FloatHeading } from "@/components/ui/ScrollFloat";
+
+const staggerContainer = {
+  initial: {},
+  animate: {
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.3,
+    },
+  },
+};
+
+const fadeUp = {
+  initial: {
+    opacity: 0,
+    y: 30,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: 'easeOut',
+    },
+  },
+};
 
 const dialingCodes = [
   "+1",
@@ -280,7 +307,10 @@ export function Contact() {
   };
 
   return (
-    <section
+    <motion.section
+      initial="initial"
+      animate="animate"
+      variants={staggerContainer}
       id="contact"
       aria-labelledby="contact-title"
       className="min-h-[calc(100vh-4rem)] bg-background pt-24 sm:pt-28 pb-16 sm:pb-24"
@@ -370,21 +400,22 @@ export function Contact() {
         </div>
       )}
       {/* Hero */}
-      <section className="relative overflow-hidden">
+      <motion.section variants={fadeUp} className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-surface/40 via-background to-background pointer-events-none" />
-        <div className="absolute -top-16 left-1/2 h-64 w-[520px] -translate-x-1/2 rounded-full bg-gradient-to-r from-blue-500/15 via-cyan-500/10 to-emerald-500/15 blur-[120px] pointer-events-none" />
+        <div className="absolute -top-10 sm:-top-16 left-1/2 h-56 sm:h-64 w-[320px] sm:w-[520px] -translate-x-1/2 rounded-full bg-gradient-to-r from-blue-500/15 via-cyan-500/10 to-emerald-500/15 blur-[120px] pointer-events-none" />
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.25fr)] items-start">
-            <div>
+            <motion.div variants={fadeUp}>
               <div className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-surface/40 px-4 py-1.5 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-text-secondary">
                 Contact GrayVally
               </div>
-              <h1
+              <FloatHeading
+                as="h1"
                 id="contact-title"
                 className="mt-6 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text-primary font-display"
               >
                 Let&apos;s build the next version of your product.
-              </h1>
+              </FloatHeading>
               <p className="mt-5 text-base sm:text-lg text-text-secondary/90 leading-relaxed max-w-2xl">
                 Share your goals and we will come back with timelines, approach, and the best path to delivery.
               </p>
@@ -459,15 +490,15 @@ export function Contact() {
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="relative pt-10 sm:pt-12">
+            </motion.div>
+            <motion.div variants={fadeUp} className="relative pt-10 sm:pt-12">
               <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-blue-500/20 via-transparent to-emerald-500/20 blur-2xl" />
               <div className="relative rounded-3xl border border-border/40 bg-surface/40 backdrop-blur-xl p-6 sm:p-8">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h2 className="text-2xl sm:text-3xl font-bold text-text-primary font-display">
+                    <FloatHeading as="h2" className="text-2xl sm:text-3xl font-bold text-text-primary font-display">
                       Tell us about your project
-                    </h2>
+                    </FloatHeading>
                     <p className="mt-2 text-sm sm:text-base text-text-secondary">
                       The more context you share, the faster we can propose a plan.
                     </p>
@@ -506,7 +537,7 @@ export function Contact() {
                   </div>
 
                   <div className="grid gap-4 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1.4fr)]">
-                    <div className="min-w-[8rem]">
+                    <div className="min-w-[6rem] sm:min-w-[8rem]">
                       <label className="block text-[11px] font-medium uppercase tracking-wide text-text-secondary">
                         Company <span className="text-xs lowercase text-text-secondary/60">(optional)</span>
                       </label>
@@ -517,14 +548,14 @@ export function Contact() {
                         placeholder="Company or team name"
                       />
                     </div>
-                    <div className="min-w-[11rem]">
+                    <div className="min-w-[9rem] sm:min-w-[11rem]">
                       <label className="block text-[11px] font-medium uppercase tracking-wide text-text-secondary">
                         Mobile
                       </label>
                       <div className="mt-2 flex gap-2 items-center">
                         <select
                           name="countryCode"
-                          className="w-[70px] rounded-lg border border-border/60 bg-background/60 px-2 py-2 text-xs text-text-primary outline-none focus:border-accent focus:ring-1 focus:ring-accent flex-shrink-0"
+                          className="w-[56px] sm:w-[70px] rounded-lg border border-border/60 bg-background/60 px-2 py-2 text-xs text-text-primary outline-none focus:border-accent focus:ring-1 focus:ring-accent flex-shrink-0"
                           defaultValue="+880"
                         >
                           {dialingCodes.map((code) => (
@@ -533,7 +564,7 @@ export function Contact() {
                             </option>
                           ))}
                         </select>
-                        <div className="flex-1 min-w-[9rem]">
+                        <div className="flex-1 min-w-[7rem] sm:min-w-[9rem]">
                           <input
                             required
                             type="tel"
@@ -647,12 +678,12 @@ export function Contact() {
                 </form>
 
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="mx-auto mt-12 sm:mt-16 max-w-6xl px-4 sm:px-6">
+      <motion.section variants={fadeUp} className="mx-auto mt-12 sm:mt-16 max-w-6xl px-4 sm:px-6">
         <div className="rounded-3xl border border-border/50 bg-surface/20 p-6 sm:p-8">
           <div className="mb-6 rounded-2xl border border-border/40 bg-background/50 px-5 py-4">
             <p className="text-xs font-medium uppercase tracking-[0.2em] text-text-secondary/70">
@@ -663,7 +694,9 @@ export function Contact() {
           </div>
           <div className="flex items-center justify-between gap-4">
             <div>
-              <h2 className="text-lg sm:text-xl font-semibold text-text-primary">Our location</h2>
+              <FloatHeading as="h2" className="text-lg sm:text-xl font-semibold text-text-primary">
+                Our location
+              </FloatHeading>
               <p className="mt-1 text-xs text-text-secondary">
                 Use the search box to find our office.
               </p>
@@ -673,7 +706,7 @@ export function Contact() {
             </div>
           </div>
 
-          <div className="mt-5 h-[420px] overflow-hidden rounded-2xl border border-border/50">
+          <div className="mt-5 h-[320px] sm:h-[420px] overflow-hidden rounded-2xl border border-border/50">
             <FreeMap
               locations={[
                 {
@@ -687,7 +720,7 @@ export function Contact() {
             />
           </div>
         </div>
-      </section>
-    </section>
+      </motion.section>
+    </motion.section>
   );
 }

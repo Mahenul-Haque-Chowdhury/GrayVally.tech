@@ -1,7 +1,8 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import LogoLoop from "./LogoLoop";
+import { ScrollFloatReveal } from "@/components/ui/ScrollFloat";
+import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
 import {
   SiAdobeaftereffects,
   SiLaravel,
@@ -68,7 +69,12 @@ export function TechStack() {
   }));
 
   return (
-    <section className="py-8 sm:py-12 border-y border-border/40 bg-background/50 backdrop-blur-sm">
+    <ScrollFloatReveal
+      as="section"
+      y={REVEAL_CONFIG.translateY}
+      duration={MOTION_DURATION.medium}
+      className="py-8 sm:py-12 border-y border-border/40 bg-background/50 backdrop-blur-sm"
+    >
       <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 mb-6 sm:mb-8 text-center">
         <p className="text-xs sm:text-sm font-medium text-text-secondary uppercase tracking-wider">
           Powered by Modern Technologies
@@ -88,6 +94,6 @@ export function TechStack() {
           colorMode="brand"
         />
       </div>
-    </section>
+    </ScrollFloatReveal>
   );
 }

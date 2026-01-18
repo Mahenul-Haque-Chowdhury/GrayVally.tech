@@ -1,23 +1,22 @@
 // ============================================================================
-// PREMIUM CARD - Enhanced Card with Tilt and Highlight Effects
+// PREMIUM CARD - Enhanced Card with Tilt and Highlight Effects using Framer Motion
 // ============================================================================
 
 "use client";
 
-import { useRef, useState, useEffect, ReactNode } from "react";
-import { gsap } from "gsap";
+import { ReactNode } from "react";
 import {
-  HOVER_CONFIG,
-  prefersReducedMotion,
-  GSAP_EASE,
-} from "@/lib/motion/constants";
+  motion,
+  useMotionValue,
+  useTransform,
+  useSpring,
+} from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface PremiumCardProps {
   children: ReactNode;
   className?: string;
   tiltIntensity?: number;
-  tiltMax?: number;
   scale?: number;
   highlightOpacity?: number;
   highlightSize?: number;
@@ -27,129 +26,63 @@ interface PremiumCardProps {
 export function PremiumCard({
   children,
   className,
-  tiltIntensity = HOVER_CONFIG.tiltIntensity,
-  tiltMax = HOVER_CONFIG.tiltMax,
+  tiltIntensity = 5,
   scale = 1.02,
-  highlightOpacity = 0.12,
-  highlightSize = HOVER_CONFIG.highlightSize,
+  highlightOpacity = 0.1,
+  highlightSize = 35,
   onClick,
 }: PremiumCardProps) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const highlightRef = useRef<HTMLDivElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
 
-  useEffect(() => {
-    const card = cardRef.current;
-    const highlight = highlightRef.current;
-    if (!card || prefersReducedMotion()) return;
+  const rotateX = useTransform(y, [-100, 100], [tiltIntensity, -tiltIntensity]);
+  const rotateY = useTransform(x, [-100, 100], [-tiltIntensity, tiltIntensity]);
 
-    let currentX = 0;
-    let currentY = 0;
-    let targetX = 0;
-    let targetY = 0;
-    let mouseX = 0.5;
-    let mouseY = 0.5;
-    let rafId: number;
-    let bounds: DOMRect;
+  const springConfig = { damping: 20, stiffness: 150 };
+  const smoothRotateX = useSpring(rotateX, springConfig);
+  const smoothRotateY = useSpring(rotateY, springConfig);
+  const highlight = useTransform(
+    [mouseX, mouseY],
+    ([newX, newY]) =>
+      `radial-gradient(circle at ${newX}px ${newY}px, rgba(255, 255, 255, ${highlightOpacity}) 0%, transparent ${highlightSize}%)`
+  );
 
-    const smooth = HOVER_CONFIG.tiltSmooth;
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const bounds = e.currentTarget.getBoundingClientRect();
+    x.set(e.clientX - bounds.left - bounds.width / 2);
+    y.set(e.clientY - bounds.top - bounds.height / 2);
+    mouseX.set(e.clientX - bounds.left);
+    mouseY.set(e.clientY - bounds.top);
+  };
 
-    const updateTilt = () => {
-      currentX += (targetX - currentX) * smooth;
-      currentY += (targetY - currentY) * smooth;
-
-      gsap.set(card, {
-        rotateX: currentX,
-        rotateY: currentY,
-        transformPerspective: 1000,
-      });
-
-      if (highlight && isHovered) {
-        highlight.style.background = `radial-gradient(
-          circle at ${mouseX * 100}% ${mouseY * 100}%,
-          rgba(255, 255, 255, ${highlightOpacity}) 0%,
-          transparent ${highlightSize}%
-        )`;
-      }
-
-      rafId = requestAnimationFrame(updateTilt);
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      bounds = card.getBoundingClientRect();
-      const x = e.clientX - bounds.left;
-      const y = e.clientY - bounds.top;
-
-      mouseX = x / bounds.width;
-      mouseY = y / bounds.height;
-
-      const centerX = bounds.width / 2;
-      const centerY = bounds.height / 2;
-
-      const deltaX = (x - centerX) * tiltIntensity;
-      const deltaY = (y - centerY) * tiltIntensity;
-
-      targetX = Math.max(-tiltMax, Math.min(tiltMax, -deltaY));
-      targetY = Math.max(-tiltMax, Math.min(tiltMax, deltaX));
-    };
-
-    const handleMouseEnter = () => {
-      setIsHovered(true);
-      gsap.to(card, {
-        scale,
-        duration: 0.3,
-        ease: GSAP_EASE.out,
-      });
-    };
-
-    const handleMouseLeave = () => {
-      setIsHovered(false);
-      targetX = 0;
-      targetY = 0;
-
-      gsap.to(card, {
-        scale: 1,
-        rotateX: 0,
-        rotateY: 0,
-        duration: 0.5,
-        ease: GSAP_EASE.out,
-      });
-
-      if (highlight) {
-        highlight.style.background = "transparent";
-      }
-    };
-
-    card.style.transformStyle = "preserve-3d";
-    card.addEventListener("mousemove", handleMouseMove);
-    card.addEventListener("mouseenter", handleMouseEnter);
-    card.addEventListener("mouseleave", handleMouseLeave);
-    rafId = requestAnimationFrame(updateTilt);
-
-    return () => {
-      card.removeEventListener("mousemove", handleMouseMove);
-      card.removeEventListener("mouseenter", handleMouseEnter);
-      card.removeEventListener("mouseleave", handleMouseLeave);
-      cancelAnimationFrame(rafId);
-    };
-  }, [isHovered, tiltIntensity, tiltMax, scale, highlightOpacity, highlightSize]);
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+    mouseX.set(0);
+    mouseY.set(0);
+  };
 
   return (
-    <div
-      ref={cardRef}
+    <motion.div
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX: smoothRotateX,
+        rotateY: smoothRotateY,
+        transformStyle: "preserve-3d",
+        perspective: 1000,
+      }}
+      whileHover={{ scale }}
       className={cn("relative", className)}
       onClick={onClick}
-      style={{ willChange: isHovered ? "transform" : "auto" }}
     >
-      <div
-        ref={highlightRef}
+      <motion.div
         className="absolute inset-0 pointer-events-none rounded-[inherit] z-10"
-        style={{
-          opacity: isHovered ? 1 : 0,
-          transition: "opacity 0.3s ease",
-        }}
+        style={{ background: highlight }}
       />
       {children}
-    </div>
+    </motion.div>
   );
 }

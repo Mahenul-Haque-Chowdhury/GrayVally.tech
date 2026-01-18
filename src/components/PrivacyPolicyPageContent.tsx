@@ -1,18 +1,17 @@
 "use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
+import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
 
 export function PrivacyPolicyPageContent() {
   return (
     <main className="min-h-screen bg-background pt-24 sm:pt-32 pb-16 sm:pb-24">
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
         {/* Back Link */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
+        <ScrollFloatReveal
+          y={REVEAL_CONFIG.translateY}
+          duration={MOTION_DURATION.normal}
         >
           <Link
             href="/"
@@ -21,36 +20,37 @@ export function PrivacyPolicyPageContent() {
             <ArrowLeft className="h-4 w-4" />
             Back to Home
           </Link>
-        </motion.div>
+        </ScrollFloatReveal>
 
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+        <ScrollFloatReveal
+          y={REVEAL_CONFIG.translateY}
+          duration={MOTION_DURATION.medium}
           className="mb-12"
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary mb-4">
-            Privacy{" "}
-            <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-              Policy
-            </span>
-          </h1>
+          <FloatHeading
+            as="h1"
+            duration={MOTION_DURATION.display}
+            className="my-0 mb-4 text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent"
+            once
+          >
+            Privacy Policy
+          </FloatHeading>
           <p className="text-text-secondary">Last updated: December 1, 2025</p>
-        </motion.div>
+        </ScrollFloatReveal>
 
         {/* Content */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+        <ScrollFloatReveal
+          y={REVEAL_CONFIG.translateY}
+          duration={MOTION_DURATION.medium}
+          delay={0.1}
           className="prose prose-lg max-w-none"
         >
           <div className="space-y-8 text-text-secondary">
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 1. Introduction
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 GrayVally (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is
                 committed to protecting your privacy. This Privacy Policy
@@ -63,9 +63,9 @@ export function PrivacyPolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 2. Information We Collect
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed mb-4">
                 We may collect the following types of information:
               </p>
@@ -99,9 +99,9 @@ export function PrivacyPolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 3. How We Use Your Information
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed mb-4">
                 We use collected information for:
               </p>
@@ -118,9 +118,9 @@ export function PrivacyPolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 4. Data Protection &amp; Security
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 We implement appropriate technical and organizational measures
                 to protect your personal data against unauthorized access,
@@ -132,9 +132,9 @@ export function PrivacyPolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 5. Data Sharing &amp; Disclosure
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed mb-4">
                 We may share your information with:
               </p>
@@ -167,9 +167,9 @@ export function PrivacyPolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 6. Your Rights
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed mb-4">
                 Under applicable Bangladesh law, you have the right to:
               </p>
@@ -183,9 +183,9 @@ export function PrivacyPolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 7. Data Retention
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 We retain your personal data only for as long as necessary to
                 fulfill the purposes outlined in this policy, unless a longer
@@ -196,9 +196,9 @@ export function PrivacyPolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 8. International Data Transfers
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 Your information may be transferred to and processed in
                 countries outside Bangladesh where our servers or service
@@ -208,9 +208,9 @@ export function PrivacyPolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 9. Children&apos;s Privacy
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 Our services are not intended for individuals under 18 years of
                 age. We do not knowingly collect personal information from
@@ -220,9 +220,9 @@ export function PrivacyPolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 10. Changes to This Policy
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 We may update this Privacy Policy from time to time. We will
                 notify you of any changes by posting the new policy on this
@@ -233,9 +233,9 @@ export function PrivacyPolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 11. Contact Us
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 If you have questions about this Privacy Policy or wish to
                 exercise your rights, please contact us:
@@ -258,8 +258,9 @@ export function PrivacyPolicyPageContent() {
               </p>
             </section>
           </div>
-        </motion.div>
+        </ScrollFloatReveal>
       </div>
     </main>
   );
 }
+

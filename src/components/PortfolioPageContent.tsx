@@ -18,6 +18,8 @@ import {
   Store,
   type LucideIcon,
 } from "lucide-react";
+import { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
+import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
 
 const industries: Array<{ name: string; description: string; icon: LucideIcon }> = [
   {
@@ -126,16 +128,16 @@ export function PortfolioPageContent() {
                   Back to Home
                 </Link>
 
-                <motion.h1
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
+                <ScrollFloatReveal
+                  as="h1"
+                  y={REVEAL_CONFIG.translateY}
+                  duration={MOTION_DURATION.medium}
                   className="text-4xl sm:text-5xl md:text-6xl font-bold"
                 >
                   <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-300 bg-clip-text text-transparent">
                     Industry Expertise & Delivery
                   </span>
-                </motion.h1>
+                </ScrollFloatReveal>
 
                 <p className="max-w-3xl text-sm sm:text-base md:text-lg text-text-secondary/90 leading-relaxed">
                   We don't just write code.
@@ -151,9 +153,9 @@ export function PortfolioPageContent() {
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
               <div className="mb-10">
                 <p className="text-xs uppercase tracking-[0.3em] text-text-secondary/70">How We Work</p>
-                <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-text-primary">
+                <FloatHeading as="h2" className="mt-3 text-3xl sm:text-4xl font-bold text-text-primary">
                   A predictable delivery process
-                </h2>
+                </FloatHeading>
               </div>
               <div className="grid gap-6 lg:grid-cols-12 max-w-7xl">
                 <div className="lg:col-span-5">
@@ -167,7 +169,7 @@ export function PortfolioPageContent() {
                             onClick={() => setActiveStepIndex(index)}
                             aria-current={isActive ? "step" : undefined}
                             className={
-                              "w-full text-left rounded-xl p-[1px] transition-all " +
+                              "w-full text-left rounded-xl p-[1px] transition-colors " +
                               (isActive
                                 ? "bg-gradient-to-r from-blue-400 via-cyan-300 to-teal-200 bg-[length:220%_220%] bg-[position:0%_50%]"
                                 : "bg-border/40 hover:bg-border/60")
@@ -209,7 +211,7 @@ export function PortfolioPageContent() {
                   <motion.div
                     layout
                     transition={{ duration: 0.25 }}
-                    className="rounded-2xl border border-border/40 bg-background/40 p-5 sm:p-6 min-h-[170px] overflow-hidden"
+                    className="rounded-2xl border border-border/40 bg-background/40 p-5 sm:p-6 min-h-[140px] sm:min-h-[170px] overflow-hidden"
                   >
                     <AnimatePresence mode="wait" initial={false}>
                       <motion.div
@@ -222,9 +224,9 @@ export function PortfolioPageContent() {
                         <p className="text-xs uppercase tracking-[0.25em] text-text-secondary/70">
                           Step {activeStepIndex + 1}
                         </p>
-                        <h3 className="mt-3 text-lg sm:text-xl font-semibold text-text-primary">
+                        <FloatHeading as="h3" className="mt-3 text-lg sm:text-xl font-semibold text-text-primary">
                           {processSteps[activeStepIndex]?.title}
-                        </h3>
+                        </FloatHeading>
                         <p className="mt-3 text-sm leading-relaxed text-text-secondary/85">
                           {processSteps[activeStepIndex]?.description}
                         </p>
@@ -237,14 +239,14 @@ export function PortfolioPageContent() {
           </section>
 
           {/* Industries */}
-          <section className="relative py-12 sm:py-16">
+          <section className="relative py-12 sm:py-16" style={{ transformPerspective: '1000px' }}>
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
               <div className="flex items-end justify-between gap-6 flex-wrap mb-10">
                 <div>
                   <p className="text-xs uppercase tracking-[0.3em] text-text-secondary/70">Industries</p>
-                  <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-text-primary">
+                  <FloatHeading as="h2" className="mt-3 text-3xl sm:text-4xl font-bold text-text-primary">
                     Industries we serve
-                  </h2>
+                  </FloatHeading>
                 </div>
                 <p className="text-sm text-text-secondary/70 max-w-xl">
                   Enterprise-grade delivery across regulated and growth-stage sectors.
@@ -253,13 +255,13 @@ export function PortfolioPageContent() {
 
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {industries.map((industry, index) => (
-                  <motion.article
+                  <ScrollFloatReveal
+                    as="article"
                     key={industry.name}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.5, delay: index * 0.05 }}
-                    className="group rounded-3xl bg-surface/20 p-6 sm:p-7 backdrop-blur-sm shadow-sm shadow-black/5 dark:shadow-black/20 transition-all duration-300 hover:bg-surface/40 hover:shadow-md"
+                    y={REVEAL_CONFIG.translateY}
+                    duration={MOTION_DURATION.normal}
+                    delay={index * 0.08}
+                    className="group rounded-3xl bg-surface/20 p-6 sm:p-7 backdrop-blur-sm shadow-sm shadow-black/5 dark:shadow-black/20 transition-colors transition-shadow duration-300 hover:bg-surface/40 hover:shadow-md"
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-text-secondary/60">Expertise</span>
@@ -267,11 +269,11 @@ export function PortfolioPageContent() {
                     <div className="mt-6 h-14 w-14 rounded-2xl border border-border/40 bg-background/40 flex items-center justify-center text-text-primary">
                       <industry.icon className="h-7 w-7" aria-hidden="true" />
                     </div>
-                    <h3 className="mt-5 text-2xl font-semibold text-text-primary">{industry.name}</h3>
+                    <FloatHeading as="h3" className="mt-5 text-2xl font-semibold text-text-primary">{industry.name}</FloatHeading>
                     <p className="mt-3 text-sm text-text-secondary/80 leading-relaxed">
                       {industry.description}
                     </p>
-                  </motion.article>
+                  </ScrollFloatReveal>
                 ))}
               </div>
             </div>
@@ -297,19 +299,18 @@ export function PortfolioPageContent() {
             <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/30 to-background pointer-events-none" />
 
             <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+              <ScrollFloatReveal
+                y={REVEAL_CONFIG.translateY}
+                duration={MOTION_DURATION.medium}
                 className="relative overflow-hidden rounded-3xl border border-border/50 bg-gradient-to-br from-surface/50 via-background to-surface/30 p-8 sm:p-12 text-center"
               >
                 <div className="absolute -top-20 left-8 h-40 w-40 rounded-full bg-blue-500/20 blur-[90px]" />
                 <div className="absolute -bottom-20 right-8 h-40 w-40 rounded-full bg-emerald-500/20 blur-[90px]" />
 
                 <div className="relative">
-                  <h2 className="text-3xl sm:text-4xl font-bold text-text-primary">
+                  <FloatHeading as="h2" className="text-3xl sm:text-4xl font-bold text-text-primary">
                     Start a conversation with a scalable delivery partner
-                  </h2>
+                  </FloatHeading>
                   <p className="mt-4 text-text-secondary/90 max-w-2xl mx-auto">
                     We align cross-functional teams, protect confidentiality, and deliver systems designed for long-term
                     growth.
@@ -327,9 +328,10 @@ export function PortfolioPageContent() {
                     </span>
                   </div>
                 </div>
-              </motion.div>
+              </ScrollFloatReveal>
             </div>
           </section>
     </>
   );
 }
+

@@ -13,11 +13,11 @@ type PageTransitionProps = {
   children: ReactNode;
 };
 
-// Premium route transition variants with blur
+// Premium route transition variants with subtle lift + blur
 const variants = {
   initial: {
     opacity: 0,
-    y: 20,
+    y: 12,
     filter: "blur(8px)",
   },
   animate: {
@@ -27,12 +27,12 @@ const variants = {
   },
   exit: {
     opacity: 0,
-    y: -10,
-    filter: "blur(4px)",
+    y: -8,
+    filter: "blur(6px)",
   },
 };
 
-// Reduced motion variants (no blur, minimal movement)
+// Reduced motion variants (simple fade)
 const reducedVariants = {
   initial: { opacity: 0 },
   animate: { opacity: 1 },
@@ -53,21 +53,25 @@ export function PageTransition({ children }: PageTransitionProps) {
   }, []);
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
+    <AnimatePresence
+      mode="wait"
+      initial={false}
+      onExitComplete={() => window.scrollTo(0, 0)}
+    >
       <motion.div
         key={pathname}
         variants={reducedMotion ? reducedVariants : variants}
-        initial={false}
+        initial="initial" // Set initial explicitly for clarity
         animate="animate"
         exit="exit"
         transition={{
-          duration: reducedMotion ? 0.1 : ROUTE_TRANSITION.duration,
+          duration: reducedMotion ? 0.1 : Math.max(0.7, ROUTE_TRANSITION.duration),
           ease: MOTION_EASE.out,
         }}
         onAnimationStart={handleAnimationStart}
         onAnimationComplete={handleAnimationComplete}
         style={{
-          willChange: isAnimating ? "opacity, transform, filter" : "auto",
+          willChange: isAnimating ? "opacity, transform" : "auto",
         }}
       >
         {children}

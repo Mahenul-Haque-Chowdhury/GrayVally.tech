@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { NavBar } from "@/components/NavBar";
-import { Contact } from "@/components/ContactPage";
 import { Footer } from "@/components/Footer";
+import ContactPageClient from "@/app/contact/ContactPageClient";
 
 export const metadata: Metadata = {
   title: "Contact GrayVally | Get Free Consultation for Web & Software Projects",
@@ -35,7 +35,7 @@ export default function ContactPage() {
   return (
     <main className="bg-background min-h-screen transition-colors duration-300">
       <NavBar />
-      <Contact />
+      <ContactPageClient />
       <Footer />
     </main>
   );

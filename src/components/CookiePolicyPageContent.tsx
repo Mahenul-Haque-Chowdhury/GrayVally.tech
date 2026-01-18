@@ -1,18 +1,17 @@
 "use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
+import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
 
 export function CookiePolicyPageContent() {
   return (
     <main className="min-h-screen bg-background pt-24 sm:pt-32 pb-16 sm:pb-24">
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
         {/* Back Link */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
+        <ScrollFloatReveal
+          y={REVEAL_CONFIG.translateY}
+          duration={MOTION_DURATION.normal}
         >
           <Link
             href="/"
@@ -21,36 +20,37 @@ export function CookiePolicyPageContent() {
             <ArrowLeft className="h-4 w-4" />
             Back to Home
           </Link>
-        </motion.div>
+        </ScrollFloatReveal>
 
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+        <ScrollFloatReveal
+          y={REVEAL_CONFIG.translateY}
+          duration={MOTION_DURATION.medium}
           className="mb-12"
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary mb-4">
-            Cookie{" "}
-            <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-              Policy
-            </span>
-          </h1>
+          <FloatHeading
+            as="h1"
+            duration={MOTION_DURATION.display}
+            className="my-0 mb-4 text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent"
+            once
+          >
+            Cookie Policy
+          </FloatHeading>
           <p className="text-text-secondary">Last updated: December 1, 2025</p>
-        </motion.div>
+        </ScrollFloatReveal>
 
         {/* Content */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+        <ScrollFloatReveal
+          y={REVEAL_CONFIG.translateY}
+          duration={MOTION_DURATION.medium}
+          delay={0.1}
           className="prose prose-lg max-w-none"
         >
           <div className="space-y-8 text-text-secondary">
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 1. What Are Cookies?
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 Cookies are small text files that are stored on your device
                 (computer, tablet, or mobile) when you visit our website. They
@@ -62,15 +62,15 @@ export function CookiePolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 2. Types of Cookies We Use
-              </h2>
+              </FloatHeading>
 
               <div className="space-y-4">
                 <div className="p-4 rounded-lg bg-surface/50 border border-border">
-                  <h3 className="font-semibold text-text-primary mb-2">
+                  <FloatHeading as="h3" className="font-semibold text-text-primary mb-2">
                     Essential Cookies
-                  </h3>
+                  </FloatHeading>
                   <p className="text-sm">
                     These cookies are necessary for the website to function
                     properly. They enable basic functions like page navigation,
@@ -81,9 +81,9 @@ export function CookiePolicyPageContent() {
                 </div>
 
                 <div className="p-4 rounded-lg bg-surface/50 border border-border">
-                  <h3 className="font-semibold text-text-primary mb-2">
+                  <FloatHeading as="h3" className="font-semibold text-text-primary mb-2">
                     Analytics Cookies
-                  </h3>
+                  </FloatHeading>
                   <p className="text-sm">
                     These cookies help us understand how visitors interact with
                     our website by collecting and reporting information
@@ -93,9 +93,9 @@ export function CookiePolicyPageContent() {
                 </div>
 
                 <div className="p-4 rounded-lg bg-surface/50 border border-border">
-                  <h3 className="font-semibold text-text-primary mb-2">
+                  <FloatHeading as="h3" className="font-semibold text-text-primary mb-2">
                     Functional Cookies
-                  </h3>
+                  </FloatHeading>
                   <p className="text-sm">
                     These cookies enable enhanced functionality and
                     personalization, such as remembering your language
@@ -105,9 +105,9 @@ export function CookiePolicyPageContent() {
                 </div>
 
                 <div className="p-4 rounded-lg bg-surface/50 border border-border">
-                  <h3 className="font-semibold text-text-primary mb-2">
+                  <FloatHeading as="h3" className="font-semibold text-text-primary mb-2">
                     Marketing Cookies
-                  </h3>
+                  </FloatHeading>
                   <p className="text-sm">
                     These cookies track your online activity to help
                     advertisers deliver more relevant advertising. They may be
@@ -119,9 +119,9 @@ export function CookiePolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 3. Cookies We Use
-              </h2>
+              </FloatHeading>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm border border-border rounded-lg">
                   <thead className="bg-surface/50">
@@ -181,9 +181,9 @@ export function CookiePolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 4. Third-Party Cookies
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed mb-4">
                 We may use third-party services that set their own cookies.
                 These include:
@@ -213,9 +213,9 @@ export function CookiePolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 5. Managing Cookies
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed mb-4">
                 You can control and manage cookies in several ways:
               </p>
@@ -249,9 +249,9 @@ export function CookiePolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 6. Browser-Specific Instructions
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed mb-4">
                 To manage cookies in your browser:
               </p>
@@ -276,9 +276,9 @@ export function CookiePolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 7. Your Consent
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 By continuing to use our website, you consent to the use of
                 cookies as described in this policy. You can withdraw your
@@ -288,9 +288,9 @@ export function CookiePolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 8. Updates to This Policy
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 We may update this Cookie Policy from time to time to reflect
                 changes in technology, legislation, or our data practices. Any
@@ -300,9 +300,9 @@ export function CookiePolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 9. Contact Us
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 If you have questions about our use of cookies:
               </p>
@@ -325,7 +325,7 @@ export function CookiePolicyPageContent() {
               </p>
             </section>
           </div>
-        </motion.div>
+        </ScrollFloatReveal>
       </div>
     </main>
   );

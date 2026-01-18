@@ -13,6 +13,8 @@ import {
   MessageCircle
 } from "lucide-react";
 import { socialProfiles } from "@/data/socials";
+import { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
+import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
 
 const footerLinks = {
   services: [
@@ -57,7 +59,12 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-surface/50 border-t border-border/40">
+    <ScrollFloatReveal
+      as="footer"
+      y={REVEAL_CONFIG.translateY}
+      duration={MOTION_DURATION.medium}
+      className="bg-surface/50 border-t border-border/40"
+    >
       {/* Main Footer Content */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 sm:py-16 lg:py-20">
         <div className="grid grid-cols-1 xs:grid-cols-2 gap-8 sm:gap-10 lg:grid-cols-6 lg:gap-8">
@@ -114,7 +121,7 @@ export function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-surface/60 border border-border/30 text-text-secondary transition-all duration-300 hover:bg-blue-500/10 hover:border-blue-500/30 hover:text-blue-400"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-surface/60 border border-border/30 text-text-secondary transition-colors duration-300 hover:bg-blue-500/10 hover:border-blue-500/30 hover:text-blue-400"
                   aria-label={social.name}
                 >
                   <social.icon className="h-4 w-4" />
@@ -125,7 +132,7 @@ export function Footer() {
 
           {/* Services Column */}
           <div className="col-span-1">
-            <h3 className="text-sm font-semibold text-text-primary mb-4">Services</h3>
+            <FloatHeading as="h3" className="text-sm font-semibold text-text-primary mb-4">Services</FloatHeading>
             <ul className="space-y-2.5">
               {footerLinks.services.map((link) => (
                 <li key={link.name}>
@@ -142,7 +149,7 @@ export function Footer() {
 
           {/* Company Column */}
           <div className="col-span-1">
-            <h3 className="text-sm font-semibold text-text-primary mb-4">Company</h3>
+            <FloatHeading as="h3" className="text-sm font-semibold text-text-primary mb-4">Company</FloatHeading>
             <ul className="space-y-2.5">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
@@ -159,7 +166,7 @@ export function Footer() {
 
           {/* Support Column */}
           <div className="col-span-1">
-            <h3 className="text-sm font-semibold text-text-primary mb-4">Support</h3>
+            <FloatHeading as="h3" className="text-sm font-semibold text-text-primary mb-4">Support</FloatHeading>
             <ul className="space-y-2.5">
               {footerLinks.support.map((link) => (
                 <li key={link.name}>
@@ -176,7 +183,7 @@ export function Footer() {
 
           {/* Legal Column */}
           <div className="col-span-1">
-            <h3 className="text-sm font-semibold text-text-primary mb-4">Legal</h3>
+            <FloatHeading as="h3" className="text-sm font-semibold text-text-primary mb-4">Legal</FloatHeading>
             <ul className="space-y-2.5">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
@@ -196,9 +203,9 @@ export function Footer() {
         <div className="mt-12 sm:mt-16 pt-8 sm:pt-10 border-t border-border/30">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <div>
-              <h3 className="text-lg font-semibold text-text-primary mb-2">
+              <FloatHeading as="h3" className="text-lg font-semibold text-text-primary mb-2">
                 Stay Updated
-              </h3>
+              </FloatHeading>
               <p className="text-sm text-text-secondary">
                 Subscribe to our newsletter for the latest updates and insights.
               </p>
@@ -211,7 +218,7 @@ export function Footer() {
               />
               <button
                 type="submit"
-                className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-text-primary px-6 py-2.5 text-sm font-semibold text-background transition-all duration-300 hover:bg-blue-500"
+                className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-text-primary px-6 py-2.5 text-sm font-semibold text-background transition-colors duration-300 hover:bg-blue-500"
               >
                 Subscribe
                 <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -251,6 +258,7 @@ export function Footer() {
           </div>
         </div>
       </div>
-    </footer>
+    </ScrollFloatReveal>
   );
 }
+

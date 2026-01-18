@@ -4,6 +4,7 @@ import { motion, Variants } from "framer-motion";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { cn } from "@/lib/utils";
+import { FloatHeading } from "@/components/ui/ScrollFloat";
 
 // ============================================================================
 // DESIGN NOTES:
@@ -135,12 +136,12 @@ export function HeroPremium() {
           </motion.div>
 
           {/* Main Title - Staggered Character Reveal */}
-          <h1 className="mt-8 sm:mt-12 font-display font-bold tracking-tighter text-white">
+          <FloatHeading as="h1" className="mt-8 sm:mt-12 font-display font-bold tracking-tighter text-white">
             <AnimatedText
               text="GRAYVALLY"
               className="text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl"
             />
-          </h1>
+          </FloatHeading>
 
           {/* Tagline */}
           <motion.p
@@ -178,7 +179,7 @@ export function HeroPremium() {
             {/* Primary CTA */}
             <Link
               href="/contact"
-              className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-white px-8 py-4 text-sm sm:text-base font-semibold text-slate-950 transition-all duration-300 hover:scale-105 active:scale-95"
+              className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-white px-8 py-4 text-sm sm:text-base font-semibold text-slate-950 transition-transform duration-300 hover:scale-105 active:scale-95"
             >
               <span className="relative z-10">Start a Project</span>
               <svg
@@ -217,7 +218,7 @@ export function HeroPremium() {
             {/* Secondary CTA */}
             <Link
               href="/portfolio"
-              className="group inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm px-8 py-4 text-sm sm:text-base font-medium text-white transition-all duration-300 hover:border-white/40 hover:bg-white/10"
+              className="group inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm px-8 py-4 text-sm sm:text-base font-medium text-white transition-colors duration-300 hover:border-white/40 hover:bg-white/10"
             >
               <span>View Our Work</span>
               <svg

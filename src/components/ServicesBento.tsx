@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import ScrollFloat, { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
+import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
 
 // ============================================================================
 // DESIGN NOTES:
@@ -115,18 +117,6 @@ const bentoServices: BentoService[] = [
     imageAlt: "SEO and digital marketing service preview",
   },
 ];
-
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
 
 // Modal animation variants
 const contentVariants: Variants = {
@@ -284,14 +274,16 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
                 </span>
               </motion.div>
               
-              <motion.h2
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-text-primary leading-[1.1]"
-              >
-                {service.title}
-              </motion.h2>
+              <ScrollFloat as="div">
+                <motion.h2
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-text-primary leading-[1.1]"
+                >
+                  {service.title}
+                </motion.h2>
+              </ScrollFloat>
               
               <motion.p
                 initial={{ opacity: 0, y: 30 }}
@@ -313,15 +305,15 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
                 initial="hidden"
                 animate="visible"
               >
-                <h3 className="text-lg sm:text-xl font-medium text-text-secondary mb-5 sm:mb-6 text-center uppercase tracking-widest">
+                <FloatHeading as="h3" className="text-lg sm:text-xl font-medium text-text-secondary mb-5 sm:mb-6 text-center uppercase tracking-widest">
                   What&apos;s Included
-                </h3>
+                </FloatHeading>
                 <div className="grid gap-3 sm:gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                   {details.features.map((feature, index) => (
                     <motion.div
                       key={index}
                       variants={staggerItem}
-                      className="flex items-center gap-3 p-4 sm:p-5 rounded-xl bg-surface/30 backdrop-blur-sm border border-border/30 hover:bg-surface/50 hover:border-border/50 transition-all duration-300"
+                      className="flex items-center gap-3 p-4 sm:p-5 rounded-xl bg-surface/30 backdrop-blur-sm border border-border/30 hover:bg-surface/50 hover:border-border/50 transition-colors duration-300"
                     >
                       <CheckCircle2 className="h-5 w-5 text-emerald-400 flex-shrink-0" />
                       <span className="text-sm sm:text-base text-text-primary font-medium">{feature}</span>
@@ -338,9 +330,9 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
                   transition={{ delay: 0.4 }}
                   className="text-center"
                 >
-                  <h3 className="text-lg sm:text-xl font-medium text-text-secondary mb-5 sm:mb-6 uppercase tracking-widest">
+                  <FloatHeading as="h3" className="text-lg sm:text-xl font-medium text-text-secondary mb-5 sm:mb-6 uppercase tracking-widest">
                     Technologies We Use
-                  </h3>
+                  </FloatHeading>
                   <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
                     {details.technologies.map((tech, index) => (
                       <motion.span
@@ -348,7 +340,7 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.5 + index * 0.05 }}
-                        className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-surface/30 backdrop-blur-sm border border-border/30 text-sm font-medium text-text-primary hover:bg-surface/50 hover:border-border/50 transition-all duration-300 cursor-default"
+                        className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-surface/30 backdrop-blur-sm border border-border/30 text-sm font-medium text-text-primary hover:bg-surface/50 hover:border-border/50 transition-colors duration-300 cursor-default"
                       >
                         {tech}
                       </motion.span>
@@ -365,9 +357,9 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
                   transition={{ delay: 0.5 }}
                   className="text-center"
                 >
-                  <h3 className="text-lg sm:text-xl font-medium text-text-secondary mb-5 sm:mb-6 uppercase tracking-widest">
+                  <FloatHeading as="h3" className="text-lg sm:text-xl font-medium text-text-secondary mb-5 sm:mb-6 uppercase tracking-widest">
                     Our Process
-                  </h3>
+                  </FloatHeading>
                   <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-3">
                     {details.process.map((step, index, arr) => (
                       <motion.div
@@ -377,7 +369,7 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
                         transition={{ delay: 0.6 + index * 0.1 }}
                         className="flex items-center gap-3 sm:gap-4"
                       >
-                        <div className="flex items-center gap-3 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full bg-surface/30 backdrop-blur-sm border border-border/30 hover:bg-surface/50 transition-all duration-300">
+                        <div className="flex items-center gap-3 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full bg-surface/30 backdrop-blur-sm border border-border/30 hover:bg-surface/50 transition-colors duration-300">
                           <span className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-blue-500/20 text-xs sm:text-sm font-bold text-blue-400">
                             {index + 1}
                           </span>
@@ -433,13 +425,10 @@ function BentoCard({ service, index, className, onClick }: BentoCardProps) {
   const Icon = service.icon;
 
   return (
-    <motion.div
-      variants={cardVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ delay: index * 0.1 }}
-      whileHover={{ scale: 1.01 }}
+    <ScrollFloatReveal
+      y={REVEAL_CONFIG.translateY}
+      duration={MOTION_DURATION.normal}
+      delay={index * 0.1}
       onClick={onClick}
       className={cn(
         // Base glassmorphism styling - theme aware
@@ -448,12 +437,13 @@ function BentoCard({ service, index, className, onClick }: BentoCardProps) {
         "border border-transparent",
         // Padding
         "p-5 sm:p-6",
-        "min-h-[420px] sm:min-h-[460px]",
+        "min-h-[340px] sm:min-h-[420px] lg:min-h-[460px]",
         // Hover glow transition
         "transition-all duration-500 ease-out",
         "hover:border-transparent",
         "hover:bg-surface/40",
         "hover:shadow-lg hover:shadow-blue-500/10",
+        "hover:scale-[1.01]",
         className
       )}
     >
@@ -483,7 +473,7 @@ function BentoCard({ service, index, className, onClick }: BentoCardProps) {
 
         {/* Header: Icon + Category */}
         <div className="flex items-start justify-between mt-5">
-          <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-border/30 transition-all duration-300 group-hover:from-blue-500/20 group-hover:to-cyan-500/20 group-hover:border-blue-500/30">
+          <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-border/30 transition-colors duration-300 group-hover:from-blue-500/20 group-hover:to-cyan-500/20 group-hover:border-blue-500/30">
             <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-blue-400 transition-colors duration-300 group-hover:text-cyan-400" />
           </div>
           <span className="rounded-full bg-surface/60 px-3 py-1 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-text-secondary/70">
@@ -492,9 +482,9 @@ function BentoCard({ service, index, className, onClick }: BentoCardProps) {
         </div>
 
         {/* Title */}
-        <h3 className="mt-5 text-xl sm:text-2xl font-semibold text-text-primary transition-colors duration-300 group-hover:text-blue-400">
+        <FloatHeading as="h3" className="mt-5 text-xl sm:text-2xl font-semibold text-text-primary transition-colors duration-300 group-hover:text-blue-400">
           {service.title}
-        </h3>
+        </FloatHeading>
 
         {/* Description */}
         <p className="mt-3 text-sm sm:text-base text-text-secondary/80 leading-relaxed transition-colors duration-300 group-hover:text-text-secondary flex-grow">
@@ -502,7 +492,7 @@ function BentoCard({ service, index, className, onClick }: BentoCardProps) {
         </p>
 
         {/* Learn more link */}
-        <div className="mt-6 flex items-center gap-2 text-sm font-medium text-text-secondary/50 transition-all duration-300 group-hover:text-cyan-400">
+        <div className="mt-6 flex items-center gap-2 text-sm font-medium text-text-secondary/50 transition-colors duration-300 group-hover:text-cyan-400">
           <span>Explore</span>
           <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
         </div>
@@ -510,7 +500,7 @@ function BentoCard({ service, index, className, onClick }: BentoCardProps) {
 
       {/* Corner accent */}
       <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-gradient-to-br from-blue-500/5 via-transparent to-cyan-500/5 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
-    </motion.div>
+    </ScrollFloatReveal>
   );
 }
 
@@ -550,8 +540,8 @@ export function ServicesBento() {
             title="Engineering Excellence"
             subtitle="Our core competencies lie in building the invisible backbone of modern digital products."
             align="center"
-            animation="word-by-word"
             gradientWords={[1]}
+            titleClassName="font-display text-3xl sm:text-4xl md:text-5xl lg:text-5xl"
             className="mb-14 sm:mb-20"
           />
 
@@ -568,11 +558,10 @@ export function ServicesBento() {
           </div>
 
           {/* CTA Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.6, duration: 0.6 }}
+          <ScrollFloatReveal
+            y={REVEAL_CONFIG.translateY}
+            delay={0.2}
+            duration={MOTION_DURATION.medium}
             className="mt-14 sm:mt-20 flex justify-center"
           >
             <Link
@@ -582,7 +571,7 @@ export function ServicesBento() {
               <span>Explore Web Services</span>
               <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
-          </motion.div>
+          </ScrollFloatReveal>
         </div>
       </section>
 
@@ -601,3 +590,4 @@ export function ServicesBento() {
 }
 
 export default ServicesBento;
+

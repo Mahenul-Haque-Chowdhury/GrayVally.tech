@@ -1,17 +1,20 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
+import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
 
 export function AboutPageContent() {
+
   const stats = [
     { label: "Founded", value: "2024", detail: "Bangladesh-based studio" },
     { label: "Focus", value: "Product Systems", detail: "Engineering + design" },
     { label: "Delivery", value: "End-to-End", detail: "Strategy to launch" },
     { label: "Partners", value: "Founder-led", detail: "Direct collaboration" },
   ];
+
 
   const principles = [
     {
@@ -129,14 +132,13 @@ export function AboutPageContent() {
       {/* Hero */}
       <section className="relative overflow-hidden py-16 sm:py-20 md:py-28">
         <div className="absolute inset-0 bg-gradient-to-b from-surface/50 via-background to-background pointer-events-none" />
-        <div className="absolute -top-24 left-1/2 h-64 w-[520px] -translate-x-1/2 rounded-full bg-gradient-to-r from-emerald-500/15 via-sky-500/10 to-amber-500/15 blur-[120px] pointer-events-none" />
+        <div className="absolute -top-16 sm:-top-24 left-1/2 h-56 sm:h-64 w-[320px] sm:w-[520px] -translate-x-1/2 rounded-full bg-gradient-to-r from-emerald-500/15 via-sky-500/10 to-amber-500/15 blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 right-10 h-56 w-56 rounded-full bg-sky-500/10 blur-[100px] pointer-events-none" />
 
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+          <ScrollFloatReveal
+            y={REVEAL_CONFIG.translateY}
+            duration={MOTION_DURATION.medium}
             className="grid gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] items-center"
           >
             <div>
@@ -158,9 +160,14 @@ export function AboutPageContent() {
                 </div>
               </div>
 
-              <h1 className="mt-6 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text-primary font-display">
+              <FloatHeading
+                as="h1"
+                duration={MOTION_DURATION.display}
+                className="my-0 mt-6 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text-primary font-display"
+                once
+              >
                 Building reliable systems for teams that ship fast.
-              </h1>
+              </FloatHeading>
               <p className="mt-5 text-base sm:text-lg text-text-secondary leading-relaxed max-w-2xl">
                 We are a focused team of engineers, designers, and builders crafting modern web products with durable
                 foundations. GrayVally brings enterprise-grade execution to fast-moving teams that need clarity and
@@ -186,7 +193,9 @@ export function AboutPageContent() {
             <div className="relative">
               <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-emerald-500/20 via-transparent to-amber-500/20 blur-2xl" />
               <div className="relative rounded-3xl border border-border/40 bg-surface/40 backdrop-blur-xl p-6 sm:p-8">
-                <h2 className="text-sm uppercase tracking-[0.3em] text-text-secondary">Studio Snapshot</h2>
+                <FloatHeading as="h2" className="text-sm uppercase tracking-[0.3em] text-text-secondary">
+                  Studio Snapshot
+                </FloatHeading>
                 <div className="mt-6 space-y-4 text-sm text-text-secondary">
                   <div>
                     <div className="text-xs uppercase tracking-[0.2em] text-text-secondary/70">Mission</div>
@@ -195,56 +204,61 @@ export function AboutPageContent() {
                     </p>
                   </div>
                   <div className="grid gap-4 sm:grid-cols-2">
-                    {stats.map((stat) => (
-                      <div key={stat.label} className="rounded-2xl border border-border/40 bg-background/40 p-4">
+                    {stats.map((stat, index) => (
+                      <ScrollFloatReveal
+                        key={stat.label}
+                        y={REVEAL_CONFIG.translateY}
+                        duration={MOTION_DURATION.normal}
+                        delay={index * 0.08}
+                        className="rounded-2xl border border-border/40 bg-background/40 p-4"
+                      >
                         <p className="text-xs uppercase tracking-[0.2em] text-text-secondary/70">{stat.label}</p>
                         <p className="mt-2 text-lg font-semibold text-text-primary">{stat.value}</p>
                         <p className="mt-1 text-xs text-text-secondary/80">{stat.detail}</p>
-                      </div>
+                      </ScrollFloatReveal>
                     ))}
                   </div>
                 </div>
               </div>
             </div>
-          </motion.div>
+          </ScrollFloatReveal>
         </div>
       </section>
 
       {/* Principles */}
       <section className="py-16 sm:py-20 border-t border-border/60">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+          <ScrollFloatReveal
+            y={REVEAL_CONFIG.translateY}
+            duration={MOTION_DURATION.medium}
             className="text-center max-w-3xl mx-auto"
           >
-            <h2 className="text-3xl sm:text-4xl font-bold text-text-primary font-display">
+            <FloatHeading as="h2" className="text-3xl sm:text-4xl font-bold text-text-primary font-display">
               Principles that shape every build
-            </h2>
+            </FloatHeading>
             <p className="mt-4 text-text-secondary">
               We optimize for long-term durability, clear communication, and smooth handoffs.
             </p>
-          </motion.div>
+          </ScrollFloatReveal>
 
           <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {principles.map((principle) => (
-              <motion.div
+            {principles.map((principle, index) => (
+              <ScrollFloatReveal
                 key={principle.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
+                y={REVEAL_CONFIG.translateY}
+                duration={MOTION_DURATION.normal}
+                delay={index * 0.08}
                 className="relative overflow-hidden rounded-2xl border border-border/40 bg-surface/30 p-6 backdrop-blur-sm"
               >
                 <div className={cn(
                   "absolute top-0 left-0 right-0 h-1 bg-gradient-to-r",
                   principle.gradient
                 )} />
-                <h3 className="text-lg font-semibold text-text-primary">{principle.title}</h3>
+                <FloatHeading as="h3" className="text-lg font-semibold text-text-primary">
+                  {principle.title}
+                </FloatHeading>
                 <p className="mt-3 text-sm text-text-secondary leading-relaxed">{principle.description}</p>
-              </motion.div>
+              </ScrollFloatReveal>
             ))}
           </div>
         </div>
@@ -253,17 +267,15 @@ export function AboutPageContent() {
       {/* Capabilities */}
       <section className="py-16 sm:py-20 border-t border-border/60 bg-surface/20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+          <ScrollFloatReveal
+            y={REVEAL_CONFIG.translateY}
+            duration={MOTION_DURATION.medium}
             className="flex flex-col md:flex-row md:items-end md:justify-between gap-6"
           >
             <div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-text-primary font-display">
+              <FloatHeading as="h2" className="text-3xl sm:text-4xl font-bold text-text-primary font-display">
                 What we deliver
-              </h2>
+              </FloatHeading>
               <p className="mt-4 text-text-secondary max-w-2xl">
                 A full-stack team that blends strategy, design, and engineering into one continuous delivery pipeline.
               </p>
@@ -274,24 +286,25 @@ export function AboutPageContent() {
             >
               Start the conversation
             </Link>
-          </motion.div>
+          </ScrollFloatReveal>
 
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {capabilities.map((capability, index) => (
-              <motion.div
+              <ScrollFloatReveal
                 key={capability.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
+                y={REVEAL_CONFIG.translateY}
+                duration={MOTION_DURATION.normal}
+                delay={index * 0.06}
                 className="rounded-2xl border border-border/40 bg-background/40 p-5 backdrop-blur-sm"
               >
                 <div className="text-xs uppercase tracking-[0.2em] text-text-secondary/70">
                   0{index + 1}
                 </div>
-                <h3 className="mt-3 text-lg font-semibold text-text-primary">{capability.title}</h3>
+                <FloatHeading as="h3" className="mt-3 text-lg font-semibold text-text-primary">
+                  {capability.title}
+                </FloatHeading>
                 <p className="mt-2 text-sm text-text-secondary leading-relaxed">{capability.description}</p>
-              </motion.div>
+              </ScrollFloatReveal>
             ))}
           </div>
         </div>
@@ -300,29 +313,26 @@ export function AboutPageContent() {
       {/* Milestones */}
       <section className="py-16 sm:py-20 border-t border-border/60">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+          <ScrollFloatReveal
+            y={REVEAL_CONFIG.translateY}
+            duration={MOTION_DURATION.medium}
             className="max-w-3xl"
           >
-            <h2 className="text-3xl sm:text-4xl font-bold text-text-primary font-display">
+            <FloatHeading as="h2" className="text-3xl sm:text-4xl font-bold text-text-primary font-display">
               Our story, in milestones
-            </h2>
+            </FloatHeading>
             <p className="mt-4 text-text-secondary">
               From a focused studio to a full-service partner for ambitious teams.
             </p>
-          </motion.div>
+          </ScrollFloatReveal>
 
           <div className="mt-10 space-y-6">
-            {milestones.map((milestone) => (
-              <motion.div
+            {milestones.map((milestone, index) => (
+              <ScrollFloatReveal
                 key={milestone.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
+                y={REVEAL_CONFIG.translateY}
+                duration={MOTION_DURATION.normal}
+                delay={index * 0.08}
                 className="relative rounded-2xl border border-border/40 bg-surface/30 p-6 backdrop-blur-sm"
               >
                 <div className="absolute left-6 top-6 h-full w-px bg-gradient-to-b from-emerald-500/40 via-sky-500/40 to-transparent" />
@@ -330,41 +340,43 @@ export function AboutPageContent() {
                   <div className="text-xs uppercase tracking-[0.2em] text-text-secondary/70">
                     {milestone.year}
                   </div>
-                  <h3 className="mt-2 text-lg font-semibold text-text-primary">{milestone.title}</h3>
+                  <FloatHeading as="h3" className="mt-2 text-lg font-semibold text-text-primary">
+                    {milestone.title}
+                  </FloatHeading>
                   <p className="mt-2 text-sm text-text-secondary leading-relaxed">{milestone.description}</p>
                 </div>
-              </motion.div>
+              </ScrollFloatReveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* Team */}
-      <section id="team" className="py-16 sm:py-20 border-t border-border/60 bg-surface/20">
+      <section
+        id="team"
+        className="py-16 sm:py-20 border-t border-border/60 bg-surface/20"
+      >
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+          <ScrollFloatReveal
+            y={REVEAL_CONFIG.translateY}
+            duration={MOTION_DURATION.medium}
             className="text-center"
           >
-            <h2 className="text-3xl sm:text-4xl font-bold text-text-primary font-display">
+            <FloatHeading as="h2" className="text-3xl sm:text-4xl font-bold text-text-primary font-display">
               The people behind the work
-            </h2>
+            </FloatHeading>
             <p className="mt-4 text-text-secondary max-w-2xl mx-auto">
               A compact team that cares about outcomes, communication, and the details that make products feel premium.
             </p>
-          </motion.div>
+          </ScrollFloatReveal>
 
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {teamMembers.map((member) => (
-              <motion.div
+            {teamMembers.map((member, index) => (
+              <ScrollFloatReveal
                 key={member.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
+                y={REVEAL_CONFIG.translateY}
+                duration={MOTION_DURATION.normal}
+                delay={index * 0.08}
                 className="group relative overflow-hidden rounded-2xl border border-border/40 bg-background/40 p-6 backdrop-blur-sm"
               >
                 <div className={cn(
@@ -391,7 +403,9 @@ export function AboutPageContent() {
                     )}
                   </div>
                   <div>
-                    <h3 className="text-base font-semibold text-text-primary">{member.name}</h3>
+                    <FloatHeading as="h3" className="text-base font-semibold text-text-primary">
+                      {member.name}
+                    </FloatHeading>
                     <p className="mt-1 text-xs uppercase tracking-[0.2em] text-text-secondary/70">{member.role}</p>
                   </div>
                 </div>
@@ -409,27 +423,28 @@ export function AboutPageContent() {
                     </svg>
                   </a>
                 </div>
-              </motion.div>
+              </ScrollFloatReveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-16 sm:py-20 border-t border-border/60">
+      <ScrollFloatReveal
+        as="section"
+        y={REVEAL_CONFIG.translateY}
+        duration={MOTION_DURATION.medium}
+        className="py-16 sm:py-20 border-t border-border/60"
+      >
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+          <div
             className="relative overflow-hidden rounded-3xl border border-border/50 bg-gradient-to-br from-surface/40 via-background to-surface/30 p-8 sm:p-12 text-center"
           >
             <div className="absolute -top-20 right-10 h-40 w-40 rounded-full bg-emerald-500/20 blur-[100px]" />
             <div className="relative">
-              <h2 className="text-3xl sm:text-4xl font-bold text-text-primary font-display">
+              <FloatHeading as="h2" className="text-3xl sm:text-4xl font-bold text-text-primary font-display">
                 Ready to build with GrayVally?
-              </h2>
+              </FloatHeading>
               <p className="mt-4 text-text-secondary max-w-2xl mx-auto">
                 Tell us about your goals and we will map the fastest path to a durable, high-performing product.
               </p>
@@ -448,9 +463,9 @@ export function AboutPageContent() {
                 </Link>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
-      </section>
+      </ScrollFloatReveal>
     </>
   );
 }

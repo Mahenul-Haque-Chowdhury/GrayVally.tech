@@ -5,6 +5,7 @@ import NextImage from "next/image";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { Plus, Trash2, Download, RotateCcw, Save } from "lucide-react";
+import { FloatHeading } from "@/components/ui/ScrollFloat";
 
 type CurrencyCode = "USD" | "BDT" | "EUR" | "GBP";
 
@@ -427,7 +428,7 @@ export function InvoiceMaker() {
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-10">
       <div className="mb-6 flex flex-col gap-2">
-        <h1 className="text-3xl font-bold tracking-tight">Invoice Maker</h1>
+        <FloatHeading as="h1" className="text-3xl font-bold tracking-tight">Invoice Maker</FloatHeading>
         <p className="text-text-secondary text-sm">
           Private tool (not linked anywhere). Fill the form, then export as PDF.
         </p>
@@ -436,7 +437,7 @@ export function InvoiceMaker() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <section className="rounded-2xl border border-[color:var(--border)] bg-[color:var(--card-bg)] p-5">
           <div className="flex items-center justify-between gap-3">
-            <h2 className="text-lg font-semibold">Details</h2>
+            <FloatHeading as="h2" className="text-lg font-semibold">Details</FloatHeading>
             <div className="flex flex-wrap gap-2">
               <button
                 type="button"
@@ -523,7 +524,7 @@ export function InvoiceMaker() {
 
           <div className="mt-6 grid grid-cols-1 gap-6">
             <div className="grid grid-cols-1 gap-4 rounded-xl border border-[color:var(--border)] p-4">
-              <h3 className="text-sm font-semibold">From</h3>
+              <FloatHeading as="h3" className="text-sm font-semibold">From</FloatHeading>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <label className={labelClass()}>Company name</label>
@@ -553,7 +554,7 @@ export function InvoiceMaker() {
             </div>
 
             <div className="grid grid-cols-1 gap-4 rounded-xl border border-[color:var(--border)] p-4">
-              <h3 className="text-sm font-semibold">Bill To</h3>
+              <FloatHeading as="h3" className="text-sm font-semibold">Bill To</FloatHeading>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <label className={labelClass()}>Client name</label>
@@ -585,7 +586,7 @@ export function InvoiceMaker() {
 
           <div className="mt-6 rounded-xl border border-[color:var(--border)] p-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold">Line items</h3>
+              <FloatHeading as="h3" className="text-sm font-semibold">Line items</FloatHeading>
               <button
                 type="button"
                 onClick={addItem}
@@ -699,7 +700,7 @@ export function InvoiceMaker() {
         </section>
 
         <section className="rounded-2xl border border-[color:var(--border)] bg-[color:var(--card-bg)] p-5">
-          <h2 className="text-lg font-semibold">Preview</h2>
+          <FloatHeading as="h2" className="text-lg font-semibold">Preview</FloatHeading>
 
           <div className="mt-4 overflow-hidden rounded-xl border border-[color:var(--border)] bg-background">
             <div className="relative border-b border-[color:var(--border)] bg-[color:var(--card-bg)]/60 p-5">
@@ -865,3 +866,4 @@ export function InvoiceMaker() {
     </div>
   );
 }
+

@@ -10,8 +10,11 @@ export const MOTION_DURATION = {
   instant: 0.15,
   fast: 0.3,
   normal: 0.5,
+  medium: 0.6,
+  card: 0.7,
   slow: 0.8,
   hero: 1.2,
+  display: 1.9,
 } as const;
 
 // -----------------------------------------

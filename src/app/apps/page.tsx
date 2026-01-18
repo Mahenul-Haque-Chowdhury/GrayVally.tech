@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { FloatHeading } from "@/components/ui/ScrollFloat";
 
 export const metadata: Metadata = {
   title: "Free Online Tools & Apps | Business Card Maker & More",
@@ -97,9 +98,9 @@ function AppRow({
         </div>
 
         <div className={isOdd ? "md:order-1" : "md:order-2"}>
-          <h3 className="text-3xl sm:text-4xl font-semibold text-text-primary">
+          <FloatHeading as="h3" className="text-3xl sm:text-4xl font-semibold text-text-primary">
             {app.title}
-          </h3>
+          </FloatHeading>
           <p className="mt-4 text-sm sm:text-base text-text-secondary leading-relaxed">
             {app.description}
           </p>
@@ -154,11 +155,11 @@ export default function AppsPage() {
             </div>
 
             <header className="text-center">
-              <h1 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary">
+              <FloatHeading as="h1" className="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary">
                 <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-300 bg-clip-text text-transparent">
                   Apps & Tools
                 </span>
-              </h1>
+              </FloatHeading>
               <p className="mt-5 text-base sm:text-lg text-text-secondary leading-relaxed max-w-2xl mx-auto">
                 Clean, focused tools that remove busywork, help teams move faster, and present your brand with clarity.
               </p>

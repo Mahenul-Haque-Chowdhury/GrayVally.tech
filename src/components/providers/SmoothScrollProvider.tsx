@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef, ReactNode, useCallback } from "react";
+import { useEffect, ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { LENIS_CONFIG } from "@/lib/motion/constants";
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
@@ -46,19 +47,53 @@ export function SmoothScrollProvider({
   children,
   options = {},
 }: SmoothScrollProviderProps) {
-  const lenisRef = useRef<Lenis | null>(null);
   const pathname = usePathname();
 
-  // Cleanup function for route changes
-  const cleanup = useCallback(() => {
-    ScrollTrigger.getAll().forEach((st) => st.kill());
-    ScrollTrigger.refresh();
-  }, []);
-
-  // Cleanup on route change
+  // Refresh ScrollTrigger on route change for new layout
   useEffect(() => {
-    cleanup();
-  }, [pathname, cleanup]);
+    if (typeof window === "undefined") return;
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
+  }, [pathname]);
+
+  // Dev-only motion debug toggle
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production" || typeof window === "undefined") {
+      return;
+    }
+
+    const storageKey = "motion-debug";
+    const params = new URLSearchParams(window.location.search);
+    const queryEnabled = params.get("motionDebug") === "1";
+    const storedEnabled = window.localStorage.getItem(storageKey) === "1";
+    const initialEnabled = queryEnabled || storedEnabled;
+
+    const applyDebug = (enabled: boolean) => {
+      document.documentElement.classList.toggle("motion-debug", enabled);
+    };
+
+    applyDebug(initialEnabled);
+
+    (window as Window & { __toggleMotionDebug?: (next?: boolean) => boolean }).__toggleMotionDebug = (
+      next?: boolean
+    ) => {
+      const current = document.documentElement.classList.contains("motion-debug");
+      const enabled = typeof next === "boolean" ? next : !current;
+      window.localStorage.setItem(storageKey, enabled ? "1" : "0");
+      applyDebug(enabled);
+      console.info(`[MotionDebug] ${enabled ? "enabled" : "disabled"}`);
+      return enabled;
+    };
+
+    if (initialEnabled) {
+      console.info("[MotionDebug] enabled (toggle via window.__toggleMotionDebug())");
+    }
+
+    return () => {
+      delete (window as Window & { __toggleMotionDebug?: (next?: boolean) => boolean }).__toggleMotionDebug;
+    };
+  }, []);
 
   useEffect(() => {
     // Skip Lenis if reduced motion is preferred
@@ -76,23 +111,24 @@ export function SmoothScrollProvider({
 
     // Initialize Lenis with configuration (desktop only)
     const lenis = new Lenis({
-      duration: options.duration ?? 1.2,
+      duration: options.duration ?? LENIS_CONFIG.duration,
       easing: options.easing ?? defaultEasing,
       orientation: options.orientation ?? "vertical",
       smoothWheel: options.smoothWheel ?? true,
-      touchMultiplier: options.touchMultiplier ?? 2,
-      wheelMultiplier: options.wheelMultiplier ?? 1,
+      touchMultiplier: options.touchMultiplier ?? LENIS_CONFIG.touchMultiplier,
+      wheelMultiplier: options.wheelMultiplier ?? LENIS_CONFIG.wheelMultiplier,
+      lerp: LENIS_CONFIG.lerp,
+      infinite: LENIS_CONFIG.infinite,
     });
-
-    lenisRef.current = lenis;
 
     // Connect Lenis to GSAP ScrollTrigger
     lenis.on("scroll", ScrollTrigger.update);
 
     // Set up GSAP ticker to update Lenis
-    gsap.ticker.add((time) => {
+    const raf = (time: number) => {
       lenis.raf(time * 1000);
-    });
+    };
+    gsap.ticker.add(raf);
 
     // Disable GSAP's default lag smoothing for smoother animations
     gsap.ticker.lagSmoothing(0);
@@ -151,6 +187,8 @@ export function SmoothScrollProvider({
       images.forEach((img) => {
         img.removeEventListener("load", handleImageLoad);
       });
+      gsap.ticker.remove(raf);
+      lenis.off("scroll", ScrollTrigger.update);
       lenis.destroy();
       if (typeof window !== "undefined") {
         delete (window as Window & { lenis?: Lenis }).lenis;

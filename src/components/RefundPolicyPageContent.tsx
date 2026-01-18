@@ -1,18 +1,17 @@
 "use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
+import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
 
 export function RefundPolicyPageContent() {
   return (
     <main className="min-h-screen bg-background pt-24 sm:pt-32 pb-16 sm:pb-24">
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
         {/* Back Link */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
+        <ScrollFloatReveal
+          y={REVEAL_CONFIG.translateY}
+          duration={MOTION_DURATION.normal}
         >
           <Link
             href="/"
@@ -21,36 +20,37 @@ export function RefundPolicyPageContent() {
             <ArrowLeft className="h-4 w-4" />
             Back to Home
           </Link>
-        </motion.div>
+        </ScrollFloatReveal>
 
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+        <ScrollFloatReveal
+          y={REVEAL_CONFIG.translateY}
+          duration={MOTION_DURATION.medium}
           className="mb-12"
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary mb-4">
-            Refund{" "}
-            <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-              Policy
-            </span>
-          </h1>
+          <FloatHeading
+            as="h1"
+            duration={MOTION_DURATION.display}
+            className="my-0 mb-4 text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent"
+            once
+          >
+            Refund Policy
+          </FloatHeading>
           <p className="text-text-secondary">Last updated: December 1, 2025</p>
-        </motion.div>
+        </ScrollFloatReveal>
 
         {/* Content */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+        <ScrollFloatReveal
+          y={REVEAL_CONFIG.translateY}
+          duration={MOTION_DURATION.medium}
+          delay={0.1}
           className="prose prose-lg max-w-none"
         >
           <div className="space-y-8 text-text-secondary">
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 1. Overview
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 At GrayVally, we strive to deliver high-quality digital services
                 that meet your expectations. This Refund Policy outlines the
@@ -61,9 +61,9 @@ export function RefundPolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 2. Deposit &amp; Advance Payment
-              </h2>
+              </FloatHeading>
               <div className="p-4 rounded-lg bg-surface/50 border border-border mb-4">
                 <p className="text-text-primary font-semibold mb-2">
                   Important Notice:
@@ -83,18 +83,18 @@ export function RefundPolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 3. Refund Eligibility
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed mb-4">
                 Refunds may be considered in the following circumstances:
               </p>
 
               <div className="space-y-4">
                 <div className="p-4 rounded-lg bg-green-500/10 border border-green-500/30">
-                  <h3 className="font-semibold text-green-400 mb-2">
+                  <FloatHeading as="h3" className="font-semibold text-green-400 mb-2">
                     ✓ Full Refund Eligible
-                  </h3>
+                  </FloatHeading>
                   <ul className="list-disc pl-6 space-y-1 text-sm">
                     <li>
                       Cancellation before project work begins (within 48 hours
@@ -106,9 +106,9 @@ export function RefundPolicyPageContent() {
                 </div>
 
                 <div className="p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/30">
-                  <h3 className="font-semibold text-yellow-400 mb-2">
+                  <FloatHeading as="h3" className="font-semibold text-yellow-400 mb-2">
                     ⚡ Partial Refund Eligible
-                  </h3>
+                  </FloatHeading>
                   <ul className="list-disc pl-6 space-y-1 text-sm">
                     <li>
                       Project cancelled during initial planning phase (up to
@@ -124,9 +124,9 @@ export function RefundPolicyPageContent() {
                 </div>
 
                 <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/30">
-                  <h3 className="font-semibold text-red-400 mb-2">
+                  <FloatHeading as="h3" className="font-semibold text-red-400 mb-2">
                     ✗ Non-Refundable
-                  </h3>
+                  </FloatHeading>
                   <ul className="list-disc pl-6 space-y-1 text-sm">
                     <li>Work already completed and delivered</li>
                     <li>Cancellation after design/development phase has begun</li>
@@ -145,15 +145,15 @@ export function RefundPolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 4. Service-Specific Refund Terms
-              </h2>
+              </FloatHeading>
 
               <div className="space-y-4">
                 <div className="p-4 rounded-lg bg-surface/50 border border-border">
-                  <h3 className="font-semibold text-text-primary mb-2">
+                  <FloatHeading as="h3" className="font-semibold text-text-primary mb-2">
                     Website Development
-                  </h3>
+                  </FloatHeading>
                   <ul className="list-disc pl-6 space-y-1 text-sm">
                     <li>Before wireframe approval: Up to 70% refund</li>
                     <li>After wireframe, before development: Up to 50% refund</li>
@@ -163,9 +163,9 @@ export function RefundPolicyPageContent() {
                 </div>
 
                 <div className="p-4 rounded-lg bg-surface/50 border border-border">
-                  <h3 className="font-semibold text-text-primary mb-2">
+                  <FloatHeading as="h3" className="font-semibold text-text-primary mb-2">
                     UI/UX Design
-                  </h3>
+                  </FloatHeading>
                   <ul className="list-disc pl-6 space-y-1 text-sm">
                     <li>Before concept presentation: Up to 60% refund</li>
                     <li>After concept approval: Up to 30% refund</li>
@@ -174,9 +174,9 @@ export function RefundPolicyPageContent() {
                 </div>
 
                 <div className="p-4 rounded-lg bg-surface/50 border border-border">
-                  <h3 className="font-semibold text-text-primary mb-2">
+                  <FloatHeading as="h3" className="font-semibold text-text-primary mb-2">
                     Maintenance &amp; Support Plans
-                  </h3>
+                  </FloatHeading>
                   <ul className="list-disc pl-6 space-y-1 text-sm">
                     <li>
                       Monthly plans: Cancellation with 7 days notice, no refund
@@ -190,9 +190,9 @@ export function RefundPolicyPageContent() {
                 </div>
 
                 <div className="p-4 rounded-lg bg-surface/50 border border-border">
-                  <h3 className="font-semibold text-text-primary mb-2">
+                  <FloatHeading as="h3" className="font-semibold text-text-primary mb-2">
                     SEO &amp; Digital Marketing
-                  </h3>
+                  </FloatHeading>
                   <ul className="list-disc pl-6 space-y-1 text-sm">
                     <li>Setup fees are non-refundable</li>
                     <li>Monthly retainers: No refund for current month</li>
@@ -203,9 +203,9 @@ export function RefundPolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 5. Refund Request Process
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed mb-4">To request a refund:</p>
               <ol className="list-decimal pl-6 space-y-3">
                 <li>
@@ -237,9 +237,9 @@ export function RefundPolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 6. Refund Methods
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed mb-4">
                 Refunds will be issued using the original payment method:
               </p>
@@ -266,9 +266,9 @@ export function RefundPolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 7. Project Cancellation
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed mb-4">
                 If you need to cancel your project:
               </p>
@@ -289,9 +289,9 @@ export function RefundPolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 8. Quality Guarantee
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 We stand behind the quality of our work. If deliverables do not
                 meet the specifications agreed upon in the project scope, we
@@ -302,9 +302,9 @@ export function RefundPolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 9. Disputes
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 If you disagree with our refund decision, you may escalate the
                 matter by contacting our management team. We are committed to
@@ -315,9 +315,9 @@ export function RefundPolicyPageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 10. Contact Us
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 For refund requests or questions about this policy:
               </p>
@@ -345,8 +345,9 @@ export function RefundPolicyPageContent() {
               </p>
             </section>
           </div>
-        </motion.div>
+        </ScrollFloatReveal>
       </div>
     </main>
   );
 }
+

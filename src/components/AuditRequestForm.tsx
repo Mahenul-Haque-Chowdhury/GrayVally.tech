@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { FORMSPREE_ENDPOINT } from "@/lib/formspree";
+import { FloatHeading } from "@/components/ui/ScrollFloat";
 
 type FormStatus = "idle" | "submitting" | "success" | "error";
 
@@ -76,7 +77,9 @@ export function AuditRequestForm() {
   if (status === "success") {
     return (
       <div className="rounded-2xl border border-border/40 bg-surface/20 backdrop-blur-sm p-6 sm:p-8">
-        <h3 className="text-xl sm:text-2xl font-bold text-text-primary">Request received</h3>
+        <FloatHeading as="h3" className="text-xl sm:text-2xl font-bold text-text-primary">
+          Request received
+        </FloatHeading>
         <p className="mt-3 text-sm sm:text-base text-text-secondary/90 leading-relaxed">
           Thanks! We’ll review your website and get back to you within 24–48 hours.
         </p>
@@ -219,7 +222,7 @@ export function AuditRequestForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="group relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-text-primary px-6 py-3.5 text-sm sm:text-base font-semibold text-background transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
+            className="group relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-text-primary px-6 py-3.5 text-sm sm:text-base font-semibold text-background transition-transform transition-opacity duration-300 hover:scale-[1.01] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
           >
             <span className="relative z-10">
               {isSubmitting ? "Requesting…" : "Request Complimentary Audit"}

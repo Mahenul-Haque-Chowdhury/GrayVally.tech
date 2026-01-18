@@ -1,12 +1,28 @@
 "use client";
 
 import Link from "next/link";
+import { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
+import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
 
 export function Contact() {
   return (
-    <section id="contact" className="py-16 sm:py-24 md:py-32 transition-colors duration-300">
+    <ScrollFloatReveal
+      as="section"
+      y={REVEAL_CONFIG.translateY}
+      duration={MOTION_DURATION.medium}
+      id="contact"
+      className="py-16 sm:py-24 md:py-32 transition-colors duration-300"
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 text-center">
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-text-primary md:text-4xl lg:text-5xl">Ready to build?</h2>
+        <FloatHeading
+          as="h2"
+          duration={MOTION_DURATION.display}
+          className="my-0 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary"
+          gradientWords={[2]}
+          once
+        >
+          Ready to build?
+        </FloatHeading>
         <p className="mx-auto mt-4 sm:mt-6 max-w-xl text-sm sm:text-base md:text-lg text-text-secondary px-2">
           Tell me about your next project and I&apos;ll respond with clear next
           steps, timelines, and options.
@@ -20,6 +36,6 @@ export function Contact() {
           </Link>
         </div>
       </div>
-    </section>
+    </ScrollFloatReveal>
   );
 }

@@ -1,6 +1,4 @@
 "use client";
-
-import { motion } from "framer-motion";
 import {
   ShieldCheck,
   Gauge,
@@ -13,6 +11,8 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { AuditRequestForm } from "@/components/AuditRequestForm";
+import { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
+import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
 
 const auditAreas = [
   {
@@ -65,50 +65,50 @@ export function AuditPageContent() {
         <div className="absolute inset-0 bg-gradient-to-b from-surface/50 via-background to-background pointer-events-none" />
 
         <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 text-center">
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text-primary"
+          <FloatHeading
+            as="h1"
+            duration={MOTION_DURATION.display}
+            className="my-0 text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-300 bg-clip-text text-transparent"
+            once
           >
-            <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-300 bg-clip-text text-transparent">
-              Complimentary Website Audit
-            </span>
-          </motion.h1>
+            Complimentary Website Audit
+          </FloatHeading>
 
-          <motion.p
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          <ScrollFloatReveal
+            as="p"
+            y={REVEAL_CONFIG.translateY}
+            duration={MOTION_DURATION.card}
+            delay={0.1}
             className="mt-5 text-sm sm:text-base md:text-lg text-text-secondary/90 leading-relaxed max-w-2xl mx-auto"
           >
             We review your website&apos;s performance, UX, security, and scalability, then send you a clear, actionable
             improvement roadmap.
-          </motion.p>
+          </ScrollFloatReveal>
 
-          <motion.p
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          <ScrollFloatReveal
+            as="p"
+            y={REVEAL_CONFIG.translateY}
+            duration={MOTION_DURATION.card}
+            delay={0.2}
             className="mt-4 text-xs sm:text-sm text-text-secondary/80"
           >
             Free Service • No obligation • Limited weekly audits
-          </motion.p>
+          </ScrollFloatReveal>
         </div>
       </section>
 
       {/* What We Audit */}
       <section className="pt-8 pb-12 sm:pt-10 sm:pb-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          <ScrollFloatReveal
+            y={REVEAL_CONFIG.translateY}
+            duration={MOTION_DURATION.medium}
             className="grid gap-8 lg:grid-cols-2 lg:items-start"
           >
             <div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary">What we audit</h2>
+              <FloatHeading as="h2" className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary">
+                What we audit
+              </FloatHeading>
               <p className="mt-4 text-sm sm:text-base text-text-secondary/90 leading-relaxed max-w-xl">
                 A fast, focused review designed to highlight high-impact improvements without the noise.
               </p>
@@ -130,22 +130,22 @@ export function AuditPageContent() {
                 ))}
               </ul>
             </div>
-          </motion.div>
+          </ScrollFloatReveal>
         </div>
       </section>
 
       {/* What You Receive */}
       <section className="py-12 sm:py-16 bg-surface/30">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          <ScrollFloatReveal
+            y={REVEAL_CONFIG.translateY}
+            duration={MOTION_DURATION.medium}
             className="grid gap-8 lg:grid-cols-2 lg:items-start"
           >
             <div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary">What you receive</h2>
+              <FloatHeading as="h2" className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary">
+                What you receive
+              </FloatHeading>
               <p className="mt-4 text-sm sm:text-base text-text-secondary/90 leading-relaxed max-w-xl">
                 You&apos;ll get a concise, decision-ready view of what to fix first and what&apos;s not worth your time.
               </p>
@@ -164,22 +164,22 @@ export function AuditPageContent() {
                 ))}
               </ul>
             </div>
-          </motion.div>
+          </ScrollFloatReveal>
         </div>
       </section>
 
       {/* Request Form */}
       <section className="py-12 sm:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          <ScrollFloatReveal
+            y={REVEAL_CONFIG.translateY}
+            duration={MOTION_DURATION.medium}
             className="grid gap-8 lg:grid-cols-2 lg:items-start"
           >
             <div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary">Request an audit</h2>
+              <FloatHeading as="h2" className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary">
+                Request an audit
+              </FloatHeading>
               <p className="mt-4 text-sm sm:text-base text-text-secondary/90 leading-relaxed max-w-xl">
                 Share your website and what you’re aiming to improve. We’ll reply with next steps and a timeline.
               </p>
@@ -200,7 +200,7 @@ export function AuditPageContent() {
             </div>
 
             <AuditRequestForm />
-          </motion.div>
+          </ScrollFloatReveal>
         </div>
       </section>
     </div>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import { ReactNode } from "react";
-import { PageTransition } from "@/components/PageTransition";
+import { PageTransitionOverlay } from "@/components/PageTransitionOverlay";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { ScrollProgress } from "@/components/ScrollProgress";
@@ -462,7 +462,7 @@ export default function RootLayout({
         </a>
         <SmoothScrollProvider>
           <ErrorBoundary>
-            <PageTransition>{children}</PageTransition>
+            <PageTransitionOverlay>{children}</PageTransitionOverlay>
           </ErrorBoundary>
         </SmoothScrollProvider>
       </body>

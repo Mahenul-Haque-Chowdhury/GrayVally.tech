@@ -1,35 +1,112 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants, useAnimation } from "framer-motion";
+import { useEffect } from "react";
 import Link from "next/link";
 import Hyperspeed, { hyperspeedPresets } from "./Hyperspeed";
 import LogoLoop from "./LogoLoop";
+import ScrollFloat from "@/components/ui/ScrollFloat";
+
+const containerVariant: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.3,
+      delayChildren: 0.4,
+    },
+  },
+};
+
+const itemVariant: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
+
+const backgroundVariant: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 2.1,
+      ease: 'easeInOut',
+    },
+  },
+};
+
+const headlineContainer: Variants = {
+  visible: {
+    transition: {
+      staggerChildren: 0.04,
+    },
+  },
+};
+
+const headlineCharacter: Variants = {
+  hidden: {
+    opacity: 0,
+    y: "100%",
+    rotateX: -90,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    rotateX: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
+
+
+
 
 export function Hero() {
+  const controls = useAnimation();
+
+  useEffect(() => {
+    controls.set("hidden");
+    controls.start("visible");
+  }, [controls]);
+
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
       {/* Background - Hyperspeed Effect */}
-      <div className="absolute inset-0 z-0">
-        <Hyperspeed effectOptions={hyperspeedPresets.one} />
-      </div>
-      <div
+      <motion.div 
         className="absolute inset-0 z-0"
-        style={{
-          background:
-            "linear-gradient(to bottom, var(--hero-overlay-from), var(--hero-overlay-via), var(--hero-overlay-to))",
-        }}
-        aria-hidden
-      />
+        variants={backgroundVariant}
+        initial="hidden"
+        animate={controls}
+      >
+        <Hyperspeed effectOptions={hyperspeedPresets.one} />
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, var(--hero-overlay-from), var(--hero-overlay-via), var(--hero-overlay-to))",
+          }}
+          aria-hidden
+        />
+      </motion.div>
 
-      <div className="relative z-10 mx-auto max-w-screen-2xl px-4 sm:px-6 w-full">
+      <motion.div 
+        className="relative z-10 mx-auto max-w-screen-2xl px-4 sm:px-6 w-full"
+        variants={containerVariant}
+        initial="hidden"
+        animate={controls}
+      >
         {/* Main Hero Content */}
         <div className="flex flex-col items-center text-center pt-16 sm:pt-20 md:pt-16 lg:pt-12">
           {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          >
+          <motion.div variants={itemVariant}>
             <span className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-surface/30 backdrop-blur-sm px-4 py-1.5 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-text-secondary">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
@@ -40,28 +117,55 @@ export function Hero() {
           </motion.div>
 
           {/* Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-6 sm:mt-8 max-w-5xl font-display font-bold tracking-tight text-text-primary"
-          >
-            <span className="block text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
-              We Build{" "}
-              <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-                Digital
-              </span>
-            </span>
-            <span className="block text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-text-secondary mt-1 sm:mt-2">
-              Infrastructure
-            </span>
-          </motion.h1>
+          <ScrollFloat as="div">
+            <motion.h1
+              style={{ transformPerspective: '1000px' }}
+              variants={itemVariant}
+              className="mt-6 sm:mt-8 max-w-5xl font-display font-bold tracking-tight text-text-primary"
+              aria-label="We Build Digital Infrastructure"
+            >
+              <motion.span
+                className="block text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
+                variants={headlineContainer}
+              >
+                {"We Build".split(" ").map((word, wordIndex) => (
+                  <span key={wordIndex} className="inline-block whitespace-nowrap overflow-hidden align-bottom">
+                    {word.split("").map((char, charIndex) => (
+                      <motion.span key={charIndex} className="inline-block" variants={headlineCharacter}>
+                        {char}
+                      </motion.span>
+                    ))}
+                    <span className="inline-block">&nbsp;</span>
+                  </span>
+                ))}
+                <span className="inline-block whitespace-nowrap overflow-hidden align-bottom bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
+                  {"Digital".split("").map((char, charIndex) => (
+                    <motion.span key={charIndex} className="inline-block" variants={headlineCharacter}>
+                      {char}
+                    </motion.span>
+                  ))}
+                </span>
+              </motion.span>
+              <motion.span
+                className="block text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-text-secondary mt-1 sm:mt-2"
+                variants={headlineContainer}
+              >
+                {"Infrastructure".split(" ").map((word, wordIndex) => (
+                  <span key={wordIndex} className="inline-block whitespace-nowrap overflow-hidden align-bottom">
+                    {word.split("").map((char, charIndex) => (
+                      <motion.span key={charIndex} className="inline-block" variants={headlineCharacter}>
+                        {char}
+                      </motion.span>
+                    ))}
+                  </span>
+                ))}
+              </motion.span>
+            </motion.h1>
+          </ScrollFloat>
 
           {/* Subheadline */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            variants={itemVariant}
             className="mt-4 sm:mt-6 max-w-2xl text-sm sm:text-base md:text-lg text-text-secondary/90 leading-relaxed px-4"
           >
             From scalable backends to pixel-perfect frontends, we architect
@@ -70,9 +174,7 @@ export function Hero() {
 
           {/* CTA Buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            variants={itemVariant}
             className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-start justify-center gap-3 sm:gap-4"
           >
             <div className="flex flex-col items-center gap-2">
@@ -80,7 +182,7 @@ export function Hero() {
                 href="https://calendly.com/grayvally-tech/30min"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative inline-flex h-12 items-center justify-center gap-2 overflow-hidden rounded-full bg-[#006bff] px-6 sm:px-8 text-sm sm:text-base font-semibold text-white transition-all duration-300 hover:scale-105 active:scale-95"
+                className="group relative inline-flex h-12 items-center justify-center gap-2 overflow-hidden rounded-full bg-[#006bff] px-6 sm:px-8 text-sm sm:text-base font-semibold text-white transition-transform duration-300 hover:scale-105 active:scale-95"
               >
                 <span className="relative z-10">Book a Consultation</span>
                 <svg
@@ -98,7 +200,7 @@ export function Hero() {
             </div>
             <Link
               href="/audit"
-              className="group relative inline-flex h-12 items-center justify-center gap-2 overflow-hidden rounded-full border border-border/60 bg-transparent backdrop-blur-sm px-6 sm:px-8 text-sm sm:text-base font-semibold text-text-primary transition-all duration-300 hover:border-text-secondary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="group relative inline-flex h-12 items-center justify-center gap-2 overflow-hidden rounded-full border border-border/60 bg-transparent backdrop-blur-sm px-6 sm:px-8 text-sm sm:text-base font-semibold text-text-primary transition-colors duration-300 hover:border-text-secondary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               <span>Complimentary Website Audit</span>
               <svg
@@ -116,9 +218,7 @@ export function Hero() {
 
           {/* Stats Row */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            variants={itemVariant}
             className="mt-12 sm:mt-16 flex flex-wrap items-center justify-center gap-x-8 sm:gap-x-12 gap-y-4"
           >
             <div className="flex items-center gap-3">
@@ -159,9 +259,7 @@ export function Hero() {
 
         {/* Tech Stack Capsule - Bottom */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          variants={itemVariant}
           className="mt-8 sm:mt-10 mb-8 flex justify-center px-2"
         >
           <div className="hero-tech-capsule w-full max-w-4xl overflow-hidden rounded-full px-4 sm:px-6 md:px-8 py-3 sm:py-4">
@@ -194,7 +292,7 @@ export function Hero() {
             />
           </div>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 }

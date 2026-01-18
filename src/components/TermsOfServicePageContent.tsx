@@ -1,18 +1,17 @@
 "use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
+import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
 
 export function TermsOfServicePageContent() {
   return (
     <main className="min-h-screen bg-background pt-24 sm:pt-32 pb-16 sm:pb-24">
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
         {/* Back Link */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
+        <ScrollFloatReveal
+          y={REVEAL_CONFIG.translateY}
+          duration={MOTION_DURATION.normal}
         >
           <Link
             href="/"
@@ -21,36 +20,37 @@ export function TermsOfServicePageContent() {
             <ArrowLeft className="h-4 w-4" />
             Back to Home
           </Link>
-        </motion.div>
+        </ScrollFloatReveal>
 
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+        <ScrollFloatReveal
+          y={REVEAL_CONFIG.translateY}
+          duration={MOTION_DURATION.medium}
           className="mb-12"
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary mb-4">
-            Terms of{" "}
-            <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-              Service
-            </span>
-          </h1>
+          <FloatHeading
+            as="h1"
+            duration={MOTION_DURATION.display}
+            className="my-0 mb-4 text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent"
+            once
+          >
+            Terms of Service
+          </FloatHeading>
           <p className="text-text-secondary">Last updated: December 1, 2025</p>
-        </motion.div>
+        </ScrollFloatReveal>
 
         {/* Content */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+        <ScrollFloatReveal
+          y={REVEAL_CONFIG.translateY}
+          duration={MOTION_DURATION.medium}
+          delay={0.1}
           className="prose prose-lg max-w-none"
         >
           <div className="space-y-8 text-text-secondary">
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 1. Agreement to Terms
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 By accessing or using GrayVally&apos;s services, you agree to be
                 bound by these Terms of Service. If you do not agree to these
@@ -63,9 +63,9 @@ export function TermsOfServicePageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 2. Services Description
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed mb-4">
                 GrayVally provides the following digital services:
               </p>
@@ -82,9 +82,9 @@ export function TermsOfServicePageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 3. Client Obligations
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed mb-4">As a client, you agree to:</p>
               <ul className="list-disc pl-6 space-y-2">
                 <li>Provide accurate and complete information for project requirements</li>
@@ -103,9 +103,9 @@ export function TermsOfServicePageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 4. Payment Terms
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed mb-4">Payment terms are as follows:</p>
               <ul className="list-disc pl-6 space-y-2">
                 <li>
@@ -138,9 +138,9 @@ export function TermsOfServicePageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 5. Project Timeline &amp; Delivery
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed mb-4">
                 Regarding project timelines:
               </p>
@@ -161,9 +161,9 @@ export function TermsOfServicePageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 6. Intellectual Property Rights
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed mb-4">
                 Regarding ownership and rights:
               </p>
@@ -193,9 +193,9 @@ export function TermsOfServicePageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 7. Revisions &amp; Changes
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed mb-4">Our revision policy includes:</p>
               <ul className="list-disc pl-6 space-y-2">
                 <li>
@@ -215,9 +215,9 @@ export function TermsOfServicePageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 8. Confidentiality
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 Both parties agree to maintain confidentiality of proprietary
                 information shared during the project. This includes business
@@ -229,9 +229,9 @@ export function TermsOfServicePageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 9. Limitation of Liability
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 To the maximum extent permitted by Bangladesh law, GrayVally
                 shall not be liable for any indirect, incidental, special,
@@ -244,9 +244,9 @@ export function TermsOfServicePageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 10. Termination
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed mb-4">
                 Either party may terminate the agreement:
               </p>
@@ -265,9 +265,9 @@ export function TermsOfServicePageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 11. Dispute Resolution
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 Any disputes arising from these terms shall first be attempted
                 to be resolved through good-faith negotiation. If unresolved,
@@ -279,9 +279,9 @@ export function TermsOfServicePageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 12. Force Majeure
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 Neither party shall be liable for delays or failures in
                 performance resulting from circumstances beyond reasonable
@@ -292,9 +292,9 @@ export function TermsOfServicePageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 13. Amendments
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 We reserve the right to modify these terms at any time. Changes
                 will be effective upon posting to our website. Your continued
@@ -304,9 +304,9 @@ export function TermsOfServicePageContent() {
             </section>
 
             <section>
-              <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
+              <FloatHeading as="h2" className="text-xl sm:text-2xl font-semibold text-text-primary mb-4">
                 14. Contact Information
-              </h2>
+              </FloatHeading>
               <p className="leading-relaxed">
                 For questions regarding these Terms of Service:
               </p>
@@ -330,8 +330,9 @@ export function TermsOfServicePageContent() {
               </p>
             </section>
           </div>
-        </motion.div>
+        </ScrollFloatReveal>
       </div>
     </main>
   );
 }
+

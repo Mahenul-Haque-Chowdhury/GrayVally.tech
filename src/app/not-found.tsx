@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Home } from "lucide-react";
 import { useEffect, useState } from "react";
 import FuzzyText from "@/components/FuzzyText";
+import { FloatHeading } from "@/components/ui/ScrollFloat";
 
 export default function NotFound() {
   const [fuzzyColor, setFuzzyColor] = useState("#E5E5E5");
@@ -68,12 +69,12 @@ export default function NotFound() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary mb-3 sm:mb-4">
+          <FloatHeading as="h2" className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary mb-3 sm:mb-4">
             Page Not{" "}
             <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
               Found
             </span>
-          </h2>
+          </FloatHeading>
           <p className="text-sm sm:text-base md:text-lg text-text-secondary max-w-md mx-auto mb-8 sm:mb-10">
             Oops! The page you&apos;re looking for seems to have wandered off into the digital void.
           </p>
@@ -88,7 +89,7 @@ export default function NotFound() {
         >
           <Link
             href="/"
-            className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-text-primary px-6 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base font-semibold text-background transition-all duration-300 hover:scale-105 active:scale-95"
+            className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-text-primary px-6 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base font-semibold text-background transition-transform duration-300 hover:scale-105 active:scale-95"
           >
             <Home className="relative z-10 h-4 w-4" />
             <span className="relative z-10">Back to Home</span>
@@ -96,7 +97,7 @@ export default function NotFound() {
           </Link>
           <button
             onClick={() => window.history.back()}
-            className="group inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface/30 backdrop-blur-sm px-6 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base font-semibold text-text-primary transition-all duration-300 hover:border-border hover:bg-surface/50"
+            className="group inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface/30 backdrop-blur-sm px-6 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base font-semibold text-text-primary transition-colors duration-300 hover:border-border hover:bg-surface/50"
           >
             <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
             <span>Go Back</span>

@@ -1,12 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
 import { Project } from "@/data/portfolio";
 import { ExternalLink, Globe } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
+import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
 
 interface ProjectCardProps {
   project: Project;
@@ -97,17 +98,17 @@ export function ProjectCard({
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ delay: index * 0.1, duration: 0.7, ease: "easeOut" }}
+    <ScrollFloatReveal
+      y={REVEAL_CONFIG.translateY}
+      scale={0.98}
+      delay={index * 0.1}
+      duration={MOTION_DURATION.card}
       className="group flex flex-col gap-6"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Browser Frame / Image Container */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border/40 bg-surface/30 backdrop-blur-sm shadow-2xl transition-all duration-500 group-hover:border-blue-500/30 group-hover:shadow-blue-500/10">
+      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border/40 bg-surface/30 backdrop-blur-sm shadow-2xl transition-colors transition-shadow duration-500 group-hover:border-blue-500/30 group-hover:shadow-blue-500/10">
         {/* Browser Header (Dots & Address Bar) */}
         <div className="absolute top-0 left-0 right-0 z-20 flex h-10 items-center gap-4 bg-[#1a1b26] px-4 border-b border-white/5">
           <div className="flex gap-1.5 shrink-0">
@@ -171,7 +172,7 @@ export function ProjectCard({
                     href={project.link}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-3 font-medium border border-white/10 transition-all duration-300 translate-y-0 opacity-100 sm:translate-y-4 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100 hover:shadow-lg hover:shadow-blue-500/25"
+                    className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-3 font-medium border border-white/10 transition-transform transition-opacity transition-shadow duration-300 translate-y-0 opacity-100 sm:translate-y-4 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100 hover:shadow-lg hover:shadow-blue-500/25"
                   >
                     <Globe className="h-4 w-4" />
                     Visit
@@ -209,9 +210,12 @@ export function ProjectCard({
 
         {/* Title & Description */}
         <div>
-          <h3 className="text-2xl font-bold text-text-primary mb-2 group-hover:text-blue-400 transition-colors duration-300">
+          <FloatHeading
+            as="h3"
+            className="text-2xl font-bold text-text-primary mb-2 group-hover:text-blue-400 transition-colors duration-300"
+          >
             {project.client}
-          </h3>
+          </FloatHeading>
           {showOutcome && (
             <p className="text-xs uppercase tracking-[0.2em] text-text-secondary/70 mb-2">
               Business Outcome:{" "}
@@ -246,7 +250,7 @@ export function ProjectCard({
                 href={project.link}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-2 text-xs sm:text-sm font-medium text-white transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25"
+                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-2 text-xs sm:text-sm font-medium text-white transition-shadow duration-300 hover:shadow-lg hover:shadow-blue-500/25"
               >
                 Visit Website
                 <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4" />
@@ -255,6 +259,6 @@ export function ProjectCard({
           </div>
         </div>
       </div>
-    </motion.div>
+    </ScrollFloatReveal>
   );
 }

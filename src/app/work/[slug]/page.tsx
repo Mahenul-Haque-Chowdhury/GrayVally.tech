@@ -6,6 +6,7 @@ import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
 import { getProjectBySlug, getProjectSlugs } from "@/data/portfolio";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
+import { FloatHeading } from "@/components/ui/ScrollFloat";
 
 interface CaseStudyPageProps {
   params: Promise<{ slug: string }>;
@@ -73,9 +74,9 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                 <div className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-surface/30 backdrop-blur-sm px-4 py-1.5 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-text-secondary">
                   Case Study
                 </div>
-                <h1 className="mt-6 text-4xl sm:text-5xl font-bold tracking-tight text-text-primary font-display">
+                <FloatHeading as="h1" className="mt-6 text-4xl sm:text-5xl font-bold tracking-tight text-text-primary font-display">
                   {project.client}
-                </h1>
+                </FloatHeading>
                 <p className="mt-4 text-text-secondary/90 max-w-2xl">
                   {project.description}
                 </p>
@@ -144,12 +145,12 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
             <div className="grid gap-10">
               <div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-text-primary font-display">The Problem</h2>
+                <FloatHeading as="h2" className="text-2xl sm:text-3xl font-bold text-text-primary font-display">The Problem</FloatHeading>
                 <p className="mt-4 text-text-secondary leading-relaxed">{project.problem}</p>
               </div>
 
               <div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-text-primary font-display">The Solution</h2>
+                <FloatHeading as="h2" className="text-2xl sm:text-3xl font-bold text-text-primary font-display">The Solution</FloatHeading>
                 <ul className="mt-4 grid gap-3 text-text-secondary">
                   {project.solution.map((item) => (
                     <li key={item} className="rounded-2xl border border-border/40 bg-surface/30 px-5 py-4">
@@ -160,7 +161,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
               </div>
 
               <div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-text-primary font-display">Key Features</h2>
+                <FloatHeading as="h2" className="text-2xl sm:text-3xl font-bold text-text-primary font-display">Key Features</FloatHeading>
                 <ul className="mt-4 grid gap-3 sm:grid-cols-2 text-text-secondary">
                   {project.keyFeatures.map((feature) => (
                     <li key={feature} className="rounded-2xl border border-border/40 bg-background/40 px-5 py-4">
@@ -171,7 +172,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
               </div>
 
               <div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-text-primary font-display">Technical Depth</h2>
+                <FloatHeading as="h2" className="text-2xl sm:text-3xl font-bold text-text-primary font-display">Technical Depth</FloatHeading>
                 <div className="mt-4 grid gap-4 sm:grid-cols-2">
                   {project.technicalDepth.map((section) => (
                     <div key={section.title} className="rounded-2xl border border-border/40 bg-surface/30 p-5">
@@ -183,7 +184,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
               </div>
 
               <div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-text-primary font-display">Outcome / Value</h2>
+                <FloatHeading as="h2" className="text-2xl sm:text-3xl font-bold text-text-primary font-display">Outcome / Value</FloatHeading>
                 <ul className="mt-4 grid gap-3 sm:grid-cols-2 text-text-secondary">
                   {project.outcomes.map((outcome) => (
                     <li key={outcome} className="rounded-2xl border border-border/40 bg-background/40 px-5 py-4">
@@ -195,7 +196,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
 
               {project.gallery && project.gallery.length > 0 && (
                 <div>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-text-primary font-display">Screens / Preview</h2>
+                  <FloatHeading as="h2" className="text-2xl sm:text-3xl font-bold text-text-primary font-display">Screens / Preview</FloatHeading>
                   <div className="mt-4 grid gap-4 sm:grid-cols-2">
                     {project.gallery.map((image) => (
                       <div
@@ -216,3 +217,4 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
     </div>
   );
 }
+

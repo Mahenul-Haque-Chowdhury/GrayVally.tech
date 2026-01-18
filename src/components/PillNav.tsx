@@ -4,6 +4,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import Link from "next/link";
 import Image from "next/image";
 import { gsap } from "gsap";
+import { motion } from "framer-motion";
 import "./PillNav.css";
 
 const DropdownChevron = () => (
@@ -25,6 +26,8 @@ const DropdownChevron = () => (
     </svg>
   </span>
 );
+
+const MotionLink = motion(Link);
 
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
@@ -443,11 +446,19 @@ const PillNav = ({
   return (
     <div className="pill-nav-container" data-ready={isReady ? "true" : "false"}>
       <nav className={`pill-nav ${className}`} aria-label="Primary" style={cssVars}>
-        <a
+        <MotionLink
           className="pill-brand"
           href="/"
           aria-label="Home"
           ref={logoRef}
+          whileHover={{ scale: 1, rotate: 0 }}
+          transition={{ duration: 0.15, ease: "easeOut" }}
+          onClick={(event) => {
+            if (activeHref === "/") {
+              event.preventDefault();
+              window.location.reload();
+            }
+          }}
         >
           <div className="pill-logo">
             <Image
@@ -464,7 +475,7 @@ const PillNav = ({
               {brandSubtitle && <span className="pill-brand-subtitle">{brandSubtitle}</span>}
             </span>
           )}
-        </a>
+        </MotionLink>
 
         <div className="pill-nav-center desktop-only">
           <div className="pill-nav-items" ref={navItemsRef}>

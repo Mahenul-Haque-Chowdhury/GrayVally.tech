@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { FloatHeading } from "@/components/ui/ScrollFloat";
+import { MOTION_DURATION } from "@/lib/motion/constants";
 
 // Team member type
 interface TeamMember {
@@ -84,9 +86,15 @@ export function About({ showOnlyPreview = false }: AboutProps) {
         {/* About Section */}
         <div className="grid gap-8 sm:gap-10 md:gap-12 md:grid-cols-2">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-text-primary md:text-4xl">
+            <FloatHeading
+              as="h2"
+              duration={MOTION_DURATION.display}
+              className="my-0 text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-text-primary"
+              gradientWords={[1]}
+              once
+            >
               About GrayVally
-            </h2>
+            </FloatHeading>
             <div className="mt-4 sm:mt-6 space-y-4 sm:space-y-6 text-sm sm:text-base md:text-lg leading-relaxed text-text-secondary">
               <p>
                 Founded by{" "}
@@ -139,9 +147,15 @@ export function About({ showOnlyPreview = false }: AboutProps) {
         {/* Team Section */}
         <div id="team" className="mt-20 sm:mt-28 md:mt-36">
           <div className="text-center mb-12 sm:mb-16">
-            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-text-primary">
+            <FloatHeading
+              as="h3"
+              duration={MOTION_DURATION.display}
+              className="my-0 text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-text-primary"
+              gradientWords={[2]}
+              once
+            >
               Meet Our Team
-            </h3>
+            </FloatHeading>
             <p className="mt-3 sm:mt-4 text-sm sm:text-base text-text-secondary/80 max-w-2xl mx-auto">
               The talented people behind GrayVally who make the magic happen.
             </p>
@@ -236,7 +250,7 @@ export function About({ showOnlyPreview = false }: AboutProps) {
                         href={member.links.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group/link relative p-2 rounded-full bg-surface/50 border border-border/30 hover:border-blue-400/50 hover:bg-blue-500/10 transition-all duration-300"
+                        className="group/link relative p-2 rounded-full bg-surface/50 border border-border/30 hover:border-blue-400/50 hover:bg-blue-500/10 transition-colors duration-300"
                         aria-label={`${member.name}'s website`}
                       >
                         <svg className="w-5 h-5 text-text-secondary/70 group-hover/link:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -249,7 +263,7 @@ export function About({ showOnlyPreview = false }: AboutProps) {
                         href={member.links.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group/link relative p-2 rounded-full bg-surface/50 border border-border/30 hover:border-blue-400/50 hover:bg-blue-500/10 transition-all duration-300"
+                        className="group/link relative p-2 rounded-full bg-surface/50 border border-border/30 hover:border-blue-400/50 hover:bg-blue-500/10 transition-colors duration-300"
                         aria-label={`${member.name}'s LinkedIn`}
                       >
                         <svg className="w-5 h-5 text-text-secondary/70 group-hover/link:text-blue-400 transition-colors" fill="currentColor" viewBox="0 0 24 24">
@@ -262,7 +276,7 @@ export function About({ showOnlyPreview = false }: AboutProps) {
                         href={member.links.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group/link relative p-2 rounded-full bg-surface/50 border border-border/30 hover:border-blue-400/50 hover:bg-blue-500/10 transition-all duration-300"
+                        className="group/link relative p-2 rounded-full bg-surface/50 border border-border/30 hover:border-blue-400/50 hover:bg-blue-500/10 transition-colors duration-300"
                         aria-label={`${member.name}'s GitHub`}
                       >
                         <svg className="w-5 h-5 text-text-secondary/70 group-hover/link:text-blue-400 transition-colors" fill="currentColor" viewBox="0 0 24 24">
@@ -275,7 +289,7 @@ export function About({ showOnlyPreview = false }: AboutProps) {
                         href={member.links.twitter}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group/link relative p-2 rounded-full bg-surface/50 border border-border/30 hover:border-blue-400/50 hover:bg-blue-500/10 transition-all duration-300"
+                        className="group/link relative p-2 rounded-full bg-surface/50 border border-border/30 hover:border-blue-400/50 hover:bg-blue-500/10 transition-colors duration-300"
                         aria-label={`${member.name}'s Twitter`}
                       >
                         <svg className="w-5 h-5 text-text-secondary/70 group-hover/link:text-blue-400 transition-colors" fill="currentColor" viewBox="0 0 24 24">

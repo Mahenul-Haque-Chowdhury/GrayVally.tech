@@ -3,6 +3,7 @@ import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { FloatHeading } from "@/components/ui/ScrollFloat";
 
 export const metadata: Metadata = {
   title: "Pr3sence Privacy Policy | GrayVally",
@@ -24,7 +25,7 @@ export default function PrivacyPolicyPage() {
           </Link>
 
           <div className="prose prose-invert max-w-none">
-            <h1 className="text-4xl font-bold mb-8">🔐 Pr3sence – Privacy Policy</h1>
+            <FloatHeading as="h1" className="text-4xl font-bold mb-8">🔐 Pr3sence – Privacy Policy</FloatHeading>
             
             <p className="text-text-secondary mb-8">
               <strong>Last Updated: January 2026</strong>
@@ -34,7 +35,7 @@ export default function PrivacyPolicyPage() {
               Your privacy is important to us. This Privacy Policy explains how Pr3sence handles data.
             </p>
 
-            <h2 className="text-2xl font-bold mt-8 mb-4">1. Data We Access</h2>
+            <FloatHeading as="h2" className="text-2xl font-bold mt-8 mb-4">1. Data We Access</FloatHeading>
             <p className="mb-4 text-text-secondary">
               Pr3sence only accesses data made available through the Discord API, such as:
             </p>
@@ -47,13 +48,13 @@ export default function PrivacyPolicyPage() {
               This data is accessed only as necessary for the Application to function.
             </p>
 
-            <h2 className="text-2xl font-bold mt-8 mb-4">2. Data Storage</h2>
+            <FloatHeading as="h2" className="text-2xl font-bold mt-8 mb-4">2. Data Storage</FloatHeading>
             <ul className="list-disc list-inside space-y-2 mb-8 text-text-secondary">
               <li>Pr3sence does not sell or share personal data with third parties.</li>
               <li>Any temporary data used for functionality is not retained longer than necessary.</li>
             </ul>
 
-            <h2 className="text-2xl font-bold mt-8 mb-4">3. Data Usage</h2>
+            <FloatHeading as="h2" className="text-2xl font-bold mt-8 mb-4">3. Data Usage</FloatHeading>
             <p className="mb-4 text-text-secondary">
               Accessed data is used solely to:
             </p>
@@ -63,22 +64,22 @@ export default function PrivacyPolicyPage() {
               <li>Improve stability and performance</li>
             </ul>
 
-            <h2 className="text-2xl font-bold mt-8 mb-4">4. Third-Party Services</h2>
+            <FloatHeading as="h2" className="text-2xl font-bold mt-8 mb-4">4. Third-Party Services</FloatHeading>
             <p className="mb-8 text-text-secondary">
               Pr3sence operates entirely within Discord&apos;s ecosystem and complies with Discord&apos;s Developer Policies.
             </p>
 
-            <h2 className="text-2xl font-bold mt-8 mb-4">5. Data Security</h2>
+            <FloatHeading as="h2" className="text-2xl font-bold mt-8 mb-4">5. Data Security</FloatHeading>
             <p className="mb-8 text-text-secondary">
               Reasonable measures are taken to protect accessed data from unauthorized access or misuse.
             </p>
 
-            <h2 className="text-2xl font-bold mt-8 mb-4">6. Changes to This Policy</h2>
+            <FloatHeading as="h2" className="text-2xl font-bold mt-8 mb-4">6. Changes to This Policy</FloatHeading>
             <p className="mb-8 text-text-secondary">
               This Privacy Policy may be updated from time to time. Updates will be reflected on this page.
             </p>
 
-            <h2 className="text-2xl font-bold mt-8 mb-4">7. Contact</h2>
+            <FloatHeading as="h2" className="text-2xl font-bold mt-8 mb-4">7. Contact</FloatHeading>
             <p className="mb-8 text-text-secondary">
               If you have any questions about this Privacy Policy, please contact: <a href="mailto:contact@grayvally.tech" className="text-blue-400 hover:text-blue-300 transition-colors">contact@grayvally.tech</a>
             </p>
@@ -89,3 +90,4 @@ export default function PrivacyPolicyPage() {
     </div>
   );
 }
+

@@ -1,59 +1,18 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView, Variants } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
+import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
 
 // ============================================================================
 // DESIGN NOTES:
 // - Text reveal uses CSS mask/clip-path for the "slide up from invisible"
-// - useInView triggers animation when entering viewport
+// - ScrollFloatReveal triggers animation when entering viewport
 // - Supports multiple animation styles: reveal, fade, slide
 // - GPU-accelerated: only transforms and opacity
 // ============================================================================
 
-const revealVariants: Variants = {
-  hidden: {
-    y: "100%",
-    opacity: 0,
-  },
-  visible: {
-    y: "0%",
-    opacity: 1,
-    transition: {
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
-
-const staggerContainerVariants: Variants = {
-  hidden: { opacity: 1 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const wordVariants: Variants = {
-  hidden: {
-    y: "100%",
-    opacity: 0,
-  },
-  visible: {
-    y: "0%",
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
-
-type AnimationStyle = "reveal" | "word-by-word" | "fade" | "slide";
+type AnimationStyle = "reveal" | "word-by-word" | "fade" | "slide" | "scroll-float";
 
 interface SectionHeadingProps {
   title: string;
@@ -74,119 +33,125 @@ export function SectionHeading({
   subtitle,
   badge,
   align = "center",
-  animation = "word-by-word",
+  animation = "scroll-float",
   className,
   titleClassName,
   subtitleClassName,
   once = true,
   gradientWords = [],
 }: SectionHeadingProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once, amount: 0.3 });
-
   const alignmentClasses = {
     left: "text-left items-start",
     center: "text-center items-center",
     right: "text-right items-end",
   };
 
-  const words = title.split(" ");
-
   return (
     <div
-      ref={ref}
       className={cn("flex flex-col", alignmentClasses[align], className)}
     >
       {/* Badge */}
       {badge && (
-        <motion.span
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        <ScrollFloatReveal
+          as="span"
+          y={REVEAL_CONFIG.translateY}
+          duration={MOTION_DURATION.fast}
+          once={once}
           className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-surface/30 backdrop-blur-sm px-4 py-1.5 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-text-secondary mb-6"
         >
           {badge}
-        </motion.span>
+        </ScrollFloatReveal>
       )}
 
       {/* Title with text reveal */}
-      {animation === "word-by-word" ? (
-        <motion.h2
-          variants={staggerContainerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
+      {animation === "scroll-float" ? (
+        <FloatHeading
+          as="h2"
+          duration={MOTION_DURATION.display}
           className={cn(
+            "my-0",
+            align === "center" && "mx-auto",
             "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-text-primary",
             titleClassName
           )}
+          gradientWords={gradientWords}
+          once={once}
         >
-          {words.map((word, index) => (
-            <span key={index} className="inline-block overflow-hidden mr-[0.25em]">
-              <motion.span 
-                variants={wordVariants} 
-                className={cn(
-                  "inline-block",
-                  gradientWords.includes(index) && "bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent"
-                )}
-              >
-                {word}
-              </motion.span>
-            </span>
-          ))}
-        </motion.h2>
+          {title}
+        </FloatHeading>
+      ) : animation === "word-by-word" ? (
+        <FloatHeading
+          as="h2"
+          duration={MOTION_DURATION.slow}
+          className={cn(
+            "my-0",
+            align === "center" && "mx-auto",
+            "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-text-primary",
+            titleClassName
+          )}
+          gradientWords={gradientWords}
+          once={once}
+        >
+          {title}
+        </FloatHeading>
       ) : animation === "reveal" ? (
         <div className="overflow-hidden">
-          <motion.h2
-            variants={revealVariants}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
+          <ScrollFloatReveal
+            as="h2"
+            y={REVEAL_CONFIG.translateY}
+            duration={MOTION_DURATION.normal}
+            once={once}
             className={cn(
               "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-text-primary",
               titleClassName
             )}
           >
             {title}
-          </motion.h2>
+          </ScrollFloatReveal>
         </div>
       ) : animation === "fade" ? (
-        <motion.h2
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        <ScrollFloatReveal
+          as="h2"
+          y={0}
+          duration={MOTION_DURATION.normal}
+          once={once}
           className={cn(
             "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-text-primary",
             titleClassName
           )}
         >
           {title}
-        </motion.h2>
+        </ScrollFloatReveal>
       ) : (
-        <motion.h2
-          initial={{ opacity: 0, x: -50 }}
-          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        <ScrollFloatReveal
+          as="h2"
+          x={-REVEAL_CONFIG.translateX}
+          duration={MOTION_DURATION.normal}
+          once={once}
           className={cn(
             "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-text-primary",
             titleClassName
           )}
         >
           {title}
-        </motion.h2>
+        </ScrollFloatReveal>
       )}
 
       {/* Subtitle */}
       {subtitle && (
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        <ScrollFloatReveal
+          as="p"
+          y={REVEAL_CONFIG.translateY}
+          delay={0.15}
+          duration={MOTION_DURATION.normal}
+          once={once}
           className={cn(
             "mt-4 sm:mt-6 max-w-2xl text-sm sm:text-base md:text-lg text-text-secondary/90 leading-relaxed",
             subtitleClassName
           )}
         >
           {subtitle}
-        </motion.p>
+        </ScrollFloatReveal>
       )}
     </div>
   );
@@ -200,24 +165,16 @@ interface TextRevealProps {
 }
 
 export function TextReveal({ children, className, delay = 0 }: TextRevealProps) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.5 });
-
   return (
-    <span ref={ref} className={cn("inline-block overflow-hidden", className)}>
-      <motion.span
-        initial={{ y: "100%" }}
-        animate={isInView ? { y: "0%" } : { y: "100%" }}
-        transition={{
-          duration: 0.6,
-          delay,
-          ease: [0.16, 1, 0.3, 1],
-        }}
-        className="inline-block"
-      >
-        {children}
-      </motion.span>
-    </span>
+    <ScrollFloatReveal
+      as="span"
+      y={REVEAL_CONFIG.translateY}
+      delay={delay}
+      duration={MOTION_DURATION.fast}
+      className={cn("inline-block overflow-hidden", className)}
+    >
+      <span className="inline-block">{children}</span>
+    </ScrollFloatReveal>
   );
 }
 

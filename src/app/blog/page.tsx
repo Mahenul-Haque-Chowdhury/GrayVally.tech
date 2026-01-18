@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
+import { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
+import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
 
 export const metadata: Metadata = {
   title: "Tech Blog | Web Development Tips & Software Insights",
@@ -54,31 +56,35 @@ export default function BlogPage() {
     <div className="min-h-screen bg-background text-text-primary">
       <NavBar />
       <main className="pt-24 sm:pt-28 md:pt-32 pb-16 sm:pb-24">
-        <section className="mx-auto max-w-5xl px-4 sm:px-6">
+        <section className="mx-auto max-w-5xl px-4 sm:px-6" style={{ transformPerspective: '1000px' }}>
           <header className="mb-10 sm:mb-14 text-center">
             <p className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-surface/40 px-4 py-1.5 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-text-secondary mb-4">
               Blog
             </p>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-text-primary">
+            <FloatHeading as="h1" className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-text-primary">
               Insights on web development
               <span className="block text-xl sm:text-2xl md:text-3xl text-text-secondary mt-2">
                 and digital infrastructure from GrayVally.
               </span>
-            </h1>
+            </FloatHeading>
             <p className="mt-4 max-w-2xl mx-auto text-sm sm:text-base text-text-secondary">
               Guides, checklists, and lessons from the projects we shipwritten for founders, product owners, and technical leads.
             </p>
           </header>
 
           <div className="grid gap-6 sm:gap-8">
-            {posts.map((post) => (
-              <article
+            {posts.map((post, index) => (
+              <ScrollFloatReveal
                 key={post.slug}
+                as="article"
+                y={REVEAL_CONFIG.translateY}
+                duration={MOTION_DURATION.normal}
+                delay={index * 0.1}
                 className="rounded-2xl border border-border/50 bg-surface/40 p-5 sm:p-6 md:p-7 hover:border-border/80 hover:bg-surface/60 transition-colors"
               >
-                <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-text-primary">
+                <FloatHeading as="h2" className="text-lg sm:text-xl md:text-2xl font-semibold text-text-primary">
                   {post.title}
-                </h2>
+                </FloatHeading>
                 <p className="mt-2 text-xs sm:text-sm text-text-secondary/80">{post.summary}</p>
                 <div className="mt-4 flex items-center justify-between text-[11px] sm:text-xs text-text-secondary/70">
                   <span>{post.readingTime}</span>
@@ -90,7 +96,7 @@ export default function BlogPage() {
                     <span aria-hidden>→</span>
                   </Link>
                 </div>
-              </article>
+              </ScrollFloatReveal>
             ))}
           </div>
         </section>
