@@ -56,7 +56,7 @@ export default function BlogPage() {
     <div className="min-h-screen bg-background text-text-primary">
       <NavBar />
       <main className="pt-24 sm:pt-28 md:pt-32 pb-16 sm:pb-24">
-        <section className="mx-auto max-w-5xl px-4 sm:px-6" style={{ transformPerspective: '1000px' }}>
+        <section className="mx-auto max-w-5xl px-4 sm:px-6" style={{ perspective: "1000px" }}>
           <header className="mb-10 sm:mb-14 text-center">
             <p className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-surface/40 px-4 py-1.5 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-text-secondary mb-4">
               Blog

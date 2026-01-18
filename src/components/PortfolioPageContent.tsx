@@ -239,7 +239,7 @@ export function PortfolioPageContent() {
           </section>
 
           {/* Industries */}
-          <section className="relative py-12 sm:py-16" style={{ transformPerspective: '1000px' }}>
+          <section className="relative py-12 sm:py-16" style={{ perspective: "1000px" }}>
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
               <div className="flex items-end justify-between gap-6 flex-wrap mb-10">
                 <div>
@@ -261,7 +261,7 @@ export function PortfolioPageContent() {
                     y={REVEAL_CONFIG.translateY}
                     duration={MOTION_DURATION.normal}
                     delay={index * 0.08}
-                    className="group rounded-3xl bg-surface/20 p-6 sm:p-7 backdrop-blur-sm shadow-sm shadow-black/5 dark:shadow-black/20 transition-colors transition-shadow duration-300 hover:bg-surface/40 hover:shadow-md"
+                    className="group rounded-3xl bg-surface/20 p-6 sm:p-7 backdrop-blur-sm shadow-sm shadow-black/5 dark:shadow-black/20 transition-all duration-300 hover:bg-surface/40 hover:shadow-md"
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-text-secondary/60">Expertise</span>
