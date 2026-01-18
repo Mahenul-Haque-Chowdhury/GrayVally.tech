@@ -209,7 +209,6 @@ export function PortfolioPageContent() {
 
                 <div className="lg:col-span-7">
                   <motion.div
-                    layout
                     transition={{ duration: 0.25 }}
                     className="rounded-2xl border border-border/40 bg-background/40 p-5 sm:p-6 min-h-[140px] sm:min-h-[170px] overflow-hidden"
                   >

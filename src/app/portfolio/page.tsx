@@ -7,6 +7,13 @@ export const metadata: Metadata = {
   title: "Web Development Portfolio | Our Work & Case Studies",
   description:
     "Explore GrayVally's web development portfolio. See our best website designs, web applications, e-commerce projects, and mobile apps built for clients in Bangladesh and worldwide.",
+  alternates: {
+    canonical: "https://grayvally.tech/portfolio",
+  },
+  robots: {
+    index: false,
+    follow: true,
+  },
   keywords: [
     "web development portfolio",
     "website design examples",

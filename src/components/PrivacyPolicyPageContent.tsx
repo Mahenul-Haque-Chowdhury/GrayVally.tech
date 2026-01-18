@@ -6,7 +6,7 @@ import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
 
 export function PrivacyPolicyPageContent() {
   return (
-    <main className="min-h-screen bg-background pt-24 sm:pt-32 pb-16 sm:pb-24">
+    <main className="bg-background pt-24 sm:pt-32 pb-16 sm:pb-24">
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
         {/* Back Link */}
         <ScrollFloatReveal

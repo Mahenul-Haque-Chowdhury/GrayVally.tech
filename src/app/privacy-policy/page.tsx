@@ -7,6 +7,13 @@ export const metadata: Metadata = {
   title: "Privacy Policy | GrayVally",
   description:
     "Read GrayVally's privacy policy to understand how we collect, use, and protect your data when you use our web development and digital services.",
+  alternates: {
+    canonical: "https://grayvally.tech/privacy-policy",
+  },
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function PrivacyPolicyPage() {

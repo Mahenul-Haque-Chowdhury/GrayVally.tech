@@ -327,7 +327,7 @@ export function SoftwareSolutionsPageContent() {
 
   return (
     <>
-      <main className="min-h-screen bg-background transition-colors duration-300">
+      <main className="bg-background transition-colors duration-300">
         {/* Page Introduction */}
         <section className="relative pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-surface/40 via-background to-background pointer-events-none" />

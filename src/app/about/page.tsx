@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "About GrayVally Software Solutions | Web Development Company Bangladesh",
   description:
     "Learn about GrayVally Software Solutions - a leading web development and software company in Bangladesh. Founded by Mahenul Haque Chowdhury. Expert team in React, Next.js, mobile apps, and enterprise solutions.",
+  alternates: {
+    canonical: "https://grayvally.tech/about",
+  },
   keywords: [
     "about GrayVally",
     "GrayVally Software Solutions",

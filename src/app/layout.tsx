@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import { ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/next";
 import { PageTransitionOverlay } from "@/components/PageTransitionOverlay";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { ScrollProgress } from "@/components/ScrollProgress";
+import { LayoutSnapshotDebug } from "@/components/LayoutSnapshotDebug";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -464,7 +466,9 @@ export default function RootLayout({
           <ErrorBoundary>
             <PageTransitionOverlay>{children}</PageTransitionOverlay>
           </ErrorBoundary>
+          <LayoutSnapshotDebug />
         </SmoothScrollProvider>
+        <Analytics />
       </body>
     </html>
   );

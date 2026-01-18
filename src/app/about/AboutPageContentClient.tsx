@@ -1,14 +1,6 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
-const AboutPageContent = dynamic(
-  () =>
-    import("@/components/AboutPageContent").then(
-      (mod) => mod.AboutPageContent
-    ),
-  { ssr: false }
-);
+import { AboutPageContent } from "@/components/AboutPageContent";
 
 export default function AboutPageContentClient() {
   return <AboutPageContent />;

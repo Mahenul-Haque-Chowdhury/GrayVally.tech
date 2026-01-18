@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: "Free Online Tools & Apps | Business Card Maker & More",
   description:
     "Explore free online tools and apps by GrayVally. Create digital business cards, use our Discord bot, and discover productivity tools designed for modern businesses.",
+  alternates: {
+    canonical: "https://grayvally.tech/apps",
+  },
   keywords: [
     "free online tools",
     "digital business card maker",
@@ -138,7 +141,7 @@ export default function AppsPage() {
   return (
     <div className="min-h-screen bg-background text-text-primary">
       <NavBar />
-      <main className="min-h-screen bg-background transition-colors duration-300">
+      <main className="bg-background transition-colors duration-300">
         {/* Page Introduction */}
         <section className="relative pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-surface/40 via-background to-background pointer-events-none" />

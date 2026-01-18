@@ -220,12 +220,39 @@ const PillNav = ({
       });
     };
 
-    layout();
+    const constrainDropdowns = () => {
+      if (typeof window === "undefined") return;
+      const gutter = 12;
+      dropdownRefs.current.forEach((dropdown) => {
+        if (!dropdown) return;
+        dropdown.style.setProperty("--dropdown-shift", "0px");
+        const rect = dropdown.getBoundingClientRect();
+        if (!rect.width) return;
+        let shift = 0;
+        if (rect.left < gutter) {
+          shift = gutter - rect.left;
+        } else if (rect.right > window.innerWidth - gutter) {
+          shift = window.innerWidth - gutter - rect.right;
+        }
+        if (shift !== 0) {
+          dropdown.style.setProperty("--dropdown-shift", `${Math.round(shift)}px`);
+        }
+      });
+    };
 
-    const onResize = () => layout();
+    layout();
+    constrainDropdowns();
+
+    const onResize = () => {
+      layout();
+      constrainDropdowns();
+    };
     window.addEventListener("resize", onResize);
 
-    const fontReady = document.fonts?.ready?.then(layout).catch(() => {});
+    const fontReady = document.fonts?.ready?.then(() => {
+      layout();
+      constrainDropdowns();
+    }).catch(() => {});
     const readyTimeout = new Promise<void>((resolve) => {
       window.setTimeout(resolve, 600);
     });
@@ -257,6 +284,7 @@ const PillNav = ({
       await Promise.race([fontReady, readyTimeout]);
       requestAnimationFrame(() => {
         setIsReady(true);
+        constrainDropdowns();
       });
     };
 
@@ -290,6 +318,21 @@ const PillNav = ({
   const handleDropdownEnter = (i: number) => {
     const dropdown = dropdownRefs.current[i];
     if (!dropdown) return;
+
+    dropdown.style.setProperty("--dropdown-shift", "0px");
+    const rect = dropdown.getBoundingClientRect();
+    if (rect.width) {
+      const gutter = 12;
+      let shift = 0;
+      if (rect.left < gutter) {
+        shift = gutter - rect.left;
+      } else if (rect.right > window.innerWidth - gutter) {
+        shift = window.innerWidth - gutter - rect.right;
+      }
+      if (shift !== 0) {
+        dropdown.style.setProperty("--dropdown-shift", `${Math.round(shift)}px`);
+      }
+    }
     
     gsap.to(dropdown, {
       autoAlpha: 1,
@@ -550,7 +593,7 @@ const PillNav = ({
                   
                   {item.children && (
                     <div 
-                      className="absolute left-1/2 -translate-x-1/2 top-full pt-4 invisible opacity-0 z-50"
+                      className="pill-dropdown-popover absolute left-1/2 top-full pt-4 invisible opacity-0 z-50"
                       ref={(el) => { dropdownRefs.current[i] = el; }}
                     >
                       <div className="bg-surface border border-border/50 rounded-2xl shadow-xl overflow-hidden min-w-[260px] w-max max-w-[90vw] max-h-[60vh] overflow-y-auto p-2 flex flex-col gap-1">

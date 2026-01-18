@@ -313,7 +313,7 @@ export function Contact() {
       variants={staggerContainer}
       id="contact"
       aria-labelledby="contact-title"
-      className="min-h-[calc(100vh-4rem)] bg-background pt-24 sm:pt-28 pb-16 sm:pb-24"
+      className="bg-background pt-24 sm:pt-28 pb-16 sm:pb-24"
     >
       {showNextSteps && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/50 px-4 py-6 backdrop-blur-sm">

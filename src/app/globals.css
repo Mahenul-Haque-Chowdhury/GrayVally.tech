@@ -46,11 +46,23 @@
   box-sizing: border-box;
 }
 
+.transform-gpu {
+  will-change: transform;
+}
+
+html {
+}
+
 html,
 body {
   width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
+}
+
+body {
+  overflow-y: hidden;
 }
 
 body {
@@ -139,6 +151,34 @@ video {
 body {
   color: var(--text);
   background: var(--bg);
+}
+
+/* Lenis scroll normalization */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth body {
+  overscroll-behavior: none;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+@supports (height: 100dvh) {
+  .min-h-screen {
+    min-height: 100dvh;
+  }
+
+  .h-screen {
+    height: 100dvh;
+  }
 }
 
 /* Prevent transitions during initial theme resolution */

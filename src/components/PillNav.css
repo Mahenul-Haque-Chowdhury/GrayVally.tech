@@ -108,6 +108,11 @@
   border-radius: 9999px;
 }
 
+.pill-dropdown-popover {
+  transform: translateX(calc(-50% + var(--dropdown-shift, 0px)));
+  will-change: transform;
+}
+
 .pill-nav-right {
   display: inline-flex;
   align-items: center;

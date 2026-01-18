@@ -59,7 +59,7 @@ const deliverables = [
 
 export function AuditPageContent() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background">
       {/* Hero */}
       <section className="relative pt-24 sm:pt-32 pb-8 sm:pb-10 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-surface/50 via-background to-background pointer-events-none" />
@@ -164,6 +164,65 @@ export function AuditPageContent() {
                 ))}
               </ul>
             </div>
+          </ScrollFloatReveal>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-12 sm:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <ScrollFloatReveal
+            y={REVEAL_CONFIG.translateY}
+            duration={MOTION_DURATION.medium}
+            className="grid gap-8 lg:grid-cols-2 lg:items-start"
+          >
+            <div>
+              <FloatHeading as="h2" className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary">
+                Audit FAQ
+              </FloatHeading>
+              <p className="mt-4 text-sm sm:text-base text-text-secondary/90 leading-relaxed max-w-xl">
+                Quick answers to the most common questions before you request an audit.
+              </p>
+            </div>
+
+            <dl className="rounded-2xl border border-border/40 bg-background/50 backdrop-blur-sm p-6 sm:p-8 space-y-5">
+              <div>
+                <dt className="text-sm sm:text-base font-semibold text-text-primary">How long does the audit take?</dt>
+                <dd className="mt-2 text-sm text-text-secondary/85 leading-relaxed">
+                  Most audits are completed within 3–5 business days after we receive your website details.
+                </dd>
+              </div>
+              <div>
+                <dt className="text-sm sm:text-base font-semibold text-text-primary">Do you need access to our codebase?</dt>
+                <dd className="mt-2 text-sm text-text-secondary/85 leading-relaxed">
+                  Not usually. We can audit from the live site and public signals. If deeper access is needed, we’ll ask.
+                </dd>
+              </div>
+              <div>
+                <dt className="text-sm sm:text-base font-semibold text-text-primary">Is this only for websites you built?</dt>
+                <dd className="mt-2 text-sm text-text-secondary/85 leading-relaxed">
+                  No. We audit sites built by any team or agency. The goal is clear, unbiased improvement steps.
+                </dd>
+              </div>
+              <div>
+                <dt className="text-sm sm:text-base font-semibold text-text-primary">Will you also fix the issues?</dt>
+                <dd className="mt-2 text-sm text-text-secondary/85 leading-relaxed">
+                  We can. The audit is separate and no-obligation, but we’re available if you want us to implement changes.
+                </dd>
+              </div>
+              <div>
+                <dt className="text-sm sm:text-base font-semibold text-text-primary">What types of sites are a good fit?</dt>
+                <dd className="mt-2 text-sm text-text-secondary/85 leading-relaxed">
+                  Business websites, SaaS products, landing pages, and web apps that need better performance or clarity.
+                </dd>
+              </div>
+              <div>
+                <dt className="text-sm sm:text-base font-semibold text-text-primary">Is the audit really free?</dt>
+                <dd className="mt-2 text-sm text-text-secondary/85 leading-relaxed">
+                  Yes. It’s complimentary and designed to be useful whether or not we work together afterward.
+                </dd>
+              </div>
+            </dl>
           </ScrollFloatReveal>
         </div>
       </section>

@@ -9,6 +9,7 @@ import { ArrowLeft, ArrowRight, X, LucideIcon, CheckCircle2 } from "lucide-react
 import { cn } from "@/lib/utils";
 import ScrollFloat, { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
 import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
+import { lockScroll, unlockScroll } from "@/lib/scroll/scrollLock";
 
 // ============================================================================
 // Premium Web Solutions Page with Softvence-style Overlay Modal
@@ -453,17 +454,17 @@ export function ServicesPageContent() {
     // Get click position for the circular reveal
     setClickPosition({ x: event.clientX, y: event.clientY });
     setSelectedService(service);
-    document.body.style.overflow = "hidden";
+    lockScroll();
   }, []);
 
   const handleCloseModal = useCallback(() => {
     setSelectedService(null);
-    document.body.style.overflow = "";
+    unlockScroll();
   }, []);
 
   return (
     <>
-      <main className="min-h-screen bg-background transition-colors duration-300">
+      <main className="bg-background transition-colors duration-300">
         {/* Page Introduction */}
         <section className="relative pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-surface/40 via-background to-background pointer-events-none" />

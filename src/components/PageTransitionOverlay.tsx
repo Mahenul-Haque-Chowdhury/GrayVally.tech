@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { prefersReducedMotion } from "@/lib/motion/constants";
+import { lockScroll, unlockScroll } from "@/lib/scroll/scrollLock";
 
 const OVERLAY_EASE: [number, number, number, number] = [0.76, 0, 0.24, 1];
 const OVERLAY_DURATION = 1.2;
@@ -109,6 +110,7 @@ export function PageTransitionOverlay({ children }: PageTransitionOverlayProps) 
     return () => document.removeEventListener("click", handleClick, true);
   }, [reducedMotion, router]);
 
+
   useEffect(() => {
     if (reducedMotion) return;
     const handlePopState = () => setPhase("entering");
@@ -120,17 +122,15 @@ export function PageTransitionOverlay({ children }: PageTransitionOverlayProps) 
     if (reducedMotion) return;
     if (phase === "idle") return;
 
-    const html = document.documentElement;
-    const body = document.body;
-    const prevHtmlOverflow = html.style.overflow;
-    const prevBodyOverflow = body.style.overflow;
+    if (typeof window !== "undefined") {
+      const isCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
+      if (isCoarsePointer) return;
+    }
 
-    html.style.overflow = "hidden";
-    body.style.overflow = "hidden";
+    lockScroll();
 
     return () => {
-      html.style.overflow = prevHtmlOverflow;
-      body.style.overflow = prevBodyOverflow;
+      unlockScroll();
     };
   }, [phase, reducedMotion]);
 

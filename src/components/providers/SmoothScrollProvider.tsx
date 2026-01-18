@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, ReactNode } from "react";
+import { useEffect, useLayoutEffect, ReactNode, useRef } from "react";
 import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import { gsap } from "gsap";
@@ -48,6 +48,41 @@ export function SmoothScrollProvider({
   options = {},
 }: SmoothScrollProviderProps) {
   const pathname = usePathname();
+  const optionsRef = useRef(options);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const normalizeRootScroll = () => {
+      const html = document.documentElement;
+      const body = document.body;
+      const htmlStyle = window.getComputedStyle(html);
+      const bodyStyle = window.getComputedStyle(body);
+      const htmlScrollable =
+        (htmlStyle.overflowY === "auto" || htmlStyle.overflowY === "scroll") &&
+        html.scrollHeight > html.clientHeight;
+      const bodyScrollable =
+        (bodyStyle.overflowY === "auto" || bodyStyle.overflowY === "scroll") &&
+        body.scrollHeight > body.clientHeight;
+
+      if (htmlScrollable && bodyScrollable) {
+        body.style.overflowY = "visible";
+      }
+    };
+
+    normalizeRootScroll();
+
+    const onLoad = () => normalizeRootScroll();
+    window.addEventListener("load", onLoad, { once: true });
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(normalizeRootScroll).catch(() => {});
+    }
+
+    return () => {
+      window.removeEventListener("load", onLoad);
+    };
+  }, []);
 
   // Refresh ScrollTrigger on route change for new layout
   useEffect(() => {
@@ -95,7 +130,7 @@ export function SmoothScrollProvider({
     };
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Skip Lenis if reduced motion is preferred
     if (prefersReducedMotion()) {
       return;
@@ -111,12 +146,12 @@ export function SmoothScrollProvider({
 
     // Initialize Lenis with configuration (desktop only)
     const lenis = new Lenis({
-      duration: options.duration ?? LENIS_CONFIG.duration,
-      easing: options.easing ?? defaultEasing,
-      orientation: options.orientation ?? "vertical",
-      smoothWheel: options.smoothWheel ?? true,
-      touchMultiplier: options.touchMultiplier ?? LENIS_CONFIG.touchMultiplier,
-      wheelMultiplier: options.wheelMultiplier ?? LENIS_CONFIG.wheelMultiplier,
+      duration: optionsRef.current.duration ?? LENIS_CONFIG.duration,
+      easing: optionsRef.current.easing ?? defaultEasing,
+      orientation: optionsRef.current.orientation ?? "vertical",
+      smoothWheel: optionsRef.current.smoothWheel ?? true,
+      touchMultiplier: optionsRef.current.touchMultiplier ?? LENIS_CONFIG.touchMultiplier,
+      wheelMultiplier: optionsRef.current.wheelMultiplier ?? LENIS_CONFIG.wheelMultiplier,
       lerp: LENIS_CONFIG.lerp,
       infinite: LENIS_CONFIG.infinite,
     });
@@ -158,35 +193,8 @@ export function SmoothScrollProvider({
 
     document.addEventListener("click", handleAnchorClick);
 
-    // Refresh ScrollTrigger when images load
-    const images = document.querySelectorAll("img");
-    let loadedCount = 0;
-    const totalImages = images.length;
-
-    const handleImageLoad = () => {
-      loadedCount++;
-      if (loadedCount === totalImages) {
-        ScrollTrigger.refresh();
-      }
-    };
-
-    images.forEach((img) => {
-      if (img.complete) {
-        loadedCount++;
-      } else {
-        img.addEventListener("load", handleImageLoad);
-      }
-    });
-
-    if (loadedCount === totalImages) {
-      ScrollTrigger.refresh();
-    }
-
     return () => {
       document.removeEventListener("click", handleAnchorClick);
-      images.forEach((img) => {
-        img.removeEventListener("load", handleImageLoad);
-      });
       gsap.ticker.remove(raf);
       lenis.off("scroll", ScrollTrigger.update);
       lenis.destroy();
@@ -194,7 +202,7 @@ export function SmoothScrollProvider({
         delete (window as Window & { lenis?: Lenis }).lenis;
       }
     };
-  }, [options]);
+  }, []);
 
   return <>{children}</>;
 }

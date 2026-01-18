@@ -7,6 +7,13 @@ export const metadata: Metadata = {
   title: "Contact GrayVally | Get Free Consultation for Web & Software Projects",
   description:
     "Contact GrayVally Software Solutions for web development, mobile apps, and software projects. Based in Dhaka, Bangladesh - serving clients worldwide. Get a free consultation and quote today!",
+  alternates: {
+    canonical: "https://grayvally.tech/contact",
+  },
+  robots: {
+    index: false,
+    follow: true,
+  },
   keywords: [
     "contact GrayVally",
     "hire web developers Bangladesh",

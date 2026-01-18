@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Software Development Services Bangladesh | ERP, CRM, HRMS Solutions",
   description:
     "Custom software development company in Bangladesh. ERP software, CRM systems, HRMS solutions, inventory management, POS systems, and enterprise applications. Affordable pricing, expert team!",
+  alternates: {
+    canonical: "https://grayvally.tech/software-solutions",
+  },
   keywords: [
     "software development company Bangladesh",
     "ERP software Bangladesh",

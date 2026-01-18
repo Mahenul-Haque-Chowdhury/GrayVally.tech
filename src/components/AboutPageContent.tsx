@@ -16,74 +16,6 @@ export function AboutPageContent() {
   ];
 
 
-  const principles = [
-    {
-      title: "Systems before features",
-      description:
-        "We build stable cores first: architecture, observability, and workflows that keep teams moving fast.",
-      gradient: "from-emerald-500 to-teal-500",
-    },
-    {
-      title: "Clarity in every handoff",
-      description:
-        "Written context, transparent decisions, and artifacts your team can trust months later.",
-      gradient: "from-amber-500 to-orange-500",
-    },
-    {
-      title: "Quality without the theater",
-      description:
-        "No buzzword inflation. Just shipping reliable products with disciplined execution.",
-      gradient: "from-sky-500 to-blue-500",
-    },
-  ];
-
-  const milestones = [
-    {
-      title: "Founded as a focused studio",
-      description:
-        "Started by Mahenul Haque Chowdhury to help teams ship fast, durable web products.",
-      year: "2024",
-    },
-    {
-      title: "Expanded into full-stack delivery",
-      description:
-        "Added design, frontend, and infrastructure capabilities under one roof.",
-      year: "2024",
-    },
-    {
-      title: "Enterprise-ready systems",
-      description:
-        "Scaled engagements to include compliance, observability, and high-availability builds.",
-      year: "2025",
-    },
-  ];
-
-  const capabilities = [
-    {
-      title: "Product Strategy",
-      description: "Roadmaps, scoping, and release planning that keeps momentum.",
-    },
-    {
-      title: "UI/UX Design",
-      description: "Clear interfaces with accessibility and conversion in mind.",
-    },
-    {
-      title: "Front-End Engineering",
-      description: "Modern React and Next.js builds with polished interaction.",
-    },
-    {
-      title: "Back-End Systems",
-      description: "APIs, data architecture, and secure infrastructure.",
-    },
-    {
-      title: "Performance & Reliability",
-      description: "Monitoring, optimization, and stable deployments.",
-    },
-    {
-      title: "Growth Enablement",
-      description: "SEO, analytics, and experimentation to scale adoption.",
-    },
-  ];
 
   const teamMembers = [
     {
@@ -127,10 +59,43 @@ export function AboutPageContent() {
     },
   ];
 
+  const faqItems = [
+    {
+      question: "What kind of projects does GrayVally usually work on?",
+      answer:
+        "We focus on web platforms, business websites, and custom software solutions. Most projects involve building or improving systems that companies rely on in daily operations.",
+    },
+    {
+      question: "Do you work with small businesses or only large companies?",
+      answer:
+        "We work with both. Company size matters less than mindset. Clients who value quality, clarity, and long-term thinking tend to benefit most from working with us.",
+    },
+    {
+      question: "How is GrayVally different from other digital agencies?",
+      answer:
+        "We do not rely on templates or one-size-fits-all solutions. Every project is approached with technical analysis, careful planning, and honest communication.",
+    },
+    {
+      question: "Will my project be scalable for the future?",
+      answer:
+        "Yes. Scalability and maintainability are central to how we build. Our systems are designed to grow alongside your business without becoming unstable or difficult to manage.",
+    },
+    {
+      question: "Do you provide support after the project is completed?",
+      answer:
+        "Yes. We continue to support clients after delivery with improvements, maintenance, and guidance to ensure long-term performance.",
+    },
+    {
+      question: "How do we start working together?",
+      answer:
+        "It starts with a conversation. We take time to understand your goals and challenges. If we can add value, we move forward with a clear and transparent plan.",
+    },
+  ];
+
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden py-16 sm:py-20 md:py-28">
+      <section className="relative overflow-hidden pt-4 pb-10 sm:pt-6 sm:pb-12 md:pt-8 md:pb-16">
         <div className="absolute inset-0 bg-gradient-to-b from-surface/50 via-background to-background pointer-events-none" />
         <div className="absolute -top-16 sm:-top-24 left-1/2 h-56 sm:h-64 w-[320px] sm:w-[520px] -translate-x-1/2 rounded-full bg-gradient-to-r from-emerald-500/15 via-sky-500/10 to-amber-500/15 blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 right-10 h-56 w-56 rounded-full bg-sky-500/10 blur-[100px] pointer-events-none" />
@@ -166,12 +131,19 @@ export function AboutPageContent() {
                 className="my-0 mt-6 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text-primary font-display"
                 once
               >
-                Building reliable systems for teams that ship fast.
+                GrayVally builds digital systems that scale with your business.
               </FloatHeading>
-              <p className="mt-5 text-base sm:text-lg text-text-secondary leading-relaxed max-w-2xl">
-                We are a focused team of engineers, designers, and builders crafting modern web products with durable
-                foundations. GrayVally brings enterprise-grade execution to fast-moving teams that need clarity and
-                momentum.
+              <p className="mt-3 text-base sm:text-lg text-text-secondary leading-relaxed max-w-2xl">
+                I’m Mahenul Haque Chowdhury, the founder of GrayVally. We didn’t start as a digital agency on paper.
+                We started by building, breaking, fixing, and learning what actually works for real businesses.
+              </p>
+              <p className="mt-4 text-base sm:text-lg text-text-secondary leading-relaxed max-w-2xl">
+                Today, tools are everywhere. The difference is in execution. We are a small, focused team that treats
+                every project like our own product, prioritizing performance, scalability, and long-term value from day one.
+              </p>
+              <p className="mt-4 text-base sm:text-lg text-text-secondary leading-relaxed max-w-2xl">
+                GrayVally exists for businesses that want more than “just another solution.” We work with clients who value
+                clarity, honesty, and thoughtful delivery so their websites, platforms, and custom systems are reliable and effective.
               </p>
 
               <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -192,7 +164,7 @@ export function AboutPageContent() {
 
             <div className="relative">
               <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-emerald-500/20 via-transparent to-amber-500/20 blur-2xl" />
-              <div className="relative rounded-3xl border border-border/40 bg-surface/40 backdrop-blur-xl p-6 sm:p-8">
+              <div className="relative rounded-3xl bg-surface/40 backdrop-blur-xl p-6 sm:p-8">
                 <FloatHeading as="h2" className="text-sm uppercase tracking-[0.3em] text-text-secondary">
                   Studio Snapshot
                 </FloatHeading>
@@ -210,7 +182,7 @@ export function AboutPageContent() {
                         y={REVEAL_CONFIG.translateY}
                         duration={MOTION_DURATION.normal}
                         delay={index * 0.08}
-                        className="rounded-2xl border border-border/40 bg-background/40 p-4"
+                        className="rounded-2xl bg-background/40 p-4"
                       >
                         <p className="text-xs uppercase tracking-[0.2em] text-text-secondary/70">{stat.label}</p>
                         <p className="mt-2 text-lg font-semibold text-text-primary">{stat.value}</p>
@@ -225,131 +197,132 @@ export function AboutPageContent() {
         </div>
       </section>
 
-      {/* Principles */}
+      {/* Problem */}
       <section className="py-16 sm:py-20 border-t border-border/60">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <ScrollFloatReveal
-            y={REVEAL_CONFIG.translateY}
-            duration={MOTION_DURATION.medium}
-            className="text-center max-w-3xl mx-auto"
-          >
+          <ScrollFloatReveal y={REVEAL_CONFIG.translateY} duration={MOTION_DURATION.medium} className="max-w-3xl">
             <FloatHeading as="h2" className="text-3xl sm:text-4xl font-bold text-text-primary font-display">
-              Principles that shape every build
+              What problem it solves
             </FloatHeading>
-            <p className="mt-4 text-text-secondary">
-              We optimize for long-term durability, clear communication, and smooth handoffs.
-            </p>
-          </ScrollFloatReveal>
-
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {principles.map((principle, index) => (
-              <ScrollFloatReveal
-                key={principle.title}
-                y={REVEAL_CONFIG.translateY}
-                duration={MOTION_DURATION.normal}
-                delay={index * 0.08}
-                className="relative overflow-hidden rounded-2xl border border-border/40 bg-surface/30 p-6 backdrop-blur-sm"
-              >
-                <div className={cn(
-                  "absolute top-0 left-0 right-0 h-1 bg-gradient-to-r",
-                  principle.gradient
-                )} />
-                <FloatHeading as="h3" className="text-lg font-semibold text-text-primary">
-                  {principle.title}
-                </FloatHeading>
-                <p className="mt-3 text-sm text-text-secondary leading-relaxed">{principle.description}</p>
-              </ScrollFloatReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Capabilities */}
-      <section className="py-16 sm:py-20 border-t border-border/60 bg-surface/20">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <ScrollFloatReveal
-            y={REVEAL_CONFIG.translateY}
-            duration={MOTION_DURATION.medium}
-            className="flex flex-col md:flex-row md:items-end md:justify-between gap-6"
-          >
-            <div>
-              <FloatHeading as="h2" className="text-3xl sm:text-4xl font-bold text-text-primary font-display">
-                What we deliver
-              </FloatHeading>
-              <p className="mt-4 text-text-secondary max-w-2xl">
-                A full-stack team that blends strategy, design, and engineering into one continuous delivery pipeline.
+            <div className="mt-4 space-y-4 text-sm sm:text-base text-text-secondary leading-relaxed">
+              <p>
+                Many businesses struggle because their digital systems are slow, disconnected, or built without long-term
+                thinking. Poorly structured websites, fragile applications, and generic solutions often create friction
+                instead of progress.
+              </p>
+              <p>
+                GrayVally closes that gap. We turn unclear requirements into reliable, scalable digital solutions. Instead
+                of quick fixes, we build systems that support real growth through performance, clean architecture, and
+                thoughtful user experience.
+              </p>
+              <p>
+                In simple terms, we solve the problem of digital work that looks acceptable on the surface but fails where
+                it matters most.
               </p>
             </div>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-border/60 bg-background/40 px-5 py-2 text-sm font-semibold text-text-primary transition-colors hover:border-border/80 hover:bg-background/70"
-            >
-              Start the conversation
-            </Link>
           </ScrollFloatReveal>
-
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {capabilities.map((capability, index) => (
-              <ScrollFloatReveal
-                key={capability.title}
-                y={REVEAL_CONFIG.translateY}
-                duration={MOTION_DURATION.normal}
-                delay={index * 0.06}
-                className="rounded-2xl border border-border/40 bg-background/40 p-5 backdrop-blur-sm"
-              >
-                <div className="text-xs uppercase tracking-[0.2em] text-text-secondary/70">
-                  0{index + 1}
-                </div>
-                <FloatHeading as="h3" className="mt-3 text-lg font-semibold text-text-primary">
-                  {capability.title}
-                </FloatHeading>
-                <p className="mt-2 text-sm text-text-secondary leading-relaxed">{capability.description}</p>
-              </ScrollFloatReveal>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* Milestones */}
+      {/* How we work */}
       <section className="py-16 sm:py-20 border-t border-border/60">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <ScrollFloatReveal
-            y={REVEAL_CONFIG.translateY}
-            duration={MOTION_DURATION.medium}
-            className="max-w-3xl"
-          >
+          <ScrollFloatReveal y={REVEAL_CONFIG.translateY} duration={MOTION_DURATION.medium} className="max-w-3xl">
             <FloatHeading as="h2" className="text-3xl sm:text-4xl font-bold text-text-primary font-display">
-              Our story, in milestones
+              How we work with clients
             </FloatHeading>
-            <p className="mt-4 text-text-secondary">
-              From a focused studio to a full-service partner for ambitious teams.
-            </p>
+            <div className="mt-4 space-y-4 text-sm sm:text-base text-text-secondary leading-relaxed">
+              <p>
+                GrayVally is a compact, senior-led studio. That means you work directly with the people who plan the
+                architecture, design the experience, and ship the product. We keep the team small so decision-making is
+                fast, priorities are clear, and the quality bar stays high. There are no long chains of approvals and no
+                hand-offs between sales and delivery. From the first call to the final release, you have a single team that
+                understands the context and the outcomes you care about.
+              </p>
+              <p>
+                We start with a short discovery phase to clarify goals, constraints, and success metrics. If you already
+                have a scope, we validate it. If the scope is still forming, we help you define it. Either way, we focus on
+                removing ambiguity before writing code. That alignment prevents wasted effort and keeps timelines realistic.
+                It also ensures that the final build is not only attractive but structurally sound and maintainable.
+              </p>
+              <p>
+                During delivery, we work in milestones with visible progress. You can expect clear updates, staging links,
+                and feedback checkpoints so there are no surprises at launch. Performance, accessibility, and SEO are built
+                into the workflow rather than treated as add-ons. Our team ships with modern tooling, disciplined reviews,
+                and production-ready testing, because a fast release is only useful if the system stays reliable.
+              </p>
+              <p>
+                After launch, we help teams stay stable and improve continuously. That might mean adding features, refining
+                analytics, or hardening infrastructure as traffic grows. Our goal is to be the technical partner that makes
+                your digital stack easier to operate, not harder. If you want a clear, accountable team with a long-term
+                mindset, we are built for that kind of collaboration.
+              </p>
+            </div>
+          </ScrollFloatReveal>
+        </div>
+      </section>
+
+      {/* Who it’s for */}
+      <section className="py-16 sm:py-20 border-t border-border/60 bg-surface/20">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <ScrollFloatReveal y={REVEAL_CONFIG.translateY} duration={MOTION_DURATION.medium} className="max-w-3xl">
+            <FloatHeading as="h2" className="text-3xl sm:text-4xl font-bold text-text-primary font-display">
+              Who it’s for
+            </FloatHeading>
+            <div className="mt-4 space-y-4 text-sm sm:text-base text-text-secondary leading-relaxed">
+              <p>
+                GrayVally is built for people who take their business seriously and expect their digital presence to work
+                as hard as they do.
+              </p>
+              <p>
+                We work with owners tired of rebuilding the same site, startups that need strong foundations, and growing
+                companies that require scalable, maintainable software. We do best with founders who value clear
+                communication and honest technical guidance.
+              </p>
+              <p>
+                If someone is only looking for the cheapest or fastest option, we may not be the right fit. For those who
+                want things done properly, with care and responsibility, GrayVally is a strong partner.
+              </p>
+            </div>
+          </ScrollFloatReveal>
+        </div>
+      </section>
+
+      {/* FAQs */}
+      <section className="py-16 sm:py-20 border-t border-border/60">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <ScrollFloatReveal y={REVEAL_CONFIG.translateY} duration={MOTION_DURATION.medium} className="max-w-3xl">
+            <FloatHeading as="h2" className="text-3xl sm:text-4xl font-bold text-text-primary font-display">
+              Frequently Asked Questions
+            </FloatHeading>
           </ScrollFloatReveal>
 
-          <div className="mt-10 space-y-6">
-            {milestones.map((milestone, index) => (
+          <div className="mt-8 grid gap-4">
+            {faqItems.map((item, index) => (
               <ScrollFloatReveal
-                key={milestone.title}
+                key={item.question}
                 y={REVEAL_CONFIG.translateY}
                 duration={MOTION_DURATION.normal}
-                delay={index * 0.08}
-                className="relative rounded-2xl border border-border/40 bg-surface/30 p-6 backdrop-blur-sm"
+                delay={index * 0.04}
+                className="rounded-2xl border border-border/40 bg-background/40 backdrop-blur-sm"
               >
-                <div className="absolute left-6 top-6 h-full w-px bg-gradient-to-b from-emerald-500/40 via-sky-500/40 to-transparent" />
-                <div className="relative pl-8">
-                  <div className="text-xs uppercase tracking-[0.2em] text-text-secondary/70">
-                    {milestone.year}
-                  </div>
-                  <FloatHeading as="h3" className="mt-2 text-lg font-semibold text-text-primary">
-                    {milestone.title}
-                  </FloatHeading>
-                  <p className="mt-2 text-sm text-text-secondary leading-relaxed">{milestone.description}</p>
-                </div>
+                <details className="group p-5">
+                  <summary className="cursor-pointer list-none text-base sm:text-lg font-semibold text-text-primary flex items-center justify-between gap-4">
+                    <span>{item.question}</span>
+                    <span className="text-text-secondary transition-transform duration-200 group-open:rotate-45" aria-hidden>
+                      +
+                    </span>
+                  </summary>
+                  <p className="mt-3 text-sm sm:text-base text-text-secondary leading-relaxed">
+                    {item.answer}
+                  </p>
+                </details>
               </ScrollFloatReveal>
             ))}
           </div>
         </div>
       </section>
+
 
       {/* Team */}
       <section

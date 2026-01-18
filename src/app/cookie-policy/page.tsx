@@ -7,6 +7,13 @@ export const metadata: Metadata = {
   title: "Cookie Policy | GrayVally",
   description:
     "Read GrayVally's cookie policy to learn how we use cookies and similar technologies on our website.",
+  alternates: {
+    canonical: "https://grayvally.tech/cookie-policy",
+  },
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function CookiePolicyPage() {

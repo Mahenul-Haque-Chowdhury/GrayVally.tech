@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Terms of Service | GrayVally",
   description:
     "Review GrayVally's terms of service covering the use of our website, web development services, and digital products.",
+  alternates: {
+    canonical: "https://grayvally.tech/terms-of-service",
+  },
 };
 
 export default function TermsOfServicePage() {

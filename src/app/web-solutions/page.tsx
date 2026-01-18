@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Web Development Services Bangladesh | Website Design & Development",
   description:
     "Professional web development services in Bangladesh. Custom website design, React & Next.js development, e-commerce solutions, UI/UX design, and responsive web applications. Get a free quote!",
+  alternates: {
+    canonical: "https://grayvally.tech/web-solutions",
+  },
   keywords: [
     "web development services Bangladesh",
     "website design Bangladesh",

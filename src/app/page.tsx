@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { NavBar } from "@/components/NavBar";
 import { Hero } from "@/components/Hero";
@@ -18,6 +19,15 @@ const About = dynamic(() => import("@/components/About").then((m) => m.About), {
 const Contact = dynamic(() => import("@/components/Contact").then((m) => m.Contact), {
   loading: () => null,
 });
+
+export const metadata: Metadata = {
+  title: "GrayVally Software Solutions | Web Development & Software Company in Bangladesh",
+  description:
+    "GrayVally Software Solutions is a leading web development and software company in Bangladesh. We specialize in custom websites, web applications, mobile apps, UI/UX design, ERP, CRM, and cloud-native solutions for startups and enterprises.",
+  alternates: {
+    canonical: "https://grayvally.tech/",
+  },
+};
 
 export default function Home() {
   return (

@@ -4,11 +4,15 @@ import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
 import { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
 import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
+import { blogPosts } from "@/data/blogPosts";
 
 export const metadata: Metadata = {
   title: "Tech Blog | Web Development Tips & Software Insights",
   description:
     "Read GrayVally's tech blog for web development tutorials, React & Next.js tips, software development best practices, UI/UX design insights, and digital transformation guides.",
+  alternates: {
+    canonical: "https://grayvally.tech/blog",
+  },
   keywords: [
     "web development blog",
     "React tutorials",
@@ -34,23 +38,6 @@ export const metadata: Metadata = {
   },
 };
 
-const posts = [
-  {
-    slug: "choose-web-development-company-bangladesh",
-    title: "How to choose a web development company in Bangladesh (practical guide)",
-    summary:
-      "A step-by-step checklist to help you evaluate and select the right web development partner in Bangladesh.",
-    readingTime: "10 min read",
-  },
-  {
-    slug: "nextjs-performance-optimization-lessons",
-    title: "Next.js performance optimization: lessons from real projects",
-    summary:
-      "Practical techniques for speeding up Next.js websites, from images and fonts to caching and Core Web Vitals.",
-    readingTime: "8 min read",
-  },
-];
-
 export default function BlogPage() {
   return (
     <div className="min-h-screen bg-background text-text-primary">
@@ -73,7 +60,7 @@ export default function BlogPage() {
           </header>
 
           <div className="grid gap-6 sm:gap-8">
-            {posts.map((post, index) => (
+            {blogPosts.map((post, index) => (
               <ScrollFloatReveal
                 key={post.slug}
                 as="article"

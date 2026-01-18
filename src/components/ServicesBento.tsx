@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import ScrollFloat, { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
 import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
+import { lockScroll, unlockScroll } from "@/lib/scroll/scrollLock";
 
 // ============================================================================
 // DESIGN NOTES:
@@ -512,12 +513,12 @@ export function ServicesBento() {
     // Get click position for the circular reveal
     setClickPosition({ x: event.clientX, y: event.clientY });
     setSelectedService(service);
-    document.body.style.overflow = "hidden";
+    lockScroll();
   }, []);
 
   const handleCloseModal = useCallback(() => {
     setSelectedService(null);
-    document.body.style.overflow = "";
+    unlockScroll();
   }, []);
 
   return (

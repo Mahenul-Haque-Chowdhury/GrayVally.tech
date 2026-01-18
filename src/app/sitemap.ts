@@ -1,15 +1,11 @@
 import type { MetadataRoute } from "next";
 import { getProjectSlugs } from "@/data/portfolio";
+import { blogPosts } from "@/data/blogPosts";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://grayvally.tech";
 
   const now = new Date();
-
-  const blogPosts = [
-    { slug: "choose-web-development-company-bangladesh", lastModified: new Date("2024-01-15") },
-    { slug: "nextjs-performance-optimization-lessons", lastModified: new Date("2024-02-01") },
-  ];
 
   const workPages = getProjectSlugs().map((slug) => ({
     url: `${base}/work/${slug}`,
@@ -30,14 +26,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/apps`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     // Legal pages
-    { url: `${base}/privacy-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${base}/terms-of-service`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${base}/refund-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${base}/cookie-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     // Blog posts
-    ...blogPosts.map(post => ({
+    ...blogPosts.map((post) => ({
       url: `${base}/blog/${post.slug}`,
-      lastModified: post.lastModified,
+      lastModified: new Date(post.lastModified),
       changeFrequency: "monthly" as const,
       priority: 0.6,
     })),

@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Free Website Audit | Performance, SEO & Security Analysis",
   description:
     "Get a free comprehensive website audit from GrayVally. We analyze your site's performance, SEO, security, UX, and scalability, then provide an actionable improvement roadmap.",
+  alternates: {
+    canonical: "https://grayvally.tech/audit",
+  },
   keywords: [
     "free website audit",
     "website performance analysis",

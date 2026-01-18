@@ -3,21 +3,9 @@ import Link from "next/link";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
 import { FloatHeading } from "@/components/ui/ScrollFloat";
+import { blogPosts, getBlogPostBySlug } from "@/data/blogPosts";
 
-const articles = {
-  "choose-web-development-company-bangladesh": {
-    title: "How to choose a web development company in Bangladesh (practical guide)",
-    description:
-      "A practical, non-technical checklist for founders and business owners evaluating web development companies in Bangladesh.",
-  },
-  "nextjs-performance-optimization-lessons": {
-    title: "Next.js performance optimization: lessons from real projects",
-    description:
-      "Concrete techniques we use at GrayVally to improve performance and Core Web Vitals on Next.js websites.",
-  },
-} as const;
-
-type ArticleKey = keyof typeof articles;
+type ArticleKey = (typeof blogPosts)[number]["slug"];
 
 type PageProps = {
   params: Promise<{ slug: ArticleKey }>;
@@ -27,7 +15,7 @@ export async function generateMetadata(
   { params }: PageProps,
 ): Promise<Metadata> {
   const { slug } = await params;
-  const article = articles[slug];
+  const article = getBlogPostBySlug(slug);
 
   if (!article) {
     return {
@@ -38,12 +26,15 @@ export async function generateMetadata(
   return {
     title: `${article.title} | GrayVally Blog`,
     description: article.description,
+    alternates: {
+      canonical: `https://grayvally.tech/blog/${article.slug}`,
+    },
   };
 }
 
 export default async function BlogArticlePage({ params }: PageProps) {
   const { slug } = await params;
-  const article = articles[slug];
+  const article = getBlogPostBySlug(slug);
 
   if (!article) {
     return null;
@@ -84,6 +75,9 @@ export default async function BlogArticlePage({ params }: PageProps) {
                 <p>
                   This guide is for founders, marketing leads, and business owners who don&apos;t want to become
                   developers. They just want a clear way to evaluate partners and make a confident decision.
+                </p>
+                <p>
+                  <strong>Related services:</strong> <Link href="/audit">Complimentary Website Audit</Link>
                 </p>
 
                 <FloatHeading as="h2">1. Get clear on what you really need</FloatHeading>
@@ -239,6 +233,88 @@ export default async function BlogArticlePage({ params }: PageProps) {
                   <Link href="/web-solutions">Web Solutions</Link> page and see real results on our
                   <Link href="/portfolio">Portfolio</Link>. When you&apos;re ready to start a conversation, reach out
                   through our <Link href="/contact">contact page</Link>. We&apos;d be happy to discuss your project.
+                </p>
+                <p>
+                  <strong>Related reading:</strong>{" "}
+                  <Link href="/blog/nextjs-performance-optimization-lessons">
+                    Next.js performance optimization: lessons from real projects
+                  </Link>
+                </p>
+              </>
+            )}
+
+            {slug === "nextjs-performance-optimization-lessons" && (
+              <>
+                <p>
+                  Performance work in Next.js is not a single tweak. It is a sequence of small, compounding decisions that
+                  shape Core Web Vitals, perceived speed, and long-term stability. In real projects, the fastest wins come
+                  from profiling the user journey and fixing bottlenecks that repeat on every page view.
+                </p>
+                <p>
+                  This article summarizes the lessons we see most often: how images, fonts, caching, and rendering
+                  strategies interact, and how a few disciplined choices can make a site feel instantly more responsive.
+                </p>
+                <p>
+                  <strong>Related services:</strong> <Link href="/audit">Complimentary Website Audit</Link>
+                </p>
+
+                <FloatHeading as="h2">1. Start with the slowest, most visited pages</FloatHeading>
+                <p>
+                  Many teams optimize an internal demo page and call it done. Instead, profile the pages that receive the
+                  most traffic and generate revenue. If the homepage, pricing, or blog template is slow, those are the
+                  first targets because fixes there reduce friction for the largest audience.
+                </p>
+
+                <FloatHeading as="h2">2. Make images do less work</FloatHeading>
+                <p>
+                  The easiest performance wins usually come from images. Use modern formats, keep dimensions realistic,
+                  and avoid shipping 2–3x larger assets than the layout needs. For decorative visuals, prioritize
+                  compression over pixel perfection. For product screenshots, ensure the container size is stable so the
+                  layout does not shift while loading.
+                </p>
+
+                <FloatHeading as="h2">3. Audit fonts and third-party scripts</FloatHeading>
+                <p>
+                  Fonts and third-party scripts are common hidden costs. Use only the font weights you actually display,
+                  preload critical fonts, and avoid loading full icon packs when a few SVGs would do. For analytics and
+                  marketing tags, delay non-critical scripts until the main content is interactive.
+                </p>
+
+                <FloatHeading as="h2">4. Choose rendering strategies intentionally</FloatHeading>
+                <p>
+                  Server-rendered content is great for fast first paint, but client-side data fetching can still block
+                  interaction. Use static generation or caching where possible. If a page is personalized, keep the
+                  critical content server-rendered and progressively enhance the rest.
+                </p>
+
+                <FloatHeading as="h2">5. Measure, then lock in wins</FloatHeading>
+                <p>
+                  Run Lighthouse or WebPageTest after each change, and compare before/after. The goal is not a perfect
+                  score; it is stable performance under real conditions. Once a fix helps, make it part of the system so
+                  future pages inherit the improvement.
+                </p>
+
+                <FloatHeading as="h2">Key takeaways</FloatHeading>
+                <ul>
+                  <li>Optimize the pages that matter most, not just the easiest ones.</li>
+                  <li>Right-size images and prevent layout shifts with stable containers.</li>
+                  <li>Ship fewer fonts and delay non-essential scripts.</li>
+                  <li>Match rendering strategy to content criticality and update frequency.</li>
+                  <li>Measure regularly and bake wins into reusable patterns.</li>
+                </ul>
+
+                <FloatHeading as="h2">When to use this approach</FloatHeading>
+                <p>
+                  Use this checklist when a Next.js site feels sluggish, when Core Web Vitals fall below target, or when a
+                  new release adds noticeable load time. It is especially helpful for marketing sites and SaaS apps where
+                  speed directly affects conversion.
+                </p>
+
+                <p>
+                  <strong>Related reading:</strong>{" "}
+                  <Link href="/blog/choose-web-development-company-bangladesh">
+                    How to choose a web development company in Bangladesh (practical guide)
+                  </Link>
                 </p>
               </>
             )}

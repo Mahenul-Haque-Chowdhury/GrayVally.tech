@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Refund Policy | GrayVally",
   description:
     "Understand GrayVally's refund policy, including eligibility, timelines, and how we handle cancellations for web development and design projects.",
+  alternates: {
+    canonical: "https://grayvally.tech/refund-policy",
+  },
 };
 
 export default function RefundPolicyPage() {
