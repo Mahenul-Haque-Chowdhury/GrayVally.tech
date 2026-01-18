@@ -45,7 +45,7 @@ export function Services() {
               scale={0.98}
               duration={MOTION_DURATION.normal}
               delay={index * 0.08}
-              className="group relative rounded-xl sm:rounded-2xl border border-border/40 bg-surface/20 backdrop-blur-sm p-4 sm:p-6 md:p-8 transition-colors transition-shadow duration-300 hover:border-border/80 hover:bg-surface/40 hover:shadow-lg hover:shadow-blue-500/5"
+              className="group relative rounded-xl sm:rounded-2xl border border-border/40 bg-surface/20 backdrop-blur-sm p-4 sm:p-6 md:p-8 transition-[colors,box-shadow] duration-300 hover:border-border/80 hover:bg-surface/40 hover:shadow-lg hover:shadow-blue-500/5"
             >
               {/* Icon Container */}
               <div className="mb-3 sm:mb-5 flex h-10 w-10 sm:h-14 sm:w-14 items-center justify-center rounded-lg sm:rounded-xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-border/30 transition-colors duration-300 group-hover:from-blue-500/20 group-hover:to-cyan-500/20 group-hover:border-blue-500/30">
@@ -90,7 +90,7 @@ export function Services() {
         >
           <Link
             href="/web-solutions"
-            className="group inline-flex items-center justify-center gap-2 rounded-full border border-border/60 bg-surface/30 backdrop-blur-sm px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-text-primary transition-colors transition-shadow duration-300 hover:border-blue-500/50 hover:bg-surface/50 hover:shadow-lg hover:shadow-blue-500/10"
+            className="group inline-flex items-center justify-center gap-2 rounded-full border border-border/60 bg-surface/30 backdrop-blur-sm px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-text-primary transition-[colors,box-shadow] duration-300 hover:border-blue-500/50 hover:bg-surface/50 hover:shadow-lg hover:shadow-blue-500/10"
           >
             <span>Check out all Services</span>
             <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-300 group-hover:translate-x-1" />
