@@ -365,7 +365,7 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
 
 
 function ServiceRow({ item, service, onLearnMore, index }: ServiceRowProps) {
-  const isOdd = item.id.endsWith("1") || item.id.endsWith("3") || item.id.endsWith("5") || item.id.endsWith("7") || item.id.endsWith("9") || item.id.endsWith("11");
+  const isOdd = index % 2 === 0;
   const buttonLabel = service?.title ?? item.title;
   const Icon = service?.icon;
 
