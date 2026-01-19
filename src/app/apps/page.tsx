@@ -94,7 +94,7 @@ function AppRow({
               priority={index < 2}
             />
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-cyan-500/10" />
-            <div className="absolute left-5 top-5 rounded-full bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-400 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white shadow-lg shadow-cyan-500/30 ring-1 ring-white/30 backdrop-blur">
+            <div className="absolute right-5 top-5 rounded-full bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-400 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white shadow-lg shadow-cyan-500/30 ring-1 ring-white/30 backdrop-blur">
               {app.category}
             </div>
           </div>
@@ -107,11 +107,6 @@ function AppRow({
           <p className="mt-4 text-sm sm:text-base text-text-secondary leading-relaxed">
             {app.description}
           </p>
-          <div className="mt-3">
-            <span className="inline-flex items-center rounded-full bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-400 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white shadow-sm">
-              {app.category}
-            </span>
-          </div>
           <div className="mt-6">
             {app.external ? (
               <a

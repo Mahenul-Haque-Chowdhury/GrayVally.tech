@@ -288,3 +288,12 @@ html.theme-resolved body {
   outline-offset: 2px;
 }
 
+/* Leaflet map stacking context - keep below fixed header */
+.leaflet-container,
+.leaflet-pane,
+.leaflet-top,
+.leaflet-bottom,
+.leaflet-control-container {
+  z-index: 0 !important;
+}
+

@@ -27,7 +27,7 @@ const DropdownChevron = () => (
   </span>
 );
 
-const MotionLink = motion(Link);
+const MotionLink = motion.create(Link);
 
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 

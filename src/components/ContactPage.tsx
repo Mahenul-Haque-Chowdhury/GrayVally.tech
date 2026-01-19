@@ -14,7 +14,6 @@ import {
   CheckCircle2,
   AlertTriangle,
 } from "lucide-react";
-import { allServices } from "@/data/services";
 import { socialProfiles } from "@/data/socials";
 import { FORMSPREE_ENDPOINT } from "@/lib/formspree";
 import { FreeMap } from "@/components/FreeMap";
@@ -256,6 +255,24 @@ const dialingCodes = [
   "+995",
   "+996",
   "+998",
+];
+
+const projectInterestOptions = [
+  "Website Development",
+  "E-Commerce Solutions",
+  "Database & Server Management",
+  "Bug Fixing & Maintenance",
+  "Mobile App Development",
+  "Custom Software & Automation",
+  "SEO & Digital Marketing",
+  "Tech Consultancy",
+  "Enterprise Core & Operations Platform",
+  "People, Identity & Access",
+  "Revenue, Sales & Customer Platforms",
+  "Finance & Monetization Systems",
+  "Data, Analytics & Intelligence",
+  "Industry & SaaS Platforms",
+  "other",
 ];
 
 export function Contact() {
@@ -590,9 +607,9 @@ export function Contact() {
                       <option value="" disabled>
                         Select a service
                       </option>
-                      {allServices.map((service) => (
-                        <option key={service.id} value={service.title}>
-                          {service.title}
+                      {projectInterestOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
                         </option>
                       ))}
                     </select>
@@ -706,7 +723,7 @@ export function Contact() {
             </div>
           </div>
 
-          <div className="mt-5 h-[320px] sm:h-[420px] overflow-hidden rounded-2xl border border-border/50">
+          <div className="relative z-0 mt-5 h-[320px] sm:h-[420px] overflow-hidden rounded-2xl border border-border/50">
             <FreeMap
               locations={[
                 {

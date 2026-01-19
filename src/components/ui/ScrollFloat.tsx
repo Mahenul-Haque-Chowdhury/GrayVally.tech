@@ -54,6 +54,23 @@ const ScrollFloat: React.FC<ScrollFloatProps> = ({
       return;
     }
 
+    const setVisibleIfInView = () => {
+      const rect = node.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+      const inView =
+        rect.bottom >= 0 &&
+        rect.right >= 0 &&
+        rect.top <= viewportHeight &&
+        rect.left <= viewportWidth;
+
+      if (inView) {
+        setIsVisible(true);
+      }
+    };
+
+    setVisibleIfInView();
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -85,6 +102,10 @@ const ScrollFloat: React.FC<ScrollFloatProps> = ({
     "--scroll-float-duration": `${Math.max(0, duration)}s`,
     "--scroll-float-delay": `${Math.max(0, delay)}s`,
     "--scroll-float-ease": ease,
+    transitionProperty: "transform, opacity",
+    transitionDuration: "var(--scroll-float-duration)",
+    transitionDelay: "var(--scroll-float-delay)",
+    transitionTimingFunction: "var(--scroll-float-ease)",
     willChange: isVisible ? "auto" : "transform, opacity",
     ...style,
   } as React.CSSProperties;
@@ -92,9 +113,6 @@ const ScrollFloat: React.FC<ScrollFloatProps> = ({
   const classNames = [
     "transform-gpu",
     "transition-[transform,opacity]",
-    "duration-[var(--scroll-float-duration)]",
-    "delay-[var(--scroll-float-delay)]",
-    "ease-[var(--scroll-float-ease)]",
     "motion-reduce:transition-none",
     "motion-reduce:duration-0",
     "motion-reduce:delay-0",

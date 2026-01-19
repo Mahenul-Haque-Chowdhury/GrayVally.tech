@@ -289,7 +289,7 @@ export function AboutPageContent() {
       </section>
 
       {/* FAQs */}
-      <section className="py-16 sm:py-20 border-t border-border/60">
+      <section id="faqs" className="py-16 sm:py-20 border-t border-border/60">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <ScrollFloatReveal y={REVEAL_CONFIG.translateY} duration={MOTION_DURATION.medium} className="max-w-3xl">
             <FloatHeading as="h2" className="text-3xl sm:text-4xl font-bold text-text-primary font-display">
