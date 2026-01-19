@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
 import { getProjectBySlug, getProjectSlugs } from "@/data/portfolio";
-import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
+import { ArrowLeft, ArrowRight, ExternalLink, Lock } from "lucide-react";
 import { FloatHeading } from "@/components/ui/ScrollFloat";
 
 interface CaseStudyPageProps {
@@ -47,6 +47,58 @@ export async function generateMetadata({ params }: CaseStudyPageProps): Promise<
 export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
+
+  const caseStudyStacks = [
+    {
+      label: "Next.js",
+      icon: (
+        <span className="relative h-6 w-6">
+          <img
+            src="/nextjs-black.svg"
+            alt="Next.js"
+            className="h-6 w-6 block dark:hidden absolute inset-0"
+          />
+          <img
+            src="/nextjs-white.svg"
+            alt="Next.js"
+            className="h-6 w-6 hidden dark:block absolute inset-0"
+          />
+        </span>
+      ),
+    },
+    {
+      label: "React",
+      icon: <i className="devicon-react-original colored text-2xl" aria-hidden />,
+    },
+    {
+      label: "Tailwind CSS",
+      icon: <i className="devicon-tailwindcss-plain colored text-2xl" aria-hidden />,
+    },
+    {
+      label: "Framer Motion",
+      icon: (
+        <img
+          src="https://cdn.worldvectorlogo.com/logos/framer-motion.svg"
+          alt="Framer Motion"
+          className="h-6 w-6 dark:invert"
+        />
+      ),
+    },
+    {
+      label: "Supabase",
+      icon: (
+        <img
+          src="https://supabase.com/dashboard/img/supabase-logo.svg"
+          alt="Supabase"
+          className="h-6 w-6"
+        />
+      ),
+    },
+    {
+      label: "Secured HTTPS",
+      icon: <Lock className="h-6 w-6 text-emerald-400" aria-hidden="true" />,
+    },
+  ];
 
   if (!project) {
     notFound();
@@ -91,13 +143,18 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                     {project.timeline}
                   </span>
                 </div>
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {project.technologies?.map((tech) => (
+                <div className="mt-4 flex flex-wrap items-center gap-2">
+                  <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-text-secondary/60">
+                    Stacks →
+                  </span>
+                  {caseStudyStacks.map((stack) => (
                     <span
-                      key={tech}
-                      className="rounded-md border border-border/40 bg-surface/30 px-2.5 py-1 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-text-secondary/80"
+                      key={stack.label}
+                      className="inline-flex items-center justify-center rounded-md bg-surface/30 p-2"
+                      aria-label={stack.label}
+                      title={stack.label}
                     >
-                      {tech}
+                      {stack.icon}
                     </span>
                   ))}
                 </div>

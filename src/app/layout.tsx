@@ -147,7 +147,7 @@ export default function RootLayout({
         {/* Theme initialization script - must run before CSS to prevent flash */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){document.documentElement.classList.add('theme-'+t);document.documentElement.style.colorScheme=t}else{var d=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.classList.add('theme-'+d);document.documentElement.style.colorScheme=d}}catch(e){}document.documentElement.classList.add('theme-resolved')})();`,
+            __html: `(function(){try{var t=localStorage.getItem('theme');var d=null;if(t==='light'||t==='dark'){d=t}else{d=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.classList.add('theme-'+d);document.documentElement.style.colorScheme=d;document.documentElement.classList.toggle('dark',d==='dark')}catch(e){}document.documentElement.classList.add('theme-resolved')})();`,
           }}
         />
         {/* Google Analytics */}

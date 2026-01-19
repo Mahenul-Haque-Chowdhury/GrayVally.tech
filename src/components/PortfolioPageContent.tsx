@@ -16,10 +16,12 @@ import {
   Rocket,
   ShoppingCart,
   Store,
+  Lock,
   type LucideIcon,
 } from "lucide-react";
 import { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
 import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
+import { projects } from "@/data/portfolio";
 
 const industries: Array<{ name: string; description: string; icon: LucideIcon }> = [
   {
@@ -114,6 +116,58 @@ const processSteps = [
 
 export function PortfolioPageContent() {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
+  const caseStudies = projects.filter((project) => project.featuredCaseStudy);
+  const caseStudyStacks = [
+    {
+      label: "Next.js",
+      icon: (
+        <span className="relative h-6 w-6">
+          <img
+            src="/nextjs-black.svg"
+            alt="Next.js"
+            className="h-6 w-6 block dark:hidden absolute inset-0"
+          />
+          <img
+            src="/nextjs-white.svg"
+            alt="Next.js"
+            className="h-6 w-6 hidden dark:block absolute inset-0"
+          />
+        </span>
+      ),
+    },
+    {
+      label: "React",
+      icon: <i className="devicon-react-original colored text-2xl" aria-hidden />,
+    },
+    {
+      label: "Tailwind CSS",
+      icon: <i className="devicon-tailwindcss-plain colored text-2xl" aria-hidden />,
+    },
+    {
+      label: "Framer Motion",
+      icon: (
+        <img
+          src="https://cdn.worldvectorlogo.com/logos/framer-motion.svg"
+          alt="Framer Motion"
+          className="h-6 w-6 dark:invert"
+        />
+      ),
+    },
+    {
+      label: "Supabase",
+      icon: (
+        <img
+          src="https://supabase.com/dashboard/img/supabase-logo.svg"
+          alt="Supabase"
+          className="h-6 w-6"
+        />
+      ),
+    },
+    {
+      label: "Secured HTTPS",
+      icon: <Lock className="h-6 w-6 text-emerald-400" aria-hidden="true" />,
+    },
+  ];
 
   return (
     <>
@@ -272,6 +326,99 @@ export function PortfolioPageContent() {
                     <p className="mt-3 text-sm text-text-secondary/80 leading-relaxed">
                       {industry.description}
                     </p>
+                  </ScrollFloatReveal>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Case Studies */}
+          <section className="relative py-12 sm:py-16">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6">
+              <div className="flex items-end justify-between gap-6 flex-wrap mb-10">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.3em] text-text-secondary/70">Case Studies</p>
+                  <FloatHeading as="h2" className="mt-3 text-3xl sm:text-4xl font-bold text-text-primary">
+                    Proof-led client outcomes
+                  </FloatHeading>
+                </div>
+                <p className="text-sm text-text-secondary/70 max-w-xl">
+                  Explore detailed case studies to see the impact we deliver for clients.
+                </p>
+              </div>
+
+              <div className="grid gap-6 lg:grid-cols-2">
+                {caseStudies.map((project, index) => (
+                  <ScrollFloatReveal
+                    key={project.slug}
+                    y={REVEAL_CONFIG.translateY}
+                    duration={MOTION_DURATION.normal}
+                    delay={index * 0.08}
+                    className="rounded-3xl bg-surface/20 p-6 sm:p-7 backdrop-blur-sm shadow-sm shadow-black/5 dark:shadow-black/20 transition-all duration-300 hover:bg-surface/40 hover:shadow-md"
+                  >
+                    <div className="mt-6">
+                      <p className="text-xs uppercase tracking-[0.3em] text-text-secondary/70">Case Study</p>
+                      <FloatHeading as="h3" className="mt-3 text-2xl font-semibold text-text-primary">
+                        {project.client}
+                      </FloatHeading>
+                      <p className="mt-3 text-sm text-text-secondary/85 leading-relaxed">
+                        {project.description || project.problem}
+                      </p>
+                    </div>
+
+                    <div className="mt-5 flex flex-wrap items-center gap-2">
+                      <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-text-secondary/60">
+                        Stacks →
+                      </span>
+                      {caseStudyStacks.map((stack) => (
+                        <span
+                          key={stack.label}
+                          className="inline-flex items-center justify-center rounded-md bg-surface/30 p-2"
+                          aria-label={stack.label}
+                          title={stack.label}
+                        >
+                          {stack.icon}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      <span className="rounded-full border border-border/50 bg-background/40 px-3 py-1 text-xs font-semibold text-text-secondary">
+                        {project.industry}
+                      </span>
+                      <span className="rounded-full border border-border/50 bg-background/40 px-3 py-1 text-xs font-semibold text-text-secondary">
+                        {project.timeline}
+                      </span>
+                      <span className="rounded-full border border-border/50 bg-background/40 px-3 py-1 text-xs font-semibold text-text-secondary">
+                        {project.role}
+                      </span>
+                    </div>
+
+                    <div className="mt-6 rounded-2xl border border-border/40 bg-background/40 p-4">
+                      <p className="text-[10px] uppercase tracking-[0.25em] text-text-secondary/70">Business Outcome</p>
+                      <p className="mt-2 text-sm font-semibold text-text-primary">{project.businessOutcome}</p>
+                    </div>
+
+                    <div className="mt-6 flex flex-wrap items-center gap-3">
+                      <Link
+                        href={`/work/${project.slug}`}
+                        className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-5 py-2 text-xs sm:text-sm font-semibold text-white transition-transform duration-300 hover:scale-[1.02]"
+                      >
+                        View Case Study
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
+                      {project.link && (
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-surface/30 px-5 py-2 text-xs sm:text-sm font-semibold text-text-primary transition-colors hover:border-border/80 hover:bg-surface/50"
+                        >
+                          Visit Website
+                          <ArrowRight className="h-4 w-4" />
+                        </a>
+                      )}
+                    </div>
                   </ScrollFloatReveal>
                 ))}
               </div>
