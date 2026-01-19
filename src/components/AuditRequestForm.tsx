@@ -222,7 +222,7 @@ export function AuditRequestForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="group relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-text-primary px-6 py-3.5 text-sm sm:text-base font-semibold text-background transition-transform transition-opacity duration-300 hover:scale-[1.01] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
+            className="group relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-text-primary px-6 py-3.5 text-sm sm:text-base font-semibold text-background transition duration-300 hover:scale-[1.01] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
           >
             <span className="relative z-10">
               {isSubmitting ? "Requesting…" : "Request Complimentary Audit"}

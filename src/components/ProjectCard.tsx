@@ -108,7 +108,7 @@ export function ProjectCard({
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Browser Frame / Image Container */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border/40 bg-surface/30 backdrop-blur-sm shadow-2xl transition-colors transition-shadow duration-500 group-hover:border-blue-500/30 group-hover:shadow-blue-500/10">
+      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border/40 bg-surface/30 backdrop-blur-sm shadow-2xl transition duration-500 group-hover:border-blue-500/30 group-hover:shadow-blue-500/10">
         {/* Browser Header (Dots & Address Bar) */}
         <div className="absolute top-0 left-0 right-0 z-20 flex h-10 items-center gap-4 bg-[#1a1b26] px-4 border-b border-white/5">
           <div className="flex gap-1.5 shrink-0">
@@ -172,7 +172,7 @@ export function ProjectCard({
                     href={project.link}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-3 font-medium border border-white/10 transition-transform transition-opacity transition-shadow duration-300 translate-y-0 opacity-100 sm:translate-y-4 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100 hover:shadow-lg hover:shadow-blue-500/25"
+                    className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-3 font-medium border border-white/10 transition duration-300 translate-y-0 opacity-100 sm:translate-y-4 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100 hover:shadow-lg hover:shadow-blue-500/25"
                   >
                     <Globe className="h-4 w-4" />
                     Visit

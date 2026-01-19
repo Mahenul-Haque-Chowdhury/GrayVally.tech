@@ -56,7 +56,7 @@ export function Portfolio() {
         >
           <Link
             href="/portfolio"
-            className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-surface/50 px-8 py-3 text-sm font-medium text-text-primary transition-colors transition-shadow duration-300 hover:bg-surface/80 hover:shadow-lg hover:shadow-blue-500/10 border border-border/50"
+            className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-surface/50 px-8 py-3 text-sm font-medium text-text-primary transition duration-300 hover:bg-surface/80 hover:shadow-lg hover:shadow-blue-500/10 border border-border/50"
           >
             <span>View Complete Portfolio</span>
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
