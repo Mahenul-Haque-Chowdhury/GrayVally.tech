@@ -36,22 +36,32 @@ export function PageTransitionOverlay({ children }: PageTransitionOverlayProps) 
   const pendingHrefRef = useRef<string | null>(null);
   const timeoutRef = useRef<number | null>(null);
   const fallbackRef = useRef<number | null>(null);
+  const enterResolveRef = useRef<(() => void) | null>(null);
+  const phaseRef = useRef<TransitionPhase>(phase);
 
   useEffect(() => {
-    if (phase === "entering" && lastPathRef.current !== pathname) {
-      window.setTimeout(() => setPhase("exiting"), 0);
-      lastPathRef.current = pathname;
+    phaseRef.current = phase;
+  }, [phase]);
+
+  // When pathname changes while we were in the entering phase, wait for the
+  // next paint (two RAFs) to ensure the new route is rendered, then start
+  // the exit animation. This avoids flashes or unstyled content.
+  useEffect(() => {
+    if (phaseRef.current === "entering" && lastPathRef.current !== pathname) {
       if (fallbackRef.current) {
         window.clearTimeout(fallbackRef.current);
         fallbackRef.current = null;
       }
+
+      requestAnimationFrame(() => requestAnimationFrame(() => setPhase("exiting")));
+      lastPathRef.current = pathname;
       return;
     }
 
-    if (phase === "idle") {
+    if (phaseRef.current === "idle") {
       lastPathRef.current = pathname;
     }
-  }, [pathname, phase]);
+  }, [pathname]);
 
   useEffect(() => {
     return () => {
@@ -67,7 +77,7 @@ export function PageTransitionOverlay({ children }: PageTransitionOverlayProps) 
   useEffect(() => {
     if (reducedMotion) return;
 
-    const handleClick = (event: MouseEvent) => {
+    const handleClick = async (event: MouseEvent) => {
       if (isModifiedEvent(event)) return;
       const target = event.target as Element | null;
       if (!target) return;
@@ -91,19 +101,27 @@ export function PageTransitionOverlay({ children }: PageTransitionOverlayProps) 
         window.clearTimeout(fallbackRef.current);
       }
 
+      // Start navigation flow: animate overlay in, then navigate.
       pendingHrefRef.current = `${url.pathname}${url.search}${url.hash}`;
       setPhase("entering");
 
-      timeoutRef.current = window.setTimeout(() => {
-        if (pendingHrefRef.current) {
-          router.push(pendingHrefRef.current);
-          pendingHrefRef.current = null;
-        }
-      }, OVERLAY_DURATION * 1000);
+      // Promise that resolves when enter animation completes
+      const enterPromise = new Promise<void>((resolve) => {
+        enterResolveRef.current = resolve;
+      });
 
+      // Fallback in case animation complete event doesn't fire
       fallbackRef.current = window.setTimeout(() => {
-        setPhase("exiting");
-      }, OVERLAY_DURATION * 1000 + 4000);
+        enterResolveRef.current?.();
+        fallbackRef.current = null;
+      }, OVERLAY_DURATION * 1000 + 3000);
+
+      await enterPromise;
+
+      if (pendingHrefRef.current) {
+        router.push(pendingHrefRef.current);
+        pendingHrefRef.current = null;
+      }
     };
 
     document.addEventListener("click", handleClick, true);
@@ -134,29 +152,56 @@ export function PageTransitionOverlay({ children }: PageTransitionOverlayProps) 
     };
   }, [phase, reducedMotion]);
 
+  // Reflect transition active state on the document to allow child components
+  // (like `PageTransition`) to disable their own animations while the overlay
+  // is performing the single-phase transition.
+  useEffect(() => {
+    if (reducedMotion) return;
+    const el = typeof document !== "undefined" ? document.documentElement : null;
+    if (!el) return;
+    if (phase !== "idle") {
+      el.classList.add("rv-transition-active");
+    } else {
+      el.classList.remove("rv-transition-active");
+    }
+    return () => el.classList.remove("rv-transition-active");
+  }, [phase, reducedMotion]);
+
   const overlayVariants = useMemo(
     () => ({
-      enter: { opacity: 0, y: "100%" },
-      show: { opacity: 1, y: "0%" },
-      exit: { opacity: 0, y: "-100%" },
+      // Idle keeps the overlay mounted but out of view (off-screen to the right).
+      idle: { opacity: 0, x: "100%", pointerEvents: "none" },
+      // Slide in from right to cover viewport — this preserves the "slide from right" visual
+      // while keeping the overlay as the single-phase transition layer.
+      show: { opacity: 1, x: "0%", pointerEvents: "auto" },
+      // Slide out to the left when revealing the new route.
+      exit: { opacity: 0, x: "-100%", pointerEvents: "none" },
     }),
     []
   );
 
   const handleOverlayComplete = useCallback(() => {
-    if (phase === "exiting") {
+    // If we just finished entering, resolve the enter promise so navigation can proceed
+    if (phaseRef.current === "entering") {
+      enterResolveRef.current?.();
+      enterResolveRef.current = null;
+      return;
+    }
+
+    // If we finished the exit animation, return to idle
+    if (phaseRef.current === "exiting") {
       setPhase("idle");
     }
-  }, [phase]);
+  }, []);
 
   return (
     <>
-      {phase !== "idle" && !reducedMotion && (
+      {!reducedMotion && (
         <motion.div
           className="fixed inset-0 z-[2147483647] bg-background"
-          variants={overlayVariants}
-          initial="enter"
-          animate={phase === "exiting" ? "exit" : "show"}
+          variants={overlayVariants as any}
+          initial="idle"
+          animate={phase === "exiting" ? "exit" : phase === "entering" ? "show" : "idle"}
           transition={{ duration: OVERLAY_DURATION, ease: OVERLAY_EASE }}
           onAnimationComplete={handleOverlayComplete}
           style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}

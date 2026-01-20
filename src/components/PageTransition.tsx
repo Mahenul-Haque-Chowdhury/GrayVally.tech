@@ -15,20 +15,21 @@ type PageTransitionProps = {
 
 // Premium route transition variants with subtle lift + blur
 const variants = {
+  // Slide horizontally from right to left as a single-phase page transition
   initial: {
     opacity: 0,
-    y: 12,
-    filter: "blur(8px)",
+    x: "10%",
+    filter: "blur(6px)",
   },
   animate: {
     opacity: 1,
-    y: 0,
+    x: "0%",
     filter: "blur(0px)",
   },
   exit: {
     opacity: 0,
-    y: -8,
-    filter: "blur(6px)",
+    x: "-10%",
+    filter: "blur(4px)",
   },
 };
 
@@ -43,6 +44,7 @@ export function PageTransition({ children }: PageTransitionProps) {
   const pathname = usePathname();
   const [isAnimating, setIsAnimating] = useState(false);
   const reducedMotion = prefersReducedMotion();
+
 
   const handleAnimationStart = useCallback(() => {
     setIsAnimating(true);

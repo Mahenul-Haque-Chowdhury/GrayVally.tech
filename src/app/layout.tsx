@@ -3,7 +3,7 @@ import Script from "next/script";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/next";
-import { PageTransitionOverlay } from "@/components/PageTransitionOverlay";
+// PageTransitionOverlay removed — using page-level transitions instead
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { ScrollProgress } from "@/components/ScrollProgress";
@@ -463,9 +463,7 @@ export default function RootLayout({
           Skip to main content
         </a>
         <SmoothScrollProvider>
-          <ErrorBoundary>
-            <PageTransitionOverlay>{children}</PageTransitionOverlay>
-          </ErrorBoundary>
+          <ErrorBoundary>{children}</ErrorBoundary>
           <LayoutSnapshotDebug />
         </SmoothScrollProvider>
         <Analytics />
