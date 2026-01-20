@@ -42,9 +42,19 @@ const backgroundVariant: Variants = {
 };
 
 const headlineContainer: Variants = {
+  hidden: {},
   visible: {
     transition: {
       staggerChildren: 0.04,
+    },
+  },
+};
+
+const fastHeadlineContainer: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0,
     },
   },
 };
@@ -128,37 +138,34 @@ export function Hero() {
                 className="block text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
                 variants={headlineContainer}
               >
-                {"We Build".split(" ").map((word, wordIndex) => (
-                  <span key={wordIndex} className="inline-block whitespace-nowrap overflow-hidden align-bottom">
-                    {word.split("").map((char, charIndex) => (
-                      <motion.span key={charIndex} className="inline-block" variants={headlineCharacter}>
-                        {char}
-                      </motion.span>
-                    ))}
-                    <span className="inline-block">&nbsp;</span>
-                  </span>
-                ))}
-                <span className="inline-block whitespace-nowrap overflow-hidden align-bottom bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-                  {"Digital".split("").map((char, charIndex) => (
-                    <motion.span key={charIndex} className="inline-block" variants={headlineCharacter}>
-                      {char}
+                <motion.span className="inline-block" variants={fastHeadlineContainer}>
+                  {["Building", "Products", "that", "Drive"].map((word, wordIndex) => (
+                    <motion.span
+                      key={wordIndex}
+                      className="inline-block whitespace-nowrap overflow-hidden align-bottom"
+                      variants={headlineContainer}
+                    >
+                      {word.split("").map((char, charIndex) => (
+                        <motion.span key={charIndex} className="inline-block" variants={headlineCharacter}>
+                          {char}
+                        </motion.span>
+                      ))}
+                      <span className="inline-block">&nbsp;</span>
                     </motion.span>
                   ))}
-                </span>
-              </motion.span>
-              <motion.span
-                className="block text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-text-secondary mt-1 sm:mt-2"
-                variants={headlineContainer}
-              >
-                {"Infrastructure".split(" ").map((word, wordIndex) => (
-                  <span key={wordIndex} className="inline-block whitespace-nowrap overflow-hidden align-bottom">
-                    {word.split("").map((char, charIndex) => (
-                      <motion.span key={charIndex} className="inline-block" variants={headlineCharacter}>
-                        {char}
-                      </motion.span>
-                    ))}
-                  </span>
-                ))}
+                </motion.span>
+                <motion.span className="inline-block whitespace-nowrap overflow-hidden align-bottom bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent" variants={headlineContainer}>
+                  {"Business Growth".split(" ").map((word, wordIndex) => (
+                    <motion.span key={wordIndex} className="inline-block" variants={headlineContainer}>
+                      {word.split("").map((char, charIndex) => (
+                        <motion.span key={charIndex} className="inline-block" variants={headlineCharacter}>
+                          {char}
+                        </motion.span>
+                      ))}
+                      <span className="inline-block">&nbsp;</span>
+                    </motion.span>
+                  ))}
+                </motion.span>
               </motion.span>
             </motion.h1>
           </ScrollFloat>
