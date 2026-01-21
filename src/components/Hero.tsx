@@ -4,7 +4,7 @@ import { motion, Variants, useAnimation } from "framer-motion";
 import { Infinity, Layers, ShieldCheck } from "lucide-react";
 import { useEffect } from "react";
 import Link from "next/link";
-import Hyperspeed, { hyperspeedPresets } from "./Hyperspeed";
+// Replaced Hyperspeed with a lightweight SVG background using currentColor for theming
 import LogoLoop from "./LogoLoop";
 import ScrollFloat from "@/components/ui/ScrollFloat";
 
@@ -91,20 +91,59 @@ export function Hero() {
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
       {/* Background - Hyperspeed Effect */}
-      <motion.div 
+      <motion.div
         className="absolute inset-0 z-0"
         variants={backgroundVariant}
         initial="hidden"
         animate={controls}
+        aria-hidden
       >
-        <Hyperspeed effectOptions={hyperspeedPresets.one} />
+        <div className="absolute inset-0 z-0 text-[#0a141e] dark:text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" className="w-full h-full">
+            <defs>
+              <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation={6} result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            {/* Grid */}
+            <g stroke="currentColor" strokeOpacity="0.06" strokeWidth={1}>
+              <path d="M0 80H1200M0 160H1200M0 240H1200M0 320H1200M0 400H1200M0 480H1200M0 560H1200M0 640H1200M0 720H1200" />
+              <path d="M80 0V800M160 0V800M240 0V800M320 0V800M400 0V800M480 0V800M560 0V800M640 0V800M720 0V800M800 0V800M880 0V800M960 0V800M1040 0V800M1120 0V800" />
+            </g>
+
+            {/* Flow paths */}
+            <g fill="none" stroke="currentColor" strokeOpacity="0.10" strokeWidth={2}>
+              <path d="M220 540 C 420 420, 520 640, 760 520" />
+              <path d="M320 240 C 520 180, 620 320, 860 260" />
+              <path d="M540 680 C 620 560, 820 600, 980 440" />
+            </g>
+
+            {/* Nodes */}
+            <g filter="url(#softGlow)">
+              <g fill="currentColor" fillOpacity="0.18">
+                <circle cx={220} cy={540} r={6} />
+                <circle cx={760} cy={520} r={6} />
+                <circle cx={320} cy={240} r={6} />
+                <circle cx={860} cy={260} r={6} />
+                <circle cx={540} cy={680} r={6} />
+                <circle cx={980} cy={440} r={6} />
+                <circle cx={620} cy={560} r={5} />
+                <circle cx={520} cy={640} r={5} />
+              </g>
+            </g>
+          </svg>
+        </div>
         <div
           className="absolute inset-0 z-0"
           style={{
             background:
               "linear-gradient(to bottom, var(--hero-overlay-from), var(--hero-overlay-via), var(--hero-overlay-to))",
           }}
-          aria-hidden
         />
       </motion.div>
 
