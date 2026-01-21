@@ -17,7 +17,7 @@ const excludedNavServices = new Set([
 
 const navItems = [
   { 
-    label: "Web Solutions", 
+    label: "Web", 
     href: "/web-solutions",
     children: allServices
       .filter(service => !excludedNavServices.has(service.title))
@@ -27,7 +27,7 @@ const navItems = [
       }))
   },
   { 
-    label: "Software Solutions", 
+    label: "Software", 
     href: "/software-solutions",
     children: softwareSolutionCategories.map(category => ({
       label: category.title,
@@ -44,8 +44,15 @@ const navItems = [
     ]
   },
   { label: "Experience", href: "/portfolio" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  {
+    label: "Resources",
+    href: "/#resources",
+    children: [
+      { label: "About", href: "/about" },
+      { label: "Blog", href: "/blog" },
+      { label: "Contact", href: "/contact" },
+    ],
+  },
 ];
 
 export function NavBar() {
