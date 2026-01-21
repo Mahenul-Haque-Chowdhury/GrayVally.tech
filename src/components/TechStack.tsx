@@ -45,12 +45,18 @@ const techStack = [
 
 export function TechStack() {
   const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 640);
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
+
+  }, []);
+
+  useEffect(() => {
+    setMounted(true);
   }, []);
 
   const logoItems = techStack.map((tech) => ({
@@ -73,7 +79,7 @@ export function TechStack() {
       as="section"
       y={REVEAL_CONFIG.translateY}
       duration={MOTION_DURATION.medium}
-      className="py-8 sm:py-12 border-y border-border/40 bg-background/50 backdrop-blur-sm"
+      className="relative z-0 py-8 sm:py-12 border-y border-border/40 bg-background/50 backdrop-blur-sm"
     >
       <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 mb-6 sm:mb-8 text-center">
         <p className="text-xs sm:text-sm font-medium text-text-secondary uppercase tracking-wider">
@@ -81,18 +87,19 @@ export function TechStack() {
         </p>
       </div>
       <div className="relative w-full overflow-hidden">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 sm:w-32 bg-gradient-to-r from-background to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 sm:w-32 bg-gradient-to-l from-background to-transparent" />
-        
-        <LogoLoop
-          logos={logoItems}
-          speed={isMobile ? 30 : 40}
-          direction="left"
-          pauseOnHover={true}
-          logoHeight={isMobile ? 36 : 48}
-          gap={isMobile ? 12 : 16}
-          colorMode="brand"
-        />
+        {mounted ? (
+          <LogoLoop
+            logos={logoItems}
+            speed={isMobile ? 30 : 40}
+            direction="left"
+            pauseOnHover={true}
+            logoHeight={isMobile ? 36 : 48}
+            gap={isMobile ? 12 : 16}
+            colorMode="brand"
+          />
+        ) : (
+          <div aria-hidden className="w-full" style={{ height: isMobile ? 36 : 48 }} />
+        )}
       </div>
     </ScrollFloatReveal>
   );

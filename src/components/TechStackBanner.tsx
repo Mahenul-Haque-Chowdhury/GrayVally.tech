@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import LogoLoop from "./LogoLoop";
 import {
   SiAdobeaftereffects,
@@ -42,6 +43,10 @@ const techStack = [
 ];
 
 export function TechStackBanner() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
   const logoItems = techStack.map((tech) => ({
     node: (
       <div className="flex items-center gap-3 px-4">
@@ -56,14 +61,18 @@ export function TechStackBanner() {
 
   return (
     <div className="relative w-full border-y border-border/40 bg-surface/30 py-3 backdrop-blur-sm">
-      <LogoLoop
-        logos={logoItems}
-        speed={40}
-        direction="left"
-        pauseOnHover={true}
-        logoHeight={24}
-        gap={0}
-      />
+      {mounted ? (
+        <LogoLoop
+          logos={logoItems}
+          speed={40}
+          direction="left"
+          pauseOnHover={true}
+          logoHeight={24}
+          gap={0}
+        />
+      ) : (
+        <div aria-hidden style={{ height: 24 }} />
+      )}
     </div>
   );
 }

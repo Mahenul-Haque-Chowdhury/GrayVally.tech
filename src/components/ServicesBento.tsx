@@ -433,7 +433,7 @@ function BentoCard({ service, index, className, onClick }: BentoCardProps) {
       onClick={onClick}
       className={cn(
         // Base glassmorphism styling - theme aware
-        "group relative overflow-hidden rounded-2xl sm:rounded-3xl cursor-pointer",
+        "group relative overflow-hidden rounded-2xl sm:rounded-3xl cursor-pointer z-0",
         "bg-surface/20 backdrop-blur-xl",
         "border border-transparent",
         // Padding
@@ -525,14 +525,14 @@ export function ServicesBento() {
     <>
       <section
         id="services"
-        className="relative bg-background py-20 sm:py-28 md:py-36 overflow-hidden transition-colors duration-300"
+        className="relative z-10 bg-background py-20 sm:py-28 md:py-36 overflow-hidden transition-colors duration-300"
       >
         {/* Subtle gradient background */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-surface/30 to-transparent pointer-events-none" />
 
-        {/* Ambient glow */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-[128px] pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-[128px] pointer-events-none" />
+        {/* Ambient glow (hidden on small screens to avoid overlapping mobile strips) */}
+        <div className="hidden sm:block absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-[128px] pointer-events-none z-0" />
+        <div className="hidden sm:block absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-[128px] pointer-events-none z-0" />
 
         <div className="relative z-10 mx-auto max-w-screen-xl px-4 sm:px-6">
           {/* Section Header */}
