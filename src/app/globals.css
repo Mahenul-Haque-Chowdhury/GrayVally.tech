@@ -85,8 +85,9 @@ video {
   --border: #E4E4E7;
   --fuzzy-text-color: #18181B;
   --hero-overlay-from: rgba(255, 255, 255, 0.15);
-  --hero-overlay-via: rgba(255, 255, 255, 0.65);
-  --hero-overlay-to: #FFFFFF;
+  --hero-overlay-via: rgba(102, 102, 102, 0.815);
+  --hero-overlay-to: ##ffffff;
+  --hero-bg: #757677;
   --background: 0 0% 100%;
   --foreground: 240 6% 7%;
   --card: 240 4% 98%;
@@ -234,6 +235,76 @@ html.theme-resolved body {
   border: 1px solid #3f3f46;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
 }
+
+/* Hero background pattern (uses /public/patterns/grayvally-flowgrid.svg) */
+:root {
+  --hero-bg: #ffffff;
+  --pattern-color: rgba(17, 24, 39, 1);
+}
+
+.theme-dark {
+  --hero-bg: #05070c;
+  --pattern-color: rgba(255, 255, 255, 1);
+}
+
+/* Apply pattern color via currentColor and make hero a safe background layer */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--hero-bg);
+  color: var(--pattern-color);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Use user-provided image as-is (no effects) */
+  background-image: url("/grayvally-bg2.svg");
+  background-repeat: no-repeat;
+  /* nudged further left and increased zoom */
+  background-position: 52% 35%;
+  background-size: 135%;
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .hero::before {
+    /* Mobile-specific image centered and zoomed out */
+    background-image: url("/background-mbl.svg");
+    background-position: center 35%;
+    /* slightly larger than before — not too small */
+    background-size: 220%;
+    background-repeat: no-repeat;
+    opacity: 0.7;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero::before {
+    /* Extra-small phones: slightly smaller */
+    background-image: url("/background-mbl.svg");
+    background-position: center 50%;
+    /* zoom in a bit compared to previous 50% */
+    background-size: 220%;
+    background-repeat: no-repeat;
+    opacity: 1;
+  }
+}
+
+/* Desktop: use alternate hero image for larger screens */
+@media (min-width: 1024px) {
+  .hero::before {
+    background-image: url("/grayvally-bg2.svg");
+    /* keep the desktop placement already tuned, more zoom and left shift */
+    background-position: 52% 35%;
+    background-size: clamp(1100px, 75vw, 1700px);
+    opacity: 0.98;
+  }
+}
+
+/* No theme-specific filters — use image without modification */
 
 @layer utilities {
   .text-balance {

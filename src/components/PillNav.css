@@ -27,7 +27,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 904px) {
   .pill-nav-container {
     width: calc(100% - 1.5rem);
     top: 0.5rem;
@@ -85,7 +85,7 @@
   --pill-nav-border: #27272a;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 904px) {
   .pill-nav {
     --nav-h: 38px;
     width: 100%;
@@ -120,7 +120,7 @@
   flex-shrink: 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 904px) {
   .pill-nav-right {
     margin-left: 0.5rem;
   }
@@ -163,7 +163,7 @@
   flex-shrink: 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 904px) {
   .pill-logo {
     width: 2.45rem;
     height: 2.45rem;
@@ -212,7 +212,7 @@
   line-height: 1.05;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 904px) {
   .pill-brand-name {
     font-size: 1rem;
   }
@@ -380,7 +380,7 @@
   display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 904px) {
   .desktop-only {
     display: none !important;
   }
@@ -407,7 +407,7 @@
   flex-shrink: 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 904px) {
   .mobile-menu-button {
     display: flex;
   }
