@@ -42,7 +42,7 @@ export function ProductTicker() {
   }));
 
   return (
-    <div className="relative w-full overflow-hidden border-y border-border/40 bg-surface/30 py-2 sm:py-3 backdrop-blur-sm -mt-12 sm:-mt-16">
+    <div className="relative w-full overflow-hidden border-y border-border/40 bg-surface/30 py-2 sm:py-3 backdrop-blur-sm mt-0 sm:-mt-16">
       <LogoLoop
         logos={logoItems}
         speed={isMobile ? 30 : 50}

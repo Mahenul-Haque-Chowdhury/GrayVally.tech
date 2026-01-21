@@ -265,40 +265,39 @@ export function Hero() {
         </div>
 
         {/* Tech Stack Capsule - Bottom */}
-        <motion.div
-          variants={itemVariant}
-          className="mt-8 sm:mt-10 mb-8 flex justify-center px-2"
-        >
-          <div className="hero-tech-capsule w-full max-w-4xl overflow-hidden rounded-full px-4 sm:px-6 md:px-8 py-3 sm:py-4">
-            <LogoLoop
-              logos={[
-                { node: <i className="hero-tech-icon devicon-html5-plain colored" aria-hidden />, title: "HTML5" },
-                { node: <i className="hero-tech-icon devicon-css3-plain colored" aria-hidden />, title: "CSS3" },
-                { node: <i className="hero-tech-icon devicon-javascript-plain colored" aria-hidden />, title: "JavaScript" },
-                { node: <i className="hero-tech-icon devicon-react-original colored" aria-hidden />, title: "React" },
-                { node: <i className="hero-tech-icon devicon-nextjs-original" aria-hidden />, title: "Next.js" },
-                { node: <i className="hero-tech-icon devicon-typescript-plain colored" aria-hidden />, title: "TypeScript" },
-                { node: <i className="hero-tech-icon devicon-tailwindcss-plain colored" aria-hidden />, title: "Tailwind" },
-                { node: <i className="hero-tech-icon devicon-php-plain colored" aria-hidden />, title: "PHP" },
-                { node: <i className="hero-tech-icon devicon-laravel-plain colored" aria-hidden />, title: "Laravel" },
-                { node: <i className="hero-tech-icon devicon-mysql-plain colored" aria-hidden />, title: "MySQL" },
-                { node: <i className="hero-tech-icon devicon-postgresql-plain colored" aria-hidden />, title: "PostgreSQL" },
-                { node: <i className="hero-tech-icon devicon-python-plain colored" aria-hidden />, title: "Python" },
-                { node: <i className="hero-tech-icon devicon-docker-plain colored" aria-hidden />, title: "Docker" },
-                { node: <i className="hero-tech-icon devicon-git-plain colored" aria-hidden />, title: "Git" },
-              ]}
-              speed={60}
-              direction="left"
-              logoHeight={18}
-              gap={28}
-              hoverSpeed={0}
-              fadeOut={false}
-              scaleOnHover
-              colorMode="brand"
-              ariaLabel="Core technologies"
-            />
-          </div>
-        </motion.div>
+        <div className="relative mt-8 sm:mt-10 mb-12 sm:mb-8 flex justify-center px-2">
+          <motion.div variants={itemVariant} className="w-full max-w-4xl">
+            <div className="hero-tech-capsule w-full overflow-hidden rounded-full px-4 sm:px-6 md:px-8 py-3 sm:py-4">
+              <LogoLoop
+                logos={[
+                  { node: <i className="hero-tech-icon devicon-html5-plain colored" aria-hidden />, title: "HTML5" },
+                  { node: <i className="hero-tech-icon devicon-css3-plain colored" aria-hidden />, title: "CSS3" },
+                  { node: <i className="hero-tech-icon devicon-javascript-plain colored" aria-hidden />, title: "JavaScript" },
+                  { node: <i className="hero-tech-icon devicon-react-original colored" aria-hidden />, title: "React" },
+                  { node: <i className="hero-tech-icon devicon-nextjs-original" aria-hidden />, title: "Next.js" },
+                  { node: <i className="hero-tech-icon devicon-typescript-plain colored" aria-hidden />, title: "TypeScript" },
+                  { node: <i className="hero-tech-icon devicon-tailwindcss-plain colored" aria-hidden />, title: "Tailwind" },
+                  { node: <i className="hero-tech-icon devicon-php-plain colored" aria-hidden />, title: "PHP" },
+                  { node: <i className="hero-tech-icon devicon-laravel-plain colored" aria-hidden />, title: "Laravel" },
+                  { node: <i className="hero-tech-icon devicon-mysql-plain colored" aria-hidden />, title: "MySQL" },
+                  { node: <i className="hero-tech-icon devicon-postgresql-plain colored" aria-hidden />, title: "PostgreSQL" },
+                  { node: <i className="hero-tech-icon devicon-python-plain colored" aria-hidden />, title: "Python" },
+                  { node: <i className="hero-tech-icon devicon-docker-plain colored" aria-hidden />, title: "Docker" },
+                  { node: <i className="hero-tech-icon devicon-git-plain colored" aria-hidden />, title: "Git" },
+                ]}
+                speed={60}
+                direction="left"
+                logoHeight={18}
+                gap={28}
+                hoverSpeed={0}
+                fadeOut={false}
+                scaleOnHover
+                colorMode="brand"
+                ariaLabel="Core technologies"
+              />
+            </div>
+          </motion.div>
+        </div>
       </motion.div>
     </section>
   );
