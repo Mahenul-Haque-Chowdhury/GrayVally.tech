@@ -701,8 +701,8 @@ export function Contact() {
       </motion.section>
 
       <motion.section variants={fadeUp} className="mx-auto mt-12 sm:mt-16 max-w-6xl px-4 sm:px-6">
-        <div className="rounded-3xl border border-border/50 bg-surface/20 p-6 sm:p-8">
-          <div className="mb-6 rounded-2xl border border-border/40 bg-background/50 px-5 py-4">
+        <div className="rounded-3xl bg-surface/20 p-6 sm:p-8">
+          <div className="mb-6 rounded-2xl bg-background/50 px-5 py-4">
             <p className="text-xs font-medium uppercase tracking-[0.2em] text-text-secondary/70">
               GrayVally Software Solutions
             </p>
@@ -723,7 +723,7 @@ export function Contact() {
             </div>
           </div>
 
-          <div className="relative z-0 mt-5 h-[320px] sm:h-[420px] overflow-hidden rounded-2xl border border-border/50">
+          <div className="relative z-0 mt-5 h-[320px] sm:h-[420px] overflow-hidden rounded-2xl">
             <FreeMap
               locations={[
                 {
