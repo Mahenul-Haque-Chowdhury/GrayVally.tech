@@ -136,7 +136,7 @@ export function Hero() {
               aria-label="We Build Digital Infrastructure"
             >
               <motion.span
-                className="block text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
+                className="block text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
                 variants={headlineContainer}
               >
                 <motion.span className="inline-block" variants={fastHeadlineContainer}>
