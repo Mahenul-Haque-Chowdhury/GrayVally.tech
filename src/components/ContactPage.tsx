@@ -436,12 +436,12 @@ export function Contact() {
               <p className="mt-5 text-base sm:text-lg text-text-secondary/90 leading-relaxed max-w-2xl">
                 Share your goals and we will come back with timelines, approach, and the best path to delivery.
               </p>
-              <div className="mt-8 grid gap-4 sm:grid-cols-[auto_auto] sm:items-start">
+              <div className="mt-8 grid gap-4 justify-items-center sm:justify-items-start sm:grid-cols-[auto_auto] sm:items-start">
                 <a
                   href={socialProfiles.whatsapp.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 px-6 py-3 text-sm font-semibold text-white transition-transform duration-300 hover:scale-[1.02]"
+                  className="inline-flex w-fit items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 px-6 py-3 text-sm font-semibold text-white transition-transform duration-300 hover:scale-[1.02]"
                 >
                   <MessageCircle className="h-4 w-4" />
                   WhatsApp live chat
@@ -458,7 +458,7 @@ export function Contact() {
                   <span className="text-[11px] leading-none text-text-secondary">Powered by Calendly</span>
                 </div>
               </div>
-              <div className="mt-10 rounded-3xl border border-border/50 bg-surface/20 backdrop-blur-sm p-6 sm:p-7">
+              <div className="mt-10 rounded-3xl bg-surface/20 backdrop-blur-sm p-6 sm:p-7">
                 <p className="text-xs font-medium uppercase tracking-[0.2em] text-text-secondary/70">Direct lines</p>
                 <div className="mt-4 space-y-4 text-sm text-text-secondary">
                   {[
