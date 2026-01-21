@@ -486,6 +486,17 @@ const PillNav = ({
     "--pill-text": resolvedPillTextColor,
   } as React.CSSProperties;
 
+  const [expandedParents, setExpandedParents] = useState<Set<number>>(new Set());
+
+  const toggleParent = (i: number) => {
+    setExpandedParents((prev) => {
+      const next = new Set(prev);
+      if (next.has(i)) next.delete(i);
+      else next.add(i);
+      return next;
+    });
+  };
+
   return (
     <div className="pill-nav-container" data-ready={isReady ? "true" : "false"}>
       <nav className={`pill-nav ${className}`} aria-label="Primary" style={cssVars}>
@@ -643,24 +654,68 @@ const PillNav = ({
         <ul className="mobile-menu-list" role="menu">
           {items.map((item, i) => (
             <li key={item.href || `mobile-item-${i}`}>
-              {isExternalLink(item.href) ? (
-                <a
-                  href={item.href}
-                  className={`mobile-menu-link${activeHref === item.href ? " is-active" : ""}`}
-                  onClick={closeMobileMenu}
-                  role="menuitem"
-                >
-                  {item.label}
-                </a>
-              ) : (
-                <Link
-                  href={item.href}
-                  className={`mobile-menu-link${activeHref === item.href ? " is-active" : ""}`}
-                  onClick={closeMobileMenu}
-                  role="menuitem"
-                >
-                  {item.label}
-                </Link>
+              <div className="mobile-menu-parent" style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8}}>
+                {isExternalLink(item.href) ? (
+                  <a
+                    href={item.href}
+                    className={`mobile-menu-link${activeHref === item.href ? " is-active" : ""}`}
+                    onClick={closeMobileMenu}
+                    role="menuitem"
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link
+                    href={item.href}
+                    className={`mobile-menu-link${activeHref === item.href ? " is-active" : ""}`}
+                    onClick={closeMobileMenu}
+                    role="menuitem"
+                  >
+                    {item.label}
+                  </Link>
+                )}
+
+                {item.children && (
+                  <button
+                    type="button"
+                    className="mobile-subtoggle"
+                    aria-expanded={expandedParents.has(i)}
+                    aria-controls={`mobile-sub-${i}`}
+                    onClick={() => toggleParent(i)}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+                )}
+              </div>
+
+              {item.children && (
+                <ul id={`mobile-sub-${i}`} className={`mobile-submenu ${expandedParents.has(i) ? 'expanded' : ''}`} role="menu">
+                  {item.children.map((child, ci) => (
+                    <li key={`${i}-${ci}-${child.href ?? ''}`}> 
+                      {isExternalLink(child.href) ? (
+                        <a
+                          href={child.href}
+                          className={`mobile-menu-link mobile-submenu-link${activeHref === child.href ? " is-active" : ""}`}
+                          onClick={closeMobileMenu}
+                          role="menuitem"
+                        >
+                          {child.label}
+                        </a>
+                      ) : (
+                        <Link
+                          href={child.href}
+                          className={`mobile-menu-link mobile-submenu-link${activeHref === child.href ? " is-active" : ""}`}
+                          onClick={closeMobileMenu}
+                          role="menuitem"
+                        >
+                          {child.label}
+                        </Link>
+                      )}
+                    </li>
+                  ))}
+                </ul>
               )}
             </li>
           ))}

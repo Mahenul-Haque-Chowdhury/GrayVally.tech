@@ -53,11 +53,13 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
       label: "Next.js",
       icon: (
         <span className="relative h-6 w-6">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/nextjs-black.svg"
             alt="Next.js"
             className="h-6 w-6 block dark:hidden absolute inset-0"
           />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/nextjs-white.svg"
             alt="Next.js"
@@ -77,6 +79,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
     {
       label: "Framer Motion",
       icon: (
+        /* eslint-disable-next-line @next/next/no-img-element */
         <img
           src="https://cdn.worldvectorlogo.com/logos/framer-motion.svg"
           alt="Framer Motion"
@@ -87,6 +90,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
     {
       label: "Supabase",
       icon: (
+        /* eslint-disable-next-line @next/next/no-img-element */
         <img
           src="https://supabase.com/dashboard/img/supabase-logo.svg"
           alt="Supabase"

@@ -465,6 +465,49 @@
   gap: 4px;
 }
 
+/* Nested submenu shown for mobile: simple, indented list under a parent item */
+.mobile-submenu {
+  list-style: none;
+  margin: 4px 0 0 0;
+  padding: 0 6px 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 220ms ease, opacity 180ms ease;
+  opacity: 0;
+}
+
+.mobile-submenu.expanded {
+  max-height: 420px; /* roomy enough for several items */
+  opacity: 1;
+}
+
+.mobile-submenu .mobile-submenu-link {
+  padding-left: 10px;
+  background-color: transparent;
+  text-transform: none;
+  font-weight: 600;
+}
+
+/* toggle button */
+.mobile-subtoggle {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.mobile-subtoggle:focus {
+  outline: 2px solid rgba(59,130,246,0.5);
+}
+
 .mobile-menu-popover .mobile-menu-link {
   display: block;
   padding: 14px 18px;
