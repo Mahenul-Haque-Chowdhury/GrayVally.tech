@@ -19,12 +19,12 @@ import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
 const footerLinks = {
   services: [
     { name: "Website Development", href: "/web-solutions" },
-    { name: "UI/UX Design", href: "/web-solutions" },
-    { name: "Mobile App Development", href: "/web-solutions" },
     { name: "E-Commerce Solutions", href: "/web-solutions" },
-    { name: "Custom Software", href: "/software-solutions" },
-    { name: "Website Audit", href: "/audit" },
-    { name: "SEO & Marketing", href: "/web-solutions" },
+    { name: "Database & Server Management", href: "/software-solutions" },
+    { name: "Bug Fixing & Maintenance", href: "/software-solutions" },
+    { name: "Mobile App Development", href: "/apps" },
+    { name: "Custom Software & Automation", href: "/software-solutions" },
+    { name: "SEO & Digital Marketing", href: "/web-solutions" },
   ],
   company: [
     { name: "About Us", href: "/about" },
@@ -111,7 +111,11 @@ export function Footer() {
               </a>
               <div className="flex items-start gap-2 text-sm text-text-secondary">
                 <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                <span>Gulshan 1, Dhaka, Bangladesh</span>
+                <span>
+                  Majeda Garden, CHHA: 59, North Badda,
+                  <br />
+                  Dhaka 1212, Bangladesh
+                </span>
               </div>
             </div>
 
