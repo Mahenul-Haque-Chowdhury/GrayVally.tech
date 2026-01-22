@@ -39,7 +39,6 @@ const footerLinks = {
     { name: "Help Center", href: "/help" },
     { name: "FAQs", href: "/about#faqs" },
     { name: "Documentation", href: "/docs" },
-    { name: "System Status", href: "/status" },
     { name: "Support Ticket", href: "/contact" },
   ],
   legal: [
