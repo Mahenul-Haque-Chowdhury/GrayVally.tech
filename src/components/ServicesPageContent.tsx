@@ -1,15 +1,13 @@
 "use client";
 
 import { useState, useCallback, useEffect, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import { allServices } from "../data/services";
-import { ArrowLeft, ArrowRight, X, LucideIcon, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, X, LucideIcon, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ScrollFloat, { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
 import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
-import { lockScroll, unlockScroll } from "@/lib/scroll/scrollLock";
+import ServiceDetails from "@/components/ServiceDetails";
 
 // ============================================================================
 // Premium Web Solutions Page with Softvence-style Overlay Modal
@@ -74,6 +72,12 @@ const serviceGradients: Record<string, string> = {
 const getServiceGradient = (category: string) =>
   serviceGradients[category] ?? "from-slate-500 to-slate-600";
 
+const getServiceAnchor = (title: string) =>
+  title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
+
 interface Service {
   id: string;
   title: string;
@@ -85,17 +89,20 @@ interface Service {
 interface WebSolutionItem {
   id: string;
   title: string;
-  description: string;
+  intro: string;
+  covers: string[];
+  capabilities: string[];
+  technologies: string;
+  outcomes: string[];
+  useCases: string[];
+  delivery: string[];
   image: string;
   imageAlt: string;
-  includes?: string;
 }
 
 interface ServiceRowProps {
   item: WebSolutionItem;
-  service: Service;
   index: number;
-  onLearnMore: (event: React.MouseEvent) => void;
 }
 
 interface ServiceModalProps {
@@ -107,66 +114,353 @@ interface ServiceModalProps {
 const webSolutionsServices: WebSolutionItem[] = [
   {
     id: "01",
-    title: "Web Development",
-    description:
-      "End-to-end web delivery for modern businesses from strategy to launch with secure, scalable, and high-performing builds.",
-    includes: "Includes UI/UX Design, Front-End Development, Back-End Development.",
+    title: "Website Development",
+    intro:
+      "We design and build websites that explain your business clearly and load quickly. This helps teams reduce bounce, support sales conversations, and keep updates easy to manage.",
+    covers: [
+      "Requirements and site map",
+      "Content structure and page layout",
+      "Front-end development",
+      "CMS or editing setup",
+      "Performance and accessibility checks",
+      "Deployment and handoff",
+    ],
+    capabilities: [
+      "Translate goals into clear page flows",
+      "Build responsive layouts that work across devices",
+      "Integrate forms, analytics, and tracking",
+      "Set up editing workflows for your team",
+    ],
+    technologies:
+      "We use React or Next.js for the front end, content stored in a CMS or markdown, and deploy on Vercel with caching and monitoring.",
+    outcomes: [
+      "Faster page loads",
+      "Higher clarity for buyers",
+      "Lower maintenance overhead",
+      "More reliable lead capture",
+    ],
+    useCases: [
+      "New brand site",
+      "Redesign of an aging website",
+      "Marketing site for a SaaS product",
+      "Campaign landing pages",
+    ],
+    delivery: [
+      "Discovery and goals",
+      "Information architecture",
+      "Design and content",
+      "Build and integration",
+      "QA and accessibility",
+      "Launch and handover",
+    ],
     image: "/web-development-services.png",
     imageAlt: "Enterprise web development service visual",
   },
   {
     id: "05",
     title: "E-Commerce Solutions",
-    description:
-      "Conversion-optimized storefronts with secure payments, inventory workflows, and scalable architecture for global sales.",
+    intro:
+      "We build online stores that make it easy to browse, purchase, and manage orders. This reduces cart drop off and gives teams better control of inventory and fulfillment.",
+    covers: [
+      "Storefront UX and catalog setup",
+      "Checkout and payment flows",
+      "Product and inventory management",
+      "Shipping and tax configuration",
+      "Performance and security reviews",
+      "Post launch support",
+    ],
+    capabilities: [
+      "Configure Shopify or custom storefronts",
+      "Integrate payment and shipping providers",
+      "Improve product discovery and search",
+      "Set up analytics for conversion tracking",
+    ],
+    technologies:
+      "We work with Shopify, WooCommerce, or custom Next.js stores with Stripe, and connect to ERP or fulfillment tools when needed.",
+    outcomes: [
+      "Higher checkout completion",
+      "Fewer manual order steps",
+      "Clearer inventory visibility",
+      "More dependable revenue reporting",
+    ],
+    useCases: [
+      "New online store",
+      "Migration from a legacy platform",
+      "Multi product catalogs",
+      "Regional shipping rules",
+    ],
+    delivery: [
+      "Discovery and catalog review",
+      "Store structure and UX",
+      "Build and integrations",
+      "Payment and shipping setup",
+      "QA and launch prep",
+      "Launch and training",
+    ],
     image: "/ecommerce-solutions.png",
     imageAlt: "Professional e-commerce solutions dashboard visual",
   },
   {
     id: "06",
     title: "Database & Server Management",
-    description:
-      "Reliable infrastructure with optimized databases, backups, monitoring, and performance tuning to keep systems fast and secure.",
+    intro:
+      "We manage the database and server layer that keeps your application available and secure. This reduces outages and improves response time for users.",
+    covers: [
+      "Database tuning and indexing",
+      "Backups and recovery planning",
+      "Server configuration and scaling",
+      "Monitoring and alerting",
+      "Security updates",
+      "Uptime reporting",
+    ],
+    capabilities: [
+      "Diagnose slow queries",
+      "Set up automated backups",
+      "Implement staging safeguards",
+      "Track performance and error metrics",
+    ],
+    technologies:
+      "We use managed cloud services for PostgreSQL or MySQL, with automated backups and monitoring tools such as Grafana or Cloudflare.",
+    outcomes: [
+      "More stable uptime",
+      "Faster response times",
+      "Lower risk of data loss",
+      "Predictable infrastructure costs",
+    ],
+    useCases: [
+      "Growing traffic",
+      "Recurring outages",
+      "Legacy server cleanup",
+      "Compliance requirements",
+    ],
+    delivery: [
+      "Discovery and system audit",
+      "Risk and performance assessment",
+      "Optimization plan",
+      "Implementation and hardening",
+      "Monitoring setup",
+      "Ongoing support",
+    ],
     image: "/database-server-management.png",
     imageAlt: "Database and server management infrastructure visual",
   },
   {
     id: "07",
     title: "Bug Fixing & Maintenance",
-    description:
-      "Rapid issue resolution, stability improvements, and ongoing maintenance that protects uptime and customer trust.",
+    intro:
+      "We fix issues in existing systems and keep them stable over time. This gives teams confidence to ship changes without breaking core flows.",
+    covers: [
+      "Bug triage and root cause analysis",
+      "Hotfixes and patches",
+      "Regression testing",
+      "Dependency updates",
+      "Performance and security checks",
+      "Monthly maintenance reports",
+    ],
+    capabilities: [
+      "Reproduce and isolate problems",
+      "Improve error logging",
+      "Reduce recurring issues",
+      "Clean up technical debt safely",
+    ],
+    technologies:
+      "We work within your current stack and add lightweight monitoring and error tracking where needed.",
+    outcomes: [
+      "Fewer customer tickets",
+      "More predictable releases",
+      "Lower downtime risk",
+      "Better system health",
+    ],
+    useCases: [
+      "Legacy apps with recurring bugs",
+      "Teams without in house support",
+      "Post launch stabilization",
+      "Pre audit cleanup",
+    ],
+    delivery: [
+      "Issue intake and triage",
+      "Root cause analysis",
+      "Fix and validate",
+      "Regression testing",
+      "Release and monitoring",
+      "Ongoing maintenance",
+    ],
     image: "/bug-fixing-maintenance.png",
     imageAlt: "Bug fixing and maintenance workflow visual",
   },
   {
     id: "08",
     title: "Mobile App Development",
-    description:
-      "Cross-platform and native mobile apps with seamless API integrations, push notifications, and app-store readiness.",
+    intro:
+      "We build mobile apps that connect to your existing systems and keep user workflows simple. This helps you serve customers and teams where they already work.",
+    covers: [
+      "App strategy and UX flows",
+      "iOS and Android builds",
+      "API integration",
+      "Push notifications",
+      "App store submission",
+      "Ongoing support",
+    ],
+    capabilities: [
+      "Design clear onboarding flows",
+      "Build offline friendly features",
+      "Integrate analytics and crash reporting",
+      "Maintain versions across stores",
+    ],
+    technologies:
+      "We use React Native or native builds when needed, backed by secure APIs and cloud services.",
+    outcomes: [
+      "Faster time to mobile launch",
+      "Consistent experience across devices",
+      "Reduced support issues",
+      "Actionable usage insights",
+    ],
+    useCases: [
+      "Customer mobile apps",
+      "Internal field tools",
+      "Companion apps for web platforms",
+      "Legacy app refresh",
+    ],
+    delivery: [
+      "Discovery and app scope",
+      "UX and wireframes",
+      "Build and integration",
+      "Testing on devices",
+      "Store submission",
+      "Launch and support",
+    ],
     image: "/mobile-app-development.png",
     imageAlt: "Mobile app development service visual",
   },
   {
     id: "09",
     title: "Custom Software & Automation",
-    description:
-      "Tailor-made business software and workflow automation that reduces manual work and unlocks operational efficiency.",
+    intro:
+      "We design internal tools and automated workflows that match how your team works. This cuts manual tasks and reduces errors in daily operations.",
+    covers: [
+      "Process mapping",
+      "Workflow design",
+      "Custom dashboards",
+      "Integrations with existing tools",
+      "Access and roles",
+      "Documentation and training",
+    ],
+    capabilities: [
+      "Replace spreadsheets with structured systems",
+      "Automate approvals and notifications",
+      "Integrate third party APIs",
+      "Create reporting views for leaders",
+    ],
+    technologies:
+      "We build on modern web stacks with secure APIs, role based access, and cloud hosting.",
+    outcomes: [
+      "Less manual work",
+      "Faster cycle times",
+      "Better data consistency",
+      "Clearer visibility for managers",
+    ],
+    useCases: [
+      "Operations teams scaling fast",
+      "Manual approval processes",
+      "Data spread across tools",
+      "Need for custom reporting",
+    ],
+    delivery: [
+      "Discovery and workflow audit",
+      "Solution design",
+      "Build and integration",
+      "Validation with stakeholders",
+      "Training and handover",
+      "Continuous improvement",
+    ],
     image: "/custom-software-automation.png",
     imageAlt: "Custom software and automation systems visual",
   },
   {
     id: "11",
     title: "SEO & Digital Marketing",
-    description:
-      "Technical SEO and growth campaigns that improve visibility, traffic quality, and measurable ROI.",
+    intro:
+      "We improve search visibility and run targeted campaigns based on clear goals. This helps qualified visitors find you and makes marketing performance easier to track.",
+    covers: [
+      "Technical SEO audit",
+      "On page optimization",
+      "Content guidance",
+      "Campaign setup and tracking",
+      "Reporting and iteration",
+      "Landing page support",
+    ],
+    capabilities: [
+      "Fix crawl and index issues",
+      "Improve page titles and structure",
+      "Set up analytics and attribution",
+      "Build conversion focused landing pages",
+    ],
+    technologies:
+      "We use Search Console, Analytics, Tag Manager, and structured data to measure and improve results.",
+    outcomes: [
+      "Improved search visibility",
+      "More qualified inbound traffic",
+      "Cleaner attribution",
+      "Better conversion rates",
+    ],
+    useCases: [
+      "Declining organic traffic",
+      "New site launch",
+      "Paid campaign support",
+      "Local search growth",
+    ],
+    delivery: [
+      "Discovery and baseline audit",
+      "Priority roadmap",
+      "Implementation",
+      "Campaign setup",
+      "Reporting and iteration",
+      "Ongoing optimization",
+    ],
     image: "/seo-digital-marketing.png",
     imageAlt: "SEO and digital marketing analytics visual",
   },
   {
     id: "12",
     title: "Tech Consultancy",
-    description:
-      "Senior advisory for architecture, tooling, and delivery strategy to de-risk launches and scale with confidence.",
+    intro:
+      "We review your current product, architecture, and delivery plan to reduce risk. This helps leaders make informed decisions before committing budget.",
+    covers: [
+      "Architecture review",
+      "Roadmap and scope audit",
+      "Risk assessment",
+      "Vendor and stack evaluation",
+      "Technical discovery workshops",
+      "Implementation plan",
+    ],
+    capabilities: [
+      "Identify bottlenecks and gaps",
+      "Define phased delivery plans",
+      "Estimate effort and tradeoffs",
+      "Align tech decisions with business goals",
+    ],
+    technologies:
+      "We work with your existing stack and recommend focused changes rather than full rewrites.",
+    outcomes: [
+      "Clearer technical direction",
+      "Reduced project risk",
+      "Faster decision making",
+      "Better alignment across teams",
+    ],
+    useCases: [
+      "Pre build planning",
+      "Legacy modernization",
+      "New product evaluation",
+      "Due diligence support",
+    ],
+    delivery: [
+      "Discovery workshops",
+      "System review",
+      "Risk and dependency mapping",
+      "Recommendations and plan",
+      "Executive readout",
+      "Follow up support",
+    ],
     image: "/tech-consultancy.png",
     imageAlt: "Technology consultancy and strategy session visual",
   },
@@ -207,12 +501,6 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
     // Trigger open animation
     const timer = requestAnimationFrame(() => setIsOpen(true));
 
-    // Stop Lenis smooth scroll when modal is open
-    const lenis = (window as Window & { lenis?: { stop: () => void; start: () => void } }).lenis;
-    if (lenis) {
-      lenis.stop();
-    }
-
     const handleResize = () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     };
@@ -221,10 +509,6 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
     return () => {
       cancelAnimationFrame(timer);
       window.removeEventListener("resize", handleResize);
-      // Re-enable Lenis when modal closes
-      if (lenis) {
-        lenis.start();
-      }
     };
   }, []);
 
@@ -261,9 +545,6 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
       <div 
         ref={scrollRef}
         className="absolute inset-0 overflow-y-auto overflow-x-hidden overscroll-contain touch-pan-y [-webkit-overflow-scrolling:touch]"
-        data-lenis-prevent
-        data-lenis-prevent-wheel
-        data-lenis-prevent-touch
         onWheel={handleWheel}
       >
         {/* Close Button - Fixed position with safe area for mobile */}
@@ -365,10 +646,10 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
 }
 
 
-function ServiceRow({ item, service, onLearnMore, index }: ServiceRowProps) {
-  const isOdd = index % 2 === 0;
-  const buttonLabel = service?.title ?? item.title;
-  const Icon = service?.icon;
+function ServiceRow({ item, index }: ServiceRowProps) {
+  const contactHref = `/contact?projectInterest=${encodeURIComponent(item.title)}`;
+  const ctaText = `Contact for ${item.title}`;
+  const anchor = getServiceAnchor(item.title);
 
   return (
     <ScrollFloatReveal
@@ -376,92 +657,27 @@ function ServiceRow({ item, service, onLearnMore, index }: ServiceRowProps) {
       y={REVEAL_CONFIG.translateY}
       duration={MOTION_DURATION.normal}
       delay={index * 0.08}
-      className="rounded-3xl bg-surface/20 shadow-sm backdrop-blur-sm"
     >
-      <div className="grid gap-8 md:grid-cols-2 items-center p-6 sm:p-8 lg:p-10">
-        <div
-          className={cn(
-            "order-1",
-            isOdd ? "md:order-2" : "md:order-1"
-          )}
-        >
-          <div className="group relative overflow-hidden rounded-2xl border border-border/40 bg-surface/30 shadow-sm">
-            <Image
-              src={item.image}
-              alt={item.imageAlt}
-              width={1200}
-              height={800}
-              className="h-56 w-full object-cover sm:h-72 md:h-96 lg:h-[420px]"
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              priority={parseInt(item.id) < 3}
-            />
-            <div className="absolute inset-0 bg-surface/10" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Link
-                href="/contact"
-                className="group inline-flex items-center justify-center rounded-full bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-400 px-6 py-2.5 text-sm sm:text-base font-semibold text-white shadow-lg shadow-blue-500/30 ring-1 ring-white/30 backdrop-blur-sm transition-all duration-200 hover:shadow-xl hover:shadow-cyan-500/30 hover:brightness-110"
-              >
-                Get free consultation
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        <div
-          className={cn(
-            "order-2",
-            isOdd ? "md:order-1" : "md:order-2"
-          )}
-        >
-          <FloatHeading as="h3" className="flex items-center gap-3 text-3xl sm:text-4xl font-semibold text-text-primary">
-            {Icon && (
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-border/40 bg-surface/40">
-                <Icon className="h-5 w-5 text-blue-400" />
-              </span>
-            )}
-            <span>{item.title}</span>
-          </FloatHeading>
-          <p className="mt-4 text-sm sm:text-base text-text-secondary leading-relaxed">
-            {item.description}
-          </p>
-          {item.includes && (
-            <p className="mt-3 text-sm text-text-secondary/80">
-              <span className="font-semibold text-text-primary">Includes:</span> {item.includes}
-            </p>
-          )}
-          <div className="mt-6">
-            <button
-              type="button"
-              onClick={onLearnMore}
-              className="group inline-flex items-center justify-center gap-2 rounded-full border border-border/60 bg-background/40 px-5 py-2.5 text-sm font-semibold text-text-primary transition-colors duration-200 hover:border-blue-500/60 hover:bg-surface/50"
-              aria-label={`Learn more about ${buttonLabel}`}
-            >
-              <span>Learn more</span>
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </button>
-          </div>
-        </div>
+      <div id={anchor} className="scroll-mt-28">
+        <ServiceDetails
+          label="WEB SOLUTION"
+          title={item.title}
+          description={item.intro}
+          imageSrc={item.image}
+          imageAlt={item.imageAlt}
+          outcomes={item.outcomes}
+          useCases={item.useCases}
+          process={item.delivery}
+          ctaText={ctaText}
+          ctaHref={contactHref}
+          imagePriority={parseInt(item.id) < 3}
+        />
       </div>
     </ScrollFloatReveal>
   );
 }
 
 export function ServicesPageContent() {
-  const [selectedService, setSelectedService] = useState<Service | null>(null);
-  const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 });
-
-  const handleServiceClick = useCallback((service: Service, event: React.MouseEvent) => {
-    // Get click position for the circular reveal
-    setClickPosition({ x: event.clientX, y: event.clientY });
-    setSelectedService(service);
-    lockScroll();
-  }, []);
-
-  const handleCloseModal = useCallback(() => {
-    setSelectedService(null);
-    unlockScroll();
-  }, []);
-
   return (
     <>
       <main className="bg-background transition-colors duration-300">
@@ -510,16 +726,11 @@ export function ServicesPageContent() {
           <div className="mx-auto max-w-screen-2xl px-4 sm:px-6">
             <div className="space-y-8 sm:space-y-12">
               {webSolutionsServices.map((item, index) => {
-                const service = allServices.find((entry) => entry.id === item.id);
-                if (!service) return null;
-
                 return (
                   <ServiceRow
                     key={item.id}
                     item={item}
-                    service={service}
                     index={index}
-                    onLearnMore={(event) => handleServiceClick(service, event)}
                   />
                 );
               })}
@@ -527,17 +738,6 @@ export function ServicesPageContent() {
           </div>
         </section>
       </main>
-
-      {/* Service Modal */}
-      <AnimatePresence>
-        {selectedService && (
-          <ServiceModal 
-            service={selectedService} 
-            onClose={handleCloseModal}
-            clickPosition={clickPosition}
-          />
-        )}
-      </AnimatePresence>
     </>
   );
 }

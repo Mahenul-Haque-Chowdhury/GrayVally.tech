@@ -48,6 +48,7 @@ const navItems = [
     label: "Resources",
     href: "/#resources",
     children: [
+      { label: "Service Plans", href: "/service-plans" },
       { label: "About", href: "/about" },
       { label: "Blog", href: "/blog" },
       { label: "Contact", href: "/contact" },
@@ -66,7 +67,6 @@ export function NavBar() {
       brandSubtitle="Software Solutions"
       items={navItems}
       activeHref={pathname}
-      ease="power3.easeOut"
       rightContent={<ThemeToggle />}
     />
   );

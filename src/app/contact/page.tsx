@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
 import ContactPageClient from "@/app/contact/ContactPageClient";
@@ -42,7 +43,9 @@ export default function ContactPage() {
   return (
     <main className="bg-background min-h-screen transition-colors duration-300">
       <NavBar />
-      <ContactPageClient />
+      <Suspense fallback={null}>
+        <ContactPageClient />
+      </Suspense>
       <Footer />
     </main>
   );

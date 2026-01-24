@@ -4,7 +4,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import Link from "next/link";
 import Image from "next/image";
 import { gsap } from "gsap";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import "./PillNav.css";
 
 const DropdownChevron = () => (
@@ -144,17 +144,16 @@ const PillNav = ({
 }: PillNavProps) => {
   const resolvedPillTextColor = pillTextColor ?? baseColor;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [expandedMobileItems, setExpandedMobileItems] = useState<string[]>([]);
   const [isReady, setIsReady] = useState(false);
   const circleRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const tlRefs = useRef<gsap.core.Timeline[]>([]);
   const activeTweenRefs = useRef<gsap.core.Tween[]>([]);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
-  const mobileMenuRef = useRef<HTMLDivElement>(null);
   const navItemsRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLAnchorElement>(null);
   const dropdownRefs = useRef<(HTMLDivElement | null)[]>([]);
   const lastFocusedElementRef = useRef<HTMLElement | null>(null);
-  const mobileMenuId = "primary-mobile-menu";
   const prefersReducedMotionRef = useRef(false);
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -257,11 +256,6 @@ const PillNav = ({
       window.setTimeout(resolve, 600);
     });
 
-    const menu = mobileMenuRef.current;
-    if (menu) {
-      gsap.set(menu, { visibility: "hidden", opacity: 0, scaleY: 1 });
-    }
-
     if (initialLoadAnimation) {
       const logoEl = logoRef.current;
       const navItems = navItemsRef.current;
@@ -362,28 +356,13 @@ const PillNav = ({
     if (!isMobileMenuOpen) return;
     
     setIsMobileMenuOpen(false);
+    setExpandedMobileItems([]);
 
     const hamburger = hamburgerRef.current;
-    const menu = mobileMenuRef.current;
-
     if (hamburger) {
       const lines = hamburger.querySelectorAll(".hamburger-line");
       gsap.to(lines[0], { rotation: 0, y: 0, duration: 0.3, ease });
       gsap.to(lines[1], { rotation: 0, y: 0, duration: 0.3, ease });
-    }
-
-    if (menu) {
-      gsap.to(menu, {
-        opacity: 0,
-        y: 10,
-        scaleY: 1,
-        duration: 0.2,
-        ease,
-        transformOrigin: "top center",
-        onComplete: () => {
-          gsap.set(menu, { visibility: "hidden" });
-        },
-      });
     }
 
     requestAnimationFrame(() => {
@@ -396,8 +375,6 @@ const PillNav = ({
     setIsMobileMenuOpen(newState);
 
     const hamburger = hamburgerRef.current;
-    const menu = mobileMenuRef.current;
-
     if (hamburger) {
       const lines = hamburger.querySelectorAll(".hamburger-line");
       if (newState) {
@@ -409,36 +386,6 @@ const PillNav = ({
       }
     }
 
-    if (menu) {
-      if (newState) {
-        gsap.set(menu, { visibility: "visible" });
-        gsap.fromTo(
-          menu,
-          { opacity: 0, y: 10, scaleY: 1 },
-          {
-            opacity: 1,
-            y: 0,
-            scaleY: 1,
-            duration: 0.3,
-            ease,
-            transformOrigin: "top center",
-          }
-        );
-      } else {
-        gsap.to(menu, {
-          opacity: 0,
-          y: 10,
-          scaleY: 1,
-          duration: 0.2,
-          ease,
-          transformOrigin: "top center",
-          onComplete: () => {
-            gsap.set(menu, { visibility: "hidden" });
-          },
-        });
-      }
-    }
-
     onMobileMenuClick?.();
   }, [ease, isMobileMenuOpen, onMobileMenuClick]);
 
@@ -446,13 +393,6 @@ const PillNav = ({
     if (!isMobileMenuOpen) return;
 
     lastFocusedElementRef.current = document.activeElement as HTMLElement | null;
-
-    const focusFirstItem = () => {
-      const firstLink = mobileMenuRef.current?.querySelector<HTMLElement>(
-        "a, button, [tabindex]:not([tabindex='-1'])"
-      );
-      firstLink?.focus();
-    };
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -462,13 +402,18 @@ const PillNav = ({
     };
 
     document.addEventListener("keydown", handleKeyDown);
-    requestAnimationFrame(focusFirstItem);
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       lastFocusedElementRef.current?.focus();
     };
   }, [closeMobileMenu, isMobileMenuOpen]);
+
+  const toggleMobileSubmenu = useCallback((href: string) => {
+    setExpandedMobileItems((current) =>
+      current.includes(href) ? current.filter((item) => item !== href) : [...current, href]
+    );
+  }, []);
 
   const isExternalLink = (href: string) =>
     href.startsWith("http://") ||
@@ -485,17 +430,6 @@ const PillNav = ({
     "--hover-text": hoveredPillTextColor,
     "--pill-text": resolvedPillTextColor,
   } as React.CSSProperties;
-
-  const [expandedParents, setExpandedParents] = useState<Set<number>>(new Set());
-
-  const toggleParent = (i: number) => {
-    setExpandedParents((prev) => {
-      const next = new Set(prev);
-      if (next.has(i)) next.delete(i);
-      else next.add(i);
-      return next;
-    });
-  };
 
   return (
     <div className="pill-nav-container" data-ready={isReady ? "true" : "false"}>
@@ -634,8 +568,7 @@ const PillNav = ({
           onClick={toggleMobileMenu}
           aria-label="Toggle menu"
           aria-expanded={isMobileMenuOpen}
-          aria-controls={mobileMenuId}
-          aria-haspopup="menu"
+          aria-haspopup="dialog"
           ref={hamburgerRef}
         >
           <span className="hamburger-line" />
@@ -643,85 +576,102 @@ const PillNav = ({
         </button>
       </nav>
 
-      <div
-        id={mobileMenuId}
-        className="mobile-menu-popover mobile-only"
-        ref={mobileMenuRef}
-        style={cssVars}
-        aria-hidden={!isMobileMenuOpen}
-        tabIndex={-1}
-      >
-        <ul className="mobile-menu-list" role="menu">
-          {items.map((item, i) => (
-            <li key={item.href || `mobile-item-${i}`}>
-              <div className="mobile-menu-parent" style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8}}>
-                {isExternalLink(item.href) ? (
-                  <a
-                    href={item.href}
-                    className={`mobile-menu-link${activeHref === item.href ? " is-active" : ""}`}
-                    onClick={closeMobileMenu}
-                    role="menuitem"
-                  >
-                    {item.label}
-                  </a>
-                ) : (
-                  <Link
-                    href={item.href}
-                    className={`mobile-menu-link${activeHref === item.href ? " is-active" : ""}`}
-                    onClick={closeMobileMenu}
-                    role="menuitem"
-                  >
-                    {item.label}
-                  </Link>
-                )}
-
-                {item.children && (
-                  <button
-                    type="button"
-                    className="mobile-subtoggle"
-                    aria-expanded={expandedParents.has(i)}
-                    aria-controls={`mobile-sub-${i}`}
-                    onClick={() => toggleParent(i)}
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </button>
-                )}
-              </div>
-
-              {item.children && (
-                <ul id={`mobile-sub-${i}`} className={`mobile-submenu ${expandedParents.has(i) ? 'expanded' : ''}`} role="menu">
-                  {item.children.map((child, ci) => (
-                    <li key={`${i}-${ci}-${child.href ?? ''}`}> 
-                      {isExternalLink(child.href) ? (
-                        <a
-                          href={child.href}
-                          className={`mobile-menu-link mobile-submenu-link${activeHref === child.href ? " is-active" : ""}`}
-                          onClick={closeMobileMenu}
-                          role="menuitem"
-                        >
-                          {child.label}
-                        </a>
-                      ) : (
-                        <Link
-                          href={child.href}
-                          className={`mobile-menu-link mobile-submenu-link${activeHref === child.href ? " is-active" : ""}`}
-                          onClick={closeMobileMenu}
-                          role="menuitem"
-                        >
-                          {child.label}
-                        </Link>
+      <AnimatePresence>
+        {isMobileMenuOpen ? (
+          <motion.div
+            className="mobile-menu-popover mobile-only"
+            initial={{ opacity: 0, scale: 0.98, y: -6 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.98, y: -6 }}
+            transition={{ duration: 0.2 }}
+            style={{ ...cssVars, visibility: "visible" }}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation"
+          >
+            <ul className="mobile-menu-list">
+              {items.map((item) => (
+                <li key={item.href}>
+                  <div className="flex items-center justify-between gap-2">
+                    {isExternalLink(item.href) ? (
+                      <a
+                        href={item.href}
+                        className="mobile-menu-link flex-1"
+                        onClick={closeMobileMenu}
+                      >
+                        {item.label}
+                      </a>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className="mobile-menu-link flex-1"
+                        onClick={closeMobileMenu}
+                      >
+                        {item.label}
+                      </Link>
+                    )}
+                    {item.children ? (
+                      <button
+                        type="button"
+                        className="mobile-subtoggle"
+                        aria-label={`Toggle ${item.label} menu`}
+                        aria-expanded={expandedMobileItems.includes(item.href)}
+                        onClick={() => toggleMobileSubmenu(item.href)}
+                      >
+                        <span className="pill-caret" aria-hidden="true">
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M6 9l6 6 6-6"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </span>
+                      </button>
+                    ) : null}
+                  </div>
+                  {item.children ? (
+                    <ul className={`mobile-submenu ${expandedMobileItems.includes(item.href) ? "expanded" : ""}`}>
+                      {item.children.map((child) =>
+                        isExternalLink(child.href) ? (
+                          <li key={`${child.href}-${child.label}`}>
+                            <a
+                              href={child.href}
+                              className="mobile-menu-link mobile-submenu-link"
+                              onClick={closeMobileMenu}
+                            >
+                              {child.label}
+                            </a>
+                          </li>
+                        ) : (
+                          <li key={`${child.href}-${child.label}`}>
+                            <Link
+                              href={child.href}
+                              className="mobile-menu-link mobile-submenu-link"
+                              onClick={closeMobileMenu}
+                            >
+                              {child.label}
+                            </Link>
+                          </li>
+                        )
                       )}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
-        </ul>
-        {rightContent && <div className="mobile-menu-extras">{rightContent}</div>}
-      </div>
+                    </ul>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+            {rightContent && <div className="mobile-menu-extras">{rightContent}</div>}
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 };

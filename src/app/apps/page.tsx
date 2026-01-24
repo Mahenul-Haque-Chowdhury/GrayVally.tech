@@ -4,7 +4,9 @@ import { Footer } from "@/components/Footer";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { FloatHeading } from "@/components/ui/ScrollFloat";
+import { Reveal } from "@/components/motion/Reveal";
+import { Section } from "@/components/motion/Section";
+import { Stagger } from "@/components/motion/Stagger";
 
 export const metadata: Metadata = {
   title: "Free Online Tools & Apps | Business Card Maker & More",
@@ -80,7 +82,7 @@ function AppRow({
   const isOdd = index % 2 === 0;
 
   return (
-    <section className="rounded-3xl bg-surface/20 shadow-sm backdrop-blur-sm">
+    <Reveal variant="cardItem" useParent className="rounded-3xl bg-surface/20 shadow-sm backdrop-blur-sm">
       <div className="grid gap-8 md:grid-cols-2 items-center p-6 sm:p-8 lg:p-10">
         <div className={isOdd ? "md:order-2" : "md:order-1"}>
           <div className="group relative overflow-hidden rounded-2xl border border-border/40 bg-surface/30 shadow-sm">
@@ -101,12 +103,12 @@ function AppRow({
         </div>
 
         <div className={isOdd ? "md:order-1" : "md:order-2"}>
-          <FloatHeading as="h3" className="text-3xl sm:text-4xl font-semibold text-text-primary">
+          <Reveal as="h3" variant="headline" className="text-3xl sm:text-4xl font-semibold text-text-primary">
             {app.title}
-          </FloatHeading>
-          <p className="mt-4 text-sm sm:text-base text-text-secondary leading-relaxed">
+          </Reveal>
+          <Reveal as="p" variant="bodyText" className="mt-4 text-sm sm:text-base text-text-secondary leading-relaxed">
             {app.description}
-          </p>
+          </Reveal>
           <div className="mt-6">
             {app.external ? (
               <a
@@ -128,7 +130,7 @@ function AppRow({
           </div>
         </div>
       </div>
-    </section>
+    </Reveal>
   );
 }
 
@@ -138,10 +140,11 @@ export default function AppsPage() {
       <NavBar />
       <main className="bg-background transition-colors duration-300">
         {/* Page Introduction */}
-        <section className="relative pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
+        <Section className="relative pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-surface/40 via-background to-background pointer-events-none" />
 
           <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6">
+            <Stagger>
             <div>
               <Link
                 href="/"
@@ -153,28 +156,29 @@ export default function AppsPage() {
             </div>
 
             <header className="text-center">
-              <FloatHeading as="h1" className="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary">
+              <Reveal as="h1" variant="headline" useParent className="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary">
                 <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-300 bg-clip-text text-transparent">
                   Apps & Tools
                 </span>
-              </FloatHeading>
-              <p className="mt-5 text-base sm:text-lg text-text-secondary leading-relaxed max-w-2xl mx-auto">
+              </Reveal>
+              <Reveal as="p" variant="bodyText" useParent className="mt-5 text-base sm:text-lg text-text-secondary leading-relaxed max-w-2xl mx-auto">
                 Clean, focused tools that remove busywork, help teams move faster, and present your brand with clarity.
-              </p>
+              </Reveal>
             </header>
+            </Stagger>
           </div>
-        </section>
+        </Section>
 
         {/* Apps */}
-        <section className="pb-16 sm:pb-24">
+        <Section className="pb-16 sm:pb-24">
           <div className="mx-auto max-w-screen-2xl px-4 sm:px-6">
-            <div className="space-y-8 sm:space-y-12">
+            <Stagger className="space-y-8 sm:space-y-12">
               {apps.map((app, index) => (
                 <AppRow key={app.title} app={app} index={index} />
               ))}
-            </div>
+            </Stagger>
           </div>
-        </section>
+        </Section>
       </main>
       <Footer />
     </div>

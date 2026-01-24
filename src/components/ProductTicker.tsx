@@ -33,24 +33,26 @@ export function ProductTicker() {
   const logoItems = keywords.map((keyword) => ({
     node: (
       <div className="flex items-center gap-3 sm:gap-4 px-3 sm:px-4">
-        <span className="text-xs sm:text-sm font-medium text-text-secondary/80 uppercase tracking-wider whitespace-nowrap">
+        <span className="text-sm sm:text-base font-semibold text-text-secondary/80 uppercase tracking-wider whitespace-nowrap">
           {keyword}
         </span>
-        <span className="h-1 w-1 rounded-full bg-blue-500/50" />
+        <span className="h-1.5 w-1.5 rounded-full bg-blue-500/50" />
       </div>
     ),
   }));
 
   return (
-    <div className="relative w-full overflow-hidden border-y border-border/40 bg-surface/30 py-2 sm:py-3 backdrop-blur-sm mt-0 sm:-mt-16">
-      <LogoLoop
-        logos={logoItems}
-        speed={isMobile ? 30 : 50}
-        direction="left"
-        pauseOnHover={true}
-        logoHeight={isMobile ? 20 : 24}
-        gap={0}
-      />
+    <div className="relative w-full bg-surface/30 py-3 sm:py-4 backdrop-blur-sm -mt-24 sm:-mt-20">
+      <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 overflow-hidden">
+        <LogoLoop
+          logos={logoItems}
+          speed={isMobile ? 30 : 50}
+          direction="left"
+          pauseOnHover={true}
+          logoHeight={isMobile ? 24 : 28}
+          gap={0}
+        />
+      </div>
     </div>
   );
 }

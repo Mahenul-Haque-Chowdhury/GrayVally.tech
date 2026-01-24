@@ -1,8 +1,9 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import {
   Facebook,
   Instagram,
@@ -276,14 +277,23 @@ const projectInterestOptions = [
 ];
 
 export function Contact() {
+  const searchParams = useSearchParams();
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [showNextSteps, setShowNextSteps] = useState(false);
+  const [projectInterest, setProjectInterest] = useState("");
   const directSocialLinks = [
     { label: socialProfiles.linkedin.label, href: socialProfiles.linkedin.url, icon: Linkedin },
     { label: socialProfiles.facebook.label, href: socialProfiles.facebook.url, icon: Facebook },
     { label: socialProfiles.instagram.label, href: socialProfiles.instagram.url, icon: Instagram },
   ];
+
+  useEffect(() => {
+    const requestedInterest = searchParams.get("projectInterest");
+    if (requestedInterest && projectInterestOptions.includes(requestedInterest)) {
+      setProjectInterest(requestedInterest);
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -429,7 +439,7 @@ export function Contact() {
               <FloatHeading
                 as="h1"
                 id="contact-title"
-                className="mt-6 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text-primary font-display"
+                className="mt-6 text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-text-primary font-display"
               >
                 Let&apos;s build the next version of your product.
               </FloatHeading>
@@ -453,12 +463,12 @@ export function Contact() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 rounded-full bg-[#006bff] px-6 py-3 text-sm font-semibold text-white transition-transform duration-300 hover:scale-[1.02]"
                   >
-                    Book a meeting
+                    Book a 30min meeting
                   </a>
                   <span className="text-[11px] leading-none text-text-secondary">Powered by Calendly</span>
                 </div>
               </div>
-              <div className="mt-10 rounded-3xl bg-surface/20 backdrop-blur-sm p-6 sm:p-7">
+              <div className="mt-8 rounded-3xl bg-surface/20 backdrop-blur-sm p-6 sm:p-7 sm:-ml-6">
                 <p className="text-xs font-medium uppercase tracking-[0.2em] text-text-secondary/70">Direct lines</p>
                 <div className="mt-4 space-y-4 text-sm text-text-secondary">
                   {[
@@ -469,7 +479,7 @@ export function Contact() {
                     <a
                       key={item.label}
                       href={item.href}
-                      className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3 rounded-2xl border border-border/40 bg-background/40 px-4 py-3 hover:border-border/70 transition-colors"
+                      className="flex flex-col gap-2 rounded-2xl bg-background/40 px-4 py-3 transition-colors"
                     >
                       <span className="text-xs uppercase tracking-[0.2em] text-text-secondary/70">{item.label}</span>
                       <span className="flex items-center gap-2 text-sm font-medium text-text-primary break-all sm:break-normal">
@@ -480,7 +490,7 @@ export function Contact() {
                   ))}
                   <a
                     href="tel:+8801608613747"
-                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3 rounded-2xl border border-border/40 bg-background/40 px-4 py-3 hover:border-border/70 transition-colors"
+                    className="flex flex-col gap-2 rounded-2xl bg-background/40 px-4 py-3 transition-colors"
                   >
                     <span className="text-xs uppercase tracking-[0.2em] text-text-secondary/70">Phone</span>
                     <span className="flex items-center gap-2 text-sm font-medium text-text-primary break-all sm:break-normal">
@@ -510,7 +520,7 @@ export function Contact() {
             </motion.div>
             <motion.div variants={fadeUp} className="relative pt-10 sm:pt-12">
               <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-blue-500/20 via-transparent to-emerald-500/20 blur-2xl" />
-              <div className="relative rounded-3xl border border-border/40 bg-surface/40 backdrop-blur-xl p-6 sm:p-8">
+              <div className="relative rounded-3xl bg-surface/30 backdrop-blur-xl p-6 sm:p-8">
                 <div className="flex items-center justify-between">
                   <div>
                     <FloatHeading as="h2" className="text-2xl sm:text-3xl font-bold text-text-primary font-display">
@@ -602,7 +612,8 @@ export function Contact() {
                       name="projectInterest"
                       required
                       className="mt-2 w-full rounded-lg border border-border/60 bg-background/60 px-3 py-2.5 text-sm text-text-primary outline-none focus:border-accent focus:ring-1 focus:ring-accent"
-                      defaultValue=""
+                      value={projectInterest}
+                      onChange={(event) => setProjectInterest(event.target.value)}
                     >
                       <option value="" disabled>
                         Select a service
@@ -612,6 +623,28 @@ export function Contact() {
                           {option}
                         </option>
                       ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-medium uppercase tracking-wide text-text-secondary">
+                      Enter your budget
+                    </label>
+                    <select
+                      name="budget"
+                      required
+                      className="mt-2 w-full rounded-lg border border-border/60 bg-background/60 px-3 py-2.5 text-sm text-text-primary outline-none focus:border-accent focus:ring-1 focus:ring-accent"
+                      defaultValue=""
+                    >
+                      <option value="" disabled>
+                        Select a range
+                      </option>
+                      <option value="Below $1000">Below $1000</option>
+                      <option value="$1000-$2000">$1000-$2000</option>
+                      <option value="$2000-$3000">$2000-$3000</option>
+                      <option value="$5000+">$5000+</option>
+                      <option value="$10000+">$10000+</option>
+                      <option value="$20000+">$20000+</option>
                     </select>
                   </div>
 

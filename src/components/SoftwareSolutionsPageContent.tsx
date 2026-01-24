@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { motion, AnimatePresence, Variants } from "framer-motion";
-import Image from "next/image";
+import { motion, Variants } from "framer-motion";
 import Link from "next/link";
 import { 
   ArrowLeft, 
@@ -12,13 +11,10 @@ import {
   X,
   CheckCircle2
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { 
-  softwareSolutionCategories, 
-  SoftwareSolutionCategory 
-} from "@/data/softwareSolutions";
+import { softwareSolutionCategories, SoftwareSolutionCategory } from "@/data/softwareSolutions";
 import { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
 import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
+import ServiceDetails from "@/components/ServiceDetails";
 
 // Extended details for each category modal
 // ... (details object remains the same)
@@ -101,10 +97,23 @@ const categoryDetails: Record<string, {
   }
 };
 
+const getServiceAnchor = (title: string) =>
+  title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
 
 // ... (SoftwareSolutionRow interface and data array remains the same)
 interface SoftwareSolutionRow {
   id: SoftwareSolutionCategory["id"];
+  title: string;
+  intro: string;
+  covers: string[];
+  capabilities: string[];
+  technologies: string;
+  outcomes: string[];
+  useCases: string[];
+  delivery: string[];
   description: string;
   image: string;
   imageAlt: string;
@@ -113,6 +122,45 @@ interface SoftwareSolutionRow {
 const softwareSolutionRows: SoftwareSolutionRow[] = [
   {
     id: "enterprise-core",
+    title: "Enterprise Core & Operations Platform",
+    intro:
+      "We build core operational systems that unify finance, inventory, and process tracking in one place. This reduces data silos and makes daily operations easier to run and report on.",
+    covers: [
+      "Operational workflows and approvals",
+      "Inventory and vendor management",
+      "Finance and reporting modules",
+      "Role based access controls",
+      "Integration with existing tools",
+      "Audit trails and compliance logging",
+    ],
+    capabilities: [
+      "Map current processes and standardize them",
+      "Replace spreadsheets with reliable systems",
+      "Integrate data sources for a single view",
+      "Provide dashboards for leadership",
+    ],
+    technologies:
+      "We use secure APIs, relational databases, and modular architecture to keep systems scalable and maintainable.",
+    outcomes: [
+      "Better operational visibility",
+      "Reduced manual handoffs",
+      "Cleaner reporting for finance teams",
+      "Improved compliance readiness",
+    ],
+    useCases: [
+      "Multi location operations",
+      "Rapidly scaling teams",
+      "Legacy ERP replacements",
+      "High compliance environments",
+    ],
+    delivery: [
+      "Discovery and workflow audit",
+      "Process design",
+      "System architecture",
+      "Build and integration",
+      "QA and training",
+      "Launch and support",
+    ],
     description:
       "Centralize operations, automate workflows, and gain visibility across every core business function.",
     image: "/enterprise-core-operations-platform.png",
@@ -120,6 +168,45 @@ const softwareSolutionRows: SoftwareSolutionRow[] = [
   },
   {
     id: "people-identity",
+    title: "People, Identity & Access",
+    intro:
+      "We design systems that manage users, roles, and access across your products and internal tools. This reduces security risk and keeps onboarding consistent.",
+    covers: [
+      "User directories and roles",
+      "Single sign on and authentication",
+      "Access policies and approvals",
+      "Audit logs and activity history",
+      "Integration with HR systems",
+      "Security monitoring",
+    ],
+    capabilities: [
+      "Define clear role permissions",
+      "Centralize identity management",
+      "Automate onboarding and offboarding",
+      "Improve access visibility",
+    ],
+    technologies:
+      "We integrate identity providers with secure authentication flows and encrypted data storage.",
+    outcomes: [
+      "Lower access related risk",
+      "Faster onboarding cycles",
+      "Clearer audit trails",
+      "Consistent user management",
+    ],
+    useCases: [
+      "Growing employee headcount",
+      "Multiple internal apps",
+      "Regulated environments",
+      "Customer and staff access control",
+    ],
+    delivery: [
+      "Discovery and access review",
+      "Role and policy design",
+      "Integration planning",
+      "Implementation",
+      "Security testing",
+      "Rollout and training",
+    ],
     description:
       "Secure identity, roles, and workforce systems that keep teams productive and compliant.",
     image: "/people-identity-access.png",
@@ -127,6 +214,45 @@ const softwareSolutionRows: SoftwareSolutionRow[] = [
   },
   {
     id: "revenue-sales",
+    title: "Revenue, Sales & Customer Platforms",
+    intro:
+      "We build sales and customer systems that centralize pipeline data and improve follow through. This helps teams close deals faster and reduce manual reporting.",
+    covers: [
+      "CRM workflows and pipeline stages",
+      "Lead and opportunity management",
+      "Quote and proposal tooling",
+      "Customer data and notes",
+      "Sales activity reporting",
+      "Automation and notifications",
+    ],
+    capabilities: [
+      "Create structured pipeline stages",
+      "Reduce manual data entry",
+      "Improve visibility across teams",
+      "Connect marketing and sales data",
+    ],
+    technologies:
+      "We build on modern web stacks and integrate with email, marketing, and finance systems where needed.",
+    outcomes: [
+      "More consistent sales follow up",
+      "Cleaner pipeline forecasting",
+      "Faster handoffs between teams",
+      "Reduced reporting time",
+    ],
+    useCases: [
+      "Sales teams scaling quickly",
+      "Complex deal cycles",
+      "Multiple customer segments",
+      "Need for integrated reporting",
+    ],
+    delivery: [
+      "Discovery and sales audit",
+      "Workflow design",
+      "System build",
+      "Integration testing",
+      "Team training",
+      "Launch and support",
+    ],
     description:
       "Accelerate revenue with customer platforms, CRM workflows, and sales enablement tooling.",
     image: "/revenue-sales-customer-platforms.png",
@@ -134,6 +260,45 @@ const softwareSolutionRows: SoftwareSolutionRow[] = [
   },
   {
     id: "finance-monetization",
+    title: "Finance & Monetization Systems",
+    intro:
+      "We deliver billing and finance systems that make revenue and cash flow easier to track. This reduces invoicing errors and improves subscription management.",
+    covers: [
+      "Billing and invoicing flows",
+      "Subscription management",
+      "Payment reconciliation",
+      "Revenue recognition support",
+      "Tax and compliance setup",
+      "Finance dashboards",
+    ],
+    capabilities: [
+      "Automate billing cycles",
+      "Reduce payment failures",
+      "Track revenue by product or client",
+      "Integrate finance tools",
+    ],
+    technologies:
+      "We integrate secure payment providers with backend services and reporting layers built for finance teams.",
+    outcomes: [
+      "Cleaner cash flow visibility",
+      "Lower billing errors",
+      "More reliable revenue reporting",
+      "Better subscription control",
+    ],
+    useCases: [
+      "SaaS subscriptions",
+      "Usage based billing",
+      "Multi currency sales",
+      "Complex pricing models",
+    ],
+    delivery: [
+      "Discovery and billing review",
+      "Pricing and workflow design",
+      "System build",
+      "QA and compliance checks",
+      "Launch and migration support",
+      "Ongoing optimization",
+    ],
     description:
       "Billing, subscriptions, and finance systems that improve cash flow and reporting accuracy.",
     image: "/finance-monetization-systems.png",
@@ -141,6 +306,45 @@ const softwareSolutionRows: SoftwareSolutionRow[] = [
   },
   {
     id: "data-analytics",
+    title: "Data, Analytics & Intelligence",
+    intro:
+      "We build data platforms and dashboards that make performance easy to understand. This helps leaders make decisions without waiting on manual reports.",
+    covers: [
+      "Data pipeline setup",
+      "Dashboards and reporting",
+      "Data modeling and definitions",
+      "Access and governance",
+      "Scheduled exports",
+      "Analyst handoff",
+    ],
+    capabilities: [
+      "Centralize data from multiple sources",
+      "Create metrics that teams trust",
+      "Automate recurring reports",
+      "Visualize trends clearly",
+    ],
+    technologies:
+      "We use modern data warehouses and BI tools with secure access controls and documented metrics.",
+    outcomes: [
+      "Faster insight cycles",
+      "Fewer reporting bottlenecks",
+      "Improved data consistency",
+      "Clearer performance tracking",
+    ],
+    useCases: [
+      "Growing data volume",
+      "Multiple systems feeding reports",
+      "Leadership reporting needs",
+      "Operational analytics gaps",
+    ],
+    delivery: [
+      "Discovery and data audit",
+      "Model and metric design",
+      "Pipeline build",
+      "Dashboard development",
+      "Validation with teams",
+      "Rollout and training",
+    ],
     description:
       "Business intelligence, dashboards, and data platforms that turn signals into decisions.",
     image: "/data-analytics-intelligence.png",
@@ -148,6 +352,45 @@ const softwareSolutionRows: SoftwareSolutionRow[] = [
   },
   {
     id: "industry-saas",
+    title: "Industry & SaaS Platforms",
+    intro:
+      "We build SaaS platforms tailored to specific industries, with workflows and compliance built in. This helps businesses launch faster without sacrificing control.",
+    covers: [
+      "Multi tenant architecture",
+      "Industry specific workflows",
+      "Subscription management",
+      "Compliance and data governance",
+      "Admin and support tooling",
+      "Customer onboarding flows",
+    ],
+    capabilities: [
+      "Design scalable account structures",
+      "Build secure role management",
+      "Support configuration per client",
+      "Plan for long term extensibility",
+    ],
+    technologies:
+      "We use modular application architecture with secure APIs and cloud hosting suited for multi tenant products.",
+    outcomes: [
+      "Faster product launch",
+      "Simpler customer onboarding",
+      "Lower support overhead",
+      "Scalable infrastructure",
+    ],
+    useCases: [
+      "Vertical SaaS products",
+      "B2B platforms",
+      "Regulated industry tools",
+      "New product lines",
+    ],
+    delivery: [
+      "Discovery and product scope",
+      "Architecture and data design",
+      "Build and integration",
+      "QA and security review",
+      "Launch and onboarding",
+      "Iteration and support",
+    ],
     description:
       "Industry-ready SaaS platforms built to scale with compliance, security, and multi-tenant control.",
     image: "/industry-saas-platforms.png",
@@ -194,9 +437,6 @@ function CategoryModal({
   useEffect(() => {
     const timer = requestAnimationFrame(() => setIsOpen(true));
 
-    const lenis = (window as Window & { lenis?: { stop: () => void; start: () => void } }).lenis;
-    if (lenis) lenis.stop();
-
     const handleResize = () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     };
@@ -205,7 +445,6 @@ function CategoryModal({
     return () => {
       cancelAnimationFrame(timer);
       window.removeEventListener("resize", handleResize);
-      if (lenis) lenis.start();
     };
   }, []);
 
@@ -244,15 +483,15 @@ function SoftwareSolutionRow({
   category,
   row,
   index,
-  onLearnMore,
 }: {
   category: SoftwareSolutionCategory;
   row: SoftwareSolutionRow;
   index: number;
-  onLearnMore: (event: React.MouseEvent) => void;
 }) {
-  const isOdd = index % 2 === 0;
   const CategoryIcon = category.icon;
+  const contactHref = `/contact?projectInterest=${encodeURIComponent(row.title)}`;
+  const anchor = getServiceAnchor(row.title);
+  const ctaText = `Contact for ${row.title}`;
 
   return (
     <ScrollFloatReveal
@@ -260,71 +499,27 @@ function SoftwareSolutionRow({
       y={REVEAL_CONFIG.translateY}
       duration={MOTION_DURATION.normal}
       delay={index * 0.08}
-      className="rounded-3xl bg-surface/20 shadow-sm backdrop-blur-sm"
     >
-      <div className="grid gap-8 md:grid-cols-2 items-center p-6 sm:p-8 lg:p-10">
-        <div className={cn("order-1", isOdd ? "md:order-2" : "md:order-1")}>
-          <div className="group relative overflow-hidden rounded-2xl border border-border/40 bg-surface/30 shadow-sm">
-            <Image
-              src={row.image}
-              alt={row.imageAlt}
-              width={1200}
-              height={800}
-              className="h-56 w-full object-cover sm:h-72 md:h-96 lg:h-[420px]"
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              priority={index < 2}
-            />
-            <div className="absolute inset-0 bg-surface/10" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Link
-                href="/contact"
-                className="group inline-flex items-center justify-center rounded-full bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-400 px-6 py-2.5 text-sm sm:text-base font-semibold text-white shadow-lg shadow-blue-500/30 ring-1 ring-white/30 backdrop-blur-sm transition-all duration-200 hover:shadow-xl hover:shadow-cyan-500/30 hover:brightness-110"
-              >
-                Get free consultation
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        <div className={cn("order-2", isOdd ? "md:order-1" : "md:order-2")}>
-          <p className="text-xs uppercase tracking-[0.2em] text-text-secondary">
-            {category.tagline}
-          </p>
-          <FloatHeading as="h3" className="mt-3 flex items-center gap-3 text-3xl sm:text-4xl font-semibold text-text-primary">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-border/40 bg-surface/40">
-              <CategoryIcon className="h-5 w-5 text-blue-400" />
-            </span>
-            <span>{category.title}</span>
-          </FloatHeading>
-          <p className="mt-4 text-sm sm:text-base text-text-secondary leading-relaxed">
-            {row.description}
-          </p>
-          <div className="mt-6">
-            <button
-              type="button"
-              onClick={onLearnMore}
-              className="group inline-flex items-center justify-center gap-2 rounded-full border border-border/60 bg-background/40 px-5 py-2.5 text-sm font-semibold text-text-primary transition-colors duration-200 hover:border-blue-500/60 hover:bg-surface/50"
-              aria-label={`Learn more about ${category.title}`}
-            >
-              <span>Learn more</span>
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </button>
-          </div>
-        </div>
+      <div id={anchor} className="scroll-mt-28">
+        <ServiceDetails
+          label="SOFTWARE SOLUTION"
+          title={row.title}
+          description={`${row.intro} ${category.tagline}`}
+          imageSrc={row.image}
+          imageAlt={row.imageAlt}
+          outcomes={row.outcomes}
+          useCases={row.useCases}
+          process={row.delivery}
+          ctaText={ctaText}
+          ctaHref={contactHref}
+          imagePriority={index < 2}
+        />
       </div>
     </ScrollFloatReveal>
   );
 }
 
 export function SoftwareSolutionsPageContent() {
-  const [selectedCategory, setSelectedCategory] = useState<SoftwareSolutionCategory | null>(null);
-  const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 });
-
-  const handleCardClick = (category: SoftwareSolutionCategory, e: React.MouseEvent) => {
-    setClickPosition({ x: e.clientX, y: e.clientY });
-    setSelectedCategory(category);
-  };
-
   return (
     <>
       <main className="bg-background transition-colors duration-300">
@@ -382,7 +577,6 @@ export function SoftwareSolutionsPageContent() {
                     row={row}
                     category={category}
                     index={index}
-                    onLearnMore={(event) => handleCardClick(category, event)}
                   />
                 );
               })}
@@ -390,17 +584,6 @@ export function SoftwareSolutionsPageContent() {
           </div>
         </section>
       </main>
-
-      {/* Full-screen Modal */}
-      <AnimatePresence>
-        {selectedCategory && (
-          <CategoryModal
-            category={selectedCategory}
-            onClose={() => setSelectedCategory(null)}
-            clickPosition={clickPosition}
-          />
-        )}
-      </AnimatePresence>
     </>
   );
 }

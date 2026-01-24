@@ -10,6 +10,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://grayvally.tech/refund-policy",
   },
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function RefundPolicyPage() {

@@ -6,7 +6,6 @@ import { Footer } from "@/components/Footer";
 import { ServicesSkeleton } from "@/components/ServicesSkeleton";
 import { ProductTicker } from "@/components/ProductTicker";
 import { FeaturedProducts } from "@/components/FeaturedProducts";
-import { TechStack } from "@/components/TechStack";
 
 const ServicesBento = dynamic(() => import("@/components/ServicesBento").then((m) => m.ServicesBento), {
   loading: () => <ServicesSkeleton />,
@@ -36,7 +35,6 @@ export default function Home() {
       <Hero />
       <ProductTicker />
       <ServicesBento />
-      <TechStack />
       <FeaturedProducts />
       <About showOnlyPreview />
       <Contact />

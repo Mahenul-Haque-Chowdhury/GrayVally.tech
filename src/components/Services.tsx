@@ -3,49 +3,54 @@
 import Link from "next/link";
 import { allServices } from "../data/services";
 import { ArrowRight } from "lucide-react";
-import { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
-import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
+import { Reveal } from "@/components/motion/Reveal";
+import { Section } from "@/components/motion/Section";
+import { Stagger } from "@/components/motion/Stagger";
 
 // Show only top 6 services on landing page
 const featuredServices = allServices.slice(0, 6);
 
 export function Services() {
   return (
-    <section id="services" className="relative bg-background py-16 sm:py-24 md:py-32 transition-colors duration-300 overflow-hidden">
+    <Section id="services" className="relative bg-background py-16 sm:py-24 md:py-32 transition-colors duration-300 overflow-hidden">
       {/* Subtle gradient background */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-surface/30 to-transparent pointer-events-none" />
       
       <div className="relative z-10 mx-auto max-w-screen-2xl px-4 sm:px-6">
         {/* Section Header */}
-        <ScrollFloatReveal
-          y={REVEAL_CONFIG.translateY}
-          duration={MOTION_DURATION.medium}
-          className="mb-12 sm:mb-16 md:mb-20 text-center"
-        >
-          <span className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-surface/30 backdrop-blur-sm px-4 py-1.5 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-text-secondary mb-6">
+        <Stagger className="mb-12 sm:mb-16 md:mb-20 text-center">
+          <Reveal
+            as="span"
+            variant="bodyText"
+            useParent
+            className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-surface/30 backdrop-blur-sm px-4 py-1.5 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-text-secondary mb-6"
+          >
             What We Do
-          </span>
-          <FloatHeading as="h2" className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-text-primary">
+          </Reveal>
+          <Reveal as="h2" variant="headline" useParent className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-text-primary">
             Engineering{" "}
             <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
               Excellence
             </span>
-          </FloatHeading>
-          <p className="mt-4 sm:mt-6 max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-text-secondary/90 leading-relaxed">
+          </Reveal>
+          <Reveal
+            as="p"
+            variant="bodyText"
+            useParent
+            className="mt-4 sm:mt-6 max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-text-secondary/90 leading-relaxed"
+          >
             Our core competencies lie in building the invisible backbone of modern digital products.
-          </p>
-        </ScrollFloatReveal>
+          </Reveal>
+        </Stagger>
 
         {/* Services Grid */}
-        <div className="grid gap-3 sm:gap-6 grid-cols-1 xs:grid-cols-2 lg:grid-cols-3">
+        <Stagger className="grid gap-3 sm:gap-6 grid-cols-1 xs:grid-cols-2 lg:grid-cols-3">
           {featuredServices.map((service, index) => (
-            <ScrollFloatReveal
+            <Reveal
               key={service.id}
-              y={REVEAL_CONFIG.translateY}
-              scale={0.98}
-              duration={MOTION_DURATION.normal}
-              delay={index * 0.08}
-              className="group relative rounded-xl sm:rounded-2xl border border-border/40 bg-surface/20 backdrop-blur-sm p-4 sm:p-6 md:p-8 transition-[colors,box-shadow] duration-300 hover:border-border/80 hover:bg-surface/40 hover:shadow-lg hover:shadow-blue-500/5"
+              variant="cardItem"
+              useParent
+              className="group relative rounded-xl sm:rounded-2xl border border-border/40 bg-surface/20 backdrop-blur-sm p-4 sm:p-6 md:p-8 transition-[colors,box-shadow,transform] duration-300 hover:border-border/80 hover:bg-surface/40 hover:shadow-lg hover:shadow-blue-500/5 hover:-translate-y-1.5"
             >
               {/* Icon Container */}
               <div className="mb-3 sm:mb-5 flex h-10 w-10 sm:h-14 sm:w-14 items-center justify-center rounded-lg sm:rounded-xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-border/30 transition-colors duration-300 group-hover:from-blue-500/20 group-hover:to-cyan-500/20 group-hover:border-blue-500/30">
@@ -58,15 +63,20 @@ export function Services() {
               </span>
               
               {/* Content */}
-              <FloatHeading
+              <Reveal
                 as="h3"
+                variant="headline"
                 className="text-sm sm:text-xl font-semibold text-text-primary transition-colors duration-300 group-hover:text-blue-400 line-clamp-2"
               >
                 {service.title}
-              </FloatHeading>
-              <p className="mt-2 sm:mt-3 text-xs sm:text-sm leading-relaxed text-text-secondary/80 line-clamp-3 sm:line-clamp-none">
+              </Reveal>
+              <Reveal
+                as="p"
+                variant="bodyText"
+                className="mt-2 sm:mt-3 text-xs sm:text-sm leading-relaxed text-text-secondary/80 line-clamp-3 sm:line-clamp-none"
+              >
                 {service.description}
-              </p>
+              </Reveal>
               
               {/* Category Badge */}
               <div className="mt-3 sm:mt-5 pt-3 sm:pt-5 border-t border-border/30">
@@ -77,26 +87,21 @@ export function Services() {
 
               {/* Hover Glow Effect */}
               <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-500/5 via-transparent to-cyan-500/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none" />
-            </ScrollFloatReveal>
+            </Reveal>
           ))}
-        </div>
+        </Stagger>
 
         {/* CTA Button */}
-        <ScrollFloatReveal
-          y={REVEAL_CONFIG.translateY}
-          delay={0.2}
-          duration={MOTION_DURATION.medium}
-          className="mt-12 sm:mt-16 flex justify-center"
-        >
+        <Reveal variant="bodyText" className="mt-12 sm:mt-16 flex justify-center">
           <Link
             href="/web-solutions"
-            className="group inline-flex items-center justify-center gap-2 rounded-full border border-border/60 bg-surface/30 backdrop-blur-sm px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-text-primary transition-[colors,box-shadow] duration-300 hover:border-blue-500/50 hover:bg-surface/50 hover:shadow-lg hover:shadow-blue-500/10"
+            className="group inline-flex items-center justify-center gap-2 rounded-full border border-border/60 bg-surface/30 backdrop-blur-sm px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-text-primary transition-[colors,box-shadow,transform] duration-300 hover:border-blue-500/50 hover:bg-surface/50 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-0.5"
           >
             <span>Check out all Services</span>
             <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
-        </ScrollFloatReveal>
+        </Reveal>
       </div>
-    </section>
+    </Section>
   );
 }

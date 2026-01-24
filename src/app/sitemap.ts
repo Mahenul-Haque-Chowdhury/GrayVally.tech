@@ -21,13 +21,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/software-solutions`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${base}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${base}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/service-plans`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${base}/portfolio`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${base}/audit`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${base}/apps`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
-    // Legal pages
-    { url: `${base}/terms-of-service`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${base}/refund-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     // Blog posts
     ...blogPosts.map((post) => ({
       url: `${base}/blog/${post.slug}`,

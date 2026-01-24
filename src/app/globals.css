@@ -155,23 +155,6 @@ body {
   background: var(--bg);
 }
 
-/* Lenis scroll normalization */
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth body {
-  overscroll-behavior: none;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
 
 @supports (height: 100dvh) {
   .min-h-screen {

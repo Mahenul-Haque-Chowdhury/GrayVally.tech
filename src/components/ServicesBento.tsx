@@ -1,20 +1,75 @@
 "use client";
 
 import { useState, useCallback, useEffect, useMemo } from "react";
-import { motion, AnimatePresence, Variants } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, LucideIcon, X, CheckCircle2 } from "lucide-react";
+import {
+  ArrowRight,
+  LucideIcon,
+  X,
+  CheckCircle2,
+  Network,
+  Webhook,
+  ShieldCheck,
+  Layers,
+  Search,
+  Bug,
+} from "lucide-react";
 import {
   Globe,
   ShoppingCart,
   BarChart3,
 } from "lucide-react";
+import {
+  SiAdobeaftereffects,
+  SiAdobeillustrator,
+  SiAdobephotoshop,
+  SiAdobepremierepro,
+  SiHtml5,
+  SiCss3,
+  SiExpress,
+  SiJavascript,
+  SiJsonwebtokens,
+  SiGithub,
+  SiGraphql,
+  SiGoogleanalytics,
+  SiGoogleads,
+  SiFigma,
+  SiGooglesearchconsole,
+  SiGoogletagmanager,
+  SiHotjar,
+  SiHubspot,
+  SiLinkedin,
+  SiMailchimp,
+  SiMeta,
+  SiMysql,
+  SiReact,
+  SiNextdotjs,
+  SiTailwindcss,
+  SiTypescript,
+  SiNodedotjs,
+  SiPrisma,
+  SiPostgresql,
+  SiRedis,
+  SiReactquery,
+  SiRadixui,
+  SiTrpc,
+  SiFramer,
+  SiLucide,
+  SiGit,
+  SiVercel,
+  SiCloudflare,
+  SiYoutube,
+  SiDigitalocean,
+  SiDocker,
+  SiAmazon,
+  SiZoho,
+} from "react-icons/si";
 import { cn } from "@/lib/utils";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import ScrollFloat, { FloatHeading, ScrollFloatReveal } from "@/components/ui/ScrollFloat";
 import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
-import { lockScroll, unlockScroll } from "@/lib/scroll/scrollLock";
+import ScrollVelocity from "@/components/ScrollVelocity";
 
 // ============================================================================
 // DESIGN NOTES:
@@ -85,6 +140,12 @@ interface BentoService {
   imageAlt: string;
 }
 
+const getServiceAnchor = (title: string) =>
+  title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
+
 // Curated services for the bento layout with specific sizing
 const bentoServices: BentoService[] = [
   {
@@ -119,6 +180,105 @@ const bentoServices: BentoService[] = [
   },
 ];
 
+const techStackIcons = [
+  { icon: SiHtml5, label: "HTML5", color: "#E34F26" },
+  { icon: SiCss3, label: "CSS3", color: "#1572B6" },
+  { icon: SiJavascript, label: "JavaScript", color: "#F7DF1E" },
+  { icon: SiTypescript, label: "TypeScript", color: "#3178C6" },
+  { icon: SiMysql, label: "SQL", color: "#4479A1" },
+  { icon: SiNodedotjs, label: "Node.js", color: "#339933" },
+  { icon: SiReact, label: "React", color: "#61DAFB" },
+  { icon: SiNextdotjs, label: "Next.js", className: "text-slate-900 dark:text-white" },
+  { icon: SiExpress, label: "Express.js", className: "text-slate-900 dark:text-white" },
+  { icon: SiTailwindcss, label: "Tailwind CSS", color: "#06B6D4" },
+  { icon: SiRadixui, label: "Radix UI", className: "text-slate-900 dark:text-white" },
+  { icon: SiFramer, label: "Framer Motion", className: "text-slate-900 dark:text-white" },
+  { icon: SiLucide, label: "Lucide", className: "text-slate-900 dark:text-white" },
+  { icon: Layers, label: "Zustand", color: "#94A3B8" },
+  { icon: SiReactquery, label: "React Query", color: "#FF4154" },
+  { icon: SiTrpc, label: "tRPC", color: "#2596BE" },
+  { icon: SiPrisma, label: "Prisma", color: "#2D3748" },
+  { icon: SiPostgresql, label: "PostgreSQL", color: "#4169E1" },
+  { icon: SiRedis, label: "Redis", color: "#DC382D" },
+  { icon: Network, label: "REST APIs", color: "#38BDF8" },
+  { icon: SiGraphql, label: "GraphQL", color: "#E10098" },
+  { icon: Webhook, label: "WebSockets", color: "#38BDF8" },
+  { icon: SiJsonwebtokens, label: "JWT", color: "#94A3B8" },
+  { icon: ShieldCheck, label: "OAuth 2.0", color: "#22C55E" },
+  { icon: SiGit, label: "Git", color: "#F05032" },
+  { icon: SiGithub, label: "GitHub", className: "text-slate-900 dark:text-white" },
+  { icon: SiDocker, label: "Docker", color: "#2496ED" },
+  { icon: SiVercel, label: "Vercel", className: "text-slate-900 dark:text-white" },
+  { icon: SiCloudflare, label: "Cloudflare", color: "#F38020" },
+];
+
+const toolsStack = [
+  { icon: SiFigma, name: "Figma", color: "#F24E1E" },
+  { icon: SiAdobephotoshop, name: "Photoshop", color: "#31A8FF" },
+  { icon: SiAdobeillustrator, name: "Illustrator", color: "#FF9A00" },
+  { icon: SiAdobepremierepro, name: "Premiere Pro", color: "#9999FF" },
+  { icon: SiAdobeaftereffects, name: "After Effects", color: "#9999FF" },
+  { icon: SiGoogleanalytics, name: "Google Analytics", color: "#E37400" },
+  { icon: SiGooglesearchconsole, name: "Google Search Console", color: "#4285F4" },
+  { icon: SiGoogletagmanager, name: "Google Tag Manager", color: "#246FDB" },
+  { icon: SiMeta, name: "Meta Pixel", color: "#1877F2" },
+  { icon: SiMeta, name: "Meta Business Suite", color: "#1877F2" },
+  { icon: SiGoogleads, name: "Google Ads", color: "#4285F4" },
+  { icon: SiLinkedin, name: "LinkedIn Ads", color: "#0A66C2" },
+  { icon: SiYoutube, name: "YouTube Ads", color: "#FF0000" },
+  { icon: SiHubspot, name: "HubSpot", color: "#FF7A59" },
+  { icon: SiMailchimp, name: "Mailchimp", color: "#FFE01B" },
+  { icon: Search, name: "Ahrefs", color: "#FF6B2B" },
+  { icon: Bug, name: "Screaming Frog", color: "#22C55E" },
+  { icon: SiHotjar, name: "Hotjar", color: "#FF3C00" },
+  { icon: SiAmazon, name: "AWS", color: "#FF9900" },
+  { icon: SiDigitalocean, name: "DigitalOcean", color: "#0080FF" },
+  { icon: SiVercel, name: "Vercel", color: "#FFFFFF" },
+  { icon: SiCloudflare, name: "Cloudflare", color: "#F38020" },
+  { icon: SiZoho, name: "Zoho Mail", color: "#E42527" },
+  { icon: SiGoogleads, name: "Google Keyword Planner", color: "#4285F4" },
+];
+
+const titleGradientClass =
+  "bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent";
+
+const renderGradientTitle = (text: string, gradientIndices: number[]) => {
+  const words = text.split(" ");
+  const gradientSet = new Set(gradientIndices);
+  return words.map((word, index) => (
+    <span
+      key={`${word}-${index}`}
+      className={gradientSet.has(index) ? titleGradientClass : undefined}
+    >
+      {word}
+      {index < words.length - 1 ? " " : null}
+    </span>
+  ));
+};
+
+const whyChooseUsFeatures = [
+  {
+    title: "Reasonable, growth-focused service plans",
+    description: "Transparent pricing tiers designed to scale with your goals.",
+  },
+  {
+    title: "Experienced engineering team",
+    description: "Senior builders with proven delivery across complex products.",
+  },
+  {
+    title: "Business-first development approach",
+    description: "We align every feature to outcomes that matter to your business.",
+  },
+  {
+    title: "Clear communication and transparency",
+    description: "Weekly updates, clear milestones, and no hidden surprises.",
+  },
+  {
+    title: "Long-term technical partnership",
+    description: "Ongoing optimization, support, and strategic guidance.",
+  },
+];
+
 // Modal animation variants
 const contentVariants: Variants = {
   hidden: { opacity: 0 },
@@ -142,6 +302,26 @@ const staggerItem: Variants = {
     opacity: 1, 
     y: 0, 
     transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } 
+  },
+};
+
+const bentoGridVariant: Variants = {
+  hidden: { opacity: 1 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const bentoCardPeekVariant: Variants = {
+  hidden: { x: "-100%", opacity: 0 },
+  visible: {
+    x: "0%",
+    opacity: 1,
+    transition: { duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] },
   },
 };
 
@@ -180,12 +360,6 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
     // Trigger open animation
     const timer = requestAnimationFrame(() => setIsOpen(true));
 
-    // Stop Lenis smooth scroll when modal is open
-    const lenis = (window as Window & { lenis?: { stop: () => void; start: () => void } }).lenis;
-    if (lenis) {
-      lenis.stop();
-    }
-
     const handleResize = () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     };
@@ -194,10 +368,6 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
     return () => {
       cancelAnimationFrame(timer);
       window.removeEventListener("resize", handleResize);
-      // Re-enable Lenis when modal closes
-      if (lenis) {
-        lenis.start();
-      }
     };
   }, []);
 
@@ -233,9 +403,6 @@ function ServiceModal({ service, onClose, clickPosition }: ServiceModalProps) {
       {/* Scrollable container */}
       <div 
         className="absolute inset-0 overflow-y-auto overflow-x-hidden overscroll-contain touch-pan-y"
-        data-lenis-prevent
-        data-lenis-prevent-wheel
-        data-lenis-prevent-touch
         style={{ WebkitOverflowScrolling: 'touch' }}
         onWheel={handleWheel}
       >
@@ -419,35 +586,37 @@ interface BentoCardProps {
   service: BentoService;
   index: number;
   className?: string;
-  onClick: (event: React.MouseEvent) => void;
 }
 
-function BentoCard({ service, index, className, onClick }: BentoCardProps) {
+function BentoCard({ service, index, className }: BentoCardProps) {
   const Icon = service.icon;
+  const anchor = getServiceAnchor(service.title);
 
   return (
-    <ScrollFloatReveal
-      y={REVEAL_CONFIG.translateY}
-      duration={MOTION_DURATION.normal}
-      delay={index * 0.1}
-      onClick={onClick}
+    <div
       className={cn(
-        // Base glassmorphism styling - theme aware
-        "group relative overflow-hidden rounded-2xl sm:rounded-3xl cursor-pointer z-0",
-        "bg-surface/20 backdrop-blur-xl",
-        "border border-transparent",
-        // Padding
-        "p-5 sm:p-6",
-        "min-h-[340px] sm:min-h-[420px] lg:min-h-[460px]",
-        // Hover glow transition
-        "transition-all duration-500 ease-out",
-        "hover:border-transparent",
-        "hover:bg-surface/40",
-        "hover:shadow-lg hover:shadow-blue-500/10",
-        "hover:scale-[1.01]",
+        "relative overflow-hidden rounded-2xl sm:rounded-3xl",
         className
       )}
     >
+      <motion.div
+        variants={bentoCardPeekVariant}
+        className={cn(
+          // Base glassmorphism styling - theme aware
+          "group relative overflow-hidden rounded-2xl sm:rounded-3xl cursor-pointer z-0",
+          "bg-surface/20 backdrop-blur-xl",
+          "border border-transparent",
+          // Padding
+          "p-5 sm:p-6",
+          "min-h-[340px] sm:min-h-[420px] lg:min-h-[460px]",
+          // Hover glow transition
+          "transition-all duration-500 ease-out",
+          "hover:border-transparent",
+          "hover:bg-surface/40",
+          "hover:shadow-lg hover:shadow-blue-500/10",
+          "hover:scale-[1.01]"
+        )}
+      >
       {/* Gradient background on hover */}
       <div
         className={cn(
@@ -459,7 +628,7 @@ function BentoCard({ service, index, className, onClick }: BentoCardProps) {
       {/* Content */}
       <div className="relative z-10 flex h-full flex-col">
         {/* Image */}
-        <div className="relative overflow-hidden rounded-2xl border border-border/40 bg-surface/30">
+        <div className="relative overflow-hidden rounded-2xl bg-surface/30">
           <Image
             src={service.image}
             alt={service.imageAlt}
@@ -493,39 +662,62 @@ function BentoCard({ service, index, className, onClick }: BentoCardProps) {
         </p>
 
         {/* Learn more link */}
-        <div className="mt-6 flex items-center gap-2 text-sm font-medium text-text-secondary/50 transition-colors duration-300 group-hover:text-cyan-400">
-          <span>Explore</span>
+        <Link
+          href={`/web-solutions#${anchor}`}
+          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full border border-blue-500/40 bg-blue-500/10 px-3 py-1.5 text-xs font-semibold text-blue-300 shadow-sm shadow-blue-500/20 transition-colors duration-300 hover:border-blue-400 hover:bg-blue-500/20"
+        >
+          <span>Learn more</span>
           <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-        </div>
+        </Link>
       </div>
 
       {/* Corner accent */}
       <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-gradient-to-br from-blue-500/5 via-transparent to-cyan-500/5 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
-    </ScrollFloatReveal>
+      </motion.div>
+    </div>
   );
 }
 
 export function ServicesBento() {
-  const [selectedService, setSelectedService] = useState<BentoService | null>(null);
-  const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 });
+  const heroTechStackIcons = useMemo(
+    () =>
+      (
+        <span className="inline-flex items-center gap-8 sm:gap-9">
+          {techStackIcons.map(({ icon: Icon, label, color, className }) => (
+            <span key={label} className="inline-flex items-center">
+              <Icon
+                className={cn("h-8 w-8 sm:h-9 sm:w-9", className)}
+                style={color ? { color } : undefined}
+                aria-label={label}
+              />
+            </span>
+          ))}
+        </span>
+      ),
+    []
+  );
 
-  const handleServiceClick = useCallback((service: BentoService, event: React.MouseEvent) => {
-    // Get click position for the circular reveal
-    setClickPosition({ x: event.clientX, y: event.clientY });
-    setSelectedService(service);
-    lockScroll();
-  }, []);
-
-  const handleCloseModal = useCallback(() => {
-    setSelectedService(null);
-    unlockScroll();
-  }, []);
+  const heroToolsWithNames = useMemo(
+    () => (
+      <span className="inline-flex items-center gap-8 sm:gap-9">
+        {toolsStack.map((tool) => (
+          <span key={tool.name} className="inline-flex items-center gap-2">
+            <tool.icon className="h-8 w-8 sm:h-9 sm:w-9" style={{ color: tool.color }} aria-hidden />
+            <span className="text-xl sm:text-2xl font-semibold text-text-secondary uppercase tracking-wider whitespace-nowrap">
+              {tool.name}
+            </span>
+          </span>
+        ))}
+      </span>
+    ),
+    []
+  );
 
   return (
     <>
       <section
         id="services"
-        className="relative z-10 bg-background py-20 sm:py-28 md:py-36 overflow-hidden transition-colors duration-300"
+        className="relative z-10 bg-background pt-12 pb-20 sm:pt-16 sm:pb-24 md:pt-20 md:pb-28 overflow-hidden transition-colors duration-300"
       >
         {/* Subtle gradient background */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-surface/30 to-transparent pointer-events-none" />
@@ -534,29 +726,212 @@ export function ServicesBento() {
         <div className="hidden sm:block absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-[128px] pointer-events-none z-0" />
         <div className="hidden sm:block absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-[128px] pointer-events-none z-0" />
 
-        <div className="relative z-10 mx-auto max-w-screen-xl px-4 sm:px-6">
+        <div className="relative z-10 mx-auto max-w-screen-2xl px-4 sm:px-6">
+          <div className="mb-16 sm:mb-20">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={{
+                hidden: { opacity: 0, y: -30 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.6, ease: "easeOut" },
+                },
+              }}
+              className="text-center mb-12 sm:mb-16"
+            >
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary">
+                Why <span className="text-blue-500">Choose</span> Us?
+              </h2>
+            </motion.div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] gap-12 lg:gap-20 items-start">
+              <div className="relative flex items-center justify-center">
+                <div className="relative w-full max-w-2xl lg:sticky lg:top-24">
+                  <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    variants={{
+                      hidden: { opacity: 0, scale: 0, borderRadius: "100%" },
+                      visible: {
+                        opacity: 1,
+                        scale: 1,
+                        borderRadius: "24px",
+                        transition: { type: "spring", stiffness: 60, damping: 15, delay: 0.2 },
+                      },
+                    }}
+                    className="relative aspect-[4/3] w-full overflow-hidden bg-transparent"
+                  >
+                    <Image
+                      src="/whychooseus.png"
+                      alt="Why choose us"
+                      fill
+                      className="object-contain scale-110"
+                      sizes="(min-width: 1024px) 50vw, 100vw"
+                    />
+                  </motion.div>
+                </div>
+              </div>
+
+              <motion.div
+                className="space-y-1"
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: {
+                    opacity: 1,
+                    transition: { staggerChildren: 0.15, delayChildren: 0.4 },
+                  },
+                }}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+              >
+                {whyChooseUsFeatures.map((feature, index) => (
+                  <motion.div
+                    key={feature.title}
+                    variants={{
+                      hidden: { opacity: 0, y: -20 },
+                      visible: {
+                        opacity: 1,
+                        y: 0,
+                        transition: { duration: 0.5, ease: "easeOut" },
+                      },
+                    }}
+                    className="rounded-2xl bg-surface/10 p-2 sm:p-3 border border-white/5 hover:bg-surface/20 transition-colors duration-300"
+                  >
+                    <div className="relative overflow-hidden">
+                      <motion.div
+                        variants={{
+                          hidden: { y: "-100%" },
+                          visible: {
+                            y: "0%",
+                            transition: { duration: 0.45, ease: "easeOut" },
+                          },
+                        }}
+                        className="flex items-center gap-3"
+                      >
+                        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/15 text-sm font-semibold text-blue-400">
+                          {index + 1}
+                        </span>
+                        <h3 className="text-lg sm:text-xl font-semibold text-text-primary">
+                          {feature.title}
+                        </h3>
+                      </motion.div>
+                    </div>
+                    {feature.description ? (
+                      <div className="relative overflow-hidden pl-11 mt-2">
+                        <motion.p
+                          variants={{
+                            hidden: { y: "100%" },
+                            visible: {
+                              y: "0%",
+                              transition: { duration: 0.4, ease: "easeOut", delay: 0.05 },
+                            },
+                          }}
+                          className="text-base sm:text-lg text-text-secondary/80 lg:whitespace-nowrap"
+                        >
+                          {feature.description}
+                        </motion.p>
+                      </div>
+                    ) : null}
+                    {index === 0 ? (
+                      <motion.div
+                        variants={{
+                          hidden: { opacity: 0, y: -6 },
+                          visible: {
+                            opacity: 1,
+                            y: 0,
+                            transition: { duration: 0.4, ease: "easeOut", delay: 0.25 },
+                          },
+                        }}
+                        className="pl-11 mt-2"
+                      >
+                        <Link
+                          href="/service-plans"
+                          className="inline-flex items-center gap-2 rounded-full border border-blue-500/40 bg-blue-500/10 px-4 py-2 text-sm font-semibold text-blue-300 shadow-sm shadow-blue-500/20 transition-colors hover:border-blue-400 hover:bg-blue-500/20"
+                        >
+                          View Structured Service Plans
+                          <ArrowRight className="h-4 w-4" />
+                        </Link>
+                      </motion.div>
+                    ) : null}
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+
+            <div className="mt-12 text-center">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="flex items-center justify-center gap-3 text-base sm:text-lg md:text-xl font-semibold text-text-secondary uppercase tracking-wider"
+              >
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/15 text-sm font-semibold text-blue-400">
+                  6
+                </span>
+                <span>We handle all your stacks &amp; Tools</span>
+              </motion.div>
+              <div className="mt-6">
+                <ScrollVelocity
+                  texts={[heroTechStackIcons, heroToolsWithNames]}
+                  velocity={28}
+                  className="px-6 sm:px-8"
+                  scrollerClassName="text-xl sm:text-2xl md:text-3xl font-semibold text-text-secondary uppercase tracking-wider"
+                  parallaxClassName="py-0.5 sm:py-1"
+                />
+              </div>
+            </div>
+          </div>
+
           {/* Section Header */}
-          <SectionHeading
-            badge="What We Do"
-            title="Engineering Excellence"
-            subtitle="Our core competencies lie in building the invisible backbone of modern digital products."
-            align="center"
-            gradientWords={[1]}
-            titleClassName="font-display text-3xl sm:text-4xl md:text-5xl lg:text-5xl"
-            className="mb-14 sm:mb-20"
-          />
+          <div className="mb-14 sm:mb-20 flex flex-col items-center text-center">
+            <span className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-surface/30 backdrop-blur-sm px-4 py-1.5 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-text-secondary mb-6">
+              What We Do
+            </span>
+            <div className="relative overflow-hidden">
+              <motion.h2
+                initial={{ y: "-100%" }}
+                whileInView={{ y: "0%" }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="my-0 text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold tracking-tight text-text-primary font-display"
+              >
+                {renderGradientTitle("Engineering Excellence", [1])}
+              </motion.h2>
+            </div>
+            <div className="relative overflow-hidden mt-4 sm:mt-6">
+              <motion.p
+                initial={{ y: "-100%" }}
+                whileInView={{ y: "0%" }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+                className="max-w-2xl text-sm sm:text-base md:text-lg text-text-secondary/90 leading-relaxed"
+              >
+                Our core competencies lie in building the invisible backbone of modern digital products.
+              </motion.p>
+            </div>
+          </div>
 
           {/* Bento Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+            variants={bentoGridVariant}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+          >
             {bentoServices.map((service, index) => (
               <BentoCard
                 key={service.id}
                 service={service}
                 index={index}
-                onClick={(e) => handleServiceClick(service, e)}
               />
             ))}
-          </div>
+          </motion.div>
 
           {/* CTA Button */}
           <ScrollFloatReveal
@@ -576,16 +951,6 @@ export function ServicesBento() {
         </div>
       </section>
 
-      {/* Service Modal */}
-      <AnimatePresence mode="wait">
-        {selectedService && (
-          <ServiceModal
-            service={selectedService}
-            onClose={handleCloseModal}
-            clickPosition={clickPosition}
-          />
-        )}
-      </AnimatePresence>
     </>
   );
 }

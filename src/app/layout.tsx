@@ -5,9 +5,9 @@ import { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/next";
 // PageTransitionOverlay removed — using page-level transitions instead
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
-import { ScrollProgress } from "@/components/ScrollProgress";
 import { LayoutSnapshotDebug } from "@/components/LayoutSnapshotDebug";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
+import WhatsAppSlideIn from "@/components/WhatsAppSlideIn";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -449,6 +449,13 @@ export default function RootLayout({
                   "name": "Contact",
                   "description": "Get in touch with us for your next project.",
                   "url": "https://grayvally.tech/contact"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 6,
+                  "name": "Service Plans",
+                  "description": "Compare service plans tailored to your business goals.",
+                  "url": "https://grayvally.tech/service-plans"
                 }
               ]
             }),
@@ -462,10 +469,13 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <SmoothScrollProvider>
-          <ErrorBoundary>{children}</ErrorBoundary>
-          <LayoutSnapshotDebug />
-        </SmoothScrollProvider>
+        <ErrorBoundary>{children}</ErrorBoundary>
+        <ScrollToTopButton />
+        <WhatsAppSlideIn
+          whatsappNumber="8801608613747"
+          appearAfterMs={2500}
+        />
+        <LayoutSnapshotDebug />
         <Analytics />
       </body>
     </html>

@@ -18,25 +18,15 @@ function getInitialTheme(): "light" | "dark" {
 }
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">(getInitialTheme);
-  const [mounted, setMounted] = useState(false);
-
-  // Only render after mount to avoid hydration mismatch
-  useEffect(() => {
-    setMounted(true);
-    // Sync state with DOM in case blocking script already set the theme
-    setTheme(getInitialTheme());
-  }, []);
+  const [theme, setTheme] = useState<"light" | "dark">(() => getInitialTheme());
 
   useEffect(() => {
-    if (!mounted) return;
-    
     document.documentElement.classList.remove("theme-dark", "theme-light", "dark");
     document.documentElement.classList.add(`theme-${theme}`);
     document.documentElement.classList.toggle("dark", theme === "dark");
     document.documentElement.style.colorScheme = theme;
     localStorage.setItem("theme", theme);
-  }, [theme, mounted]);
+  }, [theme]);
 
   const toggleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
@@ -46,6 +36,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
+      suppressHydrationWarning
       className="relative flex h-8 w-14 items-center rounded-full bg-zinc-800 p-1 transition-colors hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black"
       aria-label="Toggle Dark Mode"
     >

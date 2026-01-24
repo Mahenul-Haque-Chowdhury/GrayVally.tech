@@ -10,6 +10,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://grayvally.tech/terms-of-service",
   },
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function TermsOfServicePage() {

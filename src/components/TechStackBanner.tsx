@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
 import LogoLoop from "./LogoLoop";
 import {
   SiAdobeaftereffects,
@@ -43,36 +43,32 @@ const techStack = [
 ];
 
 export function TechStackBanner() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
-
-  const logoItems = techStack.map((tech) => ({
-    node: (
-      <div className="flex items-center gap-3 px-4">
-        <tech.icon className="h-5 w-5 text-blue-400" />
-        <span className="text-sm font-medium text-text-secondary/80 uppercase tracking-wider whitespace-nowrap">
-          {tech.name}
-        </span>
-        <span className="h-1 w-1 rounded-full bg-blue-500/50 ml-2" />
-      </div>
-    ),
-  }));
+  const logoItems = useMemo(
+    () =>
+      techStack.map((tech) => ({
+        node: (
+          <div className="flex items-center gap-3 px-4">
+            <tech.icon className="h-5 w-5 text-blue-400" />
+            <span className="text-sm font-medium text-text-secondary/80 uppercase tracking-wider whitespace-nowrap">
+              {tech.name}
+            </span>
+            <span className="h-1 w-1 rounded-full bg-blue-500/50 ml-2" />
+          </div>
+        ),
+      })),
+    []
+  );
 
   return (
     <div className="relative w-full border-y border-border/40 bg-surface/30 py-3 backdrop-blur-sm">
-      {mounted ? (
-        <LogoLoop
-          logos={logoItems}
-          speed={40}
-          direction="left"
-          pauseOnHover={true}
-          logoHeight={24}
-          gap={0}
-        />
-      ) : (
-        <div aria-hidden style={{ height: 24 }} />
-      )}
+      <LogoLoop
+        logos={logoItems}
+        speed={40}
+        direction="left"
+        pauseOnHover={true}
+        logoHeight={24}
+        gap={0}
+      />
     </div>
   );
 }

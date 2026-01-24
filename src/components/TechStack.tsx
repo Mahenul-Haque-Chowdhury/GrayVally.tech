@@ -1,8 +1,8 @@
 "use client";
-import { useState, useEffect } from "react";
-import LogoLoop from "./LogoLoop";
-import { ScrollFloatReveal } from "@/components/ui/ScrollFloat";
-import { MOTION_DURATION, REVEAL_CONFIG } from "@/lib/motion/constants";
+import { useMemo } from "react";
+import ScrollVelocity from "./ScrollVelocity";
+import { Reveal } from "@/components/motion/Reveal";
+import { Section } from "@/components/motion/Section";
 import {
   SiAdobeaftereffects,
   SiLaravel,
@@ -44,63 +44,60 @@ const techStack = [
 ];
 
 export function TechStack() {
-  const [isMobile, setIsMobile] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 640);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-
-  }, []);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const logoItems = techStack.map((tech) => ({
-    node: (
-      <div className="flex items-center gap-2 sm:gap-3 px-4 py-2 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl bg-surface/50 border border-border/50 hover:border-blue-500/30 hover:bg-surface/80 transition-colors group">
-        <tech.icon
-          className="h-5 w-5 sm:h-6 sm:w-6 transition-transform"
-          style={{ color: tech.color }}
-          aria-hidden
-        />
-        <span className="text-xs sm:text-sm font-semibold text-text-secondary group-hover:text-text-primary transition-colors whitespace-nowrap">
-          {tech.name}
+  const heroTechStackIcons = useMemo(
+    () =>
+      (
+        <span className="inline-flex items-center gap-8 sm:gap-9">
+          <i className="hero-tech-icon devicon-html5-plain colored text-[34px] sm:text-[40px]" aria-hidden />
+          <i className="hero-tech-icon devicon-css3-plain colored text-[34px] sm:text-[40px]" aria-hidden />
+          <i className="hero-tech-icon devicon-javascript-plain colored text-[34px] sm:text-[40px]" aria-hidden />
+          <i className="hero-tech-icon devicon-react-original colored text-[34px] sm:text-[40px]" aria-hidden />
+          <i className="hero-tech-icon devicon-nextjs-original text-[34px] sm:text-[40px]" aria-hidden />
+          <i className="hero-tech-icon devicon-typescript-plain colored text-[34px] sm:text-[40px]" aria-hidden />
+          <i className="hero-tech-icon devicon-tailwindcss-plain colored text-[34px] sm:text-[40px]" aria-hidden />
+          <i className="hero-tech-icon devicon-php-plain colored text-[34px] sm:text-[40px]" aria-hidden />
+          <i className="hero-tech-icon devicon-laravel-plain colored text-[34px] sm:text-[40px]" aria-hidden />
+          <i className="hero-tech-icon devicon-mysql-plain colored text-[34px] sm:text-[40px]" aria-hidden />
+          <i className="hero-tech-icon devicon-postgresql-plain colored text-[34px] sm:text-[40px]" aria-hidden />
+          <i className="hero-tech-icon devicon-python-plain colored text-[34px] sm:text-[40px]" aria-hidden />
+          <i className="hero-tech-icon devicon-docker-plain colored text-[34px] sm:text-[40px]" aria-hidden />
+          <i className="hero-tech-icon devicon-git-plain colored text-[34px] sm:text-[40px]" aria-hidden />
         </span>
-      </div>
+      ),
+    []
+  );
+
+  const heroTechStackWithNames = useMemo(
+    () => (
+      <span className="inline-flex items-center gap-8 sm:gap-9">
+        {techStack.map((tech) => (
+          <span key={tech.name} className="inline-flex items-center gap-2">
+            <tech.icon className="h-8 w-8 sm:h-9 sm:w-9" style={{ color: tech.color }} aria-hidden />
+            <span className="text-xl sm:text-2xl font-semibold text-text-secondary uppercase tracking-wider whitespace-nowrap">
+              {tech.name}
+            </span>
+          </span>
+        ))}
+      </span>
     ),
-  }));
+    []
+  );
 
   return (
-    <ScrollFloatReveal
-      as="section"
-      y={REVEAL_CONFIG.translateY}
-      duration={MOTION_DURATION.medium}
-      className="relative z-0 py-8 sm:py-12 border-y border-border/40 bg-background/50 backdrop-blur-sm"
+    <Section
+      className="relative z-0 py-8 sm:py-12 bg-background/50 backdrop-blur-sm"
     >
       <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 mb-6 sm:mb-8 text-center">
-        <p className="text-xs sm:text-sm font-medium text-text-secondary uppercase tracking-wider">
-          Powered by Modern Technologies
-        </p>
-      </div>
-      <div className="relative w-full overflow-hidden">
-        {mounted ? (
-          <LogoLoop
-            logos={logoItems}
-            speed={isMobile ? 30 : 40}
-            direction="left"
-            pauseOnHover={true}
-            logoHeight={isMobile ? 36 : 48}
-            gap={isMobile ? 12 : 16}
-            colorMode="brand"
+        <Reveal as="div" variant="bodyText">
+          <ScrollVelocity
+            texts={[heroTechStackIcons, heroTechStackWithNames]}
+            velocity={28}
+            className="px-6 sm:px-8"
+            scrollerClassName="text-xl sm:text-2xl md:text-3xl font-semibold text-text-secondary uppercase tracking-wider"
+            parallaxClassName="py-0.5 sm:py-1"
           />
-        ) : (
-          <div aria-hidden className="w-full" style={{ height: isMobile ? 36 : 48 }} />
-        )}
+        </Reveal>
       </div>
-    </ScrollFloatReveal>
+    </Section>
   );
 }

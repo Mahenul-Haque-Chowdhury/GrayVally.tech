@@ -27,61 +27,61 @@ const industries: Array<{ name: string; description: string; icon: LucideIcon }>
   {
     name: "Pharma",
     description:
-      "Compliance-ready systems that manage sensitive data, approvals, and regulated workflows without friction.",
+      "Compliance-ready platforms for regulated data, approvals, and audits.",
     icon: Pill,
   },
   {
     name: "Real Estate",
     description:
-      "Lead capture, property management, and client portals designed for faster transactions and clearer reporting.",
+      "Lead capture, listings, and portals that speed up transactions.",
     icon: Building2,
   },
   {
     name: "Software / ITES",
     description:
-      "Scalable platforms, internal tooling, and automation that keep delivery teams fast and aligned.",
+      "Scalable platforms and automation for fast delivery teams.",
     icon: Code2,
   },
   {
     name: "E-Commerce",
     description:
-      "Conversion-first storefronts and transaction systems built for scale, stability, and global payments.",
+      "Conversion-first storefronts with stable payments at scale.",
     icon: ShoppingCart,
   },
   {
     name: "Education",
     description:
-      "Learning platforms, enrollment workflows, and analytics that support modern institutions and growth.",
+      "Learning platforms, enrollment flows, and performance analytics.",
     icon: GraduationCap,
   },
   {
     name: "Retail",
     description:
-      "Inventory-aware systems, POS integrations, and customer experiences optimized for omnichannel commerce.",
+      "Inventory, POS integrations, and omnichannel customer journeys.",
     icon: Store,
   },
   {
     name: "Automotive",
     description:
-      "Service booking, dealership operations, and CRM systems that streamline sales and aftercare.",
+      "Service booking, dealership ops, and aftercare workflows.",
     icon: Car,
   },
   {
     name: "Startup",
     description:
-      "MVP-to-scale product engineering with clear milestones, rapid iteration, and investor-ready execution.",
+      "MVP to scale with clear milestones and rapid iteration.",
     icon: Rocket,
   },
   {
     name: "Non-Profit",
     description:
-      "Donation platforms, volunteer management, and impact dashboards built for transparency and trust.",
+      "Donations, volunteer management, and impact reporting.",
     icon: Heart,
   },
   {
     name: "Travel Agency",
     description:
-      "Booking experiences, itinerary management, and customer communications designed for global travelers.",
+      "Bookings, itineraries, and traveler communications.",
     icon: Plane,
   },
 ];
@@ -116,7 +116,7 @@ const processSteps = [
 
 export function PortfolioPageContent() {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
-  const caseStudies = projects.filter((project) => project.featuredCaseStudy);
+  const caseStudies = projects;
   const caseStudyStacks = [
     {
       label: "Next.js",
@@ -194,18 +194,18 @@ export function PortfolioPageContent() {
                 </ScrollFloatReveal>
 
                 <p className="max-w-3xl text-sm sm:text-base md:text-lg text-text-secondary/90 leading-relaxed">
-                  We don't just write code.
+                  We don&apos;t just write code.
                   <br />
-                  We're in the business of customer satisfaction.
+                  We&apos;re in the business of customer satisfaction.
                 </p>
               </div>
             </div>
           </section>
 
           {/* Process */}
-          <section className="relative py-10 sm:py-12 border-y border-border/30 bg-surface/20">
+          <section className="relative py-10 sm:py-12 bg-surface/20">
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
-              <div className="mb-10">
+              <div className="mb-10 text-center">
                 <p className="text-xs uppercase tracking-[0.3em] text-text-secondary/70">How We Work</p>
                 <FloatHeading as="h2" className="mt-3 text-3xl sm:text-4xl font-bold text-text-primary">
                   A predictable delivery process
@@ -294,19 +294,19 @@ export function PortfolioPageContent() {
           {/* Industries */}
           <section className="relative py-12 sm:py-16" style={{ perspective: "1000px" }}>
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
-              <div className="flex items-end justify-between gap-6 flex-wrap mb-10">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.3em] text-text-secondary/70">Industries</p>
-                  <FloatHeading as="h2" className="mt-3 text-3xl sm:text-4xl font-bold text-text-primary">
+              <div className="mb-10 text-center">
+                <p className="text-xs uppercase tracking-[0.3em] text-text-secondary/70">Industries</p>
+                <FloatHeading as="h2" className="mt-3 text-3xl sm:text-4xl font-bold text-text-primary">
+                  <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-300 bg-clip-text text-transparent">
                     Industries we serve
-                  </FloatHeading>
-                </div>
-                <p className="text-sm text-text-secondary/70 max-w-xl">
+                  </span>
+                </FloatHeading>
+                <p className="mt-4 text-sm text-text-secondary/70 max-w-xl mx-auto">
                   Enterprise-grade delivery across regulated and growth-stage sectors.
                 </p>
               </div>
 
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {industries.map((industry, index) => (
                   <ScrollFloatReveal
                     as="article"
@@ -335,14 +335,14 @@ export function PortfolioPageContent() {
           {/* Case Studies */}
           <section className="relative py-12 sm:py-16">
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
-              <div className="flex items-end justify-between gap-6 flex-wrap mb-10">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.3em] text-text-secondary/70">Case Studies</p>
-                  <FloatHeading as="h2" className="mt-3 text-3xl sm:text-4xl font-bold text-text-primary">
+              <div className="mb-10 text-center">
+                <p className="text-xs uppercase tracking-[0.3em] text-text-secondary/70">Case Studies</p>
+                <FloatHeading as="h2" className="mt-3 text-3xl sm:text-4xl font-bold text-text-primary">
+                  <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-300 bg-clip-text text-transparent">
                     Proof-led client outcomes
-                  </FloatHeading>
-                </div>
-                <p className="text-sm text-text-secondary/70 max-w-xl">
+                  </span>
+                </FloatHeading>
+                <p className="mt-4 text-sm text-text-secondary/70 max-w-xl mx-auto">
                   Explore detailed case studies to see the impact we deliver for clients.
                 </p>
               </div>
@@ -394,7 +394,7 @@ export function PortfolioPageContent() {
                       </span>
                     </div>
 
-                    <div className="mt-6 rounded-2xl border border-border/40 bg-background/40 p-4">
+                    <div className="mt-6 rounded-2xl bg-background/40 p-4">
                       <p className="text-[10px] uppercase tracking-[0.25em] text-text-secondary/70">Business Outcome</p>
                       <p className="mt-2 text-sm font-semibold text-text-primary">{project.businessOutcome}</p>
                     </div>
@@ -428,7 +428,7 @@ export function PortfolioPageContent() {
           {/* Trust */}
           <section className="relative py-12 sm:py-16">
             <div className="mx-auto max-w-6xl px-4 sm:px-6">
-              <div className="rounded-3xl border border-border/40 bg-surface/20 p-8 sm:p-10">
+              <div className="rounded-3xl bg-surface/20 p-8 sm:p-10">
                 <p className="text-sm text-text-secondary/80">
                   Many of our engagements are confidential due to client NDAs.
                 </p>
@@ -448,7 +448,7 @@ export function PortfolioPageContent() {
               <ScrollFloatReveal
                 y={REVEAL_CONFIG.translateY}
                 duration={MOTION_DURATION.medium}
-                className="relative overflow-hidden rounded-3xl border border-border/50 bg-gradient-to-br from-surface/50 via-background to-surface/30 p-8 sm:p-12 text-center"
+                className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-surface/50 via-background to-surface/30 p-8 sm:p-12 text-center"
               >
                 <div className="absolute -top-20 left-8 h-40 w-40 rounded-full bg-blue-500/20 blur-[90px]" />
                 <div className="absolute -bottom-20 right-8 h-40 w-40 rounded-full bg-emerald-500/20 blur-[90px]" />
