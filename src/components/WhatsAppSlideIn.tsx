@@ -6,14 +6,17 @@ type Props = {
   whatsappNumber: string;
   message?: string;
   appearAfterMs?: number;
+  autoCollapseAfterMs?: number;
 };
 
 export default function WhatsAppSlideIn({
   whatsappNumber,
   message = "Hi! I want to talk about a project.",
   appearAfterMs = 1400,
+  autoCollapseAfterMs = 3500,
 }: Props) {
   const [visible, setVisible] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     const t = window.setTimeout(() => setVisible(true), appearAfterMs);
@@ -27,6 +30,13 @@ export default function WhatsAppSlideIn({
     };
   }, [appearAfterMs]);
 
+  useEffect(() => {
+    if (!visible) return undefined;
+    setExpanded(true);
+    const t = window.setTimeout(() => setExpanded(false), autoCollapseAfterMs);
+    return () => window.clearTimeout(t);
+  }, [visible, autoCollapseAfterMs]);
+
   const href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
   return (
@@ -36,14 +46,16 @@ export default function WhatsAppSlideIn({
       rel="noreferrer"
       aria-label="Talk on WhatsApp"
       className={[
-        "fixed right-0 bottom-20 z-50",
+        "fixed right-6 bottom-20 z-50",
         "inline-flex items-center gap-2",
-        "rounded-l-xl px-3 py-2.5",
+        expanded ? "rounded-l-xl px-3 py-2.5" : "rounded-full p-3",
         "bg-slate-900 text-white shadow-lg border border-black/10",
         "dark:border-white/30 dark:bg-white/85 dark:text-slate-900",
-        "transition-transform duration-300 ease-out",
-        "sm:right-4 sm:bottom-20 sm:rounded-xl sm:px-4 sm:py-3",
-        visible ? "translate-x-0" : "translate-x-[140%]",
+        "transition-all duration-300 ease-out",
+        expanded
+          ? "sm:right-6 sm:bottom-20 sm:rounded-xl sm:px-4 sm:py-3"
+          : "sm:right-6 sm:bottom-20 sm:rounded-full sm:p-3",
+        visible ? "translate-x-0 opacity-100" : "translate-x-[220%] opacity-0",
       ].join(" ")}
     >
       <svg width="18" height="18" viewBox="0 0 32 32" fill="none" aria-hidden="true">
@@ -57,10 +69,12 @@ export default function WhatsAppSlideIn({
         />
       </svg>
 
-      <span className="text-xs font-medium sm:text-sm">
-        <span className="sm:hidden">Talk @Whatsapp</span>
-        <span className="hidden sm:inline">Talk @Whatsapp now</span>
-      </span>
+      {expanded ? (
+        <span className="text-xs font-medium sm:text-sm">
+          <span className="sm:hidden">Talk @Whatsapp</span>
+          <span className="hidden sm:inline">Talk @Whatsapp now</span>
+        </span>
+      ) : null}
     </a>
   );
 }

@@ -258,6 +258,10 @@ const renderGradientTitle = (text: string, gradientIndices: number[]) => {
 
 const whyChooseUsFeatures = [
   {
+    title: "Your ideas are safe with us. Period.",
+    description: "We treat your concepts, data, and intellectual property with strict confidentiality.",
+  },
+  {
     title: "Reasonable, growth-focused service plans",
     description: "Transparent pricing tiers designed to scale with your goals.",
   },
@@ -277,6 +281,7 @@ const whyChooseUsFeatures = [
     title: "Long-term technical partnership",
     description: "Ongoing optimization, support, and strategic guidance.",
   },
+
 ];
 
 // Modal animation variants
@@ -811,33 +816,17 @@ export function ServicesBento() {
                             transition: { duration: 0.45, ease: "easeOut" },
                           },
                         }}
-                        className="flex items-center gap-3"
+                        className="flex items-center gap-3 min-w-0"
                       >
-                        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/15 text-sm font-semibold text-blue-400">
-                          {index + 1}
+                        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-500/15">
+                          <span className="h-2 w-2 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.55)]" />
                         </span>
-                        <h3 className="text-lg sm:text-xl font-semibold text-text-primary">
+                        <h3 className="min-w-0 text-base sm:text-xl font-semibold text-text-primary tracking-tight">
                           {feature.title}
                         </h3>
                       </motion.div>
                     </div>
-                    {feature.description ? (
-                      <div className="relative overflow-hidden pl-11 mt-2">
-                        <motion.p
-                          variants={{
-                            hidden: { y: "100%" },
-                            visible: {
-                              y: "0%",
-                              transition: { duration: 0.4, ease: "easeOut", delay: 0.05 },
-                            },
-                          }}
-                          className="text-base sm:text-lg text-text-secondary/80 lg:whitespace-nowrap"
-                        >
-                          {feature.description}
-                        </motion.p>
-                      </div>
-                    ) : null}
-                    {index === 0 ? (
+                    {index === 1 ? (
                       <motion.div
                         variants={{
                           hidden: { opacity: 0, y: -6 },
@@ -847,7 +836,7 @@ export function ServicesBento() {
                             transition: { duration: 0.4, ease: "easeOut", delay: 0.25 },
                           },
                         }}
-                        className="pl-11 mt-2"
+                        className="pl-9 mt-2"
                       >
                         <Link
                           href="/service-plans"
@@ -857,6 +846,22 @@ export function ServicesBento() {
                           <ArrowRight className="h-4 w-4" />
                         </Link>
                       </motion.div>
+                    ) : null}
+                    {feature.description ? (
+                      <div className="relative overflow-hidden pl-9 mt-2">
+                        <motion.p
+                          variants={{
+                            hidden: { y: "100%" },
+                            visible: {
+                              y: "0%",
+                              transition: { duration: 0.4, ease: "easeOut", delay: 0.05 },
+                            },
+                          }}
+                          className="text-sm sm:text-lg text-text-secondary/80 tracking-tight"
+                        >
+                          {feature.description}
+                        </motion.p>
+                      </div>
                     ) : null}
                   </motion.div>
                 ))}
@@ -870,10 +875,9 @@ export function ServicesBento() {
                 viewport={{ once: true }}
                 className="flex items-center justify-center gap-3 text-base sm:text-lg md:text-xl font-semibold text-text-secondary uppercase tracking-wider"
               >
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/15 text-sm font-semibold text-blue-400">
-                  6
+                <span className="text-base sm:text-xl font-semibold tracking-tight">
+                  We handle all your stacks &amp; Tools
                 </span>
-                <span>We handle all your stacks &amp; Tools</span>
               </motion.div>
               <div className="mt-6">
                 <ScrollVelocity
