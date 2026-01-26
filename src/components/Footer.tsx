@@ -67,14 +67,19 @@ export function Footer() {
   const reducedMotion = useReducedMotion();
 
   const revealWrapperClass = isAndroid ? "relative" : "relative overflow-hidden";
+  const revealInitial = isAndroid ? "visible" : "hidden";
+  const revealAnimate = isAndroid ? "visible" : undefined;
+  const revealWhileInView = isAndroid ? undefined : "visible";
+  const revealViewport = isAndroid ? undefined : { once: true, margin: "-100px" };
 
   const footerRevealVariant = useMemo(() => {
     if (reducedMotion || isAndroid) {
       return {
-        hidden: { opacity: 0, y: 12 },
+        hidden: { opacity: 0, y: 12, clipPath: "inset(0 0 0 0)" },
         visible: {
           opacity: 1,
           y: 0,
+          clipPath: "inset(0 0 0 0)",
           transition: { duration: 0.5, ease: "easeOut" },
         },
       };
@@ -94,6 +99,8 @@ export function Footer() {
     if (typeof navigator === "undefined") return;
     setIsAndroid(/android/i.test(navigator.userAgent));
   }, []);
+
+  const footerClassName = "bg-slate-50/80 dark:bg-slate-900/70";
 
   const handleNewsletterSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -127,11 +134,8 @@ export function Footer() {
     }
   };
 
-  return (
-    <Section
-      as="footer"
-      className="bg-slate-50/80 dark:bg-slate-900/70"
-    >
+  const footerBody = (
+    <>
       {status === "success" && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/50 px-4 py-6 backdrop-blur-sm">
           <div className="w-full max-w-md rounded-3xl border border-border/40 bg-background p-6 shadow-2xl">
@@ -166,9 +170,10 @@ export function Footer() {
             <div className={revealWrapperClass}>
               <motion.div
                 variants={footerRevealVariant}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
+                initial={revealInitial}
+                animate={revealAnimate}
+                whileInView={revealWhileInView}
+                viewport={revealViewport}
                 className="flex flex-col items-start text-left"
               >
                 <Link href="/" className="inline-flex items-center gap-2 mb-4 sm:mb-6">
@@ -222,9 +227,10 @@ export function Footer() {
                   <div className={revealWrapperClass}>
                     <motion.div
                       variants={footerRevealVariant}
-                      initial="hidden"
-                      whileInView="visible"
-                      viewport={{ once: true, margin: "-100px" }}
+                      initial={revealInitial}
+                      animate={revealAnimate}
+                      whileInView={revealWhileInView}
+                      viewport={revealViewport}
                       className="flex w-full flex-col items-start gap-4"
                     >
                       {/* Social Links */}
@@ -281,9 +287,10 @@ export function Footer() {
             <div className={revealWrapperClass}>
               <motion.div
                 variants={footerRevealVariant}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
+                initial={revealInitial}
+                animate={revealAnimate}
+                whileInView={revealWhileInView}
+                viewport={revealViewport}
               >
                 <Reveal as="h3" variant="headline" className="text-sm font-semibold text-text-primary mb-4">Services</Reveal>
                 <ul className="space-y-2.5">
@@ -307,9 +314,10 @@ export function Footer() {
             <div className={revealWrapperClass}>
               <motion.div
                 variants={footerRevealVariant}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
+                initial={revealInitial}
+                animate={revealAnimate}
+                whileInView={revealWhileInView}
+                viewport={revealViewport}
               >
                 <Reveal as="h3" variant="headline" className="text-sm font-semibold text-text-primary mb-4">Company</Reveal>
                 <ul className="space-y-2.5">
@@ -333,9 +341,10 @@ export function Footer() {
             <div className={revealWrapperClass}>
               <motion.div
                 variants={footerRevealVariant}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
+                initial={revealInitial}
+                animate={revealAnimate}
+                whileInView={revealWhileInView}
+                viewport={revealViewport}
               >
                 <Reveal as="h3" variant="headline" className="text-sm font-semibold text-text-primary mb-4">Support</Reveal>
                 <ul className="space-y-2.5">
@@ -359,9 +368,10 @@ export function Footer() {
             <div className={revealWrapperClass}>
               <motion.div
                 variants={footerRevealVariant}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
+                initial={revealInitial}
+                animate={revealAnimate}
+                whileInView={revealWhileInView}
+                viewport={revealViewport}
               >
                 <Reveal as="h3" variant="headline" className="text-sm font-semibold text-text-primary mb-4">Legal</Reveal>
                 <ul className="space-y-2.5">
@@ -389,7 +399,7 @@ export function Footer() {
           <div className={revealWrapperClass}>
             <motion.div
               variants={footerRevealVariant}
-              initial="hidden"
+              initial={revealInitial}
               animate="visible"
               className="flex items-center justify-center text-center"
             >
@@ -400,6 +410,16 @@ export function Footer() {
           </div>
         </div>
       </div>
+    </>
+  );
+
+  if (isAndroid) {
+    return <footer className={footerClassName}>{footerBody}</footer>;
+  }
+
+  return (
+    <Section as="footer" className={footerClassName}>
+      {footerBody}
     </Section>
   );
 }
