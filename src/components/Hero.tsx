@@ -4,7 +4,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Variants } from "framer-motion";
-import { Section } from "@/components/motion/Section";
 
 export function Hero() {
   const [isCaseMenuOpen, setIsCaseMenuOpen] = useState(false);
@@ -129,7 +128,7 @@ export function Hero() {
   }, [reducedMotion]);
 
   return (
-    <Section className="hero relative flex min-h-screen items-center justify-center overflow-hidden">
+    <section className="hero relative flex min-h-screen items-center justify-center overflow-hidden">
       {/* Background Gradients */}
       <div className="absolute inset-0 z-0" aria-hidden>
         <div
@@ -416,6 +415,6 @@ export function Hero() {
         </div>
 
       </div>
-    </Section>
+    </section>
   );
 }
