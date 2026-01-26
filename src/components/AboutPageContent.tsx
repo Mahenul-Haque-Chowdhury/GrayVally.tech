@@ -198,7 +198,7 @@ export function AboutPageContent() {
       </section>
 
       {/* Problem */}
-      <section className="py-16 sm:py-20 border-t border-border/60">
+      <section className="py-16 sm:py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <ScrollFloatReveal y={REVEAL_CONFIG.translateY} duration={MOTION_DURATION.medium} className="max-w-3xl">
             <FloatHeading as="h2" className="text-3xl sm:text-4xl font-bold text-text-primary font-display">
@@ -225,7 +225,7 @@ export function AboutPageContent() {
       </section>
 
       {/* How we work */}
-      <section className="py-16 sm:py-20 border-t border-border/60">
+      <section className="py-16 sm:py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <ScrollFloatReveal y={REVEAL_CONFIG.translateY} duration={MOTION_DURATION.medium} className="max-w-3xl">
             <FloatHeading as="h2" className="text-3xl sm:text-4xl font-bold text-text-primary font-display">
@@ -263,7 +263,7 @@ export function AboutPageContent() {
       </section>
 
       {/* Who it’s for */}
-      <section className="py-16 sm:py-20 border-t border-border/60 bg-surface/20">
+      <section className="py-16 sm:py-20 bg-surface/20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <ScrollFloatReveal y={REVEAL_CONFIG.translateY} duration={MOTION_DURATION.medium} className="max-w-3xl">
             <FloatHeading as="h2" className="text-3xl sm:text-4xl font-bold text-text-primary font-display">
@@ -289,7 +289,7 @@ export function AboutPageContent() {
       </section>
 
       {/* FAQs */}
-      <section id="faqs" className="py-16 sm:py-20 border-t border-border/60">
+      <section id="faqs" className="py-16 sm:py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <ScrollFloatReveal y={REVEAL_CONFIG.translateY} duration={MOTION_DURATION.medium} className="max-w-3xl">
             <FloatHeading as="h2" className="text-3xl sm:text-4xl font-bold text-text-primary font-display">
@@ -327,7 +327,7 @@ export function AboutPageContent() {
       {/* Team */}
       <section
         id="team"
-        className="py-16 sm:py-20 border-t border-border/60 bg-surface/20"
+        className="py-16 sm:py-20 bg-surface/20"
       >
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <ScrollFloatReveal
@@ -407,7 +407,7 @@ export function AboutPageContent() {
         as="section"
         y={REVEAL_CONFIG.translateY}
         duration={MOTION_DURATION.medium}
-        className="py-16 sm:py-20 border-t border-border/60"
+        className="py-16 sm:py-20"
       >
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
           <div
