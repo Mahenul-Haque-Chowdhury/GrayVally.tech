@@ -285,9 +285,7 @@ export function Hero() {
               // Keep widths for layout rhythm, but remove card "shape" styles.
               let sizeClasses = "";
               
-              if (card.size === "primary") {
-                 sizeClasses = "w-[calc(50%-0.5rem)] min-w-[calc(50%-0.5rem)] sm:w-[220px] sm:min-w-0 lg:w-[240px]";
-              } else if (card.size === "secondary") {
+              if (card.size === "secondary") {
                  sizeClasses = "w-[calc(50%-0.5rem)] min-w-[calc(50%-0.5rem)] sm:w-[220px] sm:min-w-0 lg:w-[240px]";
               } else if (card.size === "small") {
                  sizeClasses = "w-[calc(50%-0.5rem)] min-w-[calc(50%-0.5rem)] sm:w-[220px] sm:min-w-0 lg:w-[240px]";
