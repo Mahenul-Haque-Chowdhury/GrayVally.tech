@@ -306,7 +306,7 @@ export function PortfolioPageContent() {
                 </p>
               </div>
 
-              <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible lg:grid-cols-4">
+              <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
                 {industries.map((industry, index) => (
                   <ScrollFloatReveal
                     as="article"
@@ -314,7 +314,7 @@ export function PortfolioPageContent() {
                     y={REVEAL_CONFIG.translateY}
                     duration={MOTION_DURATION.normal}
                     delay={index * 0.08}
-                    className="group min-w-[260px] snap-start rounded-3xl bg-surface/20 p-6 sm:min-w-0 sm:p-7 backdrop-blur-sm shadow-sm shadow-black/5 dark:shadow-black/20 transition-all duration-300 hover:bg-surface/40 hover:shadow-md"
+                    className="group rounded-3xl bg-surface/20 p-5 sm:p-7 backdrop-blur-sm shadow-sm shadow-black/5 dark:shadow-black/20 transition-all duration-300 hover:bg-surface/40 hover:shadow-md"
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-text-secondary/60">Expertise</span>
