@@ -5,10 +5,13 @@ import { Hero } from "@/components/Hero";
 import { Footer } from "@/components/Footer";
 import { ServicesSkeleton } from "@/components/ServicesSkeleton";
 import { ProductTicker } from "@/components/ProductTicker";
-import { FeaturedProducts } from "@/components/FeaturedProducts";
 
 const ServicesBento = dynamic(() => import("@/components/ServicesBento").then((m) => m.ServicesBento), {
   loading: () => <ServicesSkeleton />,
+});
+
+const FeaturedProducts = dynamic(() => import("@/components/FeaturedProducts").then((m) => m.FeaturedProducts), {
+  loading: () => null,
 });
 
 const About = dynamic(() => import("@/components/About").then((m) => m.About), {

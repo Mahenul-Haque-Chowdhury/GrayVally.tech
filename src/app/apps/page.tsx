@@ -117,14 +117,14 @@ function AppRow({
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-5 py-2.5 text-sm font-semibold text-text-primary transition-colors hover:border-border/80 hover:bg-background/60"
               >
-                Open app <ExternalLink className="h-4 w-4" />
+                Open {app.title} <ExternalLink className="h-4 w-4" />
               </a>
             ) : (
               <Link
                 href={app.href}
                 className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/40 px-5 py-2.5 text-sm font-semibold text-text-primary transition-colors hover:border-border/80 hover:bg-background/60"
               >
-                Learn more <ArrowRight className="h-4 w-4" />
+                Learn more about {app.title} <ArrowRight className="h-4 w-4" />
               </Link>
             )}
           </div>

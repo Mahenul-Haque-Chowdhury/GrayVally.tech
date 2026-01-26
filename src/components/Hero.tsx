@@ -12,6 +12,7 @@ export function Hero() {
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const carouselIndexRef = useRef(0);
   const carouselResetRef = useRef<number | null>(null);
+  const enableHeroMotion = !reducedMotion && !isMobile;
 
   const heroCards = [
     { id: "hero-card-2", side: "left", size: "secondary" },
@@ -56,13 +57,19 @@ export function Hero() {
   };
 
   useEffect(() => {
-    if (reducedMotion) return;
-    const container = carouselRef.current;
-    if (!container || typeof window === "undefined") return;
-
+    if (typeof window === "undefined") return;
     const media = window.matchMedia("(max-width: 639px)");
-    const handleMobile = () => setIsMobile(media.matches);
-    handleMobile();
+    const update = () => setIsMobile(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion || !isMobile) return;
+    const container = carouselRef.current;
+    if (!container) return;
+
     let intervalId: number | null = null;
 
     const getStep = () => {
@@ -95,37 +102,18 @@ export function Hero() {
       }
     };
 
-    const start = () => {
-      if (!media.matches) return;
-      intervalId = window.setInterval(scrollNext, 3000);
-    };
+    intervalId = window.setInterval(scrollNext, 3000);
 
-    const stop = () => {
+    return () => {
       if (intervalId) {
         window.clearInterval(intervalId);
-        intervalId = null;
       }
       if (carouselResetRef.current) {
         window.clearTimeout(carouselResetRef.current);
         carouselResetRef.current = null;
       }
     };
-
-    const handleChange = () => {
-      stop();
-      start();
-    };
-
-    handleChange();
-    media.addEventListener("change", handleMobile);
-    media.addEventListener("change", handleChange);
-
-    return () => {
-      stop();
-      media.removeEventListener("change", handleMobile);
-      media.removeEventListener("change", handleChange);
-    };
-  }, [reducedMotion]);
+  }, [isMobile, reducedMotion]);
 
   return (
     <section className="hero relative flex min-h-screen items-center justify-center overflow-hidden">
@@ -141,105 +129,150 @@ export function Hero() {
       </div>
       
       {/* === FLOATING BACKGROUND ICONS === */}
-      <motion.div
-        className="pointer-events-none absolute left-6 top-64 z-10 text-cyan-300/35 sm:left-10 sm:top-68 md:left-16 md:top-72"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.7, y: [-6, 6] }}
-        transition={{ 
-          y: { duration: 7, ease: "easeInOut", repeat: Infinity, repeatType: "mirror" },
-          opacity: { duration: 0.6, delay: 2.4, ease: "easeOut" } // Loads instantly after cards
-        }}
-      >
-        <svg viewBox="0 0 24 24" className="h-10 w-10 sm:h-12 sm:w-12" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M3 5h2l2.4 9.6a1 1 0 0 0 .98.76H18a1 1 0 0 0 .96-.72L21 8H7" />
-          <circle cx="9" cy="19" r="1.5" />
-          <circle cx="17" cy="19" r="1.5" />
-        </svg>
-      </motion.div>
+      {enableHeroMotion ? (
+        <>
+          <motion.div
+            className="pointer-events-none absolute left-6 top-64 z-10 text-cyan-300/35 sm:left-10 sm:top-68 md:left-16 md:top-72"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.7, y: [-6, 6] }}
+            transition={{ 
+              y: { duration: 7, ease: "easeInOut", repeat: Infinity, repeatType: "mirror" },
+              opacity: { duration: 0.6, delay: 2.4, ease: "easeOut" } // Loads instantly after cards
+            }}
+          >
+            <svg viewBox="0 0 24 24" className="h-10 w-10 sm:h-12 sm:w-12" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 5h2l2.4 9.6a1 1 0 0 0 .98.76H18a1 1 0 0 0 .96-.72L21 8H7" />
+              <circle cx="9" cy="19" r="1.5" />
+              <circle cx="17" cy="19" r="1.5" />
+            </svg>
+          </motion.div>
 
-      <motion.div
-        className="pointer-events-none absolute left-24 bottom-64 z-10 text-cyan-300/35 sm:left-32 sm:bottom-60 md:left-36 md:bottom-64"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.7, y: [-6, 6] }}
-        transition={{ 
-          y: { duration: 8, ease: "easeInOut", repeat: Infinity, repeatType: "mirror" },
-          opacity: { duration: 0.6, delay: 2.5, ease: "easeOut" } // Slight stagger
-        }}
-      >
-        <svg viewBox="0 0 24 24" className="h-10 w-10 sm:h-12 sm:w-12" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M8 7l-4 5 4 5" />
-          <path strokeLinecap="round" strokeLinejoin="round" d="M16 7l4 5-4 5" />
-        </svg>
-      </motion.div>
+          <motion.div
+            className="pointer-events-none absolute left-24 bottom-64 z-10 text-cyan-300/35 sm:left-32 sm:bottom-60 md:left-36 md:bottom-64"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.7, y: [-6, 6] }}
+            transition={{ 
+              y: { duration: 8, ease: "easeInOut", repeat: Infinity, repeatType: "mirror" },
+              opacity: { duration: 0.6, delay: 2.5, ease: "easeOut" } // Slight stagger
+            }}
+          >
+            <svg viewBox="0 0 24 24" className="h-10 w-10 sm:h-12 sm:w-12" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8 7l-4 5 4 5" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16 7l4 5-4 5" />
+            </svg>
+          </motion.div>
 
-      <motion.div
-        className="pointer-events-none absolute right-36 bottom-64 z-10 text-cyan-300/35 sm:right-40 sm:bottom-60 md:right-44 md:bottom-64"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.7, y: [-6, 6] }}
-        transition={{ 
-          y: { duration: 7.5, ease: "easeInOut", repeat: Infinity, repeatType: "mirror" },
-          opacity: { duration: 0.6, delay: 2.6, ease: "easeOut" } // Slight stagger
-        }}
-      >
-        <svg viewBox="0 0 24 24" className="h-10 w-10 sm:h-12 sm:w-12" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4l9 4-9 4-9-4 9-4z" />
-          <path strokeLinecap="round" strokeLinejoin="round" d="M6 12v4.5c0 .8 2.7 2.5 6 2.5s6-1.7 6-2.5V12" />
-        </svg>
-      </motion.div>
+          <motion.div
+            className="pointer-events-none absolute right-36 bottom-64 z-10 text-cyan-300/35 sm:right-40 sm:bottom-60 md:right-44 md:bottom-64"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.7, y: [-6, 6] }}
+            transition={{ 
+              y: { duration: 7.5, ease: "easeInOut", repeat: Infinity, repeatType: "mirror" },
+              opacity: { duration: 0.6, delay: 2.6, ease: "easeOut" } // Slight stagger
+            }}
+          >
+            <svg viewBox="0 0 24 24" className="h-10 w-10 sm:h-12 sm:w-12" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4l9 4-9 4-9-4 9-4z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 12v4.5c0 .8 2.7 2.5 6 2.5s6-1.7 6-2.5V12" />
+            </svg>
+          </motion.div>
+        </>
+      ) : null}
 
       <div className="relative z-10 mx-auto max-w-screen-2xl px-4 sm:px-6 w-full">
         
         {/* === TEXT CONTENT === */}
-        <motion.div
-          className="flex flex-col items-center text-center -mt-2 pt-0 sm:mt-0 sm:pt-24 md:pt-22 lg:pt-20"
-          variants={textContainer}
-          initial="hidden"
-          animate="visible"
-        >
-          {/* Badge */}
-          <motion.div variants={fadeInFromTop}>
+        {enableHeroMotion ? (
+          <motion.div
+            className="flex flex-col items-center text-center -mt-2 pt-0 sm:mt-0 sm:pt-24 md:pt-22 lg:pt-20"
+            variants={textContainer}
+            initial="hidden"
+            animate="visible"
+          >
+            {/* Badge */}
+            <motion.div variants={fadeInFromTop}>
             <span className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-surface/30 backdrop-blur-sm px-4 py-1.5 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-text-secondary">
               <span className="relative flex h-2 w-2">
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span>
               </span>
               Available for new projects
             </span>
-          </motion.div>
+            </motion.div>
 
-          {/* Headline */}
-          <motion.h1 variants={fadeInFromTop} className="mt-2 sm:mt-4 max-w-5xl font-display font-bold tracking-tight text-text-primary text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
-            Building Products that Drive{" "}
-            <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-              Business Growth
-            </span>
-          </motion.h1>
+            {/* Headline */}
+            <motion.h1 variants={fadeInFromTop} className="mt-2 sm:mt-4 max-w-5xl font-display font-bold tracking-tight text-text-primary text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+              Building Products that Drive{" "}
+              <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
+                Business Growth
+              </span>
+            </motion.h1>
 
-          {/* Subheadline */}
-          <motion.p variants={fadeInFromTop} className="mt-4 sm:mt-6 max-w-2xl text-sm sm:text-base md:text-lg text-text-secondary/90 leading-relaxed px-4">
-            Scalable backends and precise frontends, engineered as one system.
-          </motion.p>
+            {/* Subheadline */}
+            <motion.p variants={fadeInFromTop} className="mt-4 sm:mt-6 max-w-2xl text-sm sm:text-base md:text-lg text-text-secondary/90 leading-relaxed px-4">
+              Scalable backends and precise frontends, engineered as one system.
+            </motion.p>
 
-          {/* CTA Buttons */}
-          <motion.div variants={fadeInFromTop} className="mt-8 sm:mt-10 flex items-start justify-center gap-2 sm:gap-4">
-            <div className="flex flex-col items-center gap-1">
-              <a href="https://calendly.com/grayvally-tech/30min" target="_blank" rel="noopener noreferrer" className="group relative inline-flex h-10 sm:h-12 items-center justify-center gap-2 overflow-hidden rounded-full bg-[#006bff] px-3 sm:px-8 text-[11px] sm:text-base font-semibold text-white transition-transform duration-300 hover:-translate-y-0.5 active:translate-y-0">
-                <span className="relative z-10 whitespace-nowrap">Book a meeting</span>
-                <svg className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            {/* CTA Buttons */}
+            <motion.div variants={fadeInFromTop} className="mt-8 sm:mt-10 flex items-start justify-center gap-2 sm:gap-4">
+              <div className="flex flex-col items-center gap-1">
+                <a href="https://calendly.com/grayvally-tech/30min" target="_blank" rel="noopener noreferrer" className="group relative inline-flex h-10 sm:h-12 items-center justify-center gap-2 overflow-hidden rounded-full bg-[#006bff] px-3 sm:px-8 text-[11px] sm:text-base font-semibold text-white transition-transform duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                  <span className="relative z-10 whitespace-nowrap">Book a meeting</span>
+                  <svg className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                  <div className="absolute inset-0 bg-white/15 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                </a>
+                <span className="text-[11px] text-text-secondary">Powered by Calendly</span>
+              </div>
+              <Link href="/audit" className="group relative inline-flex h-10 sm:h-12 items-center justify-center gap-2 overflow-hidden rounded-full border border-border/60 bg-transparent backdrop-blur-sm px-3 sm:px-8 text-[11px] sm:text-base font-semibold text-text-primary transition-colors duration-300 hover:border-text-secondary/50">
+                <span className="whitespace-nowrap">Free Website Audit</span>
+                <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
-                <div className="absolute inset-0 bg-white/15 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-              </a>
-              <span className="text-[11px] text-text-secondary">Powered by Calendly</span>
-            </div>
-            <Link href="/audit" className="group relative inline-flex h-10 sm:h-12 items-center justify-center gap-2 overflow-hidden rounded-full border border-border/60 bg-transparent backdrop-blur-sm px-3 sm:px-8 text-[11px] sm:text-base font-semibold text-text-primary transition-colors duration-300 hover:border-text-secondary/50">
-              <span className="whitespace-nowrap">Free Website Audit</span>
-              <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-              <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-blue-500/30 to-cyan-500/30 transition-transform duration-300 group-hover:translate-x-0" />
-            </Link>
+                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-blue-500/30 to-cyan-500/30 transition-transform duration-300 group-hover:translate-x-0" />
+              </Link>
+            </motion.div>
           </motion.div>
-        </motion.div>
+        ) : (
+          <div className="flex flex-col items-center text-center -mt-2 pt-0 sm:mt-0 sm:pt-24 md:pt-22 lg:pt-20">
+            <div>
+              <span className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-surface/30 backdrop-blur-sm px-4 py-1.5 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-text-secondary">
+                <span className="relative flex h-2 w-2">
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span>
+                </span>
+                Available for new projects
+              </span>
+            </div>
+            <h1 className="mt-2 sm:mt-4 max-w-5xl font-display font-bold tracking-tight text-text-primary text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+              Building Products that Drive{" "}
+              <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
+                Business Growth
+              </span>
+            </h1>
+            <p className="mt-4 sm:mt-6 max-w-2xl text-sm sm:text-base md:text-lg text-text-secondary/90 leading-relaxed px-4">
+              Scalable backends and precise frontends, engineered as one system.
+            </p>
+            <div className="mt-8 sm:mt-10 flex items-start justify-center gap-2 sm:gap-4">
+              <div className="flex flex-col items-center gap-1">
+                <a href="https://calendly.com/grayvally-tech/30min" target="_blank" rel="noopener noreferrer" className="group relative inline-flex h-10 sm:h-12 items-center justify-center gap-2 overflow-hidden rounded-full bg-[#006bff] px-3 sm:px-8 text-[11px] sm:text-base font-semibold text-white transition-transform duration-300 hover:-translate-y-0.5 active:translate-y-0">
+                  <span className="relative z-10 whitespace-nowrap">Book a meeting</span>
+                  <svg className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                  <div className="absolute inset-0 bg-white/15 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                </a>
+                <span className="text-[11px] text-text-secondary">Powered by Calendly</span>
+              </div>
+              <Link href="/audit" className="group relative inline-flex h-10 sm:h-12 items-center justify-center gap-2 overflow-hidden rounded-full border border-border/60 bg-transparent backdrop-blur-sm px-3 sm:px-8 text-[11px] sm:text-base font-semibold text-text-primary transition-colors duration-300 hover:border-text-secondary/50">
+                <span className="whitespace-nowrap">Free Website Audit</span>
+                <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-blue-500/30 to-cyan-500/30 transition-transform duration-300 group-hover:translate-x-0" />
+              </Link>
+            </div>
+          </div>
+        )}
 
         {/* === CARDS SECTION === */}
         <div className="relative -mt-4 sm:-mt-6 mb-12 sm:mb-8 w-full pt-12 sm:pt-16">
@@ -313,13 +346,14 @@ export function Hero() {
                   <div className={innerClasses}>
                     {card.id === "hero-card-2" ? (
                       <div className="flex w-full flex-col items-center gap-4 p-4 text-center">
-                        <motion.div
-                          variants={getTextRevealVariant(index)}
-                          initial="hidden"
-                          whileInView="visible"
-                          viewport={{ once: true }}
-                          className="flex flex-col items-center"
-                        >
+                        {enableHeroMotion ? (
+                          <motion.div
+                            variants={getTextRevealVariant(index)}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            className="flex flex-col items-center"
+                          >
                           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-surface/30 backdrop-blur-sm">
                             <svg viewBox="0 0 24 24" className="h-9 w-9" fill="none" stroke="url(#hero-icon-gradient-2)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                               <defs>
@@ -338,7 +372,29 @@ export function Hero() {
                           </div>
                           <div className="text-2xl sm:text-3xl font-semibold text-text-primary">25+</div>
                           <div className="mt-2 text-xs sm:text-sm text-text-secondary/90">Clients &amp; Trusted Partners</div>
-                        </motion.div>
+                          </motion.div>
+                        ) : (
+                          <div className="flex flex-col items-center">
+                            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-surface/30 backdrop-blur-sm">
+                              <svg viewBox="0 0 24 24" className="h-9 w-9" fill="none" stroke="url(#hero-icon-gradient-2)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                                <defs>
+                                  <linearGradient id="hero-icon-gradient-2" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stopColor="#60a5fa" />
+                                    <stop offset="50%" stopColor="#22d3ee" />
+                                    <stop offset="100%" stopColor="#2dd4bf" />
+                                  </linearGradient>
+                                </defs>
+                                <path d="m11 17 2 2a1 1 0 1 0 3-3" />
+                                <path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4" />
+                                <path d="m21 3 1 11h-2" />
+                                <path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3" />
+                                <path d="M3 4h8" />
+                              </svg>
+                            </div>
+                            <div className="text-2xl sm:text-3xl font-semibold text-text-primary">25+</div>
+                            <div className="mt-2 text-xs sm:text-sm text-text-secondary/90">Clients &amp; Trusted Partners</div>
+                          </div>
+                        )}
                       </div>
                     ) : card.id === "hero-card-3" ? (
                       <div className="relative flex w-full flex-col items-center gap-4 p-4 text-center">
@@ -350,13 +406,14 @@ export function Hero() {
                             <Link href="/portfolio#case-studies" className="block rounded-lg px-3 py-2 hover:bg-black/5">Explore Case Studies</Link>
                           </div>
                         )}
-                        <motion.div
-                          variants={getTextRevealVariant(index)}
-                          initial="hidden"
-                          whileInView="visible"
-                          viewport={{ once: true }}
-                          className="flex flex-col items-center"
-                        >
+                        {enableHeroMotion ? (
+                          <motion.div
+                            variants={getTextRevealVariant(index)}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            className="flex flex-col items-center"
+                          >
                           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-surface/30 backdrop-blur-sm">
                             <svg viewBox="0 0 24 24" className="h-9 w-9" fill="none" stroke="url(#hero-icon-gradient-3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                               <defs>
@@ -374,17 +431,39 @@ export function Hero() {
                           <div className="text-2xl sm:text-3xl font-semibold text-text-primary">50+</div>
                           <div className="mt-2 text-xs sm:text-sm text-text-secondary/90">Total Projects</div>
                           <div className="mt-1 text-xs sm:text-sm text-text-secondary/70">Apps • Web • SaaS</div>
-                        </motion.div>
+                          </motion.div>
+                        ) : (
+                          <div className="flex flex-col items-center">
+                            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-surface/30 backdrop-blur-sm">
+                              <svg viewBox="0 0 24 24" className="h-9 w-9" fill="none" stroke="url(#hero-icon-gradient-3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                                <defs>
+                                  <linearGradient id="hero-icon-gradient-3" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stopColor="#60a5fa" />
+                                    <stop offset="50%" stopColor="#22d3ee" />
+                                    <stop offset="100%" stopColor="#2dd4bf" />
+                                  </linearGradient>
+                                </defs>
+                                <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" />
+                                <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" />
+                                <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" />
+                              </svg>
+                            </div>
+                            <div className="text-2xl sm:text-3xl font-semibold text-text-primary">50+</div>
+                            <div className="mt-2 text-xs sm:text-sm text-text-secondary/90">Total Projects</div>
+                            <div className="mt-1 text-xs sm:text-sm text-text-secondary/70">Apps • Web • SaaS</div>
+                          </div>
+                        )}
                       </div>
                     ) : card.id === "hero-card-4" ? (
                       <div className="flex w-full flex-col items-center gap-4 p-4 text-center">
-                        <motion.div
-                          variants={getTextRevealVariant(index)}
-                          initial="hidden"
-                          whileInView="visible"
-                          viewport={{ once: true }}
-                          className="flex flex-col items-center"
-                        >
+                        {enableHeroMotion ? (
+                          <motion.div
+                            variants={getTextRevealVariant(index)}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            className="flex flex-col items-center"
+                          >
                           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-surface/30 backdrop-blur-sm">
                             <svg viewBox="0 0 24 24" className="h-9 w-9" fill="none" stroke="url(#hero-icon-gradient-4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                               <defs>
@@ -404,7 +483,30 @@ export function Hero() {
                           </div>
                           <div className="text-2xl sm:text-3xl font-semibold text-text-primary">7+</div>
                           <div className="mt-2 text-xs sm:text-sm text-text-secondary/90">Years of Combined Professional Experience</div>
-                        </motion.div>
+                          </motion.div>
+                        ) : (
+                          <div className="flex flex-col items-center">
+                            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-surface/30 backdrop-blur-sm">
+                              <svg viewBox="0 0 24 24" className="h-9 w-9" fill="none" stroke="url(#hero-icon-gradient-4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                                <defs>
+                                  <linearGradient id="hero-icon-gradient-4" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stopColor="#60a5fa" />
+                                    <stop offset="50%" stopColor="#22d3ee" />
+                                    <stop offset="100%" stopColor="#2dd4bf" />
+                                  </linearGradient>
+                                </defs>
+                                <path d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15" />
+                                <path d="M11 12 5.12 2.2" />
+                                <path d="m13 12 5.88-9.8" />
+                                <path d="M8 7h8" />
+                                <circle cx="12" cy="17" r="5" />
+                                <path d="M12 18v-2h-.5" />
+                              </svg>
+                            </div>
+                            <div className="text-2xl sm:text-3xl font-semibold text-text-primary">7+</div>
+                            <div className="mt-2 text-xs sm:text-sm text-text-secondary/90">Years of Combined Professional Experience</div>
+                          </div>
+                        )}
                       </div>
                     ) : null}
                   </div>

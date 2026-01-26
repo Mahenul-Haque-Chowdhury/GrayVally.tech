@@ -684,6 +684,7 @@ function BentoCard({ service, index, className }: BentoCardProps) {
 }
 
 export function ServicesBento() {
+  const [enableVelocity, setEnableVelocity] = useState(false);
   const heroTechStackIcons = useMemo(
     () =>
       (
@@ -717,6 +718,14 @@ export function ServicesBento() {
     ),
     []
   );
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 639px)");
+    const update = () => setEnableVelocity(!media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
 
   return (
     <>
@@ -880,13 +889,39 @@ export function ServicesBento() {
                 </span>
               </motion.div>
               <div className="mt-6">
-                <ScrollVelocity
-                  texts={[heroTechStackIcons, heroToolsWithNames]}
-                  velocity={28}
-                  className="px-6 sm:px-8"
-                  scrollerClassName="text-xl sm:text-2xl md:text-3xl font-semibold text-text-secondary uppercase tracking-wider"
-                  parallaxClassName="py-0.5 sm:py-1"
-                />
+                {enableVelocity ? (
+                  <ScrollVelocity
+                    texts={[heroTechStackIcons, heroToolsWithNames]}
+                    velocity={28}
+                    className="px-6 sm:px-8"
+                    scrollerClassName="text-xl sm:text-2xl md:text-3xl font-semibold text-text-secondary uppercase tracking-wider"
+                    parallaxClassName="py-0.5 sm:py-1"
+                  />
+                ) : (
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="flex flex-wrap items-center justify-center gap-6">
+                      {techStackIcons.map(({ icon: Icon, label, color, className }) => (
+                        <span key={label} className="inline-flex items-center">
+                          <Icon
+                            className={cn("h-7 w-7", className)}
+                            style={color ? { color } : undefined}
+                            aria-label={label}
+                          />
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex flex-wrap items-center justify-center gap-4">
+                      {toolsStack.map((tool) => (
+                        <span key={tool.name} className="inline-flex items-center gap-2">
+                          <tool.icon className="h-6 w-6" style={{ color: tool.color }} aria-hidden />
+                          <span className="text-sm font-semibold text-text-secondary uppercase tracking-wider whitespace-nowrap">
+                            {tool.name}
+                          </span>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
