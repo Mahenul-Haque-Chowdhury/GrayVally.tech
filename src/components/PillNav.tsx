@@ -169,6 +169,7 @@ const PillNav = ({
     };
   }, []);
 
+
   useIsomorphicLayoutEffect(() => {
     const layout = () => {
       circleRefs.current.forEach((circle) => {

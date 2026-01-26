@@ -163,7 +163,7 @@ const softwareSolutionRows: SoftwareSolutionRow[] = [
     ],
     description:
       "Centralize operations, automate workflows, and gain visibility across every core business function.",
-    image: "/enterprise-core-operations-platform.png",
+    image: "/enterprise-core-operations-platform.webp",
     imageAlt: "Enterprise core and operations platform interface",
   },
   {
@@ -209,7 +209,7 @@ const softwareSolutionRows: SoftwareSolutionRow[] = [
     ],
     description:
       "Secure identity, roles, and workforce systems that keep teams productive and compliant.",
-    image: "/people-identity-access.png",
+    image: "/people-identity-access.webp",
     imageAlt: "People identity and access management platform",
   },
   {
@@ -255,7 +255,7 @@ const softwareSolutionRows: SoftwareSolutionRow[] = [
     ],
     description:
       "Accelerate revenue with customer platforms, CRM workflows, and sales enablement tooling.",
-    image: "/revenue-sales-customer-platforms.png",
+    image: "/revenue-sales-customer-platforms.webp",
     imageAlt: "Revenue, sales, and customer platform dashboard",
   },
   {
@@ -301,7 +301,7 @@ const softwareSolutionRows: SoftwareSolutionRow[] = [
     ],
     description:
       "Billing, subscriptions, and finance systems that improve cash flow and reporting accuracy.",
-    image: "/finance-monetization-systems.png",
+    image: "/finance-monetization-systems.webp",
     imageAlt: "Finance and monetization systems analytics",
   },
   {
@@ -347,7 +347,7 @@ const softwareSolutionRows: SoftwareSolutionRow[] = [
     ],
     description:
       "Business intelligence, dashboards, and data platforms that turn signals into decisions.",
-    image: "/data-analytics-intelligence.png",
+    image: "/data-analytics-intelligence.webp",
     imageAlt: "Data analytics and intelligence platform visualization",
   },
   {
@@ -393,7 +393,7 @@ const softwareSolutionRows: SoftwareSolutionRow[] = [
     ],
     description:
       "Industry-ready SaaS platforms built to scale with compliance, security, and multi-tenant control.",
-    image: "/industry-saas-platforms.png",
+    image: "/industry-saas-platforms.webp",
     imageAlt: "Industry and SaaS platform management interface",
   },
 ];
@@ -587,3 +587,4 @@ export function SoftwareSolutionsPageContent() {
     </>
   );
 }
+

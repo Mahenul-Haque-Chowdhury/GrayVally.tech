@@ -47,7 +47,7 @@ const apps = [
     external: true,
     status: "Live",
     category: "Identity",
-    image: "/business%20card%20maker%20by%20grayvally.png",
+    image: "/business%20card%20maker%20by%20grayvally.webp",
     imageAlt: "Business card maker app preview",
   },
   {
@@ -57,7 +57,7 @@ const apps = [
     external: false,
     status: "Live",
     category: "Community",
-    image: "/discord%20music%20bot%20presence.png",
+    image: "/discord%20music%20bot%20presence.webp",
     imageAlt: "Discord music bot presence preview",
   },
   {
@@ -67,7 +67,7 @@ const apps = [
     external: true,
     status: "Live",
     category: "Utilities",
-    image: "/qr%20code%20generator%20online%20free.png",
+    image: "/qr%20code%20generator%20online%20free.webp",
     imageAlt: "QR code generator app preview",
   },
 ];

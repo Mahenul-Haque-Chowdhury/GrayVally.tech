@@ -62,6 +62,7 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 
+
 body {
   overflow-y: hidden;
 }
@@ -253,6 +254,44 @@ html.theme-resolved body {
   opacity: 1;
 }
 
+.theme-light .hero::before {
+  opacity: 0.75;
+  background-position: 52% 35%;
+  filter: saturate(1.2) contrast(1.3) brightness(0.95);
+  mix-blend-mode: multiply;
+}
+
+.theme-light .hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 55% 30%, rgba(255, 255, 255, 0.25), transparent 55%);
+}
+
+@supports (background-image: image-set(url("/grayvally-bg2.webp") type("image/webp") 1x)) {
+  .hero::before {
+    background-image: image-set(
+      url("/grayvally-bg2.webp") type("image/webp") 1x,
+      url("/grayvally-bg2.svg") type("image/svg+xml") 1x
+    );
+  }
+}
+
+/* Hero stats carousel (mobile) */
+.hero-stat-carousel {
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.hero-stat-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.hero-stat-card {
+  scroll-snap-align: start;
+}
+
 @media (max-width: 768px) {
   .hero::before {
     /* Mobile-specific image centered and zoomed out */
@@ -262,6 +301,17 @@ html.theme-resolved body {
     background-size: 220%;
     background-repeat: no-repeat;
     opacity: 0.7;
+  }
+}
+
+@supports (background-image: image-set(url("/background-mbl.webp") type("image/webp") 1x)) {
+  @media (max-width: 768px) {
+    .hero::before {
+      background-image: image-set(
+        url("/background-mbl.webp") type("image/webp") 1x,
+        url("/background-mbl.svg") type("image/svg+xml") 1x
+      );
+    }
   }
 }
 
@@ -277,6 +327,17 @@ html.theme-resolved body {
   }
 }
 
+@supports (background-image: image-set(url("/background-mbl.webp") type("image/webp") 1x)) {
+  @media (max-width: 420px) {
+    .hero::before {
+      background-image: image-set(
+        url("/background-mbl.webp") type("image/webp") 1x,
+        url("/background-mbl.svg") type("image/svg+xml") 1x
+      );
+    }
+  }
+}
+
 /* Desktop: use alternate hero image for larger screens */
 @media (min-width: 1024px) {
   .hero::before {
@@ -285,6 +346,17 @@ html.theme-resolved body {
     background-position: 52% 35%;
     background-size: clamp(1100px, 75vw, 1700px);
     opacity: 0.98;
+  }
+}
+
+@supports (background-image: image-set(url("/grayvally-bg2.webp") type("image/webp") 1x)) {
+  @media (min-width: 1024px) {
+    .hero::before {
+      background-image: image-set(
+        url("/grayvally-bg2.webp") type("image/webp") 1x,
+        url("/grayvally-bg2.svg") type("image/svg+xml") 1x
+      );
+    }
   }
 }
 

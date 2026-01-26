@@ -13,17 +13,17 @@ import { Stagger } from "@/components/motion/Stagger";
 const featuredCategories = [
   {
     ...softwareSolutionCategories[0],
-    image: "/enterprise-core-operations-platform.png",
+    image: "/enterprise-core-operations-platform.webp",
     imageAlt: "Enterprise core and operations platform preview",
   },
   {
     ...softwareSolutionCategories[2],
-    image: "/revenue-sales-customer-platforms.png",
+    image: "/revenue-sales-customer-platforms.webp",
     imageAlt: "Revenue, sales, and customer platforms preview",
   },
   {
     ...softwareSolutionCategories[4],
-    image: "/data-analytics-intelligence.png",
+    image: "/data-analytics-intelligence.webp",
     imageAlt: "Data, analytics, and intelligence platform preview",
   },
 ];
@@ -130,7 +130,6 @@ export function FeaturedProducts() {
                       height={800}
                       className="h-44 sm:h-52 w-full object-cover"
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                      priority={index === 0}
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/40" />
                   </div>
@@ -191,3 +190,4 @@ export function FeaturedProducts() {
     </Section>
   );
 }
+

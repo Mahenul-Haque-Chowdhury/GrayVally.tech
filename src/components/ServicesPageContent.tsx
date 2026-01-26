@@ -153,7 +153,7 @@ const webSolutionsServices: WebSolutionItem[] = [
       "QA and accessibility",
       "Launch and handover",
     ],
-    image: "/web-development-services.png",
+    image: "/web-development-services.webp",
     imageAlt: "Enterprise web development service visual",
   },
   {
@@ -197,7 +197,7 @@ const webSolutionsServices: WebSolutionItem[] = [
       "QA and launch prep",
       "Launch and training",
     ],
-    image: "/ecommerce-solutions.png",
+    image: "/ecommerce-solutions.webp",
     imageAlt: "Professional e-commerce solutions dashboard visual",
   },
   {
@@ -241,7 +241,7 @@ const webSolutionsServices: WebSolutionItem[] = [
       "Monitoring setup",
       "Ongoing support",
     ],
-    image: "/database-server-management.png",
+    image: "/database-server-management.webp",
     imageAlt: "Database and server management infrastructure visual",
   },
   {
@@ -285,7 +285,7 @@ const webSolutionsServices: WebSolutionItem[] = [
       "Release and monitoring",
       "Ongoing maintenance",
     ],
-    image: "/bug-fixing-maintenance.png",
+    image: "/bug-fixing-maintenance.webp",
     imageAlt: "Bug fixing and maintenance workflow visual",
   },
   {
@@ -329,7 +329,7 @@ const webSolutionsServices: WebSolutionItem[] = [
       "Store submission",
       "Launch and support",
     ],
-    image: "/mobile-app-development.png",
+    image: "/mobile-app-development.webp",
     imageAlt: "Mobile app development service visual",
   },
   {
@@ -373,7 +373,7 @@ const webSolutionsServices: WebSolutionItem[] = [
       "Training and handover",
       "Continuous improvement",
     ],
-    image: "/custom-software-automation.png",
+    image: "/custom-software-automation.webp",
     imageAlt: "Custom software and automation systems visual",
   },
   {
@@ -417,7 +417,7 @@ const webSolutionsServices: WebSolutionItem[] = [
       "Reporting and iteration",
       "Ongoing optimization",
     ],
-    image: "/seo-digital-marketing.png",
+    image: "/seo-digital-marketing.webp",
     imageAlt: "SEO and digital marketing analytics visual",
   },
   {
@@ -461,7 +461,7 @@ const webSolutionsServices: WebSolutionItem[] = [
       "Executive readout",
       "Follow up support",
     ],
-    image: "/tech-consultancy.png",
+    image: "/tech-consultancy.webp",
     imageAlt: "Technology consultancy and strategy session visual",
   },
 ];
@@ -741,4 +741,6 @@ export function ServicesPageContent() {
     </>
   );
 }
+
+
 

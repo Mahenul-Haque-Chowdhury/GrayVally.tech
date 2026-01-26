@@ -1,22 +1,22 @@
 export const MOTION_TOKENS = {
   duration: {
-    fast: 0.18,
-    base: 0.32,
-    slow: 0.55,
+    fast: 0.24,
+    base: 0.42,
+    slow: 0.7,
   },
   easing: {
     easeOut: [0.16, 1, 0.3, 1] as const,
   },
   stagger: {
-    staggerChildren: 0.06,
-    delayChildren: 0.04,
+    staggerChildren: 0.08,
+    delayChildren: 0.06,
   },
   distance: {
-    liftSm: 6,
-    liftMd: 12,
+    liftSm: 8,
+    liftMd: 16,
   },
   blur: {
-    blurIn: 8,
+    blurIn: 10,
   },
 } as const;
 

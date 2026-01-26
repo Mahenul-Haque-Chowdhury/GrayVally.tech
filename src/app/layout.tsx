@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next";
 // PageTransitionOverlay removed — using page-level transitions instead
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { LayoutSnapshotDebug } from "@/components/LayoutSnapshotDebug";
+import { SmoothScroll } from "@/components/SmoothScroll";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import WhatsAppSlideIn from "@/components/WhatsAppSlideIn";
 import "./globals.css";
@@ -137,6 +138,8 @@ export default function RootLayout({
 }: {
   children: ReactNode;
 }) {
+  const showLayoutDebug = process.env.NODE_ENV !== "production";
+
   return (
     <html
       lang="en"
@@ -463,6 +466,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
+        <SmoothScroll />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-text-primary text-background px-4 py-2 rounded-md z-50"
@@ -475,7 +479,7 @@ export default function RootLayout({
           whatsappNumber="8801608613747"
           appearAfterMs={2500}
         />
-        <LayoutSnapshotDebug />
+        {showLayoutDebug ? <LayoutSnapshotDebug /> : null}
         <Analytics />
       </body>
     </html>

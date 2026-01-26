@@ -15,6 +15,12 @@ const excludedNavServices = new Set([
   "Back-End Development",
 ]);
 
+const getSectionAnchor = (title: string) =>
+  title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
+
 const navItems = [
   { 
     label: "Web", 
@@ -23,7 +29,7 @@ const navItems = [
       .filter(service => !excludedNavServices.has(service.title))
       .map(service => ({
         label: service.title,
-        href: "/web-solutions"
+        href: `/web-solutions#${getSectionAnchor(service.title)}`
       }))
   },
   { 
@@ -31,7 +37,7 @@ const navItems = [
     href: "/software-solutions",
     children: softwareSolutionCategories.map(category => ({
       label: category.title,
-      href: "/software-solutions"
+      href: `/software-solutions#${getSectionAnchor(category.title)}`
     }))
   },
   { 

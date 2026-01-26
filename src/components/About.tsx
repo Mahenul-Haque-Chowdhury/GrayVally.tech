@@ -29,7 +29,7 @@ const teamMembers: TeamMember[] = [
     name: "Mahenul Haque Chowdhury",
     role: "CEO & Lead Engineer",
     bio: "Leads strategy and ships end-to-end web products with a focus on performance, security, and reliability.",
-    image: "/mahenul-haque-chowdhury-grayvally-ceo.png",
+    image: "/mahenul-haque-chowdhury-grayvally-ceo.webp",
     links: {
       website: "https://arnob.life",
     },
@@ -184,7 +184,7 @@ export function About({ showOnlyPreview = false }: AboutProps) {
             <div className="aspect-square w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto overflow-hidden rounded-lg border border-border/50 bg-surface/50">
               <div className="relative h-full w-full">
                 <Image
-                  src="/company.png"
+                  src="/company.webp"
                   alt="GrayVally company"
                   fill
                   sizes="(min-width: 768px) 28rem, (min-width: 640px) 24rem, 20rem"
@@ -362,3 +362,5 @@ export function About({ showOnlyPreview = false }: AboutProps) {
     </Section>
   );
 }
+
+

@@ -1,23 +1,23 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Variants } from "framer-motion";
-import { Code2, Handshake, Layers, Medal, TrendingUp } from "lucide-react";
 import { Section } from "@/components/motion/Section";
 
 export function Hero() {
   const [isCaseMenuOpen, setIsCaseMenuOpen] = useState(false);
   const reducedMotion = useReducedMotion();
+  const [isMobile, setIsMobile] = useState(false);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+  const carouselIndexRef = useRef(0);
+  const carouselResetRef = useRef<number | null>(null);
 
   const heroCards = [
-    { id: "hero-card-1", side: "left", size: "primary" },
     { id: "hero-card-2", side: "left", size: "secondary" },
     { id: "hero-card-3", side: "center", size: "small" },
     { id: "hero-card-4", side: "right", size: "secondary" },
-    { id: "hero-card-5", side: "right", size: "primary" },
   ] as const;
 
   // --- 1. Text Animations ---
@@ -39,36 +39,94 @@ export function Hero() {
     []
   );
 
-  // --- 2. Pocket Peek Animations ---
-  const getPeekVariant = (id: string, index: number): Variants => {
-    const baseDelay = 1.2; // Start after text finishes
-    const stepDelay = 0.2; // Delay between each card
-    
-    // Serial Delay: 1st card -> 2nd card -> 3rd -> 4th -> 5th
-    const specificDelay = baseDelay + (index * stepDelay);
-
-    const transition = { 
-      duration: 0.7, 
+  // --- 2. Stat Text Animations ---
+  const getTextRevealVariant = (index: number): Variants => {
+    const baseDelay = isMobile ? 0.2 : 1.2;
+    const stepDelay = isMobile ? 0.1 : 0.2;
+    const transition = {
+      duration: isMobile ? 0.35 : 0.7,
       ease: [0.21, 0.47, 0.32, 0.98],
-      delay: specificDelay 
+      delay: baseDelay + index * stepDelay,
     };
 
     if (reducedMotion) {
       return { hidden: { opacity: 0 }, visible: { opacity: 1, transition } };
     }
 
-    if (id === "hero-card-1" || id === "hero-card-2") {
-      return { hidden: { x: "-100%" }, visible: { x: "0%", transition } };
-    }
-    if (id === "hero-card-3") {
-      return { hidden: { y: "100%" }, visible: { y: "0%", transition } };
-    }
-    if (id === "hero-card-4" || id === "hero-card-5") {
-      return { hidden: { x: "100%" }, visible: { x: "0%", transition } };
-    }
-
-    return { hidden: { opacity: 0 }, visible: { opacity: 1, transition } };
+    return { hidden: { opacity: 0, y: isMobile ? 24 : 60 }, visible: { opacity: 1, y: 0, transition } };
   };
+
+  useEffect(() => {
+    if (reducedMotion) return;
+    const container = carouselRef.current;
+    if (!container || typeof window === "undefined") return;
+
+    const media = window.matchMedia("(max-width: 639px)");
+    const handleMobile = () => setIsMobile(media.matches);
+    handleMobile();
+    let intervalId: number | null = null;
+
+    const getStep = () => {
+      const firstCard = container.querySelector<HTMLElement>(".hero-stat-card");
+      const styles = window.getComputedStyle(container);
+      const gap = parseFloat(styles.columnGap || styles.gap || "0") || 0;
+      if (!firstCard) return 0;
+      return firstCard.getBoundingClientRect().width + gap;
+    };
+
+    const scrollNext = () => {
+      const step = getStep();
+      if (!step) return;
+      const baseCount = heroCards.length;
+      const nextIndex = carouselIndexRef.current + 1;
+
+      if (carouselResetRef.current) {
+        window.clearTimeout(carouselResetRef.current);
+        carouselResetRef.current = null;
+      }
+
+      container.scrollTo({ left: step * nextIndex, behavior: "smooth" });
+      carouselIndexRef.current = nextIndex;
+
+      if (nextIndex >= baseCount) {
+        carouselResetRef.current = window.setTimeout(() => {
+          container.scrollTo({ left: 0, behavior: "auto" });
+          carouselIndexRef.current = 0;
+        }, 600);
+      }
+    };
+
+    const start = () => {
+      if (!media.matches) return;
+      intervalId = window.setInterval(scrollNext, 3000);
+    };
+
+    const stop = () => {
+      if (intervalId) {
+        window.clearInterval(intervalId);
+        intervalId = null;
+      }
+      if (carouselResetRef.current) {
+        window.clearTimeout(carouselResetRef.current);
+        carouselResetRef.current = null;
+      }
+    };
+
+    const handleChange = () => {
+      stop();
+      start();
+    };
+
+    handleChange();
+    media.addEventListener("change", handleMobile);
+    media.addEventListener("change", handleChange);
+
+    return () => {
+      stop();
+      media.removeEventListener("change", handleMobile);
+      media.removeEventListener("change", handleChange);
+    };
+  }, [reducedMotion]);
 
   return (
     <Section className="hero relative flex min-h-screen items-center justify-center overflow-hidden">
@@ -218,118 +276,141 @@ export function Hero() {
 
           
 
-          <div className="mx-auto flex w-full max-w-5xl items-end justify-center gap-3 sm:grid sm:grid-cols-2 sm:items-start sm:gap-x-4 sm:gap-y-6 md:gap-6 lg:flex lg:max-w-none lg:flex-row lg:items-end lg:justify-center lg:gap-[48px]">
-            {heroCards.map((card, index) => {
-              // --- FIX: MUTUALLY EXCLUSIVE SIZE CLASSES ---
-              // Each block contains full responsive logic (Base -> sm -> lg) for that specific card size
+          <div
+            ref={carouselRef}
+            className="hero-stat-carousel mx-auto flex w-full max-w-5xl items-end justify-start gap-3 overflow-x-auto scroll-smooth sm:grid sm:grid-cols-2 sm:items-start sm:justify-center sm:gap-x-4 sm:gap-y-6 sm:overflow-visible md:gap-6 lg:flex lg:max-w-none lg:flex-row lg:items-end lg:justify-center lg:gap-[48px]"
+          >
+            {[...heroCards, ...heroCards].map((card, index) => {
+              const isDuplicate = index >= heroCards.length;
+              // Keep widths for layout rhythm, but remove card "shape" styles.
               let sizeClasses = "";
               
               if (card.size === "primary") {
-                 // Primary (Outer Cards): Largest at all breakpoints
-                 sizeClasses = "w-[130px] h-[180px] rounded-[18px] sm:w-[170px] sm:h-[230px] sm:rounded-[22px] lg:w-[210px] lg:h-[270px]";
+                 sizeClasses = "w-[calc(50%-0.5rem)] min-w-[calc(50%-0.5rem)] sm:w-[220px] sm:min-w-0 lg:w-[240px]";
               } else if (card.size === "secondary") {
-                 // Secondary (Middle Cards): Medium size
-                 sizeClasses = "w-[120px] h-[165px] rounded-[14px] sm:w-[150px] sm:h-[190px] sm:rounded-[18px] lg:w-[170px] lg:h-[205px]";
+                 sizeClasses = "w-[calc(50%-0.5rem)] min-w-[calc(50%-0.5rem)] sm:w-[220px] sm:min-w-0 lg:w-[240px]";
               } else if (card.size === "small") {
-                 // Small (Center Card): Smallest size
-                 sizeClasses = "w-[115px] h-[160px] rounded-[12px] sm:w-[135px] sm:h-[180px] sm:rounded-[16px] lg:w-[150px] lg:h-[170px]";
+                 sizeClasses = "w-[calc(50%-0.5rem)] min-w-[calc(50%-0.5rem)] sm:w-[220px] sm:min-w-0 lg:w-[240px]";
               }
 
               const pocketClasses = [
-                "flex-none relative overflow-hidden",
-                card.id === "hero-card-1" || card.id === "hero-card-5" ? "hidden sm:block" : "",
+                "hero-stat-card flex-none relative",
+                isDuplicate ? "sm:hidden" : "",
                 card.id === "hero-card-2"
-                  ? "order-1 sm:order-none sm:justify-self-center"
+                  ? "sm:justify-self-center"
                   : "",
                 card.id === "hero-card-3"
-                  ? "order-2 sm:order-none sm:col-span-2 sm:justify-self-center"
+                  ? "sm:col-span-2 sm:justify-self-center"
                   : "",
                 card.id === "hero-card-4"
-                  ? "order-3 sm:order-none sm:justify-self-center"
+                  ? "sm:justify-self-center"
                   : "",
                 sizeClasses, // This variable now controls all dimensions purely
               ].join(" ");
 
-              const innerClasses = [
-                 "h-full w-full",
-                 "bg-surface/20 backdrop-blur-sm",
-                 card.id === "hero-card-2" ? "bg-[#0f2d2f] text-white" : "",
-                 card.id === "hero-card-3" ? "bg-[#f7f7f2] text-[#1d2b2a]" : "",
-                 card.id === "hero-card-4" ? "bg-[#0b1718] text-white" : "",
-              ].join(" ");
+              const innerClasses =
+                "w-full min-h-[170px] rounded-2xl bg-surface/20 backdrop-blur-sm text-text-primary overflow-hidden sm:min-h-[200px] lg:min-h-[220px]";
 
               return (
-                <div key={card.id} className={pocketClasses}>
-                  <motion.div
-                    className={innerClasses}
-                    variants={getPeekVariant(card.id, index)}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                  >
-                    {card.id === "hero-card-1" ? (
-                      <div className="relative h-full w-full">
-                        <Image src="/webdev.png" alt="Web development" fill className="absolute inset-0 h-full w-full object-cover object-center" priority />
-                        <div className="absolute left-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white">
-                          <Code2 className="h-6 w-6" />
-                        </div>
-                      </div>
-                    ) : card.id === "hero-card-2" ? (
-                      <div className="flex h-full w-full flex-col justify-between p-4">
-                        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10">
-                          <Handshake className="h-6 w-6 text-white" />
-                        </div>
-                        <div>
-                          <div className="text-2xl sm:text-3xl font-semibold">25+</div>
-                          <div className="mt-2 text-xs sm:text-sm text-white/70">Clients &amp; Trusted Partners</div>
-                        </div>
+                <div key={`${card.id}-${index}`} className={pocketClasses}>
+                  <div className={innerClasses}>
+                    {card.id === "hero-card-2" ? (
+                      <div className="flex w-full flex-col items-center gap-4 p-4 text-center">
+                        <motion.div
+                          variants={getTextRevealVariant(index)}
+                          initial="hidden"
+                          whileInView="visible"
+                          viewport={{ once: true }}
+                          className="flex flex-col items-center"
+                        >
+                          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-surface/30 backdrop-blur-sm">
+                            <svg viewBox="0 0 24 24" className="h-9 w-9" fill="none" stroke="url(#hero-icon-gradient-2)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                              <defs>
+                                <linearGradient id="hero-icon-gradient-2" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                                  <stop offset="0%" stopColor="#60a5fa" />
+                                  <stop offset="50%" stopColor="#22d3ee" />
+                                  <stop offset="100%" stopColor="#2dd4bf" />
+                                </linearGradient>
+                              </defs>
+                              <path d="m11 17 2 2a1 1 0 1 0 3-3" />
+                              <path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4" />
+                              <path d="m21 3 1 11h-2" />
+                              <path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3" />
+                              <path d="M3 4h8" />
+                            </svg>
+                          </div>
+                          <div className="text-2xl sm:text-3xl font-semibold text-text-primary">25+</div>
+                          <div className="mt-2 text-xs sm:text-sm text-text-secondary/90">Clients &amp; Trusted Partners</div>
+                        </motion.div>
                       </div>
                     ) : card.id === "hero-card-3" ? (
-                      <div className="relative flex h-full w-full flex-col justify-between p-4">
-                        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#dfe8d0]">
-                          <Layers className="h-6 w-6 text-[#1d2b2a]" />
-                        </div>
-                        <button onClick={() => setIsCaseMenuOpen((open) => !open)} className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/5 text-[#1d2b2a] hover:bg-black/10">
+                      <div className="relative flex w-full flex-col items-center gap-4 p-4 text-center">
+                        <button onClick={() => setIsCaseMenuOpen((open) => !open)} className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-surface/40 text-text-secondary hover:bg-surface/60">
                           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.5" /><circle cx="12" cy="12" r="1.5" /><circle cx="19" cy="12" r="1.5" /></svg>
                         </button>
                         {isCaseMenuOpen && (
                           <div className="absolute right-3 top-12 z-10 w-48 rounded-xl bg-white/95 p-2 text-sm text-[#1d2b2a] shadow-lg ring-1 ring-black/5">
-                            <Link href="/work" className="block rounded-lg px-3 py-2 hover:bg-black/5">Explore Case Studies</Link>
+                            <Link href="/portfolio#case-studies" className="block rounded-lg px-3 py-2 hover:bg-black/5">Explore Case Studies</Link>
                           </div>
                         )}
-                        <div>
-                          <div className="text-2xl sm:text-3xl font-semibold text-[#1d2b2a]">50+</div>
-                          <div className="mt-2 text-xs sm:text-sm text-[#1d2b2a]/80">Total Projects</div>
-                          <div className="mt-1 text-xs sm:text-sm text-[#1d2b2a]/70">Apps • Web • SaaS</div>
-                        </div>
+                        <motion.div
+                          variants={getTextRevealVariant(index)}
+                          initial="hidden"
+                          whileInView="visible"
+                          viewport={{ once: true }}
+                          className="flex flex-col items-center"
+                        >
+                          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-surface/30 backdrop-blur-sm">
+                            <svg viewBox="0 0 24 24" className="h-9 w-9" fill="none" stroke="url(#hero-icon-gradient-3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                              <defs>
+                                <linearGradient id="hero-icon-gradient-3" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                                  <stop offset="0%" stopColor="#60a5fa" />
+                                  <stop offset="50%" stopColor="#22d3ee" />
+                                  <stop offset="100%" stopColor="#2dd4bf" />
+                                </linearGradient>
+                              </defs>
+                              <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" />
+                              <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" />
+                              <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" />
+                            </svg>
+                          </div>
+                          <div className="text-2xl sm:text-3xl font-semibold text-text-primary">50+</div>
+                          <div className="mt-2 text-xs sm:text-sm text-text-secondary/90">Total Projects</div>
+                          <div className="mt-1 text-xs sm:text-sm text-text-secondary/70">Apps • Web • SaaS</div>
+                        </motion.div>
                       </div>
                     ) : card.id === "hero-card-4" ? (
-                      <div className="flex h-full w-full flex-col justify-between p-4">
-                        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10">
-                          <Medal className="h-6 w-6 text-white" />
-                        </div>
-                        <div>
-                          <div className="text-2xl sm:text-3xl font-semibold">5+</div>
-                          <div className="mt-2 text-xs sm:text-sm text-white/70">Years of Professional Experience</div>
-                        </div>
-                      </div>
-                    ) : card.id === "hero-card-5" ? (
-                      <div className="relative h-full w-full">
-                        <Image src="/rightbox.png" alt="" fill className="absolute inset-0 h-full w-full object-cover object-center" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                        <div className="absolute inset-0 p-4 z-10 flex flex-col justify-between">
-                          <div className="pt-3 pl-3">
-                             <div className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center">
-                                <TrendingUp className="h-6 w-6 text-white" />
-                             </div>
+                      <div className="flex w-full flex-col items-center gap-4 p-4 text-center">
+                        <motion.div
+                          variants={getTextRevealVariant(index)}
+                          initial="hidden"
+                          whileInView="visible"
+                          viewport={{ once: true }}
+                          className="flex flex-col items-center"
+                        >
+                          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-surface/30 backdrop-blur-sm">
+                            <svg viewBox="0 0 24 24" className="h-9 w-9" fill="none" stroke="url(#hero-icon-gradient-4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                              <defs>
+                                <linearGradient id="hero-icon-gradient-4" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                                  <stop offset="0%" stopColor="#60a5fa" />
+                                  <stop offset="50%" stopColor="#22d3ee" />
+                                  <stop offset="100%" stopColor="#2dd4bf" />
+                                </linearGradient>
+                              </defs>
+                              <path d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15" />
+                              <path d="M11 12 5.12 2.2" />
+                              <path d="m13 12 5.88-9.8" />
+                              <path d="M8 7h8" />
+                              <circle cx="12" cy="17" r="5" />
+                              <path d="M12 18v-2h-.5" />
+                            </svg>
                           </div>
-                          <div className="pb-6 pl-6 pr-6 text-left">
-                            <p className="text-white text-base sm:text-lg font-medium leading-snug">Achieve maximum potential of your business.</p>
-                          </div>
-                        </div>
+                          <div className="text-2xl sm:text-3xl font-semibold text-text-primary">7+</div>
+                          <div className="mt-2 text-xs sm:text-sm text-text-secondary/90">Years of Combined Professional Experience</div>
+                        </motion.div>
                       </div>
                     ) : null}
-                  </motion.div>
+                  </div>
                 </div>
               );
             })}

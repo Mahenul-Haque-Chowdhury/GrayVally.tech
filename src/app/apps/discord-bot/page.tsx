@@ -65,7 +65,7 @@ export default function DiscordBotPage() {
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-full blur-3xl"></div>
                   <div className="relative">
                     <Image
-                      src="/pr3sence.png"
+                      src="/pr3sence.webp"
                       alt="Pr3sence Bot Logo"
                       width={280}
                       height={280}
@@ -319,4 +319,5 @@ export default function DiscordBotPage() {
     </div>
   );
 }
+
 

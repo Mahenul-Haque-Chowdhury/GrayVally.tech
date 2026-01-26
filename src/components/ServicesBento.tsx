@@ -155,7 +155,7 @@ const bentoServices: BentoService[] = [
     icon: Globe,
     category: "Development",
     gradient: "from-blue-500/20 via-cyan-500/10 to-transparent",
-    image: "/web-development-services.png",
+    image: "/web-development-services.webp",
     imageAlt: "Website development service preview",
   },
   {
@@ -165,7 +165,7 @@ const bentoServices: BentoService[] = [
     icon: ShoppingCart,
     category: "Solutions",
     gradient: "from-pink-500/20 via-rose-500/10 to-transparent",
-    image: "/ecommerce-solutions.png",
+    image: "/ecommerce-solutions.webp",
     imageAlt: "E-commerce solutions service preview",
   },
   {
@@ -175,7 +175,7 @@ const bentoServices: BentoService[] = [
     icon: BarChart3,
     category: "Growth",
     gradient: "from-cyan-500/20 via-sky-500/10 to-transparent",
-    image: "/seo-digital-marketing.png",
+    image: "/seo-digital-marketing.webp",
     imageAlt: "SEO and digital marketing service preview",
   },
 ];
@@ -641,7 +641,6 @@ function BentoCard({ service, index, className }: BentoCardProps) {
             height={800}
             className="h-44 sm:h-52 w-full object-cover"
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            priority={index === 0}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/40" />
         </div>
@@ -771,7 +770,7 @@ export function ServicesBento() {
                     className="relative aspect-[4/3] w-full overflow-hidden bg-transparent"
                   >
                     <Image
-                      src="/whychooseus.png"
+                      src="/whychooseus.webp"
                       alt="Why choose us"
                       fill
                       className="object-contain scale-110"
@@ -960,4 +959,6 @@ export function ServicesBento() {
 }
 
 export default ServicesBento;
+
+
 

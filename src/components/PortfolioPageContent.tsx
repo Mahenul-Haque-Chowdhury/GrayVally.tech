@@ -333,7 +333,7 @@ export function PortfolioPageContent() {
           </section>
 
           {/* Case Studies */}
-          <section className="relative py-12 sm:py-16">
+          <section id="case-studies" className="relative py-12 sm:py-16">
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
               <div className="mb-10 text-center">
                 <p className="text-xs uppercase tracking-[0.3em] text-text-secondary/70">Case Studies</p>

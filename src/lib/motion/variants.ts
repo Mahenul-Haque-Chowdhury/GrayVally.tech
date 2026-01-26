@@ -95,7 +95,7 @@ export type MotionVariantName = keyof typeof MOTION_VARIANTS;
 
 export const VIEWPORT_ONCE = {
   once: true,
-  amount: 0.25,
+  amount: 0.2,
 } as const;
 
 export function resolveMotionVariants(

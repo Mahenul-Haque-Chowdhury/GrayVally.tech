@@ -20,13 +20,14 @@ import { FORMSPREE_ENDPOINT } from "@/lib/formspree";
 import { FreeMap } from "@/components/FreeMap";
 import { motion } from "framer-motion";
 import { FloatHeading } from "@/components/ui/ScrollFloat";
+import { MOTION_TOKENS } from "@/lib/motion/tokens";
 
 const staggerContainer = {
   initial: {},
   animate: {
     transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.3,
+      staggerChildren: MOTION_TOKENS.stagger.staggerChildren,
+      delayChildren: MOTION_TOKENS.stagger.delayChildren * 4,
     },
   },
 };
@@ -34,14 +35,14 @@ const staggerContainer = {
 const fadeUp = {
   initial: {
     opacity: 0,
-    y: 30,
+    y: MOTION_TOKENS.distance.liftMd * 2,
   },
   animate: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
-      ease: 'easeOut',
+      duration: MOTION_TOKENS.duration.slow,
+      ease: MOTION_TOKENS.easing.easeOut,
     },
   },
 };
