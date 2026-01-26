@@ -164,8 +164,9 @@ export function FeaturedProducts() {
                       .replace(/[^a-z0-9]+/g, "-")
                       .replace(/(^-|-$)+/g, "")}`}
                     className="mt-auto inline-flex w-full items-center justify-center gap-2 rounded-full border border-blue-500/40 bg-blue-500/10 px-3 py-1.5 text-xs font-semibold text-blue-300 shadow-sm shadow-blue-500/20 transition-colors duration-300 hover:border-blue-400 hover:bg-blue-500/20"
+                    aria-label={`Learn more about ${category.title}`}
                   >
-                    <span>Learn more</span>
+                    <span>Learn more about {category.title}</span>
                     <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </Link>
                 </div>
