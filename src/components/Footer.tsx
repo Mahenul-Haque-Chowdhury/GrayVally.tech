@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -14,7 +14,7 @@ import {
   CheckCircle2,
   AlertTriangle,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { socialProfiles } from "@/data/socials";
 import { FORMSPREE_ENDPOINT } from "@/lib/formspree";
 import { Reveal } from "@/components/motion/Reveal";
@@ -59,19 +59,39 @@ const socialLinks = [
   { name: socialProfiles.whatsapp.label, href: socialProfiles.whatsapp.url, icon: MessageCircle },
 ];
 
-const footerRevealVariant = {
-  hidden: { clipPath: "inset(0 100% 0 0)", opacity: 0 },
-  visible: {
-    clipPath: "inset(0 0 0 0)",
-    opacity: 1,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-};
-
 export function Footer() {
   const currentYear = new Date().getFullYear();
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [isAndroid, setIsAndroid] = useState(false);
+  const reducedMotion = useReducedMotion();
+
+  const footerRevealVariant = useMemo(() => {
+    if (reducedMotion || isAndroid) {
+      return {
+        hidden: { opacity: 0, y: 12 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0.5, ease: "easeOut" },
+        },
+      };
+    }
+
+    return {
+      hidden: { clipPath: "inset(0 100% 0 0)", opacity: 0 },
+      visible: {
+        clipPath: "inset(0 0 0 0)",
+        opacity: 1,
+        transition: { duration: 0.6, ease: "easeOut" },
+      },
+    };
+  }, [isAndroid, reducedMotion]);
+
+  useEffect(() => {
+    if (typeof navigator === "undefined") return;
+    setIsAndroid(/android/i.test(navigator.userAgent));
+  }, []);
 
   const handleNewsletterSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
