@@ -66,6 +66,8 @@ export function Footer() {
   const [isAndroid, setIsAndroid] = useState(false);
   const reducedMotion = useReducedMotion();
 
+  const revealWrapperClass = isAndroid ? "relative" : "relative overflow-hidden";
+
   const footerRevealVariant = useMemo(() => {
     if (reducedMotion || isAndroid) {
       return {
@@ -161,7 +163,7 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 lg:grid-cols-6 lg:gap-8">
           {/* Brand Column */}
           <div className="col-span-2 lg:col-span-2 lg:pl-12">
-            <div className="relative overflow-hidden">
+            <div className={revealWrapperClass}>
               <motion.div
                 variants={footerRevealVariant}
                 initial="hidden"
@@ -217,7 +219,7 @@ export function Footer() {
                 </div>
 
                 <div className="mt-5 w-full">
-                  <div className="relative overflow-hidden">
+                  <div className={revealWrapperClass}>
                     <motion.div
                       variants={footerRevealVariant}
                       initial="hidden"
@@ -276,7 +278,7 @@ export function Footer() {
 
           {/* Services Column */}
           <div className="col-span-1 text-left">
-            <div className="relative overflow-hidden">
+            <div className={revealWrapperClass}>
               <motion.div
                 variants={footerRevealVariant}
                 initial="hidden"
@@ -302,7 +304,7 @@ export function Footer() {
 
           {/* Company Column */}
           <div className="col-span-1 text-left">
-            <div className="relative overflow-hidden">
+            <div className={revealWrapperClass}>
               <motion.div
                 variants={footerRevealVariant}
                 initial="hidden"
@@ -328,7 +330,7 @@ export function Footer() {
 
           {/* Support Column */}
           <div className="col-span-1 text-left">
-            <div className="relative overflow-hidden">
+            <div className={revealWrapperClass}>
               <motion.div
                 variants={footerRevealVariant}
                 initial="hidden"
@@ -354,7 +356,7 @@ export function Footer() {
 
           {/* Legal Column */}
           <div className="col-span-1 text-left">
-            <div className="relative overflow-hidden">
+            <div className={revealWrapperClass}>
               <motion.div
                 variants={footerRevealVariant}
                 initial="hidden"
@@ -384,7 +386,7 @@ export function Footer() {
       {/* Bottom Bar */}
       <div className="bg-slate-50/70 dark:bg-slate-900/70 relative z-20">
         <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 py-3 sm:py-4">
-          <div className="relative overflow-hidden">
+          <div className={revealWrapperClass}>
             <motion.div
               variants={footerRevealVariant}
               initial="hidden"
