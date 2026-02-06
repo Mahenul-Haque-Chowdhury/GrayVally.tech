@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -15,6 +15,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
+import { useTheme } from "@/hooks/useTheme";
 import { socialProfiles } from "@/data/socials";
 import { FORMSPREE_ENDPOINT } from "@/lib/formspree";
 import { Reveal } from "@/components/motion/Reveal";
@@ -62,6 +63,15 @@ const socialLinks = [
 export function Footer() {
   const currentYear = new Date().getFullYear();
   const [submitting, setSubmitting] = useState(false);
+  const trustBoxRef = useRef<HTMLDivElement>(null);
+  const theme = useTheme();
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && (window as any).Trustpilot && trustBoxRef.current) {
+      (window as any).Trustpilot.loadFromElement(trustBoxRef.current, true);
+    }
+  }, [theme]);
+
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [isAndroid, setIsAndroid] = useState(false);
   const reducedMotion = useReducedMotion();
@@ -274,6 +284,26 @@ export function Footer() {
                             </span>
                           )}
                         </form>
+                      </div>
+                      
+                      {/* Trustpilot Widget */}
+                      <div className="w-full pt-4">
+                        <div 
+                          ref={trustBoxRef}
+                          className="trustpilot-widget" 
+                          data-locked="true"
+                          data-style-height="52px" 
+                          data-style-width="100%" 
+                          data-theme={theme} 
+                          data-stars="5"
+                          data-review-languages="en"
+                          data-locale="en-US" 
+                          data-template-id="56278e9abfbbba0bdcd568bc" 
+                          data-businessunit-id="69862e2babb8a0a264526c5d" 
+                          data-token="e2f6e294-3731-4ad7-a66b-ef59a8ba6f5f"
+                        >
+                          <a href="https://www.trustpilot.com/review/grayvally.tech" target="_blank" rel="noopener noreferrer">Trustpilot</a>
+                        </div>
                       </div>
                     </motion.div>
                   </div>

@@ -480,6 +480,10 @@ export default function RootLayout({
           appearAfterMs={2500}
         />
         {showLayoutDebug ? <LayoutSnapshotDebug /> : null}
+        <Script 
+          src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" 
+          strategy="lazyOnload" 
+        />
         <Analytics />
       </body>
     </html>
