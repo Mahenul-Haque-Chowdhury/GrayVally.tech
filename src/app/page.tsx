@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { NavBar } from "@/components/NavBar";
 import { Hero } from "@/components/Hero";
+import { InsightSlider } from "@/components/InsightSlider";
 import { Footer } from "@/components/Footer";
 import { ServicesSkeleton } from "@/components/ServicesSkeleton";
 import { ProductTicker } from "@/components/ProductTicker";
@@ -11,15 +12,15 @@ const ServicesBento = dynamic(() => import("@/components/ServicesBento").then((m
 });
 
 const FeaturedProducts = dynamic(() => import("@/components/FeaturedProducts").then((m) => m.FeaturedProducts), {
-  loading: () => null,
+  loading: () => <div className="w-full py-20 sm:py-28" aria-hidden />,
 });
 
 const About = dynamic(() => import("@/components/About").then((m) => m.About), {
-  loading: () => null,
+  loading: () => <div className="w-full py-16 sm:py-24" aria-hidden />,
 });
 
 const Contact = dynamic(() => import("@/components/Contact").then((m) => m.Contact), {
-  loading: () => null,
+  loading: () => <div className="w-full py-16 sm:py-24" aria-hidden />,
 });
 
 export const metadata: Metadata = {
@@ -37,6 +38,7 @@ export default function Home() {
       <NavBar />
       <Hero />
       <ProductTicker />
+      <InsightSlider />
       <ServicesBento />
       <FeaturedProducts />
       <About showOnlyPreview />

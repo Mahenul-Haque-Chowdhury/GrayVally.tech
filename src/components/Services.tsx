@@ -23,13 +23,14 @@ export function Services() {
             as="span"
             variant="bodyText"
             useParent
-            className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-surface/30 backdrop-blur-sm px-4 py-1.5 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-text-secondary mb-6"
+            className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-1.5 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-cyan-400 mb-6"
           >
+            <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
             What We Do
           </Reveal>
           <Reveal as="h2" variant="headline" useParent className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-text-primary">
             Engineering{" "}
-            <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">
               Excellence
             </span>
           </Reveal>
@@ -50,8 +51,10 @@ export function Services() {
               key={service.id}
               variant="cardItem"
               useParent
-              className="group relative rounded-xl sm:rounded-2xl border border-border/40 bg-surface/20 backdrop-blur-sm p-4 sm:p-6 md:p-8 transition-[colors,box-shadow,transform] duration-300 hover:border-border/80 hover:bg-surface/40 hover:shadow-lg hover:shadow-blue-500/5 hover:-translate-y-1.5"
+              className="group relative rounded-xl sm:rounded-2xl border border-border/40 bg-surface/20 backdrop-blur-sm p-4 sm:p-6 md:p-8 transition-[colors,box-shadow,transform] duration-300 hover:border-blue-500/40 hover:bg-surface/40 hover:shadow-xl hover:shadow-blue-500/15 hover:-translate-y-1.5"
             >
+              {/* Top accent line on hover */}
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 rounded-t-2xl pointer-events-none" />
               {/* Icon Container */}
               <div className="mb-3 sm:mb-5 flex h-10 w-10 sm:h-14 sm:w-14 items-center justify-center rounded-lg sm:rounded-xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-border/30 transition-colors duration-300 group-hover:from-blue-500/20 group-hover:to-cyan-500/20 group-hover:border-blue-500/30">
                 <service.icon className="h-5 w-5 sm:h-7 sm:w-7 text-blue-400 transition-colors duration-300 group-hover:text-cyan-400" />

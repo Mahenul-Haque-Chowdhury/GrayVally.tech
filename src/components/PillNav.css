@@ -562,3 +562,22 @@
   --pill-text: #ffffff;
   background: #27272a;
 }
+
+/* Dropdown item active state */
+.pill-dropdown-item-active {
+  position: relative;
+  color: #22d3ee !important;
+  font-weight: 700 !important;
+}
+
+.pill-dropdown-item-active::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #38bdf8 0%, #22d3ee 100%);
+}

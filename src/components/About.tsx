@@ -200,21 +200,24 @@ export function About({ showOnlyPreview = false }: AboutProps) {
         {/* Team Section */}
         <div id="team" className="mt-20 sm:mt-28 md:mt-36">
           <div className="text-center mb-12 sm:mb-16">
-            <Reveal
-              as="h3"
-              variant="headline"
+            <motion.h3
+              initial={{ opacity: 0, y: 36 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
               className="my-0 text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-text-primary"
-              gradientWords={[2]}
             >
-              Meet Our Team
-            </Reveal>
-            <Reveal
-              as="p"
-              variant="bodyText"
+              {renderGradientTitle("Meet Our Team", [2])}
+            </motion.h3>
+            <motion.p
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: 0.18 }}
               className="mt-3 sm:mt-4 text-sm sm:text-base text-text-secondary/80 max-w-2xl mx-auto"
             >
               The talented people behind GrayVally who make the magic happen.
-            </Reveal>
+            </motion.p>
             {showOnlyPreview && (
               <Reveal as="div" variant="bodyText" className="mt-5 flex justify-center">
                 <a

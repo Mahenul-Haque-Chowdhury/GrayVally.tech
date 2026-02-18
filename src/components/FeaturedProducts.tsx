@@ -22,6 +22,11 @@ const featuredCategories = [
     imageAlt: "Revenue, sales, and customer platforms preview",
   },
   {
+    ...softwareSolutionCategories[3],
+    image: "/finance-monetization-systems.webp",
+    imageAlt: "Finance and monetization systems preview",
+  },
+  {
     ...softwareSolutionCategories[4],
     image: "/data-analytics-intelligence.webp",
     imageAlt: "Data, analytics, and intelligence platform preview",
@@ -74,37 +79,33 @@ export function FeaturedProducts() {
             as="span"
             variant="bodyText"
             useParent
-            className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-blue-400 mb-6"
+            className="inline-flex items-center gap-2 rounded-full border border-blue-500/35 bg-blue-500/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-blue-400 mb-6"
           >
-            <Star className="h-3 w-3 fill-blue-400" />
+            <Star className="h-3 w-3 fill-blue-400 animate-pulse" />
             New Solutions
           </Reveal>
-          <div className="relative overflow-hidden mb-6">
-            <motion.h2
-              initial={{ y: "-100%" }}
-              whileInView={{ y: "0%" }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="my-0 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-text-primary font-display"
-            >
-              {renderGradientTitle("Enterprise Software Suite", [1, 2])}
-            </motion.h2>
-          </div>
-          <div className="relative overflow-hidden mb-8">
-            <motion.p
-              initial={{ y: "-100%" }}
-              whileInView={{ y: "0%" }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-              className="text-lg text-text-secondary/80 max-w-2xl mx-auto"
-            >
-              Powerful, scalable systems designed to run your entire organization.
-            </motion.p>
-          </div>
+          <motion.h2
+            initial={{ opacity: 0, y: 36 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            className="my-0 mb-6 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-text-primary font-display"
+          >
+            {renderGradientTitle("Enterprise Software Suite", [1, 2])}
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: 0.18 }}
+            className="mb-8 text-lg text-text-secondary/80 max-w-2xl mx-auto"
+          >
+            Powerful, scalable systems designed to run your entire organization.
+          </motion.p>
         </Stagger>
 
         <motion.div
-          className="grid gap-4 sm:gap-6 md:grid-cols-3"
+          className="grid gap-4 sm:gap-6 sm:grid-cols-2 xl:grid-cols-4"
           variants={cardGridVariant}
           initial="hidden"
           whileInView="visible"

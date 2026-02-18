@@ -56,7 +56,7 @@ interface PillNavProps {
   rightContent?: React.ReactNode;
 }
 
-const DropdownItem = ({ href, label, isExternal }: { href: string, label: string, isExternal: boolean }) => {
+const DropdownItem = ({ href, label, isExternal, isActive }: { href: string, label: string, isExternal: boolean, isActive?: boolean }) => {
   const containerRef = useRef<HTMLAnchorElement>(null);
   const circleRef = useRef<HTMLSpanElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
@@ -103,7 +103,7 @@ const DropdownItem = ({ href, label, isExternal }: { href: string, label: string
     <Component
       {...props}
       ref={containerRef}
-      className="relative block w-full overflow-hidden rounded-full px-4 py-2 text-center text-sm font-medium text-text-secondary transition-colors whitespace-nowrap"
+      className={`relative block w-full overflow-hidden rounded-full px-4 py-2 text-center text-sm font-medium text-text-secondary transition-colors whitespace-nowrap${isActive ? " pill-dropdown-item-active" : ""}`}
     >
       {/* Hover Circle */}
       <span
@@ -548,7 +548,8 @@ const PillNav = ({
                             <DropdownItem 
                               href={child.href} 
                               label={child.label} 
-                              isExternal={isExternalLink(child.href)} 
+                              isExternal={isExternalLink(child.href)}
+                              isActive={activeHref ? child.href === activeHref || (activeHref.startsWith(child.href.split("#")[0]) && child.href.split("#")[0].length > 1) : false}
                             />
                           </div>
                         ))}

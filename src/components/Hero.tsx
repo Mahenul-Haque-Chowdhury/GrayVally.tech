@@ -5,6 +5,31 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Variants } from "framer-motion";
 
+// Count-up hook: starts counting after a short delay on mount (always fires, no IntersectionObserver issues)
+function useCountUp(target: number, duration = 1.4, startDelay = 0.9) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (typeof window === "undefined" || target === 0) return;
+    const delayId = window.setTimeout(() => {
+      let current = 0;
+      const steps = 40;
+      const increment = target / steps;
+      const intervalMs = (duration * 1000) / steps;
+      const id = window.setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          setCount(target);
+          window.clearInterval(id);
+        } else {
+          setCount(Math.floor(current));
+        }
+      }, intervalMs);
+    }, startDelay * 1000);
+    return () => window.clearTimeout(delayId);
+  }, [target, duration, startDelay]);
+  return count;
+}
+
 export function Hero() {
   const [isCaseMenuOpen, setIsCaseMenuOpen] = useState(false);
   const reducedMotion = useReducedMotion();
@@ -13,6 +38,11 @@ export function Hero() {
   const carouselIndexRef = useRef(0);
   const carouselResetRef = useRef<number | null>(null);
   const enableHeroMotion = !reducedMotion && !isMobile;
+
+  // Count-up stats
+  const stat25 = useCountUp(25);
+  const stat50 = useCountUp(50);
+  const stat7 = useCountUp(7, 1.0);
 
   const heroCards = [
     { id: "hero-card-2", side: "left", size: "secondary" },
@@ -370,7 +400,7 @@ export function Hero() {
                               <path d="M3 4h8" />
                             </svg>
                           </div>
-                          <div className="text-2xl sm:text-3xl font-semibold text-text-primary">25+</div>
+                          <div className="text-2xl sm:text-3xl font-semibold text-text-primary tabular-nums">{stat25}+</div>
                           <div className="mt-2 text-xs sm:text-sm text-text-secondary/90">Clients &amp; Trusted Partners</div>
                           </motion.div>
                         ) : (
@@ -391,7 +421,7 @@ export function Hero() {
                                 <path d="M3 4h8" />
                               </svg>
                             </div>
-                            <div className="text-2xl sm:text-3xl font-semibold text-text-primary">25+</div>
+                            <div className="text-2xl sm:text-3xl font-semibold text-text-primary tabular-nums">{stat25}+</div>
                             <div className="mt-2 text-xs sm:text-sm text-text-secondary/90">Clients &amp; Trusted Partners</div>
                           </div>
                         )}
@@ -428,7 +458,7 @@ export function Hero() {
                               <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" />
                             </svg>
                           </div>
-                          <div className="text-2xl sm:text-3xl font-semibold text-text-primary">50+</div>
+                          <div className="text-2xl sm:text-3xl font-semibold text-text-primary tabular-nums">{stat50}+</div>
                           <div className="mt-2 text-xs sm:text-sm text-text-secondary/90">Total Projects</div>
                           <div className="mt-1 text-xs sm:text-sm text-text-secondary/70">Apps • Web • SaaS</div>
                           </motion.div>
@@ -448,7 +478,7 @@ export function Hero() {
                                 <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" />
                               </svg>
                             </div>
-                            <div className="text-2xl sm:text-3xl font-semibold text-text-primary">50+</div>
+                            <div className="text-2xl sm:text-3xl font-semibold text-text-primary tabular-nums">{stat50}+</div>
                             <div className="mt-2 text-xs sm:text-sm text-text-secondary/90">Total Projects</div>
                             <div className="mt-1 text-xs sm:text-sm text-text-secondary/70">Apps • Web • SaaS</div>
                           </div>
@@ -481,7 +511,7 @@ export function Hero() {
                               <path d="M12 18v-2h-.5" />
                             </svg>
                           </div>
-                          <div className="text-2xl sm:text-3xl font-semibold text-text-primary">7+</div>
+                          <div className="text-2xl sm:text-3xl font-semibold text-text-primary tabular-nums">{stat7}+</div>
                           <div className="mt-2 text-xs sm:text-sm text-text-secondary/90">Years of Combined Professional Experience</div>
                           </motion.div>
                         ) : (
@@ -503,7 +533,7 @@ export function Hero() {
                                 <path d="M12 18v-2h-.5" />
                               </svg>
                             </div>
-                            <div className="text-2xl sm:text-3xl font-semibold text-text-primary">7+</div>
+                            <div className="text-2xl sm:text-3xl font-semibold text-text-primary tabular-nums">{stat7}+</div>
                             <div className="mt-2 text-xs sm:text-sm text-text-secondary/90">Years of Combined Professional Experience</div>
                           </div>
                         )}

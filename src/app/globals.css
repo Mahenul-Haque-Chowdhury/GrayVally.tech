@@ -368,6 +368,27 @@ html.theme-resolved body {
   }
 }
 
+/* Display font letter-spacing refinement */
+.font-display {
+  letter-spacing: -0.02em;
+}
+
+/* Footer / form input visibility improvement */
+input[type="email"],
+input[type="text"],
+input[type="tel"],
+textarea {
+  border-color: hsl(var(--border)) !important;
+}
+input[type="email"]:focus,
+input[type="text"]:focus,
+input[type="tel"]:focus,
+textarea:focus {
+  border-color: hsl(var(--accent)) !important;
+  outline: none;
+  box-shadow: 0 0 0 2px hsl(var(--accent) / 0.15);
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

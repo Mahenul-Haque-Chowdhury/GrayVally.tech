@@ -20,6 +20,7 @@ import {
   Globe,
   ShoppingCart,
   BarChart3,
+  Smartphone,
 } from "lucide-react";
 import {
   SiAdobeaftereffects,
@@ -126,6 +127,19 @@ const serviceDetails: Record<string, {
     technologies: ["Google Analytics", "Search Console", "Ahrefs", "SEMrush", "Tag Manager"],
     process: ["Audit", "Roadmap", "Implementation", "Campaigns", "Optimization"],
   },
+  "mobile": {
+    tagline: "Cross-platform mobile apps that feel native on every device",
+    features: [
+      "iOS and Android development",
+      "Cross-platform with Flutter or React Native",
+      "Custom UI/UX for mobile",
+      "Push notifications and deep linking",
+      "API and backend integration",
+      "App store submission and launch",
+    ],
+    technologies: ["Flutter", "React Native", "Dart", "TypeScript", "Firebase"],
+    process: ["Discovery", "Design", "Build", "QA", "Launch"],
+  },
 };
 
 interface BentoService {
@@ -177,6 +191,16 @@ const bentoServices: BentoService[] = [
     gradient: "from-cyan-500/20 via-sky-500/10 to-transparent",
     image: "/seo-digital-marketing.webp",
     imageAlt: "SEO and digital marketing service preview",
+  },
+  {
+    id: "mobile",
+    title: "Mobile App Development",
+    description: "Native and cross-platform Android & iOS apps built with Flutter or React Native.",
+    icon: Smartphone,
+    category: "Development",
+    gradient: "from-violet-500/20 via-purple-500/10 to-transparent",
+    image: "/mobile-app-development.webp",
+    imageAlt: "Mobile app development service preview",
   },
 ];
 
@@ -896,33 +920,29 @@ export function ServicesBento() {
             <span className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-surface/30 backdrop-blur-sm px-4 py-1.5 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-text-secondary mb-6">
               What We Do
             </span>
-            <div className="relative overflow-hidden">
-              <motion.h2
-                initial={{ y: "-100%" }}
-                whileInView={{ y: "0%" }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                className="my-0 text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold tracking-tight text-text-primary font-display"
-              >
-                {renderGradientTitle("Engineering Excellence", [1])}
-              </motion.h2>
-            </div>
-            <div className="relative overflow-hidden mt-4 sm:mt-6">
-              <motion.p
-                initial={{ y: "-100%" }}
-                whileInView={{ y: "0%" }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-                className="max-w-2xl text-sm sm:text-base md:text-lg text-text-secondary/90 leading-relaxed"
-              >
-                Our core competencies lie in building the invisible backbone of modern digital products.
-              </motion.p>
-            </div>
+            <motion.h2
+              initial={{ opacity: 0, y: 36 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+              className="my-0 text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold tracking-tight text-text-primary font-display"
+            >
+              {renderGradientTitle("Engineering Excellence", [1])}
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: 0.18 }}
+              className="mt-4 sm:mt-6 max-w-2xl text-sm sm:text-base md:text-lg text-text-secondary/90 leading-relaxed"
+            >
+              Our core competencies lie in building the invisible backbone of modern digital products.
+            </motion.p>
           </div>
 
           {/* Bento Grid */}
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
             variants={bentoGridVariant}
             initial="hidden"
             whileInView="visible"

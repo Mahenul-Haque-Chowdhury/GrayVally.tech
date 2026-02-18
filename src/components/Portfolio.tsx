@@ -22,12 +22,13 @@ export function Portfolio() {
           duration={MOTION_DURATION.medium}
           className="mb-16 sm:mb-24 md:mb-32 text-center"
         >
-          <span className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-surface/30 backdrop-blur-sm px-4 py-1.5 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-text-secondary mb-6">
+          <span className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-violet-400 mb-6">
+            <span className="h-1.5 w-1.5 rounded-full bg-violet-400 animate-pulse" />
             Our Work
           </span>
           <FloatHeading as="h2" className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-text-primary">
             Selected{" "}
-            <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-violet-400 via-indigo-400 to-blue-400 bg-clip-text text-transparent">
               Works
             </span>
           </FloatHeading>

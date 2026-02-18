@@ -108,7 +108,9 @@ export function ProjectCard({
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Browser Frame / Image Container */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border/40 bg-surface/30 backdrop-blur-sm shadow-2xl transition duration-500 group-hover:border-blue-500/30 group-hover:shadow-blue-500/10">
+      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border/40 bg-surface/30 backdrop-blur-sm shadow-2xl transition duration-500 group-hover:border-blue-500/30 group-hover:shadow-xl group-hover:shadow-blue-500/15">
+        {/* Top accent line on hover */}
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/70 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 z-30 pointer-events-none rounded-t-2xl" />
         {/* Browser Header (Dots & Address Bar) */}
         <div className="absolute top-0 left-0 right-0 z-20 flex h-10 items-center gap-4 bg-[#1a1b26] px-4 border-b border-white/5">
           <div className="flex gap-1.5 shrink-0">
@@ -128,6 +130,8 @@ export function ProjectCard({
 
         {/* Image / Preview */}
         <div className="relative h-full w-full overflow-hidden bg-surface/50 pt-10">
+          {/* Hover gradient overlay — bottom fade */}
+          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 z-20 pointer-events-none" />
            {/* Live Website Preview - Scaled for Desktop View */}
            <div className="relative h-full w-full bg-white overflow-hidden">
              {project.link && project.useScreenshot !== false && isHovered ? (
