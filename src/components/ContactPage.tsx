@@ -546,6 +546,7 @@ export function Contact() {
                         required
                         type="text"
                         name="fullName"
+                        autoComplete="name"
                         className="mt-2 w-full rounded-lg border border-border/60 bg-background/60 px-3 py-2.5 text-sm text-text-primary outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
                         placeholder="Your name"
                       />
@@ -558,6 +559,7 @@ export function Contact() {
                         required
                         type="email"
                         name="email"
+                        autoComplete="email"
                         className="mt-2 w-full rounded-lg border border-border/60 bg-background/60 px-3 py-2.5 text-sm text-text-primary outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
                         placeholder="you@company.com"
                       />
@@ -572,6 +574,7 @@ export function Contact() {
                       <input
                         type="text"
                         name="company"
+                        autoComplete="organization"
                         className="mt-2 w-full rounded-lg border border-border/60 bg-background/60 px-3 py-2.5 text-sm text-text-primary outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
                         placeholder="Company or team name"
                       />
@@ -583,6 +586,7 @@ export function Contact() {
                       <div className="mt-2 flex gap-2 items-center">
                         <select
                           name="countryCode"
+                          autoComplete="tel-country-code"
                           className="w-[56px] sm:w-[70px] rounded-lg border border-border/60 bg-background/60 px-2 py-2 text-xs text-text-primary outline-none focus:border-accent focus:ring-1 focus:ring-accent flex-shrink-0"
                           defaultValue="+880"
                         >
@@ -597,6 +601,7 @@ export function Contact() {
                             required
                             type="tel"
                             name="phone"
+                            autoComplete="tel-national"
                             className="mt-0 w-full rounded-lg border border-border/60 bg-background/60 px-3 py-2.5 text-sm text-text-primary outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
                             placeholder="Your phone number"
                           />
@@ -612,6 +617,7 @@ export function Contact() {
                     <select
                       name="projectInterest"
                       required
+                      autoComplete="off"
                       className="mt-2 w-full rounded-lg border border-border/60 bg-background/60 px-3 py-2.5 text-sm text-text-primary outline-none focus:border-accent focus:ring-1 focus:ring-accent"
                       value={projectInterest}
                       onChange={(event) => setProjectInterest(event.target.value)}
@@ -634,6 +640,7 @@ export function Contact() {
                     <select
                       name="budget"
                       required
+                      autoComplete="off"
                       className="mt-2 w-full rounded-lg border border-border/60 bg-background/60 px-3 py-2.5 text-sm text-text-primary outline-none focus:border-accent focus:ring-1 focus:ring-accent"
                       defaultValue=""
                     >
@@ -657,6 +664,7 @@ export function Contact() {
                       required
                       name="description"
                       rows={5}
+                      autoComplete="off"
                       className="mt-2 w-full rounded-xl border border-border/60 bg-background/60 px-3 py-2.5 text-sm text-text-primary outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
                       placeholder="What are you building? Timelines, scope, existing stack, or links are all helpful."
                     />
@@ -668,6 +676,7 @@ export function Contact() {
                       id="agreement"
                       type="checkbox"
                       name="agreement"
+                      autoComplete="off"
                       className="mt-1 h-4 w-4 rounded border-border bg-surface text-accent focus:ring-accent"
                     />
                     <label htmlFor="agreement" className="text-xs text-text-secondary leading-relaxed">

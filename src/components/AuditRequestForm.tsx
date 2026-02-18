@@ -196,6 +196,7 @@ export function AuditRequestForm() {
                 name="consent"
                 type="checkbox"
                 required
+                autoComplete="off"
                 aria-invalid={Boolean(errors.consent)}
                 aria-describedby={errors.consent ? "audit-consent-error" : undefined}
                 className="mt-1 h-4 w-4 rounded border border-border/60 bg-background/40 text-blue-500 outline-none focus-visible:ring-2 focus-visible:ring-text-primary/20"
