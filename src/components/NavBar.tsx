@@ -40,6 +40,7 @@ const navItems = [
       href: `/software-solutions#${getSectionAnchor(category.title)}`
     }))
   },
+  { label: "GrayVally CRM", href: "/crm" },
   { 
     label: "Apps", 
     href: "/apps",
