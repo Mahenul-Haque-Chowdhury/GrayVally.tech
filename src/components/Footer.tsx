@@ -226,9 +226,9 @@ export function Footer() {
                   <div className="flex items-start gap-2 text-sm text-text-secondary">
                     <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
                     <span>
-                      Majeda Garden, CHHA: 59, North Badda,
+                      Bashundhora R/A, House: 423, Road: 14, Block: J,
                       <br />
-                      Dhaka 1212, Bangladesh
+                      Dhaka, 1229
                     </span>
                   </div>
                 </div>

@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { socialProfiles } from "@/data/socials";
 import { FORMSPREE_ENDPOINT } from "@/lib/formspree";
-import { FreeMap } from "@/components/FreeMap";
+
 import { motion } from "framer-motion";
 import { FloatHeading } from "@/components/ui/ScrollFloat";
 import { MOTION_TOKENS } from "@/lib/motion/tokens";
@@ -745,38 +745,43 @@ export function Contact() {
 
       <motion.section variants={fadeUp} className="mx-auto mt-12 sm:mt-16 max-w-6xl px-4 sm:px-6">
         <div className="rounded-3xl bg-surface/20 p-6 sm:p-8">
+          <div className="mb-6">
+            <FloatHeading as="h2" className="text-lg sm:text-xl font-semibold text-text-primary">
+              Our location
+            </FloatHeading>
+            <p className="mt-1 text-xs text-text-secondary">
+              Visit us at our office in Dhaka, Bangladesh.
+            </p>
+          </div>
+
           <div className="mb-6 rounded-2xl bg-background/50 px-5 py-4">
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-text-secondary/70">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-text-secondary/70">
               GrayVally Software Solutions
             </p>
-            <p className="mt-2 text-sm font-semibold text-text-primary">Majeda Garden, CHHA: 59</p>
-            <p className="text-sm text-text-secondary">Dhaka 1212, Bangladesh</p>
+            <p className="mt-2 text-sm font-semibold text-text-primary">Bashundhora R/A</p>
+            <p className="text-sm text-text-secondary">House: 423, Road: 14, Block: J, Dhaka, 1229</p>
           </div>
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <FloatHeading as="h2" className="text-lg sm:text-xl font-semibold text-text-primary">
-                Our location
-              </FloatHeading>
-              <p className="mt-1 text-xs text-text-secondary">
-                Use the search box to find our office.
-              </p>
-            </div>
-            <div className="hidden sm:flex items-center gap-2 rounded-full border border-border/50 bg-background/60 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-text-secondary">
+
+          <div className="flex items-center justify-between gap-4 mb-5">
+            <p className="text-xs text-text-secondary">
+              Google Map Location Assist
+            </p>
+            <div className="flex items-center gap-2 rounded-full border border-border/50 bg-background/60 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-text-secondary">
               Map
             </div>
           </div>
 
-          <div className="relative z-0 mt-5 h-[320px] sm:h-[420px] overflow-hidden rounded-2xl">
-            <FreeMap
-              locations={[
-                {
-                  title: "GrayVally Software Solutions",
-                  address1: "Majeda Garden, CHHA: 59",
-                  address2: "Dhaka 1212, Bangladesh",
-                  coords: { lat: 23.78545244379042, lng: 90.42377593809815 },
-                },
-              ]}
-              className="h-full w-full"
+          <div className="relative z-0 h-[320px] sm:h-[420px] overflow-hidden rounded-2xl">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d913.3!2d90.4422741!3d23.8202217!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c70057b195e3%3A0x78f0a8be7c10a2a9!2sGrayVally%20Software%20Solutions!5e0!3m2!1sen!2sbd!4v1700000000000"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="GrayVally Office Location"
+              className="h-full w-full rounded-2xl"
             />
           </div>
         </div>
